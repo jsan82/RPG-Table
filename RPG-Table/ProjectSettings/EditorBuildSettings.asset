@@ -11,4 +11,5 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Features/PlayerCardSystem/EditorScene.unity
     guid: 22245ecf46ae9dc42a23e111f4528a7e
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 1df464f0ec211d042bb2f116272e36e5, type: 2}

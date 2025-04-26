@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
 public class ObjectPlacementSystem : MonoBehaviour
@@ -14,107 +15,163 @@ public class ObjectPlacementSystem : MonoBehaviour
 
     public List<PlaceableObject> availableObjects;
     public Transform objectsPanel;
+    public Transform cardArea;
     public GameObject objectButtonPrefab;
     public GameObject confirmationDialog;
+    public GameObject inputTyupeDropdown;
     public InputField idInputField;
-    
     private GameObject selectedPrefab;
     private GameObject pendingObject;
 
     void Start()
     {
-        
-    Debug.Log("Rozpoczynam inicjalizację...");
+        Debug.Log("Rozpoczynam inicjalizację...");
+        Debug.Log(Application.persistentDataPath);
     
-    if (availableObjects == null)
-        Debug.LogError("availableObjects jest null!");
-    else if (availableObjects.Count == 0)
-        Debug.LogError("availableObjects jest pusty!");
+        if (cardArea == null)
+        {
+            GameObject area = GameObject.Find("CardArea");
+            if (area != null) cardArea = area.transform;
+            else Debug.LogError("Nie znaleziono obiektu CardArea w scenie!");
+        }
 
-    if (objectsPanel == null)
-        Debug.LogError("objectsPanel nie jest przypisany!");
+        if (availableObjects == null)
+            Debug.LogError("availableObjects jest null!");
+        else if (availableObjects.Count == 0)
+            Debug.LogError("availableObjects jest pusty!");
 
-    if (objectButtonPrefab == null)
-        Debug.LogError("objectButtonPrefab nie jest przypisany!");
+        if (objectsPanel == null)
+            Debug.LogError("objectsPanel nie jest przypisany!");
 
+        if (objectButtonPrefab == null)
+            Debug.LogError("objectButtonPrefab nie jest przypisany!");
 
         foreach (var obj in availableObjects)
         {
             GameObject button = Instantiate(objectButtonPrefab, objectsPanel);
             Text buttonText = button.GetComponentInChildren<Text>();
             buttonText.text = obj.name;
-            //Image buttonImage = button.GetComponentInChildren<Image>();
-            //buttonImage.sprite = obj.icon;
-            //button.GetComponent<Image>().sprite = obj.icon;
             button.GetComponent<Button>().onClick.AddListener(() => SelectObject(obj.prefab));
         }
     }
 
-    void Update()
+   void Update()
 {
     if (pendingObject != null)
     {
-        // Aktualizacja pozycji pendingObject
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0;
-        pendingObject.transform.position = mousePos;
-
-        // Sprawdź czy to lewy przycisk myszy i czy nie klikamy na UI
         if (Input.GetMouseButtonDown(0))
-        {
-            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
-            
-            if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() && 
-                hit.collider == null) // Dodatkowe sprawdzenie czy nie klikamy na inny obiekt
             {
+                if(selectedPrefab.name == "InputField")
+                {
+                    inputTyupeDropdown.SetActive(true);
+                    Debug.Log("Jestem w ifie dropdowna");
+                }
+                else
+                {
+                    inputTyupeDropdown.SetActive(false);
+                }
                 confirmationDialog.SetActive(true);
+            }
+
+        if(!confirmationDialog.activeSelf){
+            Vector2 mousePos = Input.mousePosition;
+            // Dla obiektów UI
+            if (pendingObject.GetComponent<RectTransform>() != null)
+            {
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    cardArea as RectTransform, 
+                    mousePos, 
+                    null, // Dla UI używamy null zamiast Camera.main
+                    out Vector2 localPoint);
+                    
+                pendingObject.GetComponent<RectTransform>().anchoredPosition = localPoint;
+            }
+            // Dla obiektów 3D
+            else
+            {
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    cardArea as RectTransform, 
+                    mousePos, 
+                    Camera.main, 
+                    out Vector2 localPoint);
+                    
+                pendingObject.transform.localPosition = localPoint;
             }
         }
     }
+    Debug.Log("jestem zad update'em");
 }
 
     public void SelectObject(GameObject prefab)
     {
         selectedPrefab = prefab;
         if (pendingObject != null) Destroy(pendingObject);
-        pendingObject = Instantiate(prefab);
         
-        foreach (var collider in pendingObject.GetComponents<Collider>())
-            collider.enabled = false;
+        pendingObject = Instantiate(prefab, cardArea);
+        //pendingObject.transform.localScale = Vector3.one;
         
-        foreach (var behaviour in pendingObject.GetComponents<MonoBehaviour>())
-            behaviour.enabled = false;
+        SetObjectComponentsEnabled(pendingObject, false);
     }
-
     public void ConfirmPlacement()
     {
         if (pendingObject == null) return;
-        
-        foreach (var collider in pendingObject.GetComponents<Collider>())
-            collider.enabled = true;
-        
-        foreach (var behaviour in pendingObject.GetComponents<MonoBehaviour>())
-            behaviour.enabled = true;
-        
+
         if (!string.IsNullOrEmpty(idInputField.text))
         {
+            
             ObjectID objId = pendingObject.GetComponent<ObjectID>();
             if (objId == null) objId = pendingObject.AddComponent<ObjectID>();
-            objId.SetID(idInputField.text);
+            objId.SetID(idInputField.text, selectedPrefab);
+            pendingObject.name = idInputField.text;
+
+            SetObjectComponentsEnabled(pendingObject, true);
+            pendingObject = null;
+            selectedPrefab = null;
         }
-        
-        pendingObject = null;
-        selectedPrefab = null;
-        idInputField.text = "";
-        confirmationDialog.SetActive(false);
+        else
+        {
+            Debug.LogWarning("Nie podano ID - niszczę obiekt");
+            Destroy(pendingObject);
+            pendingObject = null;
+        }
+
+        ResetPlacement();
+    }
+
+    public void printDictionary()
+    {
+        foreach (var kvp in ObjectID.GetAllObjects())
+        {
+            Debug.Log($"ID: {kvp.Key}, Obiekt: {kvp.Value.name}");
+        }
     }
 
     public void CancelPlacement()
     {
         if (pendingObject != null) Destroy(pendingObject);
+        ResetPlacement();
+    }
+
+    private void ResetPlacement()
+    {
         pendingObject = null;
         selectedPrefab = null;
         idInputField.text = "";
         confirmationDialog.SetActive(false);
     }
+
+   private void SetObjectComponentsEnabled(GameObject obj, bool enabled)
+{
+    // Collidery 2D
+    foreach (var collider in obj.GetComponents<Collider2D>())
+        collider.enabled = enabled;
+    
+    // Collidery 3D
+    foreach (var collider in obj.GetComponents<Collider>())
+        collider.enabled = enabled;
+    
+    foreach (var behaviour in obj.GetComponents<MonoBehaviour>())
+        behaviour.enabled = enabled;
+}
+
 }
