@@ -18,11 +18,19 @@ public class PropHandler : MonoBehaviour
     private float elevateTimer;
     private float elevateLimit;
 
+    private float scalePower;
+    private float scaleTimer;
+    private float scaleLimit;
+
     // Start is called before the first frame update
     void Start()
     {
         rotateLimit = 0.1f;
         rotatePower = 5.0f;
+        elevateLimit = 0.1f;
+        elevatePower = 0.1f;
+        scaleLimit = 0.1f;
+        scalePower = 0.1f;
     }
 
     // Update is called once per frame
@@ -65,27 +73,27 @@ public class PropHandler : MonoBehaviour
     {
         if (selectedProp != null)
         {
-            bool rotateLeftHeld = Input.GetKey(KeyCode.Q);
-            bool rotateRightHeld = Input.GetKey(KeyCode.E);
+            bool leftHeld = Input.GetKey(KeyCode.Q);
+            bool rightHeld = Input.GetKey(KeyCode.E);
 
-            bool rotateLeftDown = Input.GetKeyDown(KeyCode.Q);
-            bool rotateRightDown = Input.GetKeyDown(KeyCode.E);
+            bool leftDown = Input.GetKeyDown(KeyCode.Q);
+            bool rightDown = Input.GetKeyDown(KeyCode.E);
 
             rotateTimer += Time.deltaTime;
 
             //ratatuj
-            if (rotateLeftDown || (rotateLeftHeld && rotateTimer >= rotateLimit)) //E
+            if (leftDown || (leftHeld && rotateTimer >= rotateLimit)) //E
             {
                 rotateTimer = 0f;
                 selectedProp.OnRotate(Vector3.up, -rotatePower);
             }
-            else if (rotateRightDown || (rotateRightHeld && rotateTimer >= rotateLimit)) //Q
+            else if (rightDown || (rightHeld && rotateTimer >= rotateLimit)) //Q
             {
                 rotateTimer = 0f;
                 selectedProp.OnRotate(Vector3.up, rotatePower);
             }
 
-            if (!rotateLeftHeld && !rotateRightHeld)
+            if (!leftHeld && !rightHeld)
             {
                 rotateTimer = rotateLimit;
             }
@@ -99,29 +107,29 @@ public class PropHandler : MonoBehaviour
     {
         if (selectedProp != null)
         {
-            bool elevateLeftHeld = Input.GetKey(KeyCode.Z);
-            bool elevateRightHeld = Input.GetKey(KeyCode.X);
+            bool leftHeld = Input.GetKey(KeyCode.Z);
+            bool rightHeld = Input.GetKey(KeyCode.X);
 
-            bool elevateLeftDown = Input.GetKeyDown(KeyCode.Z);
-            bool elevateRightDown = Input.GetKeyDown(KeyCode.X);
+            bool leftDown = Input.GetKeyDown(KeyCode.Z);
+            bool rightDown = Input.GetKeyDown(KeyCode.X);
 
             elevateTimer += Time.deltaTime;
 
             //elewatuj
-            if (elevateLeftDown || (elevateLeftHeld && elevateTimer >= elevateLimit)) //X
+            if (leftDown || (leftHeld && elevateTimer >= elevateLimit)) //X
             {
                 elevateTimer = 0f;
-                Vector3 newPosition = selectedProp.transform.position + new Vector3(0, elevatePower, 0);
+                Vector3 newPosition = selectedProp.GetPosition() + new Vector3(0, elevatePower, 0);
                 selectedProp.OnDrag(newPosition);
             }
-            else if (elevateRightDown || (elevateRightHeld && elevateTimer >= elevateLimit)) //Z
+            else if (rightDown || (rightHeld && elevateTimer >= elevateLimit)) //Z
             {
                 elevateTimer = 0f;
-                Vector3 newPosition = selectedProp.transform.position + new Vector3(0, -elevatePower, 0);
+                Vector3 newPosition = selectedProp.GetPosition() + new Vector3(0, -elevatePower, 0);
                 selectedProp.OnDrag(newPosition);
             }
 
-            if (!elevateLeftHeld && !elevateRightHeld)
+            if (!leftHeld && !rightHeld)
             {
                 elevateTimer = elevateLimit;
             }
@@ -145,7 +153,7 @@ public class PropHandler : MonoBehaviour
                     selectedProp = prop;
 
                     dragPlane = new Plane(Vector3.up, hit.point);
-                    dragOffset = hit.point - selectedProp.transform.position;
+                    dragOffset = hit.point - selectedProp.GetPosition();
                 }
             }
         }
@@ -161,8 +169,54 @@ public class PropHandler : MonoBehaviour
             if (dragPlane.Raycast(ray, out float enter))
             {
                 Vector3 hitPoint = ray.GetPoint(enter);
-                selectedProp.OnDrag(hitPoint - dragOffset);
+                Vector3 newPosition = hitPoint - dragOffset;
+                newPosition.y = selectedProp.GetPosition().y;
+                selectedProp.OnDrag(newPosition);
             }
+        }
+    }
+
+    private void HandleScale()
+    {
+        if (selectedProp != null)
+        {
+            bool leftHeld = Input.GetKey(KeyCode.C);
+            bool rightHeld = Input.GetKey(KeyCode.V);
+
+            bool leftDown = Input.GetKeyDown(KeyCode.C);
+            bool rightDown = Input.GetKeyDown(KeyCode.V);
+
+            scaleTimer += Time.deltaTime;
+
+            //scaleuj
+            if (leftDown || (leftHeld && scaleTimer >= scaleLimit)) //C
+            {
+                scaleTimer = 0f;
+                //Vector3 newScale = selectedProp.GetScale() + new Vector3(scalePower, scalePower, scalePower);
+                Vector3 newScale = selectedProp.GetScale() + Vector3.one * scalePower;
+                selectedProp.OnScale(newScale);
+            }
+            else if (rightDown || (rightHeld && scaleTimer >= scaleLimit)) //V
+            {
+                scaleTimer = 0f;
+                //Vector3 newScale = selectedProp.GetScale() - new Vector3(scalePower, scalePower, scalePower);
+                Vector3 newScale = selectedProp.GetScale() - Vector3.one * scalePower;
+
+                newScale.x = Mathf.Max(0.1f, newScale.x);
+                newScale.y = Mathf.Max(0.1f, newScale.y);
+                newScale.z = Mathf.Max(0.1f, newScale.z);
+
+                selectedProp.OnScale(newScale);
+            }
+
+            if (!leftHeld && !rightHeld)
+            {
+                scaleTimer = scaleLimit;
+            }
+        }
+        else
+        {
+            scaleTimer = scaleLimit;
         }
     }
 }

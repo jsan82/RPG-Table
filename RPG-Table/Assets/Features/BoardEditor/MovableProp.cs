@@ -25,4 +25,13 @@ public class MovableProp : MonoBehaviour
     {
         transform.Rotate(axis, angle, Space.World);
     }
+
+    public void OnScale(Vector3 newScale)
+    {
+        transform.localScale = newScale;
+    }
+
+    public Vector3 GetPosition() { return transform.position; }
+
+    public Vector3 GetScale() { return transform.localScale; }
 }
