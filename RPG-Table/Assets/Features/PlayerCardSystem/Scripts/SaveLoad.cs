@@ -34,7 +34,7 @@ public class CardAreaSaver : MonoBehaviour
                 if (child.gameObject.activeSelf)
                 {
                     ChildData childData = new ChildData(child);
-                    
+                    NewBehaviourScript.printObj();
                     // Zbierz dane wszystkich skryptów
                     MonoBehaviour[] scripts = child.GetComponents<MonoBehaviour>();
                     foreach (var script in scripts)
@@ -52,7 +52,7 @@ public class CardAreaSaver : MonoBehaviour
                     childrenData.Add(childData);
                 }
             }
-
+            
             SaveData saveData = new SaveData
             {
                 saveTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
@@ -65,7 +65,6 @@ public class CardAreaSaver : MonoBehaviour
 
             if (debugLog)
             {
-                Debug.Log($"Zapisano {childrenData.Count} obiektów w CardArea do: {fullSavePath}");
                 Debug.Log(jsonData);
             }
         }
@@ -94,10 +93,7 @@ public class CardAreaSaver : MonoBehaviour
         foreach (ChildData childData in loadedData.children)
         {
             GameObject newChild = CreateChildFromData(childData);
-            
-            // Dodaj debug log przed wczytywaniem skryptów
-            Debug.Log($"Przetwarzanie obiektu: {newChild.name}");
-            
+        
             foreach (ScriptData scriptData in childData.scripts)
             {
                 try
@@ -105,21 +101,17 @@ public class CardAreaSaver : MonoBehaviour
                     Type scriptType = Type.GetType(scriptData.type);
                     if (scriptType != null)
                     {
-                        Debug.Log($"Próbuję dodać skrypt typu: {scriptType}");
                         
                         // Sprawdź czy komponent już istnieje
                         Component component = newChild.GetComponent(scriptType);
                         if (component == null)
                         {
                             component = newChild.AddComponent(scriptType);
-                            Debug.Log($"Dodano nowy komponent: {scriptType}");
+
                         }
-                        
                         if (component != null)
                         {
-                            Debug.Log($"Dane skryptu do nadpisania: {scriptData.data}");
                             JsonUtility.FromJsonOverwrite(scriptData.data, component);
-                            Debug.Log($"Pomyślnie nadpisano dane skryptu");
                         }
                     }
                     else
@@ -132,13 +124,11 @@ public class CardAreaSaver : MonoBehaviour
                     Debug.LogError($"Błąd podczas przetwarzania skryptu {scriptData.type}: {e.Message}");
                 }
             }
+        List<OperationData> operations = childData.currentOperations;
+        NewBehaviourScript.loadOperations(childData.objectID, operations.Select(op => (op.operationType, op.value)).ToList());
 
         }
 
-        if (debugLog)
-        {
-            Debug.Log($"Wczytano {loadedData.childCount} obiektów do CardArea");
-        }
     }
     catch (Exception e)
     {
@@ -168,7 +158,7 @@ public class CardAreaSaver : MonoBehaviour
         switch (childData.objectType)
         {
             case "Button":
-                newChild.GetComponentInChildren<Text>().text = childData.Text;
+                newChild.GetComponentInChildren<TMP_Text>().text = childData.Text;
                 Debug.Log($"Obrazek: {childData.backgroundImage}");
                 if(newChild.TryGetComponent<Image>(out Image imageComponent))
                 {
@@ -176,18 +166,8 @@ public class CardAreaSaver : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogWarning($"Nie znaleziono komponentu Image w obiekcie {newChild.name}");
+                    imageComponent.sprite = Resources.Load<Sprite>("Background");
                 }
-                // if (Resources.Load<Sprite>(childData.backgroundImage) != null)
-                // {
-                //     //newChild.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>(childData.backgroundImage);
-                //     Debug.Log($"Załadowano obrazek");
-                // }
-                // else
-                // {
-                //     //newChild.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>("Background");
-                //     Debug.Log($"NIe załadowano");
-                // }
                 break;
             case "TextBlockPrefab":
                 TextMeshProUGUI textBlock = newChild.GetComponent<TextMeshProUGUI>();
@@ -295,12 +275,16 @@ public class ChildData
         }
         else if(objectType == "Button")
         {
-            Text = child.GetComponentInChildren<Text>().text;
+            Text = child.GetComponentInChildren<TMP_Text>().text;
             backgroundImage = child.GetComponentInChildren<Image>().sprite.name;
             var operations = NewBehaviourScript.GetOperationsForObject(objectID);
             if (operations != null)
             {
                 currentOperations = operations.Select(op => new OperationData(op.Item1, op.Item2)).ToList();
+                foreach (var operation in currentOperations)
+                {
+                    Debug.Log($"Operacja: {operation.operationType}, Wartość: {operation.value}");
+                }
             };
             
         }

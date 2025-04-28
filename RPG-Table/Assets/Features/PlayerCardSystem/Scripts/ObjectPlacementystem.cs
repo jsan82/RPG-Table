@@ -50,7 +50,7 @@ public class ObjectPlacementSystem : MonoBehaviour
         foreach (var obj in availableObjects)
         {
             GameObject button = Instantiate(objectButtonPrefab, objectsPanel);
-            Text buttonText = button.GetComponentInChildren<Text>();
+            TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
             buttonText.text = obj.name;
             button.GetComponent<Button>().onClick.AddListener(() => SelectObject(obj.prefab));
         }
