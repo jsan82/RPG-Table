@@ -126,19 +126,29 @@ public class NewBehaviourScript : MonoBehaviour
 
     void UpdateDropdown()
     {
-        Dictionary<string, GameObject> buttons = ObjectID.GetAllObjects()
+        Debug.Log($"UpdateDropdown called");
+        Dictionary<string, GameObject> buttons;
+        Dictionary<string, GameObject> inputBox;
+        Dictionary<string, GameObject> objectsDict = ObjectID.GetAllObjects();
+        foreach (var obj in objectsDict)
+        {
+            Debug.Log($"ID: {obj.Key}, Obiekt: {obj.Value.name}, Prefab: {obj.Value.GetComponent<ObjectID>().GetPrefab()}");
+            
+        }
+        
+        buttons = ObjectID.GetAllObjects()
             .Where(x => x.Value.GetComponent<ObjectID>() != null && x.Value.GetComponent<ObjectID>().GetPrefab() == "Button")
             .ToDictionary(x => x.Key, x => x.Value);
 
-        Dictionary<string, GameObject> inputBox = ObjectID.GetAllObjects()
+        inputBox = ObjectID.GetAllObjects()
             .Where(x => x.Value.GetComponent<ObjectID>() != null && x.Value.GetComponent<ObjectID>().GetPrefab() == "InputField")
             .ToDictionary(x => x.Key, x => x.Value);
 
         buttonDropdown.ClearOptions();
-        foreach (var button in buttons)
-        {
-            Debug.Log($"ID: {button.Key}, Obiekt: {button.Value.name}");
-        }
+        // foreach (var button in buttons)
+        // {
+        //     Debug.Log($"ID: {button.Key}, Obiekt: {button.Value.name}");
+        // }
         buttonDropdown.AddOptions(buttons.Keys.ToList());
 
         _idDropdown.GetComponent<TMP_Dropdown>().ClearOptions();

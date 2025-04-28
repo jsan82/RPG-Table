@@ -7,7 +7,7 @@ public class ObjectID : MonoBehaviour
     public string _prefabName; // Dodajemy nowe pole do przechowywania oryginalnej nazwy prefaba
     private static Dictionary<string, GameObject> _objectDictionary = new Dictionary<string, GameObject>();
 
-    public void SetID(string newId, GameObject objectRef, string prefabName) // prefabName jest opcjonalny
+    public void SetID(string newId, GameObject objectRef, string prefabName = null) // prefabName jest opcjonalny
     {
         if (string.IsNullOrEmpty(newId))
         {
@@ -16,8 +16,9 @@ public class ObjectID : MonoBehaviour
         }
 
         _id = newId;
-        _prefabName = !string.IsNullOrEmpty(prefabName) ? prefabName : objectRef.name; // Używamy prefabName jeśli podano, w przeciwnym razie nazwę obiektu
-        
+        _prefabName = prefabName ?? objectRef.name; // Używamy nazwy obiektu, jeśli prefabName jest null
+        Debug.Log($"Ustawiono prefabName: {_prefabName}");
+
         if (!_objectDictionary.ContainsKey(_id))
         {   
             
@@ -38,15 +39,17 @@ public class ObjectID : MonoBehaviour
 
     public string GetID() => _id;
 
-    public string GetPrefab() => _prefabName; // Zwracamy zachowaną nazwę prefaba
+    public string GetPrefab() => _prefabName;
 
     public static bool IDExists(string idToCheck) => _objectDictionary.ContainsKey(idToCheck);
 
-    public void printDictionary()
+    public static void printDictionary()
     {
         foreach (var kvp in _objectDictionary)
         {
-            Debug.Log($"ID: {kvp.Key}, Obiekt: {kvp.Value.GetComponent<ObjectID>().GetPrefab()}");
+            Debug.Log($"ID: {kvp.Key}");
+            Debug.Log($"Prefab of ^:{kvp.Value.GetComponent<ObjectID>()._prefabName}");
+            //Debug.Log($"ID: {kvp.Key}, Obiekt: {kvp.Value.GetComponent<ObjectID>().GetPrefab()}, Prefab: {kvp.Value.GetComponent<ObjectID>()._prefabName}");
         }
         
     }

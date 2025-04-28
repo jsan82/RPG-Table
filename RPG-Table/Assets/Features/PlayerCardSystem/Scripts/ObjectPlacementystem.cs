@@ -135,9 +135,12 @@ public class ObjectPlacementSystem : MonoBehaviour
                         break;
                 }
             }
+
             ObjectID objId = pendingObject.GetComponent<ObjectID>();
             if (objId == null) objId = pendingObject.AddComponent<ObjectID>();
-            objId.SetID(idInputField.text, selectedPrefab, selectedPrefab.name);
+            Debug.Log("Dodano " + selectedPrefab.name);
+
+            objId.SetID(idInputField.text, pendingObject, selectedPrefab.name);
             pendingObject.name = idInputField.text;
 
             SetObjectComponentsEnabled(pendingObject, true);
@@ -156,10 +159,7 @@ public class ObjectPlacementSystem : MonoBehaviour
 
     public void printDictionary()
     {
-        foreach (var kvp in ObjectID.GetAllObjects())
-        {
-            Debug.Log($"ID: {kvp.Key}, Obiekt: {kvp.Value.name}");
-        }
+        ObjectID.printDictionary();
     }
 
     public void CancelPlacement()
