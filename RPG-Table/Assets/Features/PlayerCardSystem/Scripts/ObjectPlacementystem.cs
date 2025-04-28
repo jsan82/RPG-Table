@@ -2,9 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
-
 using TMPro;
-
 
 public class ObjectPlacementSystem : MonoBehaviour
 {
@@ -21,9 +19,7 @@ public class ObjectPlacementSystem : MonoBehaviour
     public Transform cardArea;
     public GameObject objectButtonPrefab;
     public GameObject confirmationDialog;
-
     public GameObject inputTypeDropdown;
-
     public InputField idInputField;
     private GameObject selectedPrefab;
     private GameObject pendingObject;
@@ -68,13 +64,11 @@ public class ObjectPlacementSystem : MonoBehaviour
             {
                 if(selectedPrefab.name == "InputField")
                 {
-
                     inputTypeDropdown.SetActive(true);
                 }
                 else
                 {
                     inputTypeDropdown.SetActive(false);
-
                 }
                 confirmationDialog.SetActive(true);
             }
@@ -105,7 +99,6 @@ public class ObjectPlacementSystem : MonoBehaviour
             }
         }
     }
-
 }
 
     public void SelectObject(GameObject prefab)
@@ -124,7 +117,6 @@ public class ObjectPlacementSystem : MonoBehaviour
 
         if (!string.IsNullOrEmpty(idInputField.text))
         {
-
             if(selectedPrefab.name == "InputField")
             {
                 switch (GameObject.Find("InputFieldType").GetComponent<TMP_Dropdown>().value)
@@ -146,7 +138,6 @@ public class ObjectPlacementSystem : MonoBehaviour
             ObjectID objId = pendingObject.GetComponent<ObjectID>();
             if (objId == null) objId = pendingObject.AddComponent<ObjectID>();
             objId.SetID(idInputField.text, selectedPrefab, selectedPrefab.name);
-
             pendingObject.name = idInputField.text;
 
             SetObjectComponentsEnabled(pendingObject, true);
@@ -185,9 +176,7 @@ public class ObjectPlacementSystem : MonoBehaviour
         confirmationDialog.SetActive(false);
     }
 
-
    public static void SetObjectComponentsEnabled(GameObject obj, bool enabled)
-
 {
     // Collidery 2D
     foreach (var collider in obj.GetComponents<Collider2D>())
