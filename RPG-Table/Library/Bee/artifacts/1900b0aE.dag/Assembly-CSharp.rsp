@@ -341,6 +341,7 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.Timeline.Editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.Timeline.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.Toolchain.Linux-x86_64.ref.dll"
+-r:"Library/Bee/artifacts/1900b0aE.dag/Unity.Toolchain.Win-x86_64-Linux-x86_64.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.VisualScripting.Core.Editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.VisualScripting.Core.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.VisualScripting.Flow.Editor.ref.dll"
@@ -355,7 +356,14 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 -analyzer:"C:/Program Files/Unity/Hub/Editor/2022.3.60f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll"
 -analyzer:"C:/Program Files/Unity/Hub/Editor/2022.3.60f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
+"Assets/Features/BoardEditor/MovableProp.cs"
+"Assets/Features/BoardEditor/PropHandler.cs"
 "Assets/Features/Camera/Scripts/CameraController.cs"
+"Assets/Features/PlayerCardSystem/Scripts/EditorManager.cs"
+"Assets/Features/PlayerCardSystem/Scripts/MainMenuManager.cs"
+"Assets/Features/PlayerCardSystem/Scripts/ObjectID.cs"
+"Assets/Features/PlayerCardSystem/Scripts/ObjectPlacementystem.cs"
+"Assets/Features/PlayerCardSystem/Scripts/SaveLoad.cs"
 -langversion:9.0
 /deterministic
 /optimize+
