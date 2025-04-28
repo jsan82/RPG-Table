@@ -14,6 +14,11 @@ public class MainMenuController : MonoBehaviour
         Debug.Log("Join game menu opened.");
     }
 
+    public void CardEditor()
+    {
+        SceneManager.LoadScene("EditorScene"); // Ensure you have a scene named "GameScene"
+    }
+
     public void OpenOptions()
     {
         // Implement options menu functionality here

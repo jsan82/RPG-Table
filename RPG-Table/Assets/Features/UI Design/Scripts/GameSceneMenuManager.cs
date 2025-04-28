@@ -50,4 +50,32 @@ public class GameSceneMenuManager : MonoBehaviour
         // Implement list button here
         Debug.Log("List button clicked.");
     }
+
+    public void ButtonSend()
+    {
+        // Implement send button here
+        Debug.Log("Send button clicked.");
+    }
+
+    public void ButtonLoadArt()
+    {
+        // Implement load art button here
+        Debug.Log("Load Art button clicked.");
+    }
+
+    public void ButtonAddCharacter()
+    {
+        // Implement add character button here
+        Debug.Log("Add Character button clicked.");
+    }
+
+    public void ShowPanel(GameObject panel)
+    {
+        panel.SetActive(true);
+    }
+
+    public void HidePanel(GameObject panel)
+    {
+        panel.SetActive(false);
+    }
 }

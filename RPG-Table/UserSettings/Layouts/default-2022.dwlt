@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 2560
     height: 1357
   m_ShowMode: 4
-  m_Title: Hierarchy
+  m_Title: Project
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -120,7 +120,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 15066
+  controlID: 140
   draggingID: 0
 --- !u!114 &6
 MonoBehaviour:
@@ -146,7 +146,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 14957
+  controlID: 38
   draggingID: 0
 --- !u!114 &7
 MonoBehaviour:
@@ -158,7 +158,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
+  m_Name: SceneHierarchyWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -224,7 +224,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 15009
+  controlID: 96
   draggingID: 0
 --- !u!114 &10
 MonoBehaviour:
@@ -272,8 +272,8 @@ MonoBehaviour:
     y: 991
     width: 1434
     height: 316
-  m_MinSize: {x: 101, y: 121}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 102, y: 121}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 17}
@@ -443,23 +443,23 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: d86f0000
-      m_LastClickedID: 28632
-      m_ExpandedIDs: a4aafffff2aaffff90acffffeaacfffff8f1ffffeaf4ffff44f5ffff16f9ffff68f9ffffbef9ffff30fbffff405e0000a25e00003c5f0000446000004e6000008e60000098600000b2600000bc600000c6600000ea600000f4600000fe60000006610000106100000c6d0000246d00003e6d00006c6d0000ce6d0000a86f00001470000026700000
+      m_SelectedIDs: 205c0000
+      m_LastClickedID: 0
+      m_ExpandedIDs: a282feff0083feff5683feffae83feffc287feffe889feff368efeff26a7feff9aa7feffb2a8fefff6aafeffb2c8feffc0c8feff64ccfeffd8ccfeff62cdfeffd2d0feffaad2feff1ad3fefffad8feff54dbfeff1ee1feff60e4fefff60cfffff80cfffff413ffff6c29ffffca29ffff8e30ffff8a32ffff4c4affff0e8bffff148bffffbe93ffffea95ffffa4a5ffffa8acffff28b8ffff18bbffff4accffffcaccffff5cf9ffffaaf9ffff02faffff30fbffff005e00000c5e0000205e00003c5e00006e5e0000805e0000925e00003c68000086680000b4680000f46800001a690000266900003a69000056690000886900009a690000ac690000c26c0000d46c0000766d0000886d0000206e0000946e0000a66e0000086f00007c6f00008e6f0000827100009c710000e67100001472000038720000547200006e9f0000889f0000ec9f0000fe9f000036a0000056a0000074a700008ea70000d6a70000e0a70000f2a700000ea8000016a800003ca800004ca800007ca8000084a8000048da000062da0000d0da00001adb000072db00008edb00000ade00001cde0000a6e00000f4e0000008e10000d2e2000040e300008ae30000e2e300004ee40000b0e40000c8e5000036e6000080e6000044e7000092e70000a6e70000e2e7000020e800005ae8000008fa000076fa0000c0fa000018fb000084fb0000e6fb00002eff00009cff0000e6ff00003e000100060a01000a0a0100300a0100420a0100660a0100700a0100840a0100960a0100be0a0100c80a01000a0b0100120b0100
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
+        m_Name: Print
+        m_OriginalName: Print
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 0
+        m_UserData: 59362
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 11
+        m_OriginalEventType: 0
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 7}
       m_SearchString: 
@@ -520,18 +520,18 @@ MonoBehaviour:
     m_ImportLogFlags: 0
     m_FilterByTypeIntersection: 0
   m_ViewMode: 1
-  m_StartGridSize: 53
+  m_StartGridSize: 82
   m_LastFolders:
   - Assets/Features/UI Design/Scenes
-  m_LastFoldersGridSize: 53
+  m_LastFoldersGridSize: 82
   m_LastProjectPath: F:\Program Files\Unity\Projects\RPG-Table\RPG-Table
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: ce5b0000
-    m_LastClickedID: 23502
-    m_ExpandedIDs: 00000000a65b0000a85b0000aa5b0000ac5b0000ae5b0000b05b0000b25b0000b45b0000b65b0000b85b0000ba5b000000ca9a3bffffff7f
+    m_SelectedIDs: e25b0000
+    m_LastClickedID: 23522
+    m_ExpandedIDs: 00000000ba5b0000bc5b0000be5b0000c05b0000c25b0000c45b0000c65b0000c85b0000ca5b0000cc5b0000ce5b000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -559,7 +559,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000a65b0000a85b0000aa5b0000ac5b0000ae5b0000b05b0000b25b0000b45b0000b65b0000b85b0000ba5b000000ca9a3bffffff7f
+    m_ExpandedIDs: 00000000ba5b0000bc5b0000be5b0000c05b0000c25b0000c45b0000c65b0000c85b0000ca5b0000cc5b0000ce5b0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -612,7 +612,7 @@ MonoBehaviour:
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
     m_ScrollPosition: {x: 0, y: 0}
-    m_GridSize: 53
+    m_GridSize: 82
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 207
 --- !u!114 &16
@@ -945,9 +945,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 1965.4617, y: 1143.7753, z: -21.480104}
+    m_Target: {x: 2012.6519, y: 1155.6782, z: -2.3851566}
     speed: 2
-    m_Value: {x: 1965.4617, y: 1143.7753, z: -21.480104}
+    m_Value: {x: 2012.6519, y: 1155.6782, z: -2.3851566}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -997,9 +997,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 1727.2886
+    m_Target: 1493.1299
     speed: 2
-    m_Value: 1727.2886
+    m_Value: 1493.1299
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -1017,7 +1017,7 @@ MonoBehaviour:
     m_FarClip: 10000
     m_DynamicClip: 1
     m_OcclusionCulling: 0
-  m_LastSceneViewRotation: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
+  m_LastSceneViewRotation: {x: 0.16456401, y: -0.2242247, z: 0.038448106, w: 0.9597793}
   m_LastSceneViewOrtho: 0
   m_ReplacementShader: {fileID: 0}
   m_ReplacementString: 
