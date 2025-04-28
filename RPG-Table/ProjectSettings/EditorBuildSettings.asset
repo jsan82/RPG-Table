@@ -6,9 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Features/PlayerCardSystem/MainMenu.unity
-    guid: 414c3a7256e3d5548bedf49a6021f4ee
+    path: Assets/Features/UI Design/Scenes/MainMenu.unity
+    guid: a5f982b96214ba54db9547da029fdd58
+  - enabled: 1
+    path: Assets/Features/UI Design/Scenes/GameScene.unity
+    guid: 7ea0b88ec98bd3146a1a9adde4f9c1b4
   - enabled: 1
     path: Assets/Features/PlayerCardSystem/EditorScene.unity
     guid: 22245ecf46ae9dc42a23e111f4528a7e
+  - enabled: 1
+    path: Assets/Features/PlayerCardSystem/MainMenu.unity
+    guid: 414c3a7256e3d5548bedf49a6021f4ee
   m_configObjects: {}
