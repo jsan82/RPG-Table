@@ -3,6 +3,9 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
+using TMPro;
+
+
 public class ObjectPlacementSystem : MonoBehaviour
 {
     [System.Serializable]
@@ -18,7 +21,9 @@ public class ObjectPlacementSystem : MonoBehaviour
     public Transform cardArea;
     public GameObject objectButtonPrefab;
     public GameObject confirmationDialog;
-    public GameObject inputTyupeDropdown;
+
+    public GameObject inputTypeDropdown;
+
     public InputField idInputField;
     private GameObject selectedPrefab;
     private GameObject pendingObject;
@@ -63,12 +68,13 @@ public class ObjectPlacementSystem : MonoBehaviour
             {
                 if(selectedPrefab.name == "InputField")
                 {
-                    inputTyupeDropdown.SetActive(true);
-                    Debug.Log("Jestem w ifie dropdowna");
+
+                    inputTypeDropdown.SetActive(true);
                 }
                 else
                 {
-                    inputTyupeDropdown.SetActive(false);
+                    inputTypeDropdown.SetActive(false);
+
                 }
                 confirmationDialog.SetActive(true);
             }
@@ -99,7 +105,7 @@ public class ObjectPlacementSystem : MonoBehaviour
             }
         }
     }
-    Debug.Log("jestem zad update'em");
+
 }
 
     public void SelectObject(GameObject prefab)
@@ -118,10 +124,29 @@ public class ObjectPlacementSystem : MonoBehaviour
 
         if (!string.IsNullOrEmpty(idInputField.text))
         {
-            
+
+            if(selectedPrefab.name == "InputField")
+            {
+                switch (GameObject.Find("InputFieldType").GetComponent<TMP_Dropdown>().value)
+                {
+                    case 0:
+                        pendingObject.GetComponent<TMP_InputField>().contentType = TMP_InputField.ContentType.Standard;
+                        break;
+                    case 1:
+                        pendingObject.GetComponent<TMP_InputField>().contentType = TMP_InputField.ContentType.IntegerNumber;
+                        break;
+                    case 2:
+                        pendingObject.GetComponent<TMP_InputField>().contentType = TMP_InputField.ContentType.DecimalNumber;
+                        break;
+                    default:
+                        pendingObject.GetComponent<TMP_InputField>().contentType = TMP_InputField.ContentType.Standard;
+                        break;
+                }
+            }
             ObjectID objId = pendingObject.GetComponent<ObjectID>();
             if (objId == null) objId = pendingObject.AddComponent<ObjectID>();
-            objId.SetID(idInputField.text, selectedPrefab);
+            objId.SetID(idInputField.text, selectedPrefab, selectedPrefab.name);
+
             pendingObject.name = idInputField.text;
 
             SetObjectComponentsEnabled(pendingObject, true);
@@ -160,7 +185,9 @@ public class ObjectPlacementSystem : MonoBehaviour
         confirmationDialog.SetActive(false);
     }
 
-   private void SetObjectComponentsEnabled(GameObject obj, bool enabled)
+
+   public static void SetObjectComponentsEnabled(GameObject obj, bool enabled)
+
 {
     // Collidery 2D
     foreach (var collider in obj.GetComponents<Collider2D>())

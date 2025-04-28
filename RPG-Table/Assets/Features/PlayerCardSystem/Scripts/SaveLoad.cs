@@ -1,9 +1,12 @@
 using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
+
+using System.Linq;
 using System;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class CardAreaSaver : MonoBehaviour
 {
@@ -130,6 +133,8 @@ public class CardAreaSaver : MonoBehaviour
                     Debug.LogError($"Błąd podczas przetwarzania skryptu {scriptData.type}: {e.Message}");
                 }
             }
+
+
         }
 
         if (debugLog)
@@ -150,17 +155,16 @@ public class CardAreaSaver : MonoBehaviour
         }
     }
 
+
+ 
     private GameObject CreateChildFromData(ChildData childData)
     {
         GameObject newChild = Resources.Load<GameObject>(childData.objectType);
-        newChild = Instantiate(newChild);
-        newChild.name = childData.objectID;
+        newChild = Instantiate(newChild, cardArea);
         
-        ObjectID objID = newChild.GetComponent<ObjectID>();
-        if(objID == null) objID = newChild.AddComponent<ObjectID>();
-        objID.SetID(childData.objectID, newChild, childData.objectType);
 
-        newChild.transform.SetParent(cardArea);
+        //newChild.name = childData.objectID;
+
         newChild.transform.localPosition = childData.localPosition;
         newChild.transform.localRotation = childData.localRotation;
         newChild.transform.localScale = childData.localScale;
@@ -169,13 +173,20 @@ public class CardAreaSaver : MonoBehaviour
         {
             case "Button":
                 newChild.GetComponentInChildren<Text>().text = childData.Text;
+
+                Debug.Log($"Obrazek: {childData.backgroundImage}");
                 if (Resources.Load<Sprite>(childData.backgroundImage) != null)
                 {
                     newChild.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>(childData.backgroundImage);
+                    Debug.Log($"Załadowano obrazek");
+
                 }
                 else
                 {
                     newChild.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>("Background");
+
+                    Debug.Log($"NIe załadowano");
+
                 }
                 break;
             case "TextBlockPrefab":
@@ -185,9 +196,33 @@ public class CardAreaSaver : MonoBehaviour
                     textBlock.text = childData.Text;
                 }
                 break;
+
+            case "InputField":
+                newChild.GetComponent<TMP_InputField>().text = childData.Text;
+                newChild.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>(childData.backgroundImage);
+                switch (childData.inputType)
+                {
+                    case "InputFieldStandard":
+                        newChild.GetComponent<TMP_InputField>().contentType = TMP_InputField.ContentType.Standard;
+                        break;
+                    case "InputFieldDecimalNumber":
+                        newChild.GetComponent<TMP_InputField>().contentType = TMP_InputField.ContentType.DecimalNumber;
+                        break;
+                    case "InputFieldIntegerNumber":
+                        newChild.GetComponent<TMP_InputField>().contentType = TMP_InputField.ContentType.IntegerNumber;
+                        break;
+                }
+                break;
         }
 
         newChild.SetActive(childData.isActive);
+        ObjectID objID = newChild.GetComponent<ObjectID>();
+        if(objID == null) objID = newChild.AddComponent<ObjectID>();
+        objID.SetID(childData.objectID, newChild, childData.objectType);
+        newChild.name = childData.objectID; // Ustawiamy nazwę obiektu na ID
+
+        ObjectPlacementSystem.SetObjectComponentsEnabled(newChild, true);
+
         return newChild; // Zwracamy obiekt dla dalszej obróbki
     }
 
@@ -203,6 +238,7 @@ public class SaveData
     public string saveTime;
     public int childCount;
     public List<ChildData> children;
+
 }
 
 [System.Serializable]
@@ -220,6 +256,21 @@ public class ScriptData
 }
 
 [System.Serializable]
+
+public class OperationData
+{
+    public string operationType;
+    public string value;
+
+    public OperationData(string type, string val)
+    {
+        operationType = type;
+        value = val;
+    }
+}
+
+[System.Serializable]
+
 public class ChildData
 {
     public string objectID;
@@ -227,11 +278,17 @@ public class ChildData
     public string Text;
     public string backgroundImage;
     public string Image;
+
+    public string inputType;
+
     public Vector3 localPosition;
     public Quaternion localRotation;
     public Vector3 localScale;
     public bool isActive;
     public List<ScriptData> scripts = new List<ScriptData>();
+
+    public List<OperationData> currentOperations = new List<OperationData>();
+
 
     public ChildData(Transform child)
     {
@@ -245,6 +302,32 @@ public class ChildData
         else if(objectType == "Button")
         {
             Text = child.GetComponentInChildren<Text>().text;
+
+            backgroundImage = child.GetComponentInChildren<Image>().sprite.name;
+            var operations = NewBehaviourScript.GetOperationsForObject(objectID);
+            if (operations != null)
+            {
+                currentOperations = operations.Select(op => new OperationData(op.Item1, op.Item2)).ToList();
+            };
+            
+        }
+        else if(objectType == "InputField")
+        {
+            Text = child.GetComponent<TMP_InputField>().text;
+            backgroundImage = child.GetComponentInChildren<Image>().sprite.name;
+        switch (child.GetComponent<TMP_InputField>().contentType)
+        {
+            case TMP_InputField.ContentType.Standard:
+                inputType = "InputFieldStandard";
+                break;
+            case TMP_InputField.ContentType.DecimalNumber:
+                inputType = "InputFieldDecimalNumber";
+                break;
+            case TMP_InputField.ContentType.IntegerNumber:
+                inputType = "InputFieldIntegerNumber";
+                break;
+        }
+
         }
         
         localPosition = child.localPosition;
