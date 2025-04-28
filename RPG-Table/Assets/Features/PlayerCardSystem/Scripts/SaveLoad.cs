@@ -170,16 +170,24 @@ public class CardAreaSaver : MonoBehaviour
             case "Button":
                 newChild.GetComponentInChildren<Text>().text = childData.Text;
                 Debug.Log($"Obrazek: {childData.backgroundImage}");
-                if (Resources.Load<Sprite>(childData.backgroundImage) != null)
+                if(newChild.TryGetComponent<Image>(out Image imageComponent))
                 {
-                    newChild.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>(childData.backgroundImage);
-                    Debug.Log($"Załadowano obrazek");
+                    imageComponent.sprite = Resources.Load<Sprite>(childData.backgroundImage);
                 }
                 else
                 {
-                    newChild.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>("Background");
-                    Debug.Log($"NIe załadowano");
+                    Debug.LogWarning($"Nie znaleziono komponentu Image w obiekcie {newChild.name}");
                 }
+                // if (Resources.Load<Sprite>(childData.backgroundImage) != null)
+                // {
+                //     //newChild.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>(childData.backgroundImage);
+                //     Debug.Log($"Załadowano obrazek");
+                // }
+                // else
+                // {
+                //     //newChild.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>("Background");
+                //     Debug.Log($"NIe załadowano");
+                // }
                 break;
             case "TextBlockPrefab":
                 TextMeshProUGUI textBlock = newChild.GetComponent<TextMeshProUGUI>();
