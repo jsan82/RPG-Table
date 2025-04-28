@@ -361,6 +361,7 @@
 "Assets/Features/Camera/Scripts/CameraController.cs"
 "Assets/Features/PlayerCardSystem/Scripts/EditorManager.cs"
 "Assets/Features/PlayerCardSystem/Scripts/MainMenuManager.cs"
+"Assets/Features/PlayerCardSystem/Scripts/NewBehaviorScript.cs"
 "Assets/Features/PlayerCardSystem/Scripts/ObjectID.cs"
 "Assets/Features/PlayerCardSystem/Scripts/ObjectPlacementystem.cs"
 "Assets/Features/PlayerCardSystem/Scripts/SaveLoad.cs"
