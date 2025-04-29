@@ -11,33 +11,40 @@ public class CardAreaSaver : MonoBehaviour
 {
     [Header("Settings")]
     public string saveFileName = "cardAreaSave.json";
+
     public bool debugLog = true;
 
-    private Transform cardArea;
+    public Transform cardArea;
     private List<ObjectDictData> objectDictData;
     private string fullSavePath;
 
     void Awake()
     {
-        cardArea = GameObject.Find("CardArea").transform;
+        
         fullSavePath = Path.Combine(Application.persistentDataPath, saveFileName);
+        
+        // Ensure the directory exists
+        string directory = Path.GetDirectoryName(fullSavePath);
+        if (!Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
     }
 
-    //Method to save the card area to a JSON file
+    // Method to save the card area to a JSON file
     public void SaveCardArea()
     {
         try
         {
             List<ChildData> childrenData = new List<ChildData>();
 
-            foreach (Transform child in cardArea) //Iterate through all children in the card area
+            foreach (Transform child in cardArea)
             {
                 if (child.gameObject.activeSelf)
                 {
                     ChildData childData = new ChildData(child);
-                    // Zbierz dane wszystkich skryptów
                     MonoBehaviour[] scripts = child.GetComponents<MonoBehaviour>();
-                    foreach (var script in scripts) //Iterate through all scripts attached to the child
+                    foreach (var script in scripts)
                     {
                         if (script == null || script.GetType() == typeof(ObjectID)) continue;
                         
@@ -48,6 +55,7 @@ public class CardAreaSaver : MonoBehaviour
                         };
                         childData.scripts.Add(scriptData);
                     }
+                    childrenData.Add(childData);
                 }
             }
             
@@ -63,23 +71,24 @@ public class CardAreaSaver : MonoBehaviour
 
             if (debugLog)
             {
+                Debug.Log($"Saved to: {fullSavePath}");
                 Debug.Log(jsonData);
             }
         }
         catch (Exception e)
         {
-            Debug.LogError($"Save error: {e.Message}");
+            Debug.LogError($"Save error: {e.Message}\n{e.StackTrace}");
         }
     }
 
-    //Method to load the card area from a JSON file
+    // Method to load the card area from a JSON file
     public void LoadCardArea()
     {
         try
         {
             if (!File.Exists(fullSavePath))
             {
-                Debug.LogWarning($"Savefile doesn't exist: {fullSavePath}");
+                Debug.LogWarning($"Save file doesn't exist: {fullSavePath}");
                 return;
             }
 
@@ -89,25 +98,22 @@ public class CardAreaSaver : MonoBehaviour
             ClearCardArea();
             ObjectID.ClearObjectDictionary();
 
-            foreach (ChildData childData in loadedData.children) //Iterate through all children data
+            foreach (ChildData childData in loadedData.children)
             {
-                if (childData == null) continue; // Skip if childData is null
+                if (childData == null) continue;
                 GameObject newChild = CreateChildFromData(childData);
             
-                foreach (ScriptData scriptData in childData.scripts) //Loadind scripts 
+                foreach (ScriptData scriptData in childData.scripts)
                 {
                     try
                     {
                         Type scriptType = Type.GetType(scriptData.type);
                         if (scriptType != null)
                         {
-                            
-                            // Sprawdź czy komponent już istnieje
                             Component component = newChild.GetComponent(scriptType);
                             if (component == null)
                             {
                                 component = newChild.AddComponent(scriptType);
-
                             }
                             if (component != null)
                             {
@@ -116,25 +122,30 @@ public class CardAreaSaver : MonoBehaviour
                         }
                         else
                         {
-                            Debug.LogWarning($"Nie można rozpoznać typu: {scriptData.type}");
+                            Debug.LogWarning($"Could not recognize type: {scriptData.type}");
                         }
                     }
                     catch (Exception e)
                     {
-                        Debug.LogError($"Błąd podczas przetwarzania skryptu {scriptData.type}: {e.Message}");
+                        Debug.LogError($"Error processing script {scriptData.type}: {e.Message}");
                     }
                 }
-            List<OperationData> operations = childData.currentOperations;
-            NewBehaviourScript.loadOperations(childData.objectID, operations.Select(op => (op.operationType, op.value)).ToList()); // Load operations for the object
 
+                List<OperationData> operations = childData.currentOperations;
+                NewBehaviourScript.loadOperations(childData.objectID, operations.Select(op => (op.operationType, op.value)).ToList());
             }
 
+            if (debugLog)
+            {
+                Debug.Log($"Loaded from: {fullSavePath}");
+            }
         }
         catch (Exception e)
         {
-            Debug.LogError($"Błąd wczytywania: {e.Message}\n{e.StackTrace}");
+            Debug.LogError($"Load error: {e.Message}\n{e.StackTrace}");
         }
     }
+
     private void ClearCardArea()
     {
         foreach (Transform child in cardArea)
@@ -143,65 +154,101 @@ public class CardAreaSaver : MonoBehaviour
         }
     }
 
-    //Method to create a child object from the loaded data
     private GameObject CreateChildFromData(ChildData childData)
     {
-        GameObject newChild = Resources.Load<GameObject>(childData.objectType);
-        newChild = Instantiate(newChild, cardArea);
-        
+        GameObject prefab = Resources.Load<GameObject>(childData.objectType);
+        if (prefab == null)
+        {
+            Debug.LogError($"Prefab not found: {childData.objectType}");
+            return null;
+        }
 
-        //newChild.name = childData.objectID;
+        GameObject newChild = Instantiate(prefab, cardArea);
         newChild.transform.localPosition = childData.localPosition;
         newChild.transform.localRotation = childData.localRotation;
         newChild.transform.localScale = childData.localScale;
         
-        switch (childData.objectType) //Switch case to handle different object types
+        // Handle different object types
+        switch (childData.objectType)
         {
             case "Button":
-                newChild.GetComponentInChildren<TMP_Text>().text = childData.Text;
-                Debug.Log($"Obrazek: {childData.backgroundImage}");
-                if(newChild.TryGetComponent<Image>(out Image imageComponent))
+                var textComponent = newChild.GetComponentInChildren<TMP_Text>();
+                if (textComponent != null)
                 {
-                    imageComponent.sprite = Resources.Load<Sprite>(childData.backgroundImage);
+                    textComponent.text = childData.Text;
                 }
-                else
+                
+                var imageComponent = newChild.GetComponent<Image>();
+                if (imageComponent != null)
                 {
-                    imageComponent.sprite = Resources.Load<Sprite>("Background");
+                    Sprite sprite = Resources.Load<Sprite>(childData.backgroundImage);
+                    if (sprite != null)
+                    {
+                        imageComponent.sprite = sprite;
+                    }
+                    else
+                    {
+                        imageComponent.sprite = Resources.Load<Sprite>("Background");
+                        Debug.LogWarning($"Sprite not found: {childData.backgroundImage}, using default");
+                    }
                 }
                 break;
+                
             case "TextBlockPrefab":
-                TextMeshProUGUI textBlock = newChild.GetComponent<TextMeshProUGUI>();
+                var textBlock = newChild.GetComponent<TextMeshProUGUI>();
                 if (textBlock != null && !string.IsNullOrEmpty(childData.Text))
                 {
                     textBlock.text = childData.Text;
                 }
                 break;
+                
             case "InputField":
-                newChild.GetComponent<TMP_InputField>().text = childData.Text;
-                newChild.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>(childData.backgroundImage);
-                switch (childData.inputType)
+                var inputField = newChild.GetComponent<TMP_InputField>();
+                if (inputField != null)
                 {
-                    case "InputFieldStandard":
-                        newChild.GetComponent<TMP_InputField>().contentType = TMP_InputField.ContentType.Standard;
-                        break;
-                    case "InputFieldDecimalNumber":
-                        newChild.GetComponent<TMP_InputField>().contentType = TMP_InputField.ContentType.DecimalNumber;
-                        break;
-                    case "InputFieldIntegerNumber":
-                        newChild.GetComponent<TMP_InputField>().contentType = TMP_InputField.ContentType.IntegerNumber;
-                        break;
+                    inputField.text = childData.Text;
+                    
+                    var inputImage = newChild.GetComponentInChildren<Image>();
+                    if (inputImage != null)
+                    {
+                        Sprite inputSprite = Resources.Load<Sprite>(childData.backgroundImage);
+                        if (inputSprite != null)
+                        {
+                            inputImage.sprite = inputSprite;
+                        }
+                    }
+                    
+                    if (!string.IsNullOrEmpty(childData.inputType))
+                    {
+                        switch (childData.inputType)
+                        {
+                            case "InputFieldStandard":
+                                inputField.contentType = TMP_InputField.ContentType.Standard;
+                                break;
+                            case "InputFieldDecimalNumber":
+                                inputField.contentType = TMP_InputField.ContentType.DecimalNumber;
+                                break;
+                            case "InputFieldIntegerNumber":
+                                inputField.contentType = TMP_InputField.ContentType.IntegerNumber;
+                                break;
+                        }
+                    }
                 }
                 break;
         }
 
         newChild.SetActive(childData.isActive);
+        
         ObjectID objID = newChild.GetComponent<ObjectID>();
-        if(objID == null) objID = newChild.AddComponent<ObjectID>();
+        if (objID == null) 
+        {
+            objID = newChild.AddComponent<ObjectID>();
+        }
         objID.SetID(childData.objectID, newChild, childData.objectType);
-        newChild.name = childData.objectID; // Ustawiamy nazwę obiektu na ID
+        newChild.name = childData.objectID;
 
         ObjectPlacementSystem.SetObjectComponentsEnabled(newChild, true);
-        return newChild; // Zwracamy obiekt dla dalszej obróbki
+        return newChild;
     }
 
     public string GetSavePath()
@@ -210,18 +257,14 @@ public class CardAreaSaver : MonoBehaviour
     }
 }
 
-//Structure to hold the save data
 [System.Serializable]
 public class SaveData
 {
     public string saveTime;
     public int childCount;
     public List<ChildData> children;
-
-    
 }
 
-//Structure to hold the object dictionary data
 [System.Serializable]
 public class ObjectDictData
 {
@@ -229,7 +272,6 @@ public class ObjectDictData
     public string objectName;
 }
 
-//Structure to hold the script data
 [Serializable]
 public class ScriptData
 {
@@ -237,7 +279,6 @@ public class ScriptData
     public string data;
 }
 
-//Structure to hold the operation data
 [System.Serializable]
 public class OperationData
 {
@@ -251,7 +292,6 @@ public class OperationData
     }
 }
 
-//Structure to hold the child data
 [System.Serializable]
 public class ChildData
 {
@@ -266,49 +306,74 @@ public class ChildData
     public Vector3 localScale;
     public bool isActive;
     public List<ScriptData> scripts = new List<ScriptData>();
-
     public List<OperationData> currentOperations = new List<OperationData>();
 
-    public ChildData(Transform child) //Constructor to initialize the child data
+    public ChildData(Transform child)
     {
-        objectID = child.name;
-        objectType = child.GetComponent<ObjectID>().GetPrefab();
-        
-        if(objectType == "TextBlockPrefab")
+        ObjectID objID = child.GetComponent<ObjectID>();
+        if (objID == null)
         {
-            Text = child.GetComponent<TextMeshProUGUI>().text;
+            Debug.LogError($"ObjectID component missing on {child.name}");
+            return;
         }
-        else if(objectType == "Button")
+
+        objectID = child.name;
+        objectType = objID.GetPrefab();
+        
+        if (objectType == "TextBlockPrefab")
         {
-            Text = child.GetComponentInChildren<TMP_Text>().text;
-            backgroundImage = child.GetComponentInChildren<Image>().sprite.name;
+            var textComp = child.GetComponent<TextMeshProUGUI>();
+            if (textComp != null)
+            {
+                Text = textComp.text;
+            }
+        }
+        else if (objectType == "Button")
+        {
+            var textComp = child.GetComponentInChildren<TMP_Text>();
+            if (textComp != null)
+            {
+                Text = textComp.text;
+            }
+
+            var imageComp = child.GetComponentInChildren<Image>();
+            if (imageComp != null && imageComp.sprite != null)
+            {
+                backgroundImage = imageComp.sprite.name;
+            }
+
             var operations = NewBehaviourScript.GetOperationsForObject(objectID);
             if (operations != null)
             {
                 currentOperations = operations.Select(op => new OperationData(op.Item1, op.Item2)).ToList();
-                foreach (var operation in currentOperations)
+            }
+        }
+        else if (objectType == "InputField")
+        {
+            var inputField = child.GetComponent<TMP_InputField>();
+            if (inputField != null)
+            {
+                Text = inputField.text;
+                
+                var imageComp = child.GetComponentInChildren<Image>();
+                if (imageComp != null && imageComp.sprite != null)
                 {
-                    Debug.Log($"Operacja: {operation.operationType}, Wartość: {operation.value}");
+                    backgroundImage = imageComp.sprite.name;
                 }
-            };
-            
-        }
-        else if(objectType == "InputField")
-        {
-            Text = child.GetComponent<TMP_InputField>().text;
-            backgroundImage = child.GetComponentInChildren<Image>().sprite.name;
-        switch (child.GetComponent<TMP_InputField>().contentType)
-        {
-            case TMP_InputField.ContentType.Standard:
-                inputType = "InputFieldStandard";
-                break;
-            case TMP_InputField.ContentType.DecimalNumber:
-                inputType = "InputFieldDecimalNumber";
-                break;
-            case TMP_InputField.ContentType.IntegerNumber:
-                inputType = "InputFieldIntegerNumber";
-                break;
-        }
+                
+                switch (inputField.contentType)
+                {
+                    case TMP_InputField.ContentType.Standard:
+                        inputType = "InputFieldStandard";
+                        break;
+                    case TMP_InputField.ContentType.DecimalNumber:
+                        inputType = "InputFieldDecimalNumber";
+                        break;
+                    case TMP_InputField.ContentType.IntegerNumber:
+                        inputType = "InputFieldIntegerNumber";
+                        break;
+                }
+            }
         }
         
         localPosition = child.localPosition;
