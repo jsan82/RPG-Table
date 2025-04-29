@@ -9,7 +9,7 @@ using System.Collections;
 
 public class CardAreaSaver : MonoBehaviour
 {
-    [Header("Ustawienia")]
+    [Header("Settings")]
     public string saveFileName = "cardAreaSave.json";
     public bool debugLog = true;
 
@@ -23,21 +23,21 @@ public class CardAreaSaver : MonoBehaviour
         fullSavePath = Path.Combine(Application.persistentDataPath, saveFileName);
     }
 
+    //Method to save the card area to a JSON file
     public void SaveCardArea()
     {
         try
         {
             List<ChildData> childrenData = new List<ChildData>();
 
-            foreach (Transform child in cardArea)
+            foreach (Transform child in cardArea) //Iterate through all children in the card area
             {
                 if (child.gameObject.activeSelf)
                 {
                     ChildData childData = new ChildData(child);
-                    NewBehaviourScript.printObj();
                     // Zbierz dane wszystkich skryptów
                     MonoBehaviour[] scripts = child.GetComponents<MonoBehaviour>();
-                    foreach (var script in scripts)
+                    foreach (var script in scripts) //Iterate through all scripts attached to the child
                     {
                         if (script == null || script.GetType() == typeof(ObjectID)) continue;
                         
@@ -48,8 +48,6 @@ public class CardAreaSaver : MonoBehaviour
                         };
                         childData.scripts.Add(scriptData);
                     }
-                    
-                    childrenData.Add(childData);
                 }
             }
             
@@ -70,71 +68,73 @@ public class CardAreaSaver : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.LogError($"Błąd zapisu: {e.Message}");
+            Debug.LogError($"Save error: {e.Message}");
         }
     }
 
+    //Method to load the card area from a JSON file
     public void LoadCardArea()
-{
-    try
     {
-        if (!File.Exists(fullSavePath))
+        try
         {
-            Debug.LogWarning($"Plik zapisu nie istnieje: {fullSavePath}");
-            return;
-        }
-
-        string jsonData = File.ReadAllText(fullSavePath);
-        SaveData loadedData = JsonUtility.FromJson<SaveData>(jsonData);
-
-        ClearCardArea();
-        ObjectID.ClearObjectDictionary();
-
-        foreach (ChildData childData in loadedData.children)
-        {
-            GameObject newChild = CreateChildFromData(childData);
-        
-            foreach (ScriptData scriptData in childData.scripts)
+            if (!File.Exists(fullSavePath))
             {
-                try
-                {
-                    Type scriptType = Type.GetType(scriptData.type);
-                    if (scriptType != null)
-                    {
-                        
-                        // Sprawdź czy komponent już istnieje
-                        Component component = newChild.GetComponent(scriptType);
-                        if (component == null)
-                        {
-                            component = newChild.AddComponent(scriptType);
-
-                        }
-                        if (component != null)
-                        {
-                            JsonUtility.FromJsonOverwrite(scriptData.data, component);
-                        }
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"Nie można rozpoznać typu: {scriptData.type}");
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError($"Błąd podczas przetwarzania skryptu {scriptData.type}: {e.Message}");
-                }
+                Debug.LogWarning($"Savefile doesn't exist: {fullSavePath}");
+                return;
             }
-        List<OperationData> operations = childData.currentOperations;
-        NewBehaviourScript.loadOperations(childData.objectID, operations.Select(op => (op.operationType, op.value)).ToList());
+
+            string jsonData = File.ReadAllText(fullSavePath);
+            SaveData loadedData = JsonUtility.FromJson<SaveData>(jsonData);
+
+            ClearCardArea();
+            ObjectID.ClearObjectDictionary();
+
+            foreach (ChildData childData in loadedData.children) //Iterate through all children data
+            {
+                if (childData == null) continue; // Skip if childData is null
+                GameObject newChild = CreateChildFromData(childData);
+            
+                foreach (ScriptData scriptData in childData.scripts) //Loadind scripts 
+                {
+                    try
+                    {
+                        Type scriptType = Type.GetType(scriptData.type);
+                        if (scriptType != null)
+                        {
+                            
+                            // Sprawdź czy komponent już istnieje
+                            Component component = newChild.GetComponent(scriptType);
+                            if (component == null)
+                            {
+                                component = newChild.AddComponent(scriptType);
+
+                            }
+                            if (component != null)
+                            {
+                                JsonUtility.FromJsonOverwrite(scriptData.data, component);
+                            }
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"Nie można rozpoznać typu: {scriptData.type}");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError($"Błąd podczas przetwarzania skryptu {scriptData.type}: {e.Message}");
+                    }
+                }
+            List<OperationData> operations = childData.currentOperations;
+            NewBehaviourScript.loadOperations(childData.objectID, operations.Select(op => (op.operationType, op.value)).ToList()); // Load operations for the object
+
+            }
 
         }
-
+        catch (Exception e)
+        {
+            Debug.LogError($"Błąd wczytywania: {e.Message}\n{e.StackTrace}");
+        }
     }
-    catch (Exception e)
-    {
-        Debug.LogError($"Błąd wczytywania: {e.Message}\n{e.StackTrace}");
-    }
-}
     private void ClearCardArea()
     {
         foreach (Transform child in cardArea)
@@ -143,7 +143,7 @@ public class CardAreaSaver : MonoBehaviour
         }
     }
 
- 
+    //Method to create a child object from the loaded data
     private GameObject CreateChildFromData(ChildData childData)
     {
         GameObject newChild = Resources.Load<GameObject>(childData.objectType);
@@ -155,7 +155,7 @@ public class CardAreaSaver : MonoBehaviour
         newChild.transform.localRotation = childData.localRotation;
         newChild.transform.localScale = childData.localScale;
         
-        switch (childData.objectType)
+        switch (childData.objectType) //Switch case to handle different object types
         {
             case "Button":
                 newChild.GetComponentInChildren<TMP_Text>().text = childData.Text;
@@ -210,6 +210,7 @@ public class CardAreaSaver : MonoBehaviour
     }
 }
 
+//Structure to hold the save data
 [System.Serializable]
 public class SaveData
 {
@@ -220,6 +221,7 @@ public class SaveData
     
 }
 
+//Structure to hold the object dictionary data
 [System.Serializable]
 public class ObjectDictData
 {
@@ -227,6 +229,7 @@ public class ObjectDictData
     public string objectName;
 }
 
+//Structure to hold the script data
 [Serializable]
 public class ScriptData
 {
@@ -234,6 +237,7 @@ public class ScriptData
     public string data;
 }
 
+//Structure to hold the operation data
 [System.Serializable]
 public class OperationData
 {
@@ -247,10 +251,11 @@ public class OperationData
     }
 }
 
+//Structure to hold the child data
 [System.Serializable]
 public class ChildData
 {
-    public string objectID;
+    public string objectID; 
     public string objectType;
     public string Text;
     public string backgroundImage;
@@ -264,7 +269,7 @@ public class ChildData
 
     public List<OperationData> currentOperations = new List<OperationData>();
 
-    public ChildData(Transform child)
+    public ChildData(Transform child) //Constructor to initialize the child data
     {
         objectID = child.name;
         objectType = child.GetComponent<ObjectID>().GetPrefab();
