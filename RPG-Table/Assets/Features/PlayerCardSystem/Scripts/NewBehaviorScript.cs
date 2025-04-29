@@ -10,11 +10,33 @@ using System.IO;
 
 public class NewBehaviourScript : MonoBehaviour
 {   
+    // Singleton instance
+    private static NewBehaviourScript _instance;
+    
+    public static NewBehaviourScript Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<NewBehaviourScript>();
+                if (_instance == null)
+                {
+                    GameObject singletonObject = new GameObject();
+                    _instance = singletonObject.AddComponent<NewBehaviourScript>();
+                    singletonObject.name = typeof(NewBehaviourScript).ToString() + " (Singleton)";
+                    DontDestroyOnLoad(singletonObject);
+                }
+            }
+            return _instance;
+        }
+    }
+
     //Dictionary to store operations for each object ID
-    private static Dictionary<string, List<(string Operation, string Value)>> _objectDictionary = new Dictionary<string, List<(string Operation, string Value)>>(); 
+    private Dictionary<string, string> _objectDictionary = new Dictionary<string, string>(); 
 
     //List to store the current operations for the edited button
-    private List<(string Operation, string Value)> _currentOperations = new List<(string Operation, string Value)>();
+    private string _currentOperations = "";
     [SerializeField] private TMP_Dropdown buttonDropdown; // Dropdown for selecting buttons
     [SerializeField] private Toggle _editMode; // Toggle for edit mode
     [SerializeField] private GameObject _editDialog; // Dialog for editing operations
@@ -30,9 +52,26 @@ public class NewBehaviourScript : MonoBehaviour
     private bool isIdValueOn = false;
     private string _currentlyEditedButtonId = null; // To keep track of which button is being edited
 
-    //Returns the operations for a given object ID
-    public static List<(string, string)> GetOperationsForObject(string objectId)
+    private void Awake()
     {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+    }
+
+    //Returns the operations for a given object ID
+    public string GetOperationsForObject(string objectId)
+    {
+        foreach (var kvp in _objectDictionary)
+        {
+            Debug.Log($"ID: {kvp.Key}, Operations: {kvp.Value}");
+        }
         if (_objectDictionary.ContainsKey(objectId))
         {
             return _objectDictionary[objectId];
@@ -59,9 +98,18 @@ public class NewBehaviourScript : MonoBehaviour
                 if (objectID != null && objectID.GetPrefab() == "Button")
                 {
                     _currentlyEditedButtonId = objectID.GetID();
+                    buttonDropdown.value = buttonDropdown.options.FindIndex(option => option.text == _currentlyEditedButtonId);
+                    buttonDropdown.RefreshShownValue();
+                    if (_currentlyEditedButtonId != buttonDropdown.options[buttonDropdown.value].text)
+                    {
+                        Debug.Log($"Currently edited button ID: {_currentlyEditedButtonId}");
+                        _currentlyEditedButtonId = buttonDropdown.options[buttonDropdown.value].text;
+                        LoadOperationsForCurrentButton(); // Load operations for the selected button
+                        break;
+                    }
                     LoadOperationsForCurrentButton(); 
                     _editDialog.SetActive(true);
-                    buttonDropdown.value = 0;
+
                     break;
                 }
             }
@@ -77,26 +125,6 @@ public class NewBehaviourScript : MonoBehaviour
             {
                 cancelEditMode();
             }
-
-            _currentConfigText = "";
-            foreach (var operation in _currentOperations)
-            {
-                _currentConfigText += ($" {operation.Operation} : {operation.Value}|");
-            }
-            
-            if (_currentConfigText != currentConfig.GetComponent<TextMeshProUGUI>().text)
-            {
-                currentConfig.GetComponent<TextMeshProUGUI>().text = _currentConfigText;
-            }
-            // if(_editDialog.activeSelf)
-            // {
-            //     //if value of the button dropdown changes, update the currently edited button ID
-            //     if ( _currentlyEditedButtonId != buttonDropdown.options[buttonDropdown.value].text)
-            //     {
-            //         _currentlyEditedButtonId = buttonDropdown.options[buttonDropdown.value].text;
-            //         LoadOperationsForCurrentButton();
-            //     }
-            // }
 
             HandleUIClick();
         }
@@ -125,7 +153,7 @@ public class NewBehaviourScript : MonoBehaviour
     {
         _editMode.isOn = false;
         _editDialog.SetActive(false);
-        _currentOperations.Clear();
+        _currentOperations = "";
         _currentConfigText = "";
         _idDropdown.SetActive(false);
         _numberInputbox.SetActive(true);
@@ -134,7 +162,7 @@ public class NewBehaviourScript : MonoBehaviour
     }
 
     //Method to handle the save button click event
-    public static void loadOperations(string id, List<(string Operation, string Value)> operations)
+    public void loadOperations(string id, string operations)
     {
         if (_objectDictionary.ContainsKey(id))
         {
@@ -143,6 +171,7 @@ public class NewBehaviourScript : MonoBehaviour
         else
         {
             _objectDictionary.Add(id, operations);
+            Debug.Log($"Added operations for ID: {id}");
         }
     }
     
@@ -151,13 +180,13 @@ public class NewBehaviourScript : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(_currentlyEditedButtonId) && _objectDictionary.ContainsKey(_currentlyEditedButtonId))
         {
-            _currentOperations = new List<(string Operation, string Value)>(_objectDictionary[_currentlyEditedButtonId]);
+            _currentOperations = _objectDictionary[_currentlyEditedButtonId];
             UpdateCurrentConfigText();
-            Debug.Log($"Loaded {_currentOperations.Count} operations for button {_currentlyEditedButtonId}");
+            Debug.Log($"Loaded operations for button {_currentlyEditedButtonId}");
         }
         else
         {
-            _currentOperations.Clear();
+            _currentOperations = "";
             _currentConfigText = "";
             UpdateCurrentConfigText();
             Debug.Log("No operations found for current button or no button selected");
@@ -167,13 +196,15 @@ public class NewBehaviourScript : MonoBehaviour
     //Method to update the current config text in the UI
     private void UpdateCurrentConfigText()
     {
-        _currentConfigText = string.Join(" | ", _currentOperations.Select(op => $"{op.Operation}:{op.Value}"));
-        currentConfig.GetComponent<TextMeshProUGUI>().text = _currentConfigText;
+        _currentConfigText = _currentOperations;
+        currentConfig.GetComponent<TMP_InputField>().text = _currentConfigText;
     }
 
     //Method to update the dropdowns with available buttons and input fields
     void UpdateDropdown()
     {
+        buttonDropdown.ClearOptions();
+        _idDropdown.GetComponent<TMP_Dropdown>().ClearOptions();
         Debug.Log($"UpdateDropdown called");
         Dictionary<string, GameObject> buttons;
         Dictionary<string, GameObject> inputBox;
@@ -191,31 +222,31 @@ public class NewBehaviourScript : MonoBehaviour
             .Where(x => x.Value.GetComponent<ObjectID>() != null && x.Value.GetComponent<ObjectID>().GetPrefab() == "InputField")
             .ToDictionary(x => x.Key, x => x.Value);
 
-        buttonDropdown.ClearOptions();
+        
         buttonDropdown.AddOptions(buttons.Keys.ToList());
 
-        _idDropdown.GetComponent<TMP_Dropdown>().ClearOptions();
+
         _idDropdown.GetComponent<TMP_Dropdown>().AddOptions(inputBox.Keys.ToList());
     }
 
     public void plusButton()
     {
-        _currentOperations.Add(("ope:", "+"));
+        _currentConfigText += ("+");
     }
 
     public void minusButton()
     {
-        _currentOperations.Add(("ope:", "-"));
+        _currentConfigText += ("-");
     }
 
     public void timesButton()
     {
-        _currentOperations.Add(("ope:", "*"));
+        _currentConfigText += ("*");
     }
 
     public void divideButton()
     {
-        _currentOperations.Add(("ope:", "/"));
+        _currentConfigText += ("/");
     }
 
     public void addButton()
@@ -229,12 +260,12 @@ public class NewBehaviourScript : MonoBehaviour
         if (isNumberValueOn)
         {
             string value = _numberInputbox.GetComponent<TMP_InputField>().text;
-            _currentOperations.Add(("add:", value));
+            _currentConfigText += ($"{value}");
         }
         else if (isIdValueOn)
         {
             string id = _idDropdown.GetComponent<TMP_Dropdown>().options[_idDropdown.GetComponent<TMP_Dropdown>().value].text;
-            _currentOperations.Add(("add:", "@" + id));
+            _currentConfigText += ($"@{id}");
         }
         _addSelector.SetActive(false);
     }
@@ -245,10 +276,10 @@ public class NewBehaviourScript : MonoBehaviour
         if (!string.IsNullOrEmpty(_currentlyEditedButtonId))
         {
             // Update or add the operations for this button
-            _objectDictionary[_currentlyEditedButtonId] = new List<(string Operation, string Value)>(_currentOperations);
-            
+            _objectDictionary[_currentlyEditedButtonId] = currentConfig.GetComponent<TMP_InputField>().text;
+            Debug.Log($"Updated operations for button {_currentlyEditedButtonId}: {currentConfig.GetComponent<TMP_InputField>().text}");
             // Clear current editing state
-            _currentOperations.Clear();
+            _currentOperations = "";
             _currentConfigText = "";
             _editDialog.SetActive(false);
             _currentlyEditedButtonId = null;
@@ -258,8 +289,10 @@ public class NewBehaviourScript : MonoBehaviour
             Debug.LogWarning("No button is currently being edited!");
         }
     }
-    public static void clearDictionary()
+    
+    public void clearDictionary()
     {
         _objectDictionary.Clear();
+        Debug.Log("Cleared all operations from the dictionary.");
     }
 }

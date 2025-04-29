@@ -11,16 +11,12 @@ public class CardAreaSaver : MonoBehaviour
 {
     [Header("Settings")]
     public string saveFileName = "cardAreaSave.json";
-
     public bool debugLog = true;
-
     public Transform cardArea;
-    private List<ObjectDictData> objectDictData;
     private string fullSavePath;
 
     void Awake()
     {
-        
         fullSavePath = Path.Combine(Application.persistentDataPath, saveFileName);
         
         // Ensure the directory exists
@@ -55,6 +51,17 @@ public class CardAreaSaver : MonoBehaviour
                         };
                         childData.scripts.Add(scriptData);
                     }
+                    
+                    // Save button operations if this is a button
+                    if (childData.objectType == "Button")
+                    {
+                        string operations = NewBehaviourScript.Instance.GetOperationsForObject(childData.objectID);
+                        if (!string.IsNullOrEmpty(operations))
+                        {
+                            childData.currentOperations = operations;
+                        }
+                    }
+                    
                     childrenData.Add(childData);
                 }
             }
@@ -97,42 +104,22 @@ public class CardAreaSaver : MonoBehaviour
 
             ClearCardArea();
             ObjectID.ClearObjectDictionary();
+            NewBehaviourScript.Instance.clearDictionary();
 
             foreach (ChildData childData in loadedData.children)
             {
                 if (childData == null) continue;
                 GameObject newChild = CreateChildFromData(childData);
-            
-                foreach (ScriptData scriptData in childData.scripts)
+            }
+            foreach (ChildData childData in loadedData.children)
+            {
+                if (childData == null || string.IsNullOrEmpty(childData.currentOperations)) continue;
+                
+                if (childData.objectType == "Button")
                 {
-                    try
-                    {
-                        Type scriptType = Type.GetType(scriptData.type);
-                        if (scriptType != null)
-                        {
-                            Component component = newChild.GetComponent(scriptType);
-                            if (component == null)
-                            {
-                                component = newChild.AddComponent(scriptType);
-                            }
-                            if (component != null)
-                            {
-                                JsonUtility.FromJsonOverwrite(scriptData.data, component);
-                            }
-                        }
-                        else
-                        {
-                            Debug.LogWarning($"Could not recognize type: {scriptData.type}");
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.LogError($"Error processing script {scriptData.type}: {e.Message}");
-                    }
+                    NewBehaviourScript.Instance.loadOperations(childData.objectID, childData.currentOperations);
+                    if (debugLog) Debug.Log($"Loaded operations for {childData.objectID}: {childData.currentOperations}");
                 }
-
-                List<OperationData> operations = childData.currentOperations;
-                NewBehaviourScript.loadOperations(childData.objectID, operations.Select(op => (op.operationType, op.value)).ToList());
             }
 
             if (debugLog)
@@ -217,6 +204,7 @@ public class CardAreaSaver : MonoBehaviour
                             inputImage.sprite = inputSprite;
                         }
                     }
+                    inputField.text = childData.Text;
                     
                     if (!string.IsNullOrEmpty(childData.inputType))
                     {
@@ -280,19 +268,6 @@ public class ScriptData
 }
 
 [System.Serializable]
-public class OperationData
-{
-    public string operationType;
-    public string value;
-
-    public OperationData(string type, string val)
-    {
-        operationType = type;
-        value = val;
-    }
-}
-
-[System.Serializable]
 public class ChildData
 {
     public string objectID; 
@@ -306,7 +281,7 @@ public class ChildData
     public Vector3 localScale;
     public bool isActive;
     public List<ScriptData> scripts = new List<ScriptData>();
-    public List<OperationData> currentOperations = new List<OperationData>();
+    public string currentOperations; // Changed from List<OperationData> to string
 
     public ChildData(Transform child)
     {
@@ -342,10 +317,10 @@ public class ChildData
                 backgroundImage = imageComp.sprite.name;
             }
 
-            var operations = NewBehaviourScript.GetOperationsForObject(objectID);
-            if (operations != null)
+            string operations = NewBehaviourScript.Instance.GetOperationsForObject(objectID);
+            if (!string.IsNullOrEmpty(operations))
             {
-                currentOperations = operations.Select(op => new OperationData(op.Item1, op.Item2)).ToList();
+                currentOperations = operations;
             }
         }
         else if (objectType == "InputField")
