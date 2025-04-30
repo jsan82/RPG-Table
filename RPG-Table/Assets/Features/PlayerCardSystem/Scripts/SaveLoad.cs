@@ -14,9 +14,14 @@ public class CardAreaSaver : MonoBehaviour
     public Transform cardArea;
     private string fullSavePath;
 
+    public static Dictionary<string, GameObject> _objectDictionary = new Dictionary<string, GameObject>();//Dictionary to store objects by ID
+
+    
+
     void Awake()
     {
         fullSavePath = Path.Combine(Application.persistentDataPath, saveFileName);
+        
         
         // Ensure the directory exists
         string directory = Path.GetDirectoryName(fullSavePath);
@@ -102,7 +107,7 @@ public class CardAreaSaver : MonoBehaviour
             SaveData loadedData = JsonUtility.FromJson<SaveData>(jsonData);
 
             ClearCardArea();
-            ObjectID.ClearObjectDictionary();
+             //_objectDictionary = new Dictionary<string, GameObject>();
             NewBehaviourScript.Instance.clearDictionary();
 
             foreach (ChildData childData in loadedData.children)
@@ -134,10 +139,14 @@ public class CardAreaSaver : MonoBehaviour
 
     private void ClearCardArea()
     {
-        foreach (Transform child in cardArea)
+        _objectDictionary = new Dictionary<string, GameObject>();
+        foreach (Transform child in cardArea) //Del objectid script from object
         {
+            Destroy(child.gameObject.GetComponent<ObjectID>()); 
             Destroy(child.gameObject);
         }
+
+        
     }
 
     private GameObject CreateChildFromData(ChildData childData)
@@ -241,6 +250,14 @@ public class CardAreaSaver : MonoBehaviour
     public string GetSavePath()
     {
         return fullSavePath;
+    }
+
+    ~CardAreaSaver()
+    {
+        if (debugLog)
+        {
+            Debug.Log("CardAreaSaver destroyed");
+        }
     }
 }
 
