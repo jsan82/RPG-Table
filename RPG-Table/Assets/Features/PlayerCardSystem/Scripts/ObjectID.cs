@@ -17,13 +17,14 @@ public class ObjectID : MonoBehaviour
         }
 
         _id = newId;
+
         _prefabName = prefabName ?? objectRef.name; 
 
 
         //Check if the ID already exists in the dictionary
         if (!_objectDictionary.ContainsKey(_id))
         {   
-            
+           
             _objectDictionary.Add(_id, objectRef);
             
         }
@@ -43,6 +44,7 @@ public class ObjectID : MonoBehaviour
     {
         _objectDictionary.Add(_id, objectRef);
     }
+
 
     }
 
@@ -77,13 +79,16 @@ public class ObjectID : MonoBehaviour
     //Method to get all objects in the dictionary
     public static Dictionary<string, GameObject> GetAllObjects()
     {
+
         return _objectDictionary;
+
     }
 
     public static void ClearObjectDictionary()
     {
         _objectDictionary.Clear();
         Debug.Log("Cleared Dictionary.");
+
     }
 
     //Method to delete an object from the dictionary by ID
