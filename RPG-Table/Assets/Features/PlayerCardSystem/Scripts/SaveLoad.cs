@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
-
 using System.Linq;
 using System;
 using UnityEngine.UI;
@@ -10,20 +9,25 @@ using System.Collections;
 
 public class CardAreaSaver : MonoBehaviour
 {
-    [Header("Ustawienia")]
+    [Header("Settings")]
     public string saveFileName = "cardAreaSave.json";
     public bool debugLog = true;
-
-    private Transform cardArea;
-    private List<ObjectDictData> objectDictData;
+    public Transform cardArea;
     private string fullSavePath;
 
     void Awake()
     {
-        cardArea = GameObject.Find("CardArea").transform;
         fullSavePath = Path.Combine(Application.persistentDataPath, saveFileName);
+        
+        // Ensure the directory exists
+        string directory = Path.GetDirectoryName(fullSavePath);
+        if (!Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
     }
 
+    // Method to save the card area to a JSON file
     public void SaveCardArea()
     {
         try
@@ -35,8 +39,6 @@ public class CardAreaSaver : MonoBehaviour
                 if (child.gameObject.activeSelf)
                 {
                     ChildData childData = new ChildData(child);
-                    
-                    // Zbierz dane wszystkich skryptów
                     MonoBehaviour[] scripts = child.GetComponents<MonoBehaviour>();
                     foreach (var script in scripts)
                     {
@@ -50,10 +52,20 @@ public class CardAreaSaver : MonoBehaviour
                         childData.scripts.Add(scriptData);
                     }
                     
+                    // Save button operations if this is a button
+                    if (childData.objectType == "Button")
+                    {
+                        string operations = NewBehaviourScript.Instance.GetOperationsForObject(childData.objectID);
+                        if (!string.IsNullOrEmpty(operations))
+                        {
+                            childData.currentOperations = operations;
+                        }
+                    }
+                    
                     childrenData.Add(childData);
                 }
             }
-
+            
             SaveData saveData = new SaveData
             {
                 saveTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
@@ -66,87 +78,61 @@ public class CardAreaSaver : MonoBehaviour
 
             if (debugLog)
             {
-                Debug.Log($"Zapisano {childrenData.Count} obiektów w CardArea do: {fullSavePath}");
+                Debug.Log($"Saved to: {fullSavePath}");
                 Debug.Log(jsonData);
             }
         }
         catch (Exception e)
         {
-            Debug.LogError($"Błąd zapisu: {e.Message}");
+            Debug.LogError($"Save error: {e.Message}\n{e.StackTrace}");
         }
     }
 
+    // Method to load the card area from a JSON file
     public void LoadCardArea()
-{
-    try
     {
-        if (!File.Exists(fullSavePath))
+        try
         {
-            Debug.LogWarning($"Plik zapisu nie istnieje: {fullSavePath}");
-            return;
-        }
-
-        string jsonData = File.ReadAllText(fullSavePath);
-        SaveData loadedData = JsonUtility.FromJson<SaveData>(jsonData);
-
-        ClearCardArea();
-        ObjectID.ClearObjectDictionary();
-
-        foreach (ChildData childData in loadedData.children)
-        {
-            GameObject newChild = CreateChildFromData(childData);
-            
-            // Dodaj debug log przed wczytywaniem skryptów
-            Debug.Log($"Przetwarzanie obiektu: {newChild.name}");
-            
-            foreach (ScriptData scriptData in childData.scripts)
+            if (!File.Exists(fullSavePath))
             {
-                try
+                Debug.LogWarning($"Save file doesn't exist: {fullSavePath}");
+                return;
+            }
+
+            string jsonData = File.ReadAllText(fullSavePath);
+            SaveData loadedData = JsonUtility.FromJson<SaveData>(jsonData);
+
+            ClearCardArea();
+            ObjectID.ClearObjectDictionary();
+            NewBehaviourScript.Instance.clearDictionary();
+
+            foreach (ChildData childData in loadedData.children)
+            {
+                if (childData == null) continue;
+                GameObject newChild = CreateChildFromData(childData);
+            }
+            foreach (ChildData childData in loadedData.children)
+            {
+                if (childData == null || string.IsNullOrEmpty(childData.currentOperations)) continue;
+                
+                if (childData.objectType == "Button")
                 {
-                    Type scriptType = Type.GetType(scriptData.type);
-                    if (scriptType != null)
-                    {
-                        Debug.Log($"Próbuję dodać skrypt typu: {scriptType}");
-                        
-                        // Sprawdź czy komponent już istnieje
-                        Component component = newChild.GetComponent(scriptType);
-                        if (component == null)
-                        {
-                            component = newChild.AddComponent(scriptType);
-                            Debug.Log($"Dodano nowy komponent: {scriptType}");
-                        }
-                        
-                        if (component != null)
-                        {
-                            Debug.Log($"Dane skryptu do nadpisania: {scriptData.data}");
-                            JsonUtility.FromJsonOverwrite(scriptData.data, component);
-                            Debug.Log($"Pomyślnie nadpisano dane skryptu");
-                        }
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"Nie można rozpoznać typu: {scriptData.type}");
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError($"Błąd podczas przetwarzania skryptu {scriptData.type}: {e.Message}");
+                    NewBehaviourScript.Instance.loadOperations(childData.objectID, childData.currentOperations);
+                    if (debugLog) Debug.Log($"Loaded operations for {childData.objectID}: {childData.currentOperations}");
                 }
             }
 
-
+            if (debugLog)
+            {
+                Debug.Log($"Loaded from: {fullSavePath}");
+            }
         }
-
-        if (debugLog)
+        catch (Exception e)
         {
-            Debug.Log($"Wczytano {loadedData.childCount} obiektów do CardArea");
+            Debug.LogError($"Load error: {e.Message}\n{e.StackTrace}");
         }
     }
-    catch (Exception e)
-    {
-        Debug.LogError($"Błąd wczytywania: {e.Message}\n{e.StackTrace}");
-    }
-}
+
     private void ClearCardArea()
     {
         foreach (Transform child in cardArea)
@@ -159,71 +145,100 @@ public class CardAreaSaver : MonoBehaviour
  
     private GameObject CreateChildFromData(ChildData childData)
     {
-        GameObject newChild = Resources.Load<GameObject>(childData.objectType);
-        newChild = Instantiate(newChild, cardArea);
-        
+        GameObject prefab = Resources.Load<GameObject>(childData.objectType);
+        if (prefab == null)
+        {
+            Debug.LogError($"Prefab not found: {childData.objectType}");
+            return null;
+        }
 
-        //newChild.name = childData.objectID;
-
+        GameObject newChild = Instantiate(prefab, cardArea);
         newChild.transform.localPosition = childData.localPosition;
         newChild.transform.localRotation = childData.localRotation;
         newChild.transform.localScale = childData.localScale;
         
+        // Handle different object types
         switch (childData.objectType)
         {
             case "Button":
-                newChild.GetComponentInChildren<Text>().text = childData.Text;
-
-                Debug.Log($"Obrazek: {childData.backgroundImage}");
-                if (Resources.Load<Sprite>(childData.backgroundImage) != null)
+                var textComponent = newChild.GetComponentInChildren<TMP_Text>();
+                if (textComponent != null)
                 {
-                    newChild.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>(childData.backgroundImage);
-                    Debug.Log($"Załadowano obrazek");
-
+                    textComponent.text = childData.Text;
                 }
-                else
+                
+                var imageComponent = newChild.GetComponent<Image>();
+                if (imageComponent != null)
                 {
-                    newChild.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>("Background");
-
-                    Debug.Log($"NIe załadowano");
-
+                    Sprite sprite = Resources.Load<Sprite>(childData.backgroundImage);
+                    if (sprite != null)
+                    {
+                        imageComponent.sprite = sprite;
+                    }
+                    else
+                    {
+                        imageComponent.sprite = Resources.Load<Sprite>("Background");
+                        Debug.LogWarning($"Sprite not found: {childData.backgroundImage}, using default");
+                    }
                 }
                 break;
+                
             case "TextBlockPrefab":
-                TextMeshProUGUI textBlock = newChild.GetComponent<TextMeshProUGUI>();
+                var textBlock = newChild.GetComponent<TextMeshProUGUI>();
                 if (textBlock != null && !string.IsNullOrEmpty(childData.Text))
                 {
                     textBlock.text = childData.Text;
                 }
                 break;
-
+                
             case "InputField":
-                newChild.GetComponent<TMP_InputField>().text = childData.Text;
-                newChild.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>(childData.backgroundImage);
-                switch (childData.inputType)
+                var inputField = newChild.GetComponent<TMP_InputField>();
+                if (inputField != null)
                 {
-                    case "InputFieldStandard":
-                        newChild.GetComponent<TMP_InputField>().contentType = TMP_InputField.ContentType.Standard;
-                        break;
-                    case "InputFieldDecimalNumber":
-                        newChild.GetComponent<TMP_InputField>().contentType = TMP_InputField.ContentType.DecimalNumber;
-                        break;
-                    case "InputFieldIntegerNumber":
-                        newChild.GetComponent<TMP_InputField>().contentType = TMP_InputField.ContentType.IntegerNumber;
-                        break;
+                    inputField.text = childData.Text;
+                    
+                    var inputImage = newChild.GetComponentInChildren<Image>();
+                    if (inputImage != null)
+                    {
+                        Sprite inputSprite = Resources.Load<Sprite>(childData.backgroundImage);
+                        if (inputSprite != null)
+                        {
+                            inputImage.sprite = inputSprite;
+                        }
+                    }
+                    inputField.text = childData.Text;
+                    
+                    if (!string.IsNullOrEmpty(childData.inputType))
+                    {
+                        switch (childData.inputType)
+                        {
+                            case "InputFieldStandard":
+                                inputField.contentType = TMP_InputField.ContentType.Standard;
+                                break;
+                            case "InputFieldDecimalNumber":
+                                inputField.contentType = TMP_InputField.ContentType.DecimalNumber;
+                                break;
+                            case "InputFieldIntegerNumber":
+                                inputField.contentType = TMP_InputField.ContentType.IntegerNumber;
+                                break;
+                        }
+                    }
                 }
                 break;
         }
 
         newChild.SetActive(childData.isActive);
+        
         ObjectID objID = newChild.GetComponent<ObjectID>();
-        if(objID == null) objID = newChild.AddComponent<ObjectID>();
+        if (objID == null) 
+        {
+            objID = newChild.AddComponent<ObjectID>();
+        }
         objID.SetID(childData.objectID, newChild, childData.objectType);
-        newChild.name = childData.objectID; // Ustawiamy nazwę obiektu na ID
+        newChild.name = childData.objectID;
 
         ObjectPlacementSystem.SetObjectComponentsEnabled(newChild, true);
-
-        return newChild; // Zwracamy obiekt dla dalszej obróbki
+        return newChild;
     }
 
     public string GetSavePath()
@@ -273,61 +288,88 @@ public class OperationData
 
 public class ChildData
 {
-    public string objectID;
+    public string objectID; 
     public string objectType;
     public string Text;
     public string backgroundImage;
     public string Image;
-
     public string inputType;
-
     public Vector3 localPosition;
     public Quaternion localRotation;
     public Vector3 localScale;
     public bool isActive;
     public List<ScriptData> scripts = new List<ScriptData>();
+    public string currentOperations; // Changed from List<OperationData> to string
 
     public List<OperationData> currentOperations = new List<OperationData>();
 
 
     public ChildData(Transform child)
     {
+        ObjectID objID = child.GetComponent<ObjectID>();
+        if (objID == null)
+        {
+            Debug.LogError($"ObjectID component missing on {child.name}");
+            return;
+        }
+
         objectID = child.name;
-        objectType = child.GetComponent<ObjectID>().GetPrefab();
+        objectType = objID.GetPrefab();
         
-        if(objectType == "TextBlockPrefab")
+        if (objectType == "TextBlockPrefab")
         {
-            Text = child.GetComponent<TextMeshProUGUI>().text;
-        }
-        else if(objectType == "Button")
-        {
-            Text = child.GetComponentInChildren<Text>().text;
-
-            backgroundImage = child.GetComponentInChildren<Image>().sprite.name;
-            var operations = NewBehaviourScript.GetOperationsForObject(objectID);
-            if (operations != null)
+            var textComp = child.GetComponent<TextMeshProUGUI>();
+            if (textComp != null)
             {
-                currentOperations = operations.Select(op => new OperationData(op.Item1, op.Item2)).ToList();
-            };
-            
+                Text = textComp.text;
+            }
         }
-        else if(objectType == "InputField")
+        else if (objectType == "Button")
         {
-            Text = child.GetComponent<TMP_InputField>().text;
-            backgroundImage = child.GetComponentInChildren<Image>().sprite.name;
-        switch (child.GetComponent<TMP_InputField>().contentType)
-        {
-            case TMP_InputField.ContentType.Standard:
-                inputType = "InputFieldStandard";
-                break;
-            case TMP_InputField.ContentType.DecimalNumber:
-                inputType = "InputFieldDecimalNumber";
-                break;
-            case TMP_InputField.ContentType.IntegerNumber:
-                inputType = "InputFieldIntegerNumber";
-                break;
-        }
+            var textComp = child.GetComponentInChildren<TMP_Text>();
+            if (textComp != null)
+            {
+                Text = textComp.text;
+            }
 
+            var imageComp = child.GetComponentInChildren<Image>();
+            if (imageComp != null && imageComp.sprite != null)
+            {
+                backgroundImage = imageComp.sprite.name;
+            }
+
+            string operations = NewBehaviourScript.Instance.GetOperationsForObject(objectID);
+            if (!string.IsNullOrEmpty(operations))
+            {
+                currentOperations = operations;
+            }
+        }
+        else if (objectType == "InputField")
+        {
+            var inputField = child.GetComponent<TMP_InputField>();
+            if (inputField != null)
+            {
+                Text = inputField.text;
+                
+                var imageComp = child.GetComponentInChildren<Image>();
+                if (imageComp != null && imageComp.sprite != null)
+                {
+                    backgroundImage = imageComp.sprite.name;
+                }
+                
+                switch (inputField.contentType)
+                {
+                    case TMP_InputField.ContentType.Standard:
+                        inputType = "InputFieldStandard";
+                        break;
+                    case TMP_InputField.ContentType.DecimalNumber:
+                        inputType = "InputFieldDecimalNumber";
+                        break;
+                    case TMP_InputField.ContentType.IntegerNumber:
+                        inputType = "InputFieldIntegerNumber";
+                        break;
+                }
+            }
         }
         
         localPosition = child.localPosition;

@@ -14,13 +14,14 @@ public class BackToMenu : MonoBehaviour {
 
 public class EditableButtonCreator : MonoBehaviour
 {
-    public GameObject buttonPrefab; // Prefab przycisku
-    public GameObject popupPanel; // Panel z input field
-    public TMP_InputField nameInputField; // Pole do wpisywania nazwy
-    public Transform buttonsParent; // Gdzie będą tworzone przyciski
+    public GameObject buttonPrefab; //Button prefab
+    public GameObject popupPanel; // Popup panel for editing button names
+    public TMP_InputField nameInputField; // Input field for button name
+    public Transform buttonsParent; // Parent transform for the buttons
 
-    private GameObject currentEditedButton; // Aktualnie edytowany przycisk
+    private GameObject currentEditedButton; // Currently edited button
 
+    //Method to create a new button
     public void ShowPopupForNewButton()
     {
         popupPanel.SetActive(true);
@@ -28,6 +29,7 @@ public class EditableButtonCreator : MonoBehaviour
         currentEditedButton = null;
     }
 
+    //Method to create a new button with the name from the input field
     public void SaveButtonName()
     {
         if (currentEditedButton == null)
@@ -49,6 +51,7 @@ public class EditableButtonCreator : MonoBehaviour
         popupPanel.SetActive(false);
     }
 
+    //Method to cancel the popup
     public void EditExistingButton(GameObject buttonToEdit)
     {
         currentEditedButton = buttonToEdit;
