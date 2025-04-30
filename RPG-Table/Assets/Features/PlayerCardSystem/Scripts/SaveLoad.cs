@@ -5,7 +5,6 @@ using System.Linq;
 using System;
 using UnityEngine.UI;
 using TMPro;
-using System.Collections;
 
 public class CardAreaSaver : MonoBehaviour
 {
@@ -141,8 +140,6 @@ public class CardAreaSaver : MonoBehaviour
         }
     }
 
-
- 
     private GameObject CreateChildFromData(ChildData childData)
     {
         GameObject prefab = Resources.Load<GameObject>(childData.objectType);
@@ -253,7 +250,6 @@ public class SaveData
     public string saveTime;
     public int childCount;
     public List<ChildData> children;
-
 }
 
 [System.Serializable]
@@ -271,21 +267,6 @@ public class ScriptData
 }
 
 [System.Serializable]
-
-public class OperationData
-{
-    public string operationType;
-    public string value;
-
-    public OperationData(string type, string val)
-    {
-        operationType = type;
-        value = val;
-    }
-}
-
-[System.Serializable]
-
 public class ChildData
 {
     public string objectID; 
@@ -300,9 +281,6 @@ public class ChildData
     public bool isActive;
     public List<ScriptData> scripts = new List<ScriptData>();
     public string currentOperations; // Changed from List<OperationData> to string
-
-    public List<OperationData> currentOperations = new List<OperationData>();
-
 
     public ChildData(Transform child)
     {

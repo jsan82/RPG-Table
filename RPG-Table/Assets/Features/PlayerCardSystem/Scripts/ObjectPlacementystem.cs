@@ -4,9 +4,6 @@ using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using TMPro;
 
-using TMPro;
-
-
 public class ObjectPlacementSystem : MonoBehaviour
 {
     [System.Serializable]

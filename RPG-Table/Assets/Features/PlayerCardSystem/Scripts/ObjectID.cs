@@ -19,11 +19,13 @@ public class ObjectID : MonoBehaviour
         _id = newId;
         _prefabName = prefabName ?? objectRef.name; 
 
+        _prefabName = prefabName ?? objectRef.name; 
+
 
         //Check if the ID already exists in the dictionary
         if (!_objectDictionary.ContainsKey(_id))
         {   
-            
+           
             _objectDictionary.Add(_id, objectRef);
             
         }
@@ -43,6 +45,7 @@ public class ObjectID : MonoBehaviour
     {
         _objectDictionary.Add(_id, objectRef);
     }
+
 
     }
 
@@ -84,6 +87,7 @@ public class ObjectID : MonoBehaviour
     {
         _objectDictionary.Clear();
         Debug.Log("Cleared Dictionary.");
+
     }
 
     //Method to delete an object from the dictionary by ID

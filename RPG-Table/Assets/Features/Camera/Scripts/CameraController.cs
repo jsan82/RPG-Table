@@ -1,28 +1,23 @@
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class FreeCameraController : MonoBehaviour
 {
-    public Transform target;         
-    public float distance = 200.0f;    
-    public float zoomSpeed = 50.0f;    
-    public float minDistance = 5f;    
-    public float maxDistance = 1000f;  
+    public float moveSpeed = 50.0f;     // Camera speed
+    public float rotationSpeed = 10.0f; // Camera rotation speed
+    public float zoomSpeed = 50.0f;     // Camera zoom speed
+    public float minZoom = 5f;          // Minimal zoom
+    public float maxZoom = 1000f;       // Maximal zoom
 
-    public float rotationSpeed = 10.0f; 
-    private float currentX = 0.0f;
-    private float currentY = 20.0f;     
+    private float currentX = 0.0f;      // Current rotation X 
+    private float currentY = 0.0f;      // current rotation y
+    private float currentDistance = 200.0f; // current zoom
 
-    public float yMinLimit = 0f;       
-    public float yMaxLimit = 1000f;
-
-    public float panSpeed = 50f;
-    public Vector2 panLimit;
+    public float yMinLimit = -90f;      // minimal tile angle
+    public float yMaxLimit = 90f;       // maximal tile angle
 
     void Update()
     {
-        if (target == null)
-            return;
-
+        // Camera rotation (right mouse)
         if (Input.GetMouseButton(1))
         {
             currentX += Input.GetAxis("Mouse X") * rotationSpeed;
@@ -30,27 +25,34 @@ public class CameraController : MonoBehaviour
             currentY = Mathf.Clamp(currentY, yMinLimit, yMaxLimit);
         }
 
+        // Zoom (mouse wheel)
         float scroll = Input.GetAxis("Mouse ScrollWheel");
-        distance -= scroll * zoomSpeed;
-        distance = Mathf.Clamp(distance, minDistance, maxDistance);
+        currentDistance -= scroll * zoomSpeed;
+        currentDistance = Mathf.Clamp(currentDistance, minZoom, maxZoom);
 
+        // Movement (WSAD)
         float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
-        Vector3 move = new Vector3(moveX, 0, moveZ) * panSpeed * Time.deltaTime;
-        target.Translate(move, Space.World);
+        float moveY = 0;
+
+        // Up/Down (Q/E)
+        if (Input.GetKey(KeyCode.Q)) moveY = -1;
+        if (Input.GetKey(KeyCode.E)) moveY = 1;
+
+        Vector3 move = new Vector3(moveX, moveY, moveZ) * moveSpeed * Time.deltaTime;
+        transform.Translate(move, Space.Self); 
     }
 
     void LateUpdate()
     {
-        if (target == null)
-            return;
-
+        // Setting camera rotation
         Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
-        Vector3 negDistance = new Vector3(0.0f, 0.0f, -distance);
-        Vector3 position = rotation * negDistance + target.position;
-
         transform.rotation = rotation;
-        transform.position = position;
-    }
 
+        // Zoom 
+        if (Mathf.Abs(Input.GetAxis("Mouse ScrollWheel")) > 0.01f)
+        {
+            transform.Translate(0, 0, Input.GetAxis("Mouse ScrollWheel") * zoomSpeed * Time.deltaTime, Space.Self);
+        }
+    }
 }
