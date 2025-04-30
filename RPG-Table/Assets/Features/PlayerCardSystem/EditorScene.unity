@@ -11166,6 +11166,10 @@ PrefabInstance:
       propertyPath: cardArea
       value: 
       objectReference: {fileID: 1690036101}
+    - target: {fileID: 5581971994917900933, guid: c7b8832c6d53a694aae28768dc4deeca, type: 3}
+      propertyPath: expression
+      value: 6d2
+      objectReference: {fileID: 0}
     - target: {fileID: 6625029963404231247, guid: c7b8832c6d53a694aae28768dc4deeca, type: 3}
       propertyPath: _idValue
       value: 
