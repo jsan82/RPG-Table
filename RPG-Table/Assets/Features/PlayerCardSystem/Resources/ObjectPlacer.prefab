@@ -1,0 +1,118 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1233189398464587925
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7923862987547813172}
+  - component: {fileID: 7285576638243953580}
+  - component: {fileID: 5112177704390101478}
+  - component: {fileID: 6625029963404231247}
+  - component: {fileID: 5581971994917900933}
+  m_Layer: 5
+  m_Name: ObjectPlacer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7923862987547813172
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1233189398464587925}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7285576638243953580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1233189398464587925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 927ae301543f31a1e90ee814018b6c50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  availableObjects:
+  - name: Text
+    prefab: {fileID: 8756632341432457362, guid: 51a6fc22d2fd9cb4db840e9db8db2cd5, type: 3}
+    icon: {fileID: 21300000, guid: 97aefc0a6cf0631d4b092bbb11f89389, type: 3}
+  - name: InputBox
+    prefab: {fileID: 3063404465847700077, guid: b6e8d60915a5e8d4c953706b6be8bb2f, type: 3}
+    icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  - name: Button
+    prefab: {fileID: 961179484466506973, guid: 314460f7e4d42e56ab18b16c7e9c2655, type: 3}
+    icon: {fileID: 21300000, guid: 97aefc0a6cf0631d4b092bbb11f89389, type: 3}
+  objectsPanel: {fileID: 0}
+  cardArea: {fileID: 0}
+  objectButtonPrefab: {fileID: 514044640595402837, guid: 20d3a9ef5d6085ee7ad46713acdefa8d, type: 3}
+  confirmationDialog: {fileID: 0}
+  inputTypeDropdown: {fileID: 0}
+  idInputField: {fileID: 0}
+--- !u!114 &5112177704390101478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1233189398464587925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d9c5d745d417bc4897fd511d86c50a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveFileName: cardAreaSave.json
+  debugLog: 1
+  cardArea: {fileID: 0}
+--- !u!114 &6625029963404231247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1233189398464587925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13a66e8adea43d940aabde1ff68cf7b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonDropdown: {fileID: 0}
+  _editMode: {fileID: 0}
+  _editDialog: {fileID: 0}
+  _numberValue: {fileID: 0}
+  _idValue: {fileID: 0}
+  _idDropdown: {fileID: 0}
+  _numberInputbox: {fileID: 0}
+  _addSelector: {fileID: 0}
+  currentConfig: {fileID: 0}
+--- !u!114 &5581971994917900933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1233189398464587925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccd4c6f590ef41f409c5760267be19fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  expression: 6d2+@mis
