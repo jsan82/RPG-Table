@@ -31,6 +31,7 @@ public class PropHandler : MonoBehaviour
         HandleDrag();
         HandleRotation();
         HandleElevation();
+        HandleScale();
 
         if (Input.GetKeyDown(KeyCode.R))
             SpawnProp();
@@ -165,4 +166,49 @@ public class PropHandler : MonoBehaviour
             }
         }
     }
+
+
+    private void HandleScale()
+    {
+        if (selectedProp != null)
+        {
+            bool leftHeld = Input.GetKey(KeyCode.C);
+            bool rightHeld = Input.GetKey(KeyCode.V);
+
+            bool leftDown = Input.GetKeyDown(KeyCode.C);
+            bool rightDown = Input.GetKeyDown(KeyCode.V);
+
+            scaleTimer += Time.deltaTime;
+
+            //scaleuj
+            if (leftDown || (leftHeld && scaleTimer >= scaleLimit)) //C
+            {
+                scaleTimer = 0f;
+                Vector3 newScale = selectedProp.GetScale() + Vector3.one * scalePower;
+                selectedProp.OnScale(newScale);
+            }
+            else if (rightDown || (rightHeld && scaleTimer >= scaleLimit)) //V
+            {
+                scaleTimer = 0f;
+                Vector3 newScale = selectedProp.GetScale() - Vector3.one * scalePower;
+
+                //cap
+                newScale.x = Mathf.Max(0.1f, newScale.x);
+                newScale.y = Mathf.Max(0.1f, newScale.y);
+                newScale.z = Mathf.Max(0.1f, newScale.z);
+
+                selectedProp.OnScale(newScale);
+            }
+
+            if (!leftHeld && !rightHeld)
+            {
+                scaleTimer = scaleLimit;
+            }
+        }
+        else
+        {
+            scaleTimer = scaleLimit;
+        }
+    }
+
 }

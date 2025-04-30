@@ -302,13 +302,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.48247185, y: -0, z: -0, w: 0.8759114}
-  m_LocalPosition: {x: 0, y: 500, z: -326}
+  m_LocalRotation: {x: 0.3363886, y: -0, z: -0, w: 0.9417233}
+  m_LocalPosition: {x: 0, y: 420, z: -417}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 57.694, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 39.314, y: 0, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,12 +321,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3845e3319debe24e98be2468d21afca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panSpeed: 50
-  panBorderThickness: 10
-  panLimit: {x: 200, y: 200}
-  scrollSpeed: 50
-  minY: 20
-  maxY: 500
+  target: {fileID: 0}
+  distance: 200
+  zoomSpeed: 50
+  minDistance: 5
+  maxDistance: 1000
+  rotationSpeed: 10
+  yMinLimit: 0
+  yMaxLimit: 1000
+  panSpeed: 100
+  panLimit: {x: 1000, y: 1000}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
