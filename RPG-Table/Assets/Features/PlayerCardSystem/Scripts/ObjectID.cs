@@ -38,6 +38,12 @@ public class ObjectID : MonoBehaviour
         {
             _objectDictionary.Add(_id, objectRef);
         }
+
+        if (!_objectDictionary.ContainsKey(_id))
+    {
+        _objectDictionary.Add(_id, objectRef);
+    }
+
     }
 
     public string GetID() => _id;

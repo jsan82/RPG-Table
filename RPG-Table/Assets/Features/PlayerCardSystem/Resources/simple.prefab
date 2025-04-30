@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 847348982889206258}
   - component: {fileID: 7510415305050149973}
   - component: {fileID: 1002671809015090492}
+
   - component: {fileID: 5845623710734184181}
   m_Layer: 0
   m_Name: simple

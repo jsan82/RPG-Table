@@ -1,44 +1,56 @@
-using Unity.Collections;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public Transform target;         
+    public float distance = 200.0f;    
+    public float zoomSpeed = 50.0f;    
+    public float minDistance = 5f;    
+    public float maxDistance = 1000f;  
+
+    public float rotationSpeed = 10.0f; 
+    private float currentX = 0.0f;
+    private float currentY = 20.0f;     
+
+    public float yMinLimit = 0f;       
+    public float yMaxLimit = 1000f;
+
     public float panSpeed = 50f;
-    public float panBorderThickness = 10f;
     public Vector2 panLimit;
-    public float scrollSpeed = 50f;
-    public float minY = 20f;
-    public float maxY = 500f;
 
     void Update()
     {
-        Vector3 pos = transform.position;
+        if (target == null)
+            return;
 
-        if(Input.mousePosition.y >= Screen.height - panBorderThickness)
+        if (Input.GetMouseButton(1))
         {
-            pos.z += panSpeed * Time.deltaTime;
-        }
-        if (Input.mousePosition.y <= panBorderThickness)
-        {
-            pos.z -= panSpeed * Time.deltaTime;
-        }
-        if (Input.mousePosition.x >= Screen.width - panBorderThickness)
-        {
-            pos.x += panSpeed * Time.deltaTime;
-        }
-        if (Input.mousePosition.x <= panBorderThickness)
-        {
-            pos.x -= panSpeed * Time.deltaTime;
+            currentX += Input.GetAxis("Mouse X") * rotationSpeed;
+            currentY -= Input.GetAxis("Mouse Y") * rotationSpeed;
+            currentY = Mathf.Clamp(currentY, yMinLimit, yMaxLimit);
         }
 
         float scroll = Input.GetAxis("Mouse ScrollWheel");
-        pos.y -= scroll * scrollSpeed * 100f * Time.deltaTime;
+        distance -= scroll * zoomSpeed;
+        distance = Mathf.Clamp(distance, minDistance, maxDistance);
 
-        pos.x = Mathf.Clamp(pos.x, -panLimit.x, panLimit.x);
-        pos.y = Mathf.Clamp(pos.y, minY, maxY);
-        pos.z = Mathf.Clamp(pos.z, -panLimit.y, panLimit.y);
-
-
-        transform.position = pos;
+        float moveX = Input.GetAxis("Horizontal");
+        float moveZ = Input.GetAxis("Vertical");
+        Vector3 move = new Vector3(moveX, 0, moveZ) * panSpeed * Time.deltaTime;
+        target.Translate(move, Space.World);
     }
+
+    void LateUpdate()
+    {
+        if (target == null)
+            return;
+
+        Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
+        Vector3 negDistance = new Vector3(0.0f, 0.0f, -distance);
+        Vector3 position = rotation * negDistance + target.position;
+
+        transform.rotation = rotation;
+        transform.position = position;
+    }
+
 }
