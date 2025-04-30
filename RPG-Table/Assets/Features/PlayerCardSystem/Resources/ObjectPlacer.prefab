@@ -52,18 +52,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   availableObjects:
-  - name: blablabla
-    prefab: {fileID: 8823510838036224490, guid: c55b4213ac8180cf29280bca0dcf0e23, type: 3}
-    icon: {fileID: 21300000, guid: 97aefc0a6cf0631d4b092bbb11f89389, type: 3}
-  - name: a
-    prefab: {fileID: 8823510838036224490, guid: c55b4213ac8180cf29280bca0dcf0e23, type: 3}
-    icon: {fileID: 21300000, guid: 97aefc0a6cf0631d4b092bbb11f89389, type: 3}
-  - name: but
-    prefab: {fileID: 514044640595402837, guid: 20d3a9ef5d6085ee7ad46713acdefa8d, type: 3}
-    icon: {fileID: 21300000, guid: 97aefc0a6cf0631d4b092bbb11f89389, type: 3}
-  - name: Text
-    prefab: {fileID: 8756632341432457362, guid: 51a6fc22d2fd9cb4db840e9db8db2cd5, type: 3}
-    icon: {fileID: 21300000, guid: 97aefc0a6cf0631d4b092bbb11f89389, type: 3}
   - name: Text
     prefab: {fileID: 8756632341432457362, guid: 51a6fc22d2fd9cb4db840e9db8db2cd5, type: 3}
     icon: {fileID: 21300000, guid: 97aefc0a6cf0631d4b092bbb11f89389, type: 3}
@@ -127,4 +115,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd4c6f590ef41f409c5760267be19fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  expression: 2d6
+  expression: 6d2+@mis
