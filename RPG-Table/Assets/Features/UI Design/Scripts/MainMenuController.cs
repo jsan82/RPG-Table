@@ -2,10 +2,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
-{
+{   
     public void StartGame()
     {
-        SceneManager.LoadScene("GameScene"); // Ensure you have a scene named "GameScene"
+        SceneManager.LoadScene("GameScene"); 
     }
 
     public void JoinGame()
@@ -16,8 +16,9 @@ public class MainMenuController : MonoBehaviour
 
     public void CardEditor()
     {
-        SceneManager.LoadScene("EditorScene"); // Ensure you have a scene named "GameScene"
+        SceneManager.LoadScene("EditorScene"); 
     }
+
 
     public void OpenOptions()
     {

@@ -9,6 +9,10 @@ public class GameSceneMenuManager : MonoBehaviour
         Debug.Log("Chat button clicked.");
     }
 
+    public void ButtonExit(){
+        SceneManager.LoadScene("MainMenu"); 
+    
+    }
     public void ButtonPhoto()
     {
         // Implement photo button here
