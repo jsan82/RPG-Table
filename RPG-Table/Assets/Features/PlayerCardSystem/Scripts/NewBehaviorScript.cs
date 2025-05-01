@@ -8,7 +8,7 @@ using System.Linq;
 using UnityEngine.EventSystems;
 using System.IO;
 
-public class NewBehaviourScript : MonoBehaviour
+public class NewBehaviourScript : MonoBehaviour, IUIBehavior
 {   
     // Singleton instance
     private static NewBehaviourScript _instance;
@@ -80,7 +80,7 @@ public class NewBehaviourScript : MonoBehaviour
     }
 
     //Logick to handle the click on the UI elements
-    void HandleUIClick()
+    public void HandleUIClick()
     {
         if (Input.GetMouseButtonDown(0) && _editMode.isOn)
         {
@@ -126,6 +126,8 @@ public class NewBehaviourScript : MonoBehaviour
                 cancelEditMode();
             }
 
+            HandleUIClick();
+        } else {
             HandleUIClick();
         }
 
@@ -295,4 +297,11 @@ public class NewBehaviourScript : MonoBehaviour
         _objectDictionary.Clear();
         Debug.Log("Cleared all operations from the dictionary.");
     }
+}
+
+
+
+public interface IUIBehavior
+{
+    void HandleUIClick();
 }

@@ -22,13 +22,18 @@ public class ObjectID : MonoBehaviour
 
 
         //Check if the ID already exists in the dictionary
-        if (!CardAreaSaver._objectDictionary.ContainsKey(_id))
+        // if (!CardAreaSaver._objectDictionary.ContainsKey(_id))
         
-            CardAreaSaver._objectDictionary.Add(_id, objectRef);
-        }
-        else
+        //     CardAreaSaver._objectDictionary.Add(_id, objectRef);
+        // } else {
+        //     Debug.LogWarning($"ID '{_id}' already exists.");
+        //     Destroy(objectRef);
+        // }
+        if(!CardAreaSaver._objectDictionary.ContainsKey(_id))
         {
-            Debug.LogWarning($"ID '{_id}' already exists.");
+            CardAreaSaver._objectDictionary.Add(_id, objectRef);
+        } else {
+            Debug.LogWarning($"ID '{_id}' already exists. Destroying the object.");
             Destroy(objectRef);
         }
 

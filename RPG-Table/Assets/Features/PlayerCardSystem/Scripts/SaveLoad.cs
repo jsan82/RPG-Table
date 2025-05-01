@@ -149,7 +149,7 @@ public class CardAreaSaver : MonoBehaviour
         
     }
 
-    private GameObject CreateChildFromData(ChildData childData)
+    public virtual GameObject CreateChildFromData(ChildData childData, bool dragOn = true)
     {
         GameObject prefab = Resources.Load<GameObject>(childData.objectType);
         if (prefab == null)
@@ -242,6 +242,18 @@ public class CardAreaSaver : MonoBehaviour
         }
         objID.SetID(childData.objectID, newChild, childData.objectType);
         newChild.name = childData.objectID;
+
+        /*
+
+        // IMPORTANT TO OVERIDE/DISABLE SOMETHING IN THIS CLASS FOR PURPOSE OF LOADING THIS IN GAME TO DISABLE THE LOADING DRAG AND DROP FUNCTIONALITY
+
+        */
+        SmartDragHandler dragComponent = newChild.GetComponent<SmartDragHandler>();
+        if (dragComponent != null)
+        {
+           newChild.AddComponent<SmartDragHandler>(); 
+        }
+        //newChild.GetComponent<SmartDragHandler>().enabled = dragOn; // Disable drag functionality for loaded objects
 
         ObjectPlacementSystem.SetObjectComponentsEnabled(newChild, true);
         return newChild;
