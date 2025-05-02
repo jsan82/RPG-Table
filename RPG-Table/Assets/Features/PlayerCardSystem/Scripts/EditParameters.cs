@@ -80,6 +80,23 @@ public class EditParameters : MonoBehaviour, IUIBehavior
             }
         }
     }
+
+    void updateObjectParameters()
+    {
+        string id = EditParametersPanel.transform.Find("IDPlace").GetComponent<TMP_InputField>().text;
+        GameObject uiObject = ObjectID.GetObjectByID(id);
+        if (uiObject != null)
+        {
+            RectTransform rectTransform = uiObject.GetComponent<RectTransform>();
+            if (rectTransform != null)
+            {
+                // Ustaw nową szerokość i wysokość
+                float width = float.Parse(EditParametersPanel.transform.Find("WidthPlace").GetComponent<TMP_InputField>().text);
+                float height = float.Parse(EditParametersPanel.transform.Find("HeightPlace").GetComponent<TMP_InputField>().text);
+                rectTransform.sizeDelta = new Vector2(width, height);
+            }
+        }
+    }
     
     public void onEditParametersButtonClick()
     {
@@ -102,5 +119,6 @@ public class EditParameters : MonoBehaviour, IUIBehavior
     void Update()
     {
         HandleUIClick();
+        updateObjectParameters();
     }
 }
