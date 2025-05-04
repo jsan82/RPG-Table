@@ -9,7 +9,7 @@ using TMPro;
 public class CardAreaSaver : MonoBehaviour
 {
     [Header("Settings")]
-    public string saveFileName = "cardAreaSave.json";
+    public string saveFileName = "PlayerCards/PlayerCard.json";
     public bool debugLog = true;
     public Transform cardArea;
     private string fullSavePath;
@@ -25,6 +25,7 @@ public class CardAreaSaver : MonoBehaviour
         
         // Ensure the directory exists
         string directory = Path.GetDirectoryName(fullSavePath);
+        Debug.Log($"Directory: {directory}");
         if (!Directory.Exists(directory))
         {
             Directory.CreateDirectory(directory);

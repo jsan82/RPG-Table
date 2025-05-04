@@ -12,7 +12,7 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
     private RectTransform rectTransform;
     private Canvas canvas;
     private Vector2 offset;
-    private bool isDragging;
+    public static bool isDragging;
     private Vector2 dragStartPosition;
     private static bool isMultiDragActive;
 
