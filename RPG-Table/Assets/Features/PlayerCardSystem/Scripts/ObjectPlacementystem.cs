@@ -1,32 +1,43 @@
 using UnityEngine;
+using System;
+using System.IO;
+using System.Linq;
+using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using System.Collections.Generic;
 using TMPro;
 
 public class ObjectPlacementSystem : MonoBehaviour
 {
-    [System.Serializable]
-    public class PlaceableObject
-    {
-        public string name;
-        public GameObject prefab;
-        public Sprite icon;
-    }
-
+    
+    private string PATH_TO_FILES;
+    private string FILE_NAME = "PlayerPrefab.json";
     public List<PlaceableObject> availableObjects;
+    public List<savingCustomObjects> userObjects;
     public Transform objectsPanel;
     public Transform cardArea;
     public GameObject objectButtonPrefab;
     public GameObject confirmationDialog;
+    public GameObject CustomPrefabCreator;
     public GameObject inputTypeDropdown;
     public InputField idInputField;
     private GameObject selectedPrefab;
     private GameObject pendingObject;
 
+    [System.Serializable]
+    public class PlaceableObject
+    {
+        public string name;
+        public GameObject prefab;
+        public string imageName;
+    }
     void Start()
     {
-    
+        PATH_TO_FILES = Path.Combine(Application.persistentDataPath, "PlayerPrefab/");
+        if (!Directory.Exists(PATH_TO_FILES))
+        {
+            Directory.CreateDirectory(PATH_TO_FILES);
+        }
         if (cardArea == null)
         {
             GameObject area = GameObject.Find("CardArea");
@@ -52,11 +63,31 @@ public class ObjectPlacementSystem : MonoBehaviour
             buttonText.text = obj.name;
             button.GetComponent<Button>().onClick.AddListener(() => SelectObject(obj.prefab));
         }
+       if (File.Exists(Path.Combine(PATH_TO_FILES, FILE_NAME)))
+       {
+            string json = File.ReadAllText(Path.Combine(PATH_TO_FILES, FILE_NAME));
+            SavePrefabData savePrefabData = JsonUtility.FromJson<SavePrefabData>(json);
+            userObjects = savePrefabData.prefabs;
+            Debug.Log("Loaded " + userObjects.Count + " prefabs from file.");
+            foreach (var obj in userObjects) //initialize buttons
+            {
+                GameObject button = Instantiate(objectButtonPrefab, objectsPanel);
+                TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
+                buttonText.text = obj.name;
+                GameObject prefab = Resources.Load<GameObject>(obj.prefab);
+                button.GetComponent<Button>().onClick.AddListener(() => SelectObject(prefab));
+            }
+       }
     }
 
    void Update()
     {
-        if (pendingObject != null) //checkign if we are placing an object
+
+        if(Input.GetKeyDown(KeyCode.Escape) && confirmationDialog.activeSelf) //checking if we are placing an object and pressing escape
+        {
+            CancelPlacement();
+        }
+        if (pendingObject != null && !CustomPrefabCreator.activeSelf) //checkign if we are placing an object
         {
             if (Input.GetMouseButtonDown(0)) 
                 {
@@ -96,7 +127,7 @@ public class ObjectPlacementSystem : MonoBehaviour
         if (pendingObject != null) Destroy(pendingObject);
         
         pendingObject = Instantiate(prefab, cardArea);
-        //pendingObject.transform.localScale = Vector3.one;
+
         
         SetObjectComponentsEnabled(pendingObject, false);
     }
@@ -181,4 +212,73 @@ public class ObjectPlacementSystem : MonoBehaviour
             behaviour.enabled = enabled;
     }
 
+    public void onCustomPrefabCreatorButtonClick()
+    {
+        CustomPrefabCreator.SetActive(true);
+    }
+
+    public void onCustomPrefabCreatorCloseButtonClick()
+    {
+        CustomPrefabCreator.SetActive(false);
+        CustomPrefabCreator.transform.Find("PrefabName").GetComponent<TMP_InputField>().text = "";
+        CustomPrefabCreator.transform.Find("PrefabType").GetComponent<TMP_Dropdown>().value = 0;
+        CustomPrefabCreator.transform.Find("ImageName").GetComponent<TMP_InputField>().text = "";
+    }
+    public void onCustomPrefabSaveButtonClick()
+    {
+        string prefabName = CustomPrefabCreator.transform.Find("PrefabName").GetComponent<TMP_InputField>().text;
+        string prefabType = CustomPrefabCreator.transform.Find("PrefabType").GetComponent<TMP_Dropdown>().options[
+            CustomPrefabCreator.transform.Find("PrefabType").GetComponent<TMP_Dropdown>().value].text;
+        Debug.Log("Saving prefab as: " + prefabName + " of type: " + prefabType);
+    
+        // creating the prefab
+        PlaceableObject newObject = new PlaceableObject();
+        savingCustomObjects customObject = new savingCustomObjects();
+        customObject.name = prefabName;
+        customObject.imageName = CustomPrefabCreator.transform.Find("ImageName").GetComponent<TMP_InputField>().text;
+        customObject.prefab = prefabType;
+
+
+        newObject.name = prefabName;
+        newObject.imageName = CustomPrefabCreator.transform.Find("ImageName").GetComponent<TMP_InputField>().text;
+        newObject.prefab = Resources.Load<GameObject>(prefabType);
+
+        // Saving the prefab to the list
+        userObjects.Add(customObject);
+       
+        // adding the prefab to the list of available objects
+        GameObject button = Instantiate(objectButtonPrefab, objectsPanel);
+        TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
+        buttonText.text = newObject.name;
+        button.GetComponent<Button>().onClick.AddListener(() => SelectObject(newObject.prefab));
+
+        //saving the prefab to the file
+        SavePrefabData savePrefabData = new SavePrefabData{
+            saveTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+            prefabCount = userObjects.Count,
+            prefabs = userObjects
+        };
+        string json = JsonUtility.ToJson(savePrefabData, true);
+        string filePath = Path.Combine(PATH_TO_FILES, FILE_NAME);
+        File.WriteAllText(filePath, json);
+
+
+    }
+
 }
+
+[System.Serializable]
+public class SavePrefabData
+{
+    public string saveTime;
+    public int prefabCount;
+    public List<savingCustomObjects> prefabs;
+}
+
+    [System.Serializable]
+    public class savingCustomObjects
+    {
+        public string name;
+        public string prefab;
+        public string imageName;
+    }
