@@ -9,10 +9,11 @@ using TMPro;
 public class CardAreaSaver : MonoBehaviour
 {
     [Header("Settings")]
-    public string saveFileName = "PlayerCards/PlayerCard.json";
+    public static string saveFileName;
     public bool debugLog = true;
     public Transform cardArea;
-    private string fullSavePath;
+    private string _fullSavePath;
+    
 
     public static Dictionary<string, GameObject> _objectDictionary = new Dictionary<string, GameObject>();//Dictionary to store objects by ID
 
@@ -20,16 +21,8 @@ public class CardAreaSaver : MonoBehaviour
 
     void Awake()
     {
-        fullSavePath = Path.Combine(Application.persistentDataPath, saveFileName);
+        //_fullSavePath = Path.Combine(Application.persistentDataPath, saveFileName);
         
-        
-        // Ensure the directory exists
-        string directory = Path.GetDirectoryName(fullSavePath);
-        Debug.Log($"Directory: {directory}");
-        if (!Directory.Exists(directory))
-        {
-            Directory.CreateDirectory(directory);
-        }
     }
 
     // Method to save the card area to a JSON file
@@ -37,6 +30,7 @@ public class CardAreaSaver : MonoBehaviour
     {
         try
         {
+            _fullSavePath = saveFileName;
             List<ChildData> childrenData = new List<ChildData>();
 
             foreach (Transform child in cardArea)
@@ -79,11 +73,11 @@ public class CardAreaSaver : MonoBehaviour
             };
 
             string jsonData = JsonUtility.ToJson(saveData, true);
-            File.WriteAllText(fullSavePath, jsonData);
+            File.WriteAllText(_fullSavePath, jsonData);
 
             if (debugLog)
             {
-                Debug.Log($"Saved to: {fullSavePath}");
+                Debug.Log($"Saved to: {_fullSavePath}");
                 Debug.Log(jsonData);
             }
         }
@@ -93,18 +87,54 @@ public class CardAreaSaver : MonoBehaviour
         }
     }
 
+    public static void SaveCardArea(string filePath)
+    {
+        saveFileName = filePath;
+        CardAreaSaver instance = FindObjectOfType<CardAreaSaver>();
+        if (instance != null)
+        {
+            instance.SaveCardArea();
+        }
+        else
+        {
+            Debug.LogError("CardAreaSaver instance not found in the scene.");
+        }
+    }
+    
     // Method to load the card area from a JSON file
+    public static void LoadCardArea(string filePath)
+    {
+        saveFileName = filePath;
+        CardAreaSaver instance = FindObjectOfType<CardAreaSaver>();
+        if (instance != null)
+        {
+            instance.LoadCardArea();
+        }
+        else
+        {
+            Debug.LogError("CardAreaSaver instance not found in the scene.");
+        }
+    }
     public void LoadCardArea()
     {
         try
         {
-            if (!File.Exists(fullSavePath))
+            _fullSavePath = saveFileName;
+        
+            // Ensure the directory exists
+            string directory = Path.GetDirectoryName(_fullSavePath);
+            Debug.Log($"Directory: {directory}");
+            if (!Directory.Exists(directory))
             {
-                Debug.LogWarning($"Save file doesn't exist: {fullSavePath}");
+                Directory.CreateDirectory(directory);
+            }
+            if (!File.Exists(_fullSavePath))
+            {
+                Debug.LogWarning($"Save file doesn't exist: {_fullSavePath}");
                 return;
             }
 
-            string jsonData = File.ReadAllText(fullSavePath);
+            string jsonData = File.ReadAllText(_fullSavePath);
             SaveData loadedData = JsonUtility.FromJson<SaveData>(jsonData);
 
             ClearCardArea();
@@ -129,7 +159,7 @@ public class CardAreaSaver : MonoBehaviour
 
             if (debugLog)
             {
-                Debug.Log($"Loaded from: {fullSavePath}");
+                Debug.Log($"Loaded from: {_fullSavePath}");
             }
         }
         catch (Exception e)
@@ -262,7 +292,7 @@ public class CardAreaSaver : MonoBehaviour
 
     public string GetSavePath()
     {
-        return fullSavePath;
+        return _fullSavePath;
     }
 
     ~CardAreaSaver()
