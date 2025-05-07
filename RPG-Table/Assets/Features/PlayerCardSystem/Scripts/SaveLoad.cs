@@ -14,6 +14,7 @@ public class CardAreaSaver : MonoBehaviour
     public Transform cardArea;
     private string _fullSavePath;
     
+    private string PATH_TO_2D_ASSETS = SettingsManager._CurrentSettings.Assets2DPath;
 
     public static Dictionary<string, GameObject> _objectDictionary = new Dictionary<string, GameObject>();//Dictionary to store objects by ID
 
@@ -145,6 +146,7 @@ public class CardAreaSaver : MonoBehaviour
             {
                 if (childData == null) continue;
                 GameObject newChild = CreateChildFromData(childData);
+                SetImage(newChild, childData.backgroundImage);
             }
             foreach (ChildData childData in loadedData.children)
             {
@@ -175,9 +177,19 @@ public class CardAreaSaver : MonoBehaviour
         {
             Destroy(child.gameObject.GetComponent<ObjectID>()); 
             Destroy(child.gameObject);
-        }
+        }   
+    }
 
-        
+    public void deleteObject(string id)
+    {
+        if(_objectDictionary.ContainsKey(id))
+        {
+            NewBehaviourScript.Instance.deleteKey(id);
+            GameObject toKill = _objectDictionary[id];
+            Destroy(toKill.GetComponent<ObjectID>());
+            Destroy(toKill);
+            _objectDictionary.Remove(id);
+        }
     }
 
     public virtual GameObject CreateChildFromData(ChildData childData, bool dragOn = true)
@@ -194,6 +206,7 @@ public class CardAreaSaver : MonoBehaviour
         newChild.transform.localRotation = childData.localRotation;
         newChild.transform.localScale = childData.localScale;
         
+        
         // Handle different object types
         switch (childData.objectType)
         {
@@ -202,22 +215,9 @@ public class CardAreaSaver : MonoBehaviour
                 if (textComponent != null)
                 {
                     textComponent.text = childData.Text;
+                    
                 }
                 
-                var imageComponent = newChild.GetComponent<Image>();
-                if (imageComponent != null)
-                {
-                    Sprite sprite = Resources.Load<Sprite>(childData.backgroundImage);
-                    if (sprite != null)
-                    {
-                        imageComponent.sprite = sprite;
-                    }
-                    else
-                    {
-                        imageComponent.sprite = Resources.Load<Sprite>("Background");
-                        Debug.LogWarning($"Sprite not found: {childData.backgroundImage}, using default");
-                    }
-                }
                 break;
                 
             case "TextBlockPrefab":
@@ -245,27 +245,29 @@ public class CardAreaSaver : MonoBehaviour
                     }
                     inputField.text = childData.Text;
                     
+                    inputField.contentType = TMP_InputField.ContentType.Standard;
                     if (!string.IsNullOrEmpty(childData.inputType))
                     {
-                        switch (childData.inputType)
-                        {
-                            case "InputFieldStandard":
-                                inputField.contentType = TMP_InputField.ContentType.Standard;
-                                break;
-                            case "InputFieldDecimalNumber":
-                                inputField.contentType = TMP_InputField.ContentType.DecimalNumber;
-                                break;
-                            case "InputFieldIntegerNumber":
-                                inputField.contentType = TMP_InputField.ContentType.IntegerNumber;
-                                break;
-                        }
+                        
+                        // switch (childData.inputType)
+                        // {
+                        //     case "InputFieldStandard":
+                        //         inputField.contentType = TMP_InputField.ContentType.Standard;
+                        //         break;
+                        //     case "InputFieldDecimalNumber":
+                        //         inputField.contentType = TMP_InputField.ContentType.DecimalNumber;
+                        //         break;
+                        //     case "InputFieldIntegerNumber":
+                        //         inputField.contentType = TMP_InputField.ContentType.IntegerNumber;
+                        //         break;
+                        // }
                     }
                 }
                 break;
         }
 
         newChild.SetActive(childData.isActive);
-        
+
         ObjectID objID = newChild.GetComponent<ObjectID>();
         if (objID == null) 
         {
@@ -294,6 +296,34 @@ public class CardAreaSaver : MonoBehaviour
     {
         return _fullSavePath;
     }
+
+    public void SetImage(GameObject obj, string imageName)
+    {   
+        if(obj != null){
+            Debug.Log("GameObj not null");
+            if(imageName!=null){
+                Debug.Log("image not null");
+            }
+        }
+        if(File.Exists(Path.Combine(PATH_TO_2D_ASSETS, imageName)))
+                {   
+                    byte[] imageBytes = File.ReadAllBytes(Path.Combine(PATH_TO_2D_ASSETS, imageName));
+                    Texture2D texture = new Texture2D(2, 2);
+                    texture.LoadImage(imageBytes); // Load the image data into the texture
+                    Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                    sprite.name = imageName;
+                    if (obj.GetComponent<Image>() != null)
+                    {
+                        obj.GetComponent<Image>().sprite = sprite;
+                    }
+                    else{
+                        Debug.Log("image component existingn't");
+                    }
+                }   
+                   
+    }
+
+    
 
     ~CardAreaSaver()
     {
@@ -389,7 +419,7 @@ public class ChildData
             {
                 Text = inputField.text;
                 
-                var imageComp = child.GetComponentInChildren<Image>();
+                var imageComp = child.GetComponent<Image>();
                 if (imageComp != null && imageComp.sprite != null)
                 {
                     backgroundImage = imageComp.sprite.name;
@@ -410,6 +440,9 @@ public class ChildData
             }
         }
         
+        if(child.GetComponent<Image>()!=null){
+            backgroundImage = child.GetComponent<Image>().sprite.name;
+        }
         localPosition = child.localPosition;
         localRotation = child.localRotation;
         localScale = child.localScale;

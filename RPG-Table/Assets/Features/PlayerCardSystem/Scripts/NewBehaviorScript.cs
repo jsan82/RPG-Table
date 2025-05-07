@@ -297,6 +297,15 @@ public class NewBehaviourScript : MonoBehaviour, IUIBehavior
         _objectDictionary.Clear();
         Debug.Log("Cleared all operations from the dictionary.");
     }
+
+    public void deleteKey(string id)
+    {
+        if(_objectDictionary.ContainsKey(id))
+        {
+            _objectDictionary.Remove(id);
+        }
+    }
+
 }
 
 

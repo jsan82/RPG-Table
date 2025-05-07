@@ -10,8 +10,9 @@ using TMPro;
 public class ObjectPlacementSystem : MonoBehaviour
 {
     
-    private string PATH_TO_FILES;
+    private string PATH_TO_FILES = SettingsManager._CurrentSettings.playerCardsPrefabPath;
     private string FILE_NAME = "PlayerPrefab.json";
+    private string PATH_TO_2D_ASSETS = SettingsManager._CurrentSettings.Assets2DPath;
     public List<PlaceableObject> availableObjects;
     public List<savingCustomObjects> userObjects;
     public Transform objectsPanel;
@@ -30,10 +31,11 @@ public class ObjectPlacementSystem : MonoBehaviour
         public string name;
         public GameObject prefab;
         public string imageName;
+
     }
     void Start()
     {
-        PATH_TO_FILES = Path.Combine(Application.persistentDataPath, "PlayerPrefab/");
+        //PATH_TO_FILES = Path.Combine(Application.persistentDataPath, "PlayerPrefab/");
         if (!Directory.Exists(PATH_TO_FILES))
         {
             Directory.CreateDirectory(PATH_TO_FILES);
@@ -68,14 +70,28 @@ public class ObjectPlacementSystem : MonoBehaviour
             string json = File.ReadAllText(Path.Combine(PATH_TO_FILES, FILE_NAME));
             SavePrefabData savePrefabData = JsonUtility.FromJson<SavePrefabData>(json);
             userObjects = savePrefabData.prefabs;
-            Debug.Log("Loaded " + userObjects.Count + " prefabs from file.");
+
             foreach (var obj in userObjects) //initialize buttons
             {
                 GameObject button = Instantiate(objectButtonPrefab, objectsPanel);
                 TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
                 buttonText.text = obj.name;
                 GameObject prefab = Resources.Load<GameObject>(obj.prefab);
-                button.GetComponent<Button>().onClick.AddListener(() => SelectObject(prefab));
+  
+                if(File.Exists(Path.Combine(PATH_TO_2D_ASSETS, obj.imageName)))
+                {   
+                    byte[] imageBytes = File.ReadAllBytes(Path.Combine(PATH_TO_2D_ASSETS, obj.imageName));
+                    Texture2D texture = new Texture2D(2, 2);
+                    texture.LoadImage(imageBytes); // Load the image data into the texture
+                    Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                    button.GetComponent<Button>().image.sprite = sprite;
+                    Debug.Log("Obrazek dodany");
+                }
+                else
+                {
+                    Debug.Log("Nie ma obrazka");
+                }
+                button.GetComponent<Button>().onClick.AddListener(() => SelectObject(prefab,obj));
             }
        }
     }
@@ -121,13 +137,58 @@ public class ObjectPlacementSystem : MonoBehaviour
     }
 
     // Method to select an object prefab from the list and instantiate it in the card area
-    public void SelectObject(GameObject prefab)
+    public void SelectObject(GameObject prefab, savingCustomObjects obj = null)
     {
         selectedPrefab = prefab;
         if (pendingObject != null) Destroy(pendingObject);
         
         pendingObject = Instantiate(prefab, cardArea);
 
+        if(obj!= null)
+        {
+
+            CardAreaSaver cardAreaSaver = new CardAreaSaver();
+            cardAreaSaver.SetImage(pendingObject, obj.imageName);
+            pendingObject.GetComponent<RectTransform>().sizeDelta = new Vector2(float.Parse(obj.Width), float.Parse(obj.Height));
+            if(obj.prefab != "Image")
+            {
+                Color newColor;
+                if(pendingObject.GetComponent<TextMeshProUGUI>() != null)
+                {
+                    pendingObject.GetComponent<TextMeshProUGUI>().fontSize = float.Parse(obj.fontSize);
+
+                    FontStyles style = FontStyles.Normal;
+                    if(obj.isBold)
+                        style |= FontStyles.Bold;
+                    if(obj.isItalic)
+                        style |= FontStyles.Italic;
+                    pendingObject.GetComponent<TextMeshProUGUI>().fontStyle = style;
+
+                    ColorUtility.TryParseHtmlString("#" + obj.fontColor, out newColor);
+                    pendingObject.GetComponent<TextMeshProUGUI>().color = newColor;
+                } else if(pendingObject.GetComponent<TMP_Text>() != null)
+                {
+                    pendingObject.GetComponent<TMP_Text>().fontSize = float.Parse(obj.fontSize);
+
+                    FontStyles style = FontStyles.Normal;
+                    if(obj.isBold)
+                        style |= FontStyles.Bold;
+                    if(obj.isItalic)
+                        style |= FontStyles.Italic;
+                    pendingObject.GetComponent<TMP_Text>().fontStyle = style;
+
+                    ColorUtility.TryParseHtmlString("#" + obj.fontColor, out newColor);
+                    pendingObject.GetComponent<TMP_Text>().color = newColor;
+                }
+            }
+            if(obj.prefab != "TextBlockPrefab")
+            {
+                Image image = pendingObject.GetComponent<Image>();
+                pendingObject.GetComponent<Image>().color = new Color(image.color.r, image.color.g, image.color.b,
+                    Mathf.Clamp01(float.Parse(obj.transparency)/100));
+            }
+
+        }
         
         SetObjectComponentsEnabled(pendingObject, false);
     }
@@ -163,7 +224,7 @@ public class ObjectPlacementSystem : MonoBehaviour
 
             objId.SetID(idInputField.text, pendingObject, selectedPrefab.name);
             pendingObject.name = idInputField.text;
-
+            
             SetObjectComponentsEnabled(pendingObject, true);
             pendingObject = null;
             selectedPrefab = null;
@@ -221,38 +282,12 @@ public class ObjectPlacementSystem : MonoBehaviour
     {
         CustomPrefabCreator.SetActive(false);
         CustomPrefabCreator.transform.Find("PrefabName").GetComponent<TMP_InputField>().text = "";
-        CustomPrefabCreator.transform.Find("PrefabType").GetComponent<TMP_Dropdown>().value = 0;
-        CustomPrefabCreator.transform.Find("ImageName").GetComponent<TMP_InputField>().text = "";
+        
     }
-    public void onCustomPrefabSaveButtonClick()
+    public void onCustomPrefabSaveButtonClick(savingCustomObjects customObject)
     {
-        string prefabName = CustomPrefabCreator.transform.Find("PrefabName").GetComponent<TMP_InputField>().text;
-        string prefabType = CustomPrefabCreator.transform.Find("PrefabType").GetComponent<TMP_Dropdown>().options[
-            CustomPrefabCreator.transform.Find("PrefabType").GetComponent<TMP_Dropdown>().value].text;
-        Debug.Log("Saving prefab as: " + prefabName + " of type: " + prefabType);
-    
-        // creating the prefab
-        PlaceableObject newObject = new PlaceableObject();
-        savingCustomObjects customObject = new savingCustomObjects();
-        customObject.name = prefabName;
-        customObject.imageName = CustomPrefabCreator.transform.Find("ImageName").GetComponent<TMP_InputField>().text;
-        customObject.prefab = prefabType;
-
-
-        newObject.name = prefabName;
-        newObject.imageName = CustomPrefabCreator.transform.Find("ImageName").GetComponent<TMP_InputField>().text;
-        newObject.prefab = Resources.Load<GameObject>(prefabType);
-
-        // Saving the prefab to the list
+        customObject.name = CustomPrefabCreator.transform.Find("PrefabName").GetComponent<TMP_InputField>().text;
         userObjects.Add(customObject);
-       
-        // adding the prefab to the list of available objects
-        GameObject button = Instantiate(objectButtonPrefab, objectsPanel);
-        TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
-        buttonText.text = newObject.name;
-        button.GetComponent<Button>().onClick.AddListener(() => SelectObject(newObject.prefab));
-
-        //saving the prefab to the file
         SavePrefabData savePrefabData = new SavePrefabData{
             saveTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
             prefabCount = userObjects.Count,
@@ -262,18 +297,71 @@ public class ObjectPlacementSystem : MonoBehaviour
         string filePath = Path.Combine(PATH_TO_FILES, FILE_NAME);
         File.WriteAllText(filePath, json);
 
+        CustomPrefabCreator.SetActive(false);
+        CustomPrefabCreator.transform.Find("PrefabName").GetComponent<TMP_InputField>().text = "";
+
+        // string prefabName = CustomPrefabCreator.transform.Find("PrefabName").GetComponent<TMP_InputField>().text;
+        // string prefabType = CustomPrefabCreator.transform.Find("PrefabType").GetComponent<TMP_Dropdown>().options[
+        //     CustomPrefabCreator.transform.Find("PrefabType").GetComponent<TMP_Dropdown>().value].text;
+        // Debug.Log("Saving prefab as: " + prefabName + " of type: " + prefabType);
+    
+        // // creating the prefab
+        // PlaceableObject newObject = new PlaceableObject();
+        // savingCustomObjects customObject = new savingCustomObjects();
+        // customObject.name = prefabName;
+        // customObject.imageName = CustomPrefabCreator.transform.Find("ImageName").GetComponent<TMP_InputField>().text;
+        // customObject.prefab = prefabType;
+
+
+        // newObject.name = prefabName;
+        // newObject.imageName = CustomPrefabCreator.transform.Find("ImageName").GetComponent<TMP_InputField>().text;
+        // newObject.prefab = Resources.Load<GameObject>(prefabType);
+        // // Saving the prefab to the list
+        // userObjects.Add(customObject);
+       
+        // // adding the prefab to the list of available objects
+        // GameObject button = Instantiate(objectButtonPrefab, objectsPanel);
+        // TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
+        // buttonText.text = newObject.name;
+
+        // //Loading the image from the file and adding it to the button
+        // if(File.Exists(Path.Combine(PATH_TO_2D_ASSETS, customObject.imageName)))
+        // {   
+        //     byte[] imageBytes = File.ReadAllBytes(Path.Combine(PATH_TO_2D_ASSETS, customObject.imageName));
+        //     Texture2D texture = new Texture2D(2, 2);
+        //     texture.LoadImage(imageBytes); // Load the image data into the texture
+        //     Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+        //     button.GetComponent<Button>().image.sprite = sprite;
+        //     Debug.Log("Obrazek dodany");
+        // }
+        // else
+        // {
+        //     Debug.Log("Nie ma obrazka");
+        // }
+        // button.GetComponent<Button>().onClick.AddListener(() => SelectObject(newObject.prefab));
+
+        // //saving the prefab to the file
+        // SavePrefabData savePrefabData = new SavePrefabData{
+        //     saveTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+        //     prefabCount = userObjects.Count,
+        //     prefabs = userObjects
+        // };
+        // string json = JsonUtility.ToJson(savePrefabData, true);
+        // string filePath = Path.Combine(PATH_TO_FILES, FILE_NAME);
+        // File.WriteAllText(filePath, json);
+
 
     }
 
 }
 
-[System.Serializable]
-public class SavePrefabData
-{
-    public string saveTime;
-    public int prefabCount;
-    public List<savingCustomObjects> prefabs;
-}
+    [System.Serializable]
+    public class SavePrefabData
+    {
+        public string saveTime;
+        public int prefabCount;
+        public List<savingCustomObjects> prefabs;
+    }
 
     [System.Serializable]
     public class savingCustomObjects
@@ -281,4 +369,12 @@ public class SavePrefabData
         public string name;
         public string prefab;
         public string imageName;
+        public string transparency;
+        public string text;
+        public string fontSize;
+        public string fontColor;
+        public bool isBold;
+        public bool isItalic;
+        public string Width;
+        public string Height;
     }

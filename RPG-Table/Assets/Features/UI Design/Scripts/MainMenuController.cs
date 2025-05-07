@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using System.IO;
+using System;
 public class MainMenuController : MonoBehaviour
 {   
     public void StartGame()
@@ -31,4 +32,10 @@ public class MainMenuController : MonoBehaviour
         Application.Quit();
         Debug.Log("Game exited.");
     }
+
+    void Start(){
+        SettingsManager.LoadSettings(); // Load settings when the game starts
+    }
 }
+
+

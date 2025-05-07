@@ -1,20 +1,22 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(RectTransform))]
 public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
     [Header("Drag Settings")]
     [SerializeField] private KeyCode multiDragKey = KeyCode.LeftControl;
-    [SerializeField] private float dragThreshold = 5f; // Minimalny ruch aby rozpocząć przeciąganie
+    [SerializeField] private float dragThreshold = 5f;
     
     private RectTransform rectTransform;
     private Canvas canvas;
     private Vector2 offset;
-    public static bool isDragging;
     private Vector2 dragStartPosition;
     private static bool isMultiDragActive;
+    private static List<SmartDragHandler> selectedObjects = new List<SmartDragHandler>();
+    private static SmartDragHandler currentDragLeader;
+    public static bool isDragging => currentDragLeader != null;
 
     private void Awake()
     {
@@ -33,15 +35,27 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
 
         offset = rectTransform.anchoredPosition - localPointerPosition;
         dragStartPosition = rectTransform.anchoredPosition;
-        isDragging = true;
-
-        // Sprawdź czy wciśnięto klawisz modyfikujący
+        
+        // Ustaw ten obiekt jako lidera przeciągania
+        currentDragLeader = this;
+        
+        // Zarządzanie zaznaczeniem
         isMultiDragActive = Input.GetKey(multiDragKey);
+        if (isMultiDragActive)
+        {
+            if (!selectedObjects.Contains(this))
+                selectedObjects.Add(this);
+        }
+        else
+        {
+            selectedObjects.Clear();
+            selectedObjects.Add(this);
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!isDragging) return;
+        if (currentDragLeader != this) return;
 
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
             canvas.GetComponent<RectTransform>(),
@@ -53,40 +67,62 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
             Vector2 newPosition = localPointerPosition + offset;
             Vector2 delta = newPosition - rectTransform.anchoredPosition;
 
-            // Przeciągnij wszystkie obiekty jeśli multiDrag aktywny
-            if (isMultiDragActive && Vector2.Distance(newPosition, dragStartPosition) > dragThreshold)
+            // Przesuń wszystkie zaznaczone obiekty
+            if (Vector2.Distance(newPosition, dragStartPosition) > dragThreshold)
             {
-                DragAllSelectedObjects(delta);
+                MoveAllSelectedObjects(delta);
             }
-
-            rectTransform.anchoredPosition = newPosition;
         }
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    private void MoveAllSelectedObjects(Vector2 delta)
     {
-        isDragging = false;
-        isMultiDragActive = false;
-    }
-
-    private void DragAllSelectedObjects(Vector2 delta)
-    {
-        // Znajdź wszystkie obiekty z tym samym tagiem lub w tej samej grupie
-        foreach (SmartDragHandler draggable in FindObjectsOfType<SmartDragHandler>())
+        foreach (var draggable in selectedObjects)
         {
-            if (draggable != this && draggable.transform.parent == this.transform.parent)
+            if (draggable != null && draggable.transform.parent == this.transform.parent)
             {
                 draggable.rectTransform.anchoredPosition += delta;
             }
         }
     }
 
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if (currentDragLeader == this)
+        {
+            currentDragLeader = null;
+            
+            // Jeśli nie trzymamy klawisza multiDrag, wyczyść zaznaczenie
+            if (!Input.GetKey(multiDragKey))
+            {
+                selectedObjects.Clear();
+            }
+        }
+    }
+
     private void Update()
     {
-        // Aktualizuj stan multiDrag jeśli klawisz został wciśnięty podczas przeciągania
-        if (isDragging)
+        // Aktualizacja stanu multiDrag
+        if (Input.GetKeyDown(multiDragKey) && currentDragLeader == null)
         {
-            isMultiDragActive = Input.GetKey(multiDragKey);
+            isMultiDragActive = true;
+            if (!selectedObjects.Contains(this))
+                selectedObjects.Add(this);
         }
+        else if (Input.GetKeyUp(multiDragKey) && currentDragLeader == null)
+        {
+            isMultiDragActive = false;
+            selectedObjects.Clear();
+        }
+    }
+
+    private void OnDestroy()
+    {
+        // Usuń ten obiekt z listy jeśli istnieje
+        if (selectedObjects.Contains(this))
+            selectedObjects.Remove(this);
+            
+        if (currentDragLeader == this)
+            currentDragLeader = null;
     }
 }

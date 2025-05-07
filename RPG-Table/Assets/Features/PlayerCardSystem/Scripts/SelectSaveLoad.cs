@@ -15,7 +15,7 @@ public class SelectLoad : MonoBehaviour
     public GameObject saveWindow;
     public Transform filesPanel;
     private List<string> fileNames = new List<string>();
-    private string PATH_TO_FILES;
+    private string PATH_TO_FILES = SettingsManager._CurrentSettings.playerCardsPath;
     private string currentEditingFileName;
 
     void Update()
@@ -42,7 +42,7 @@ public class SelectLoad : MonoBehaviour
     }
     public void onSaveButtonClick()
     {
-        PATH_TO_FILES = Path.Combine(Application.persistentDataPath, "PlayerCards/");
+        //PATH_TO_FILES = Path.Combine(Application.persistentDataPath, "PlayerCards/");
         saveWindow.SetActive(true);
         if(currentEditingFileName != null)
         {
@@ -60,7 +60,7 @@ public class SelectLoad : MonoBehaviour
     }
     public void onLoadButtonClick()
     {
-        PATH_TO_FILES = Path.Combine(Application.persistentDataPath, "PlayerCards/");
+        //PATH_TO_FILES = Path.Combine(Application.persistentDataPath, "PlayerCards/");
         fileNames.Clear();
         fileNames.AddRange(Directory.GetFiles(PATH_TO_FILES, "*.json"));
         foreach (string file in fileNames)
