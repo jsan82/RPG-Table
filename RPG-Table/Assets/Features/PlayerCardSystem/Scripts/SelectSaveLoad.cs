@@ -18,31 +18,92 @@ public class SelectLoad : MonoBehaviour
     private string PATH_TO_FILES = SettingsManager._CurrentSettings.playerCardsPath;
     private string currentEditingFileName;
 
+    public GameObject deleteConfirmationDialog;
+    private bool isDeleteMode = false;
+    private string saveToDelete;
+
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && loadSelectWindow.activeSelf)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            onCancelButtonClick();
+            if (loadSelectWindow.activeSelf)
+            {
+                if (deleteConfirmationDialog.activeSelf)
+                {
+                    CancelDelete();
+                }
+                else if (isDeleteMode)
+                {
+                    CancelDelete();
+                }
+                else
+                {
+                    onCancelButtonClick();
+                }
+            }
         }
     }
     
     void LoadCard(string filePath)
     {
-
-        Debug.Log("Loading card from: " + filePath);
-        
-        CardAreaSaver.LoadCardArea(filePath);
-        loadSelectWindow.SetActive(false);
-        fileNames.Clear();  
-        foreach (Transform child in filesPanel)
+        if (isDeleteMode)
         {
-            Destroy(child.gameObject);
+  
+            saveToDelete = filePath;
+            deleteConfirmationDialog.SetActive(true);
+            
+
+            var fileNameText = deleteConfirmationDialog.transform.Find("SaveNamePlace");
+            if (fileNameText != null)
+            {
+                var textComponent = fileNameText.GetComponent<TextMeshProUGUI>();
+                if (textComponent != null)
+                {
+                    textComponent.text = Path.GetFileNameWithoutExtension(filePath);
+                }
+            }
+            return;
         }
 
+        Debug.Log("Loading card from: " + filePath);
+        CardAreaSaver.LoadCardArea(filePath);
+        loadSelectWindow.SetActive(false);
+        ClearFileList();
     }
+
+    public void EnterDeleteMode()
+    {
+        isDeleteMode = true;
+        Debug.Log("Delete mode activated. Click on a save file to delete it.");
+    }
+
+    public void ConfirmDelete()
+    {
+        if (!string.IsNullOrEmpty(saveToDelete))
+        {
+            try
+            {
+                File.Delete(saveToDelete);
+                Debug.Log("Deleted file: " + saveToDelete);
+                RefreshFileList();
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Error deleting file: " + e.Message);
+            }
+        }
+        CancelDelete();
+    }
+
+    public void CancelDelete()
+    {
+        isDeleteMode = false;
+        saveToDelete = null;
+        deleteConfirmationDialog.SetActive(false);
+    }
+
     public void onSaveButtonClick()
     {
-        //PATH_TO_FILES = Path.Combine(Application.persistentDataPath, "PlayerCards/");
         saveWindow.SetActive(true);
         if(currentEditingFileName != null)
         {
@@ -55,20 +116,22 @@ public class SelectLoad : MonoBehaviour
     {
         currentEditingFileName = saveWindow.transform.Find("CardName").GetComponent<TMP_InputField>().text;
         Debug.Log("Saving card as: " + currentEditingFileName);
-        CardAreaSaver.SaveCardArea(Path.Combine(PATH_TO_FILES,currentEditingFileName +".json"));
+        CardAreaSaver.SaveCardArea(Path.Combine(PATH_TO_FILES, currentEditingFileName + ".json"));
         saveWindow.SetActive(false);
     }
+
     public void onLoadButtonClick()
     {
-        //PATH_TO_FILES = Path.Combine(Application.persistentDataPath, "PlayerCards/");
         fileNames.Clear();
         fileNames.AddRange(Directory.GetFiles(PATH_TO_FILES, "*.json"));
+        
         foreach (string file in fileNames)
         {
             string fileName = Path.GetFileNameWithoutExtension(file);
             GameObject button = Instantiate(objectButtonPrefab, filesPanel);
             TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
             buttonText.text = fileName;
+            button.name = fileName;
             currentEditingFileName = fileName;
             button.GetComponent<Button>().onClick.AddListener(() => LoadCard(file));
         }
@@ -83,12 +146,23 @@ public class SelectLoad : MonoBehaviour
         }
         else if (loadSelectWindow.activeSelf)
         {
+            ClearFileList();
             loadSelectWindow.SetActive(false);
-            fileNames.Clear();  
-            foreach (Transform child in filesPanel)
-            {
-                Destroy(child.gameObject);
-            }
         }
+    }
+
+    private void ClearFileList()
+    {
+        fileNames.Clear();  
+        foreach (Transform child in filesPanel)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+    private void RefreshFileList()
+    {
+        ClearFileList();
+        onLoadButtonClick();
     }
 }

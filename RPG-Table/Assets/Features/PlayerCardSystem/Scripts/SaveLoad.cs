@@ -170,7 +170,7 @@ public class CardAreaSaver : MonoBehaviour
         }
     }
 
-    private void ClearCardArea()
+    public void ClearCardArea()
     {
         _objectDictionary = new Dictionary<string, GameObject>();
         foreach (Transform child in cardArea) //Del objectid script from object
@@ -206,7 +206,16 @@ public class CardAreaSaver : MonoBehaviour
         newChild.transform.localRotation = childData.localRotation;
         newChild.transform.localScale = childData.localScale;
         
+        ((RectTransform)newChild.transform).sizeDelta =new Vector2(float.Parse(childData.Width),float.Parse(childData.Height));
         
+        if(newChild.GetComponent<Image>() != null){
+            newChild.GetComponent<Image>().color = new Color( 
+                newChild.GetComponent<Image>().color.r,
+                newChild.GetComponent<Image>().color.g,
+                newChild.GetComponent<Image>().color.b,
+                Mathf.Clamp01(float.Parse(childData.transparency)/100));
+        }
+        Color newColor;
         // Handle different object types
         switch (childData.objectType)
         {
@@ -216,6 +225,17 @@ public class CardAreaSaver : MonoBehaviour
                 {
                     textComponent.text = childData.Text;
                     
+                    if(childData.isBold)
+                    {
+                        textComponent.fontStyle |= FontStyles.Bold;
+                    }
+                    if(childData.isItalic)
+                    {
+                        textComponent.fontStyle |= FontStyles.Italic;
+                    }
+                    ColorUtility.TryParseHtmlString("#" + childData.fontColor, out newColor);
+                    textComponent.color = newColor;
+                    textComponent.fontSize = float.Parse(childData.fontSize);
                 }
                 
                 break;
@@ -225,7 +245,20 @@ public class CardAreaSaver : MonoBehaviour
                 if (textBlock != null && !string.IsNullOrEmpty(childData.Text))
                 {
                     textBlock.text = childData.Text;
+                    textBlock.text = childData.Text;
+                    if(childData.isBold)
+                    {
+                        textBlock.fontStyle|= FontStyles.Bold;
+                    }
+                    if(childData.isItalic)
+                    {
+                        textBlock.fontStyle |= FontStyles.Italic;
+                    }
+                    ColorUtility.TryParseHtmlString("#" + childData.fontColor, out newColor);
+                    textBlock.color = newColor;
+                    textBlock.fontSize = float.Parse(childData.fontSize);
                 }
+
                 break;
                 
             case "InputField":
@@ -233,6 +266,17 @@ public class CardAreaSaver : MonoBehaviour
                 if (inputField != null)
                 {
                     inputField.text = childData.Text;
+                    inputField.pointSize = float.Parse(childData.fontSize);
+                     if(childData.isBold)
+                    {
+                        inputField.textComponent.fontStyle |= FontStyles.Bold;
+                    }
+                    if(childData.isItalic)
+                    {
+                        inputField.textComponent.fontStyle |= FontStyles.Italic;
+                    }
+                    ColorUtility.TryParseHtmlString("#" + childData.fontColor, out newColor);
+                    inputField.textComponent.color = newColor;  
                     
                     var inputImage = newChild.GetComponentInChildren<Image>();
                     if (inputImage != null)
@@ -249,18 +293,18 @@ public class CardAreaSaver : MonoBehaviour
                     if (!string.IsNullOrEmpty(childData.inputType))
                     {
                         
-                        // switch (childData.inputType)
-                        // {
-                        //     case "InputFieldStandard":
-                        //         inputField.contentType = TMP_InputField.ContentType.Standard;
-                        //         break;
-                        //     case "InputFieldDecimalNumber":
-                        //         inputField.contentType = TMP_InputField.ContentType.DecimalNumber;
-                        //         break;
-                        //     case "InputFieldIntegerNumber":
-                        //         inputField.contentType = TMP_InputField.ContentType.IntegerNumber;
-                        //         break;
-                        // }
+                        switch (childData.inputType)
+                        {
+                            case "InputFieldStandard":
+                                inputField.contentType = TMP_InputField.ContentType.Standard;
+                                break;
+                            case "InputFieldDecimalNumber":
+                                inputField.contentType = TMP_InputField.ContentType.DecimalNumber;
+                                break;
+                            case "InputFieldIntegerNumber":
+                                inputField.contentType = TMP_InputField.ContentType.IntegerNumber;
+                                break;
+                        }
                     }
                 }
                 break;
@@ -281,11 +325,11 @@ public class CardAreaSaver : MonoBehaviour
         // IMPORTANT TO OVERIDE/DISABLE SOMETHING IN THIS CLASS FOR PURPOSE OF LOADING THIS IN GAME TO DISABLE THE LOADING DRAG AND DROP FUNCTIONALITY
 
         */
-        SmartDragHandler dragComponent = newChild.GetComponent<SmartDragHandler>();
-        if (dragComponent != null)
-        {
-           newChild.AddComponent<SmartDragHandler>(); 
-        }
+        // SmartDragHandler dragComponent = newChild.GetComponent<SmartDragHandler>();
+        // if (dragComponent != null)
+        // {
+        //    newChild.AddComponent<SmartDragHandler>(); 
+        // }
         //newChild.GetComponent<SmartDragHandler>().enabled = dragOn; // Disable drag functionality for loaded objects
 
         ObjectPlacementSystem.SetObjectComponentsEnabled(newChild, true);
@@ -362,8 +406,14 @@ public class ChildData
     public string objectID; 
     public string objectType;
     public string Text;
+    public string fontSize;
+    public string fontColor;
+    public bool isBold;
+    public bool isItalic;
+    public string Width;
+    public string Height;
     public string backgroundImage;
-    public string Image;
+    public string transparency;
     public string inputType;
     public Vector3 localPosition;
     public Quaternion localRotation;
@@ -372,6 +422,7 @@ public class ChildData
     public List<ScriptData> scripts = new List<ScriptData>();
     public string currentOperations; // Changed from List<OperationData> to string
 
+    
     public ChildData(Transform child)
     {
         ObjectID objID = child.GetComponent<ObjectID>();
@@ -384,12 +435,19 @@ public class ChildData
         objectID = child.name;
         objectType = objID.GetPrefab();
         
+        Width = ((RectTransform)child).rect.width.ToString("F2");
+        Height = ((RectTransform)child).rect.height.ToString("F2");
+
         if (objectType == "TextBlockPrefab")
         {
             var textComp = child.GetComponent<TextMeshProUGUI>();
             if (textComp != null)
             {
                 Text = textComp.text;
+                isItalic = (textComp.fontStyle & FontStyles.Italic) == FontStyles.Italic;
+                isBold = (textComp.fontStyle & FontStyles.Bold) == FontStyles.Bold;
+                fontSize = textComp.fontSize.ToString("F0");
+                fontColor = ColorUtility.ToHtmlStringRGB(textComp.color);
             }
         }
         else if (objectType == "Button")
@@ -398,12 +456,17 @@ public class ChildData
             if (textComp != null)
             {
                 Text = textComp.text;
+                isItalic = (textComp.fontStyle & FontStyles.Italic) == FontStyles.Italic;
+                isBold = (textComp.fontStyle & FontStyles.Bold) == FontStyles.Bold;
+                fontSize = textComp.fontSize.ToString("F0");
+                fontColor = ColorUtility.ToHtmlStringRGB(textComp.color);
             }
 
             var imageComp = child.GetComponentInChildren<Image>();
             if (imageComp != null && imageComp.sprite != null)
             {
                 backgroundImage = imageComp.sprite.name;
+                transparency = (imageComp.color.a * 100).ToString("F2");
             }
 
             string operations = NewBehaviourScript.Instance.GetOperationsForObject(objectID);
@@ -418,11 +481,16 @@ public class ChildData
             if (inputField != null)
             {
                 Text = inputField.text;
-                
+                isItalic = (inputField.textComponent.fontStyle & FontStyles.Italic) == FontStyles.Italic;
+                isBold = (inputField.textComponent.fontStyle & FontStyles.Bold) == FontStyles.Bold;
+                fontSize = inputField.pointSize.ToString("F0");
+                fontColor = ColorUtility.ToHtmlStringRGB(inputField.textComponent.color);
+
                 var imageComp = child.GetComponent<Image>();
                 if (imageComp != null && imageComp.sprite != null)
                 {
                     backgroundImage = imageComp.sprite.name;
+                    transparency = (imageComp.color.a * 100).ToString("F2");
                 }
                 
                 switch (inputField.contentType)
@@ -439,9 +507,11 @@ public class ChildData
                 }
             }
         }
+
         
         if(child.GetComponent<Image>()!=null){
             backgroundImage = child.GetComponent<Image>().sprite.name;
+            transparency = (child.GetComponent<Image>().color.a * 100).ToString("F2");
         }
         localPosition = child.localPosition;
         localRotation = child.localRotation;

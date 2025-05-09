@@ -123,7 +123,12 @@ public class NewBehaviourScript : MonoBehaviour, IUIBehavior
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                cancelEditMode();
+                if(_addSelector.activeSelf){
+                    addValueCancel();
+                }
+                else{
+                    cancelEditMode();
+                }
             }
 
             HandleUIClick();
@@ -262,13 +267,20 @@ public class NewBehaviourScript : MonoBehaviour, IUIBehavior
         if (isNumberValueOn)
         {
             string value = _numberInputbox.GetComponent<TMP_InputField>().text;
-            _currentConfigText += ($"{value}");
+            if(value == ""){
+                 currentConfig.GetComponent<TMP_InputField>().text += ($"0");
+            } else{
+                currentConfig.GetComponent<TMP_InputField>().text += ($"{value}");
+            }
         }
         else if (isIdValueOn)
         {
             string id = _idDropdown.GetComponent<TMP_Dropdown>().options[_idDropdown.GetComponent<TMP_Dropdown>().value].text;
-            _currentConfigText += ($"@{id}");
+            currentConfig.GetComponent<TMP_InputField>().text += ($"@{id}");
         }
+        _addSelector.SetActive(false);
+    }
+    public void addValueCancel(){
         _addSelector.SetActive(false);
     }
 

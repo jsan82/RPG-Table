@@ -25,6 +25,11 @@ public class ObjectPlacementSystem : MonoBehaviour
     private GameObject selectedPrefab;
     private GameObject pendingObject;
 
+    public GameObject deleteConfirmationDialog;
+    private bool isDeleteMode = false;
+    private savingCustomObjects objectToDelete;
+
+
     [System.Serializable]
     public class PlaceableObject
     {
@@ -32,6 +37,13 @@ public class ObjectPlacementSystem : MonoBehaviour
         public GameObject prefab;
         public string imageName;
 
+    }
+    
+    public void EnterDeleteMode()
+    {
+        isDeleteMode = true;
+        // You might want to highlight deletable objects or change cursor here
+        Debug.Log("Delete mode activated. Click on a prefab to delete it.");
     }
     void Start()
     {
@@ -63,6 +75,7 @@ public class ObjectPlacementSystem : MonoBehaviour
             GameObject button = Instantiate(objectButtonPrefab, objectsPanel);
             TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
             buttonText.text = obj.name;
+            button.name = obj.name;
             button.GetComponent<Button>().onClick.AddListener(() => SelectObject(obj.prefab));
         }
        if (File.Exists(Path.Combine(PATH_TO_FILES, FILE_NAME)))
@@ -76,6 +89,7 @@ public class ObjectPlacementSystem : MonoBehaviour
                 GameObject button = Instantiate(objectButtonPrefab, objectsPanel);
                 TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
                 buttonText.text = obj.name;
+                button.name = obj.name;
                 GameObject prefab = Resources.Load<GameObject>(obj.prefab);
   
                 if(File.Exists(Path.Combine(PATH_TO_2D_ASSETS, obj.imageName)))
@@ -105,7 +119,12 @@ public class ObjectPlacementSystem : MonoBehaviour
         }
         if (pendingObject != null && !CustomPrefabCreator.activeSelf) //checkign if we are placing an object
         {
-            if (Input.GetMouseButtonDown(0)) 
+            bool isInsideCardArea = RectTransformUtility.RectangleContainsScreenPoint(
+                cardArea as RectTransform,
+                Input.mousePosition,
+                null
+            );
+            if (Input.GetMouseButtonDown(0) && isInsideCardArea) 
                 {
                     if(selectedPrefab.name == "InputField") //checking for input field
                     {
@@ -135,10 +154,20 @@ public class ObjectPlacementSystem : MonoBehaviour
             }
         }
     }
-
+    
     // Method to select an object prefab from the list and instantiate it in the card area
     public void SelectObject(GameObject prefab, savingCustomObjects obj = null)
     {
+
+        if (isDeleteMode && obj != null)
+        {
+            objectToDelete = obj;
+            deleteConfirmationDialog.SetActive(true);
+            deleteConfirmationDialog.transform.Find("PrefabNamePlace").GetComponent<TextMeshProUGUI>().text = obj.name;
+            return;
+        }
+
+
         selectedPrefab = prefab;
         if (pendingObject != null) Destroy(pendingObject);
         
@@ -239,6 +268,36 @@ public class ObjectPlacementSystem : MonoBehaviour
         ResetPlacement();
     }
 
+    public void ConfirmDeletion()
+    {
+        if (objectToDelete != null)
+        {
+            // Remove from list
+            userObjects.Remove(objectToDelete);
+            
+            // Update save file
+            SavePrefabData savePrefabData = new SavePrefabData{
+                saveTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                prefabCount = userObjects.Count,
+                prefabs = userObjects
+            };
+            string json = JsonUtility.ToJson(savePrefabData, true);
+            File.WriteAllText(Path.Combine(PATH_TO_FILES, FILE_NAME), json);
+            
+            // Refresh UI (you might need to implement this)
+            RefreshObjectButtons();
+        }
+        
+        CancelDeletion();
+    }
+
+    public void CancelDeletion()
+    {
+        isDeleteMode = false;
+        objectToDelete = null;
+        deleteConfirmationDialog.SetActive(false);
+    }
+
     //Method for printing the dictionary of objects
     public void printDictionary()
     {
@@ -260,6 +319,45 @@ public class ObjectPlacementSystem : MonoBehaviour
         idInputField.text = "";
         confirmationDialog.SetActive(false);
     }
+
+    private void RefreshObjectButtons()
+{
+    // Clear existing buttons
+    foreach (Transform child in objectsPanel)
+    {
+        Destroy(child.gameObject);
+    }
+    
+    // Recreate buttons for available objects
+    foreach (var obj in availableObjects)
+    {
+        GameObject button = Instantiate(objectButtonPrefab, objectsPanel);
+        TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
+        buttonText.text = obj.name;
+        button.name = obj.name;
+        button.GetComponent<Button>().onClick.AddListener(() => SelectObject(obj.prefab));
+    }
+    
+    // Recreate buttons for user objects
+    foreach (var obj in userObjects)
+    {
+        GameObject button = Instantiate(objectButtonPrefab, objectsPanel);
+        TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
+        buttonText.text = obj.name;
+        button.name = obj.name;
+        GameObject prefab = Resources.Load<GameObject>(obj.prefab);
+        
+        if(File.Exists(Path.Combine(PATH_TO_2D_ASSETS, obj.imageName)))
+        {   
+            byte[] imageBytes = File.ReadAllBytes(Path.Combine(PATH_TO_2D_ASSETS, obj.imageName));
+            Texture2D texture = new Texture2D(2, 2);
+            texture.LoadImage(imageBytes);
+            Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            button.GetComponent<Button>().image.sprite = sprite;
+        }
+        button.GetComponent<Button>().onClick.AddListener(() => SelectObject(prefab, obj));
+    }
+}
 
     // Method to enable or disable all components of the object (except for the ObjectID component)
    public static void SetObjectComponentsEnabled(GameObject obj, bool enabled)
@@ -299,57 +397,6 @@ public class ObjectPlacementSystem : MonoBehaviour
 
         CustomPrefabCreator.SetActive(false);
         CustomPrefabCreator.transform.Find("PrefabName").GetComponent<TMP_InputField>().text = "";
-
-        // string prefabName = CustomPrefabCreator.transform.Find("PrefabName").GetComponent<TMP_InputField>().text;
-        // string prefabType = CustomPrefabCreator.transform.Find("PrefabType").GetComponent<TMP_Dropdown>().options[
-        //     CustomPrefabCreator.transform.Find("PrefabType").GetComponent<TMP_Dropdown>().value].text;
-        // Debug.Log("Saving prefab as: " + prefabName + " of type: " + prefabType);
-    
-        // // creating the prefab
-        // PlaceableObject newObject = new PlaceableObject();
-        // savingCustomObjects customObject = new savingCustomObjects();
-        // customObject.name = prefabName;
-        // customObject.imageName = CustomPrefabCreator.transform.Find("ImageName").GetComponent<TMP_InputField>().text;
-        // customObject.prefab = prefabType;
-
-
-        // newObject.name = prefabName;
-        // newObject.imageName = CustomPrefabCreator.transform.Find("ImageName").GetComponent<TMP_InputField>().text;
-        // newObject.prefab = Resources.Load<GameObject>(prefabType);
-        // // Saving the prefab to the list
-        // userObjects.Add(customObject);
-       
-        // // adding the prefab to the list of available objects
-        // GameObject button = Instantiate(objectButtonPrefab, objectsPanel);
-        // TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
-        // buttonText.text = newObject.name;
-
-        // //Loading the image from the file and adding it to the button
-        // if(File.Exists(Path.Combine(PATH_TO_2D_ASSETS, customObject.imageName)))
-        // {   
-        //     byte[] imageBytes = File.ReadAllBytes(Path.Combine(PATH_TO_2D_ASSETS, customObject.imageName));
-        //     Texture2D texture = new Texture2D(2, 2);
-        //     texture.LoadImage(imageBytes); // Load the image data into the texture
-        //     Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-        //     button.GetComponent<Button>().image.sprite = sprite;
-        //     Debug.Log("Obrazek dodany");
-        // }
-        // else
-        // {
-        //     Debug.Log("Nie ma obrazka");
-        // }
-        // button.GetComponent<Button>().onClick.AddListener(() => SelectObject(newObject.prefab));
-
-        // //saving the prefab to the file
-        // SavePrefabData savePrefabData = new SavePrefabData{
-        //     saveTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-        //     prefabCount = userObjects.Count,
-        //     prefabs = userObjects
-        // };
-        // string json = JsonUtility.ToJson(savePrefabData, true);
-        // string filePath = Path.Combine(PATH_TO_FILES, FILE_NAME);
-        // File.WriteAllText(filePath, json);
-
 
     }
 

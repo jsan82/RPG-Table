@@ -32,25 +32,63 @@ public class EditParameters : MonoBehaviour, IUIBehavior
         }
     }
     
-    public void HandleUIClick()
+    void clearData()
     {
-        if(Input.GetMouseButtonDown(0))
+        EditParametersPanel.transform.Find("IDPlace").GetComponent<TMP_InputField>().text = "";
+        EditParametersPanel.transform.Find("WidthPlace").GetComponent<TMP_InputField>().text = "";
+        EditParametersPanel.transform.Find("HeightPlace").GetComponent<TMP_InputField>().text = "";
+        EditParametersPanel.transform.Find("XPlace").GetComponent<TMP_InputField>().text = "";
+        EditParametersPanel.transform.Find("YPlace").GetComponent<TMP_InputField>().text = "";
+        EditParametersPanel.transform.Find("TransparencyPlace").GetComponent<TMP_InputField>().text = "";
+        EditParametersPanel.transform.Find("IMGPlace").GetComponent<TMP_InputField>().text = "";
+        EditParametersPanel.transform.Find("TextPanel/FontSizePlace").GetComponent<TMP_InputField>().text = "";
+        EditParametersPanel.transform.Find("TextPanel/ColorPlace").GetComponent<TMP_InputField>().text = "";
+        EditParametersPanel.transform.Find("TextPanel/TextPlace").GetComponent<TMP_InputField>().text = "";
+        EditParametersPanel.transform.Find("TextPanel/Italic").GetComponent<Toggle>().isOn = false;
+        EditParametersPanel.transform.Find("TextPanel/Bold").GetComponent<Toggle>().isOn = false;
+        
+
+    }
+    
+    public void HandleUIClick()
+{
+    if(Input.GetMouseButtonDown(0))
+    {
+        PointerEventData pointerData = new PointerEventData(EventSystem.current);
+        pointerData.position = Input.mousePosition;
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerData, results);
+        
+        // Only process if we have results
+        if(results.Count == 0) return;
+        
+        // Get the top-most result (first in the list is top-most in GraphicRaycaster)
+        RaycastResult topResult = results[0];
+        ObjectID objectID = topResult.gameObject.GetComponent<ObjectID>();
+        
+        if(objectID == null)
         {
-            PointerEventData pointerData = new PointerEventData(EventSystem.current);
-            pointerData.position = Input.mousePosition;
+            // Check if we clicked on a child of an ObjectID element
+            objectID = topResult.gameObject.GetComponentInParent<ObjectID>();
+            if(objectID == null) return;
+        }
 
-            List<RaycastResult> results = new List<RaycastResult>();
-            EventSystem.current.RaycastAll(pointerData, results);
+        ProcessObjectSelection(objectID);
+    }
+}
 
-            foreach (RaycastResult result in results)
-            {
-                ObjectID objectID = result.gameObject.GetComponent<ObjectID>();
-                if (objectID != null)
-                {
-                    EditParametersPanel.transform.Find("IDPlace").GetComponent<TMP_InputField>().text = objectID._id;
-                    GameObject uiObject = ObjectID.GetObjectByID(objectID._id);
-                    prefabName = objectID._prefabName;
-                if (uiObject != null)
+private void ProcessObjectSelection(ObjectID objectID)
+{
+    if(EditParametersPanel.transform.Find("IDPlace").GetComponent<TMP_InputField>().text != objectID._id)
+        clearData();
+        
+    EditParametersPanel.transform.Find("IDPlace").GetComponent<TMP_InputField>().text = objectID._id;
+    GameObject uiObject = ObjectID.GetObjectByID(objectID._id);
+    prefabName = objectID._prefabName;
+    
+    if(uiObject == null) return;
+    if (uiObject != null)
                 {
                     if(objectID._prefabName == "TextBlockPrefab"){
                         EditParametersPanel.transform.Find("TransparencyPlace")?.gameObject.SetActive(false);
@@ -121,15 +159,10 @@ public class EditParameters : MonoBehaviour, IUIBehavior
                         alpha = alpha * 100;
                         EditParametersPanel.transform.Find("TransparencyPlace").GetComponent<TMP_InputField>().text = (alpha).ToString("F2");
                         //EditParametersPanel.transform.Find("IMGPlace").GetComponent<TMP_InputField>().text = uiObject.GetComponent<RawImage>().sprite.name;
-                    }
-                }
-                }
-                
             }
         }
     }
-
-
+        
 
     void updateObjectParameters()
     {
@@ -137,6 +170,7 @@ public class EditParameters : MonoBehaviour, IUIBehavior
         GameObject uiObject = ObjectID.GetObjectByID(id);
         if (uiObject != null)
         {
+            ObjectID objectid = uiObject.GetComponent<ObjectID>();
             RectTransform rectTransform = uiObject.GetComponent<RectTransform>();
 
             if(SmartDragHandler.isDragging)
@@ -202,10 +236,16 @@ public class EditParameters : MonoBehaviour, IUIBehavior
                 uiObject.GetComponent<TextMeshProUGUI>().color = newColor;
             }else if (uiObject.GetComponent<TMP_InputField>() != null)
             {
-                uiObject.GetComponent<TMP_InputField>().onValueChanged.AddListener(newVal => EditParametersPanel.transform.Find("TextPanel/TextPlace").GetComponent<TMP_InputField>().text = newVal);
-                EditParametersPanel.transform.Find("TextPanel/TextPlace").GetComponent<TMP_InputField>().onValueChanged.AddListener(newVal => uiObject.GetComponent<TMP_InputField>().text = newVal);
-                uiObject.GetComponent<TMP_InputField>().text = EditParametersPanel.transform.Find("TextPanel/TextPlace").GetComponent<TMP_InputField>().text;
-                uiObject.GetComponent<TMP_InputField>().textComponent.fontSize = float.Parse(EditParametersPanel.transform.Find("TextPanel/FontSizePlace").GetComponent<TMP_InputField>().text);
+                //uiObject.GetComponent<TMP_InputField>().onValueChanged.AddListener(newVal => EditParametersPanel.transform.Find("TextPanel/TextPlace").GetComponent<TMP_InputField>().text = newVal);
+                //EditParametersPanel.transform.Find("TextPanel/TextPlace").GetComponent<TMP_InputField>().onValueChanged.AddListener(newVal => uiObject.GetComponent<TMP_InputField>().text = newVal);
+                
+                if (!uiObject.GetComponent<TMP_InputField>().isFocused)
+                {
+                    uiObject.GetComponent<TMP_InputField>().text = EditParametersPanel.transform.Find("TextPanel/TextPlace").GetComponent<TMP_InputField>().text;
+                } else {
+                    EditParametersPanel.transform.Find("TextPanel/TextPlace").GetComponent<TMP_InputField>().text = uiObject.GetComponent<TMP_InputField>().text;
+                }
+                uiObject.GetComponent<TMP_InputField>().pointSize = float.Parse(EditParametersPanel.transform.Find("TextPanel/FontSizePlace").GetComponent<TMP_InputField>().text);
 
                 FontStyles style = FontStyles.Normal;
                 if (EditParametersPanel.transform.Find("TextPanel/Italic").GetComponent<Toggle>().isOn)
@@ -219,7 +259,7 @@ public class EditParameters : MonoBehaviour, IUIBehavior
 
 
 
-            } else if (uiObject.GetComponentInChildren<TMP_Text>() != null)
+            } else if (objectid._prefabName == "Button")
             {
                 uiObject.GetComponentInChildren<TMP_Text>().text = EditParametersPanel.transform.Find("TextPanel/TextPlace").GetComponent<TMP_InputField>().text;
                 
@@ -232,7 +272,7 @@ public class EditParameters : MonoBehaviour, IUIBehavior
                     style |= FontStyles.Italic;
                 if (EditParametersPanel.transform.Find("TextPanel/Bold").GetComponent<Toggle>().isOn)
                     style |= FontStyles.Bold;
-                uiObject.GetComponent<TMP_Text>().fontStyle = style;
+                uiObject.GetComponentInChildren<TMP_Text>().fontStyle = style;
                 ColorUtility.TryParseHtmlString("#" + EditParametersPanel.transform.Find("TextPanel/ColorPlace").GetComponent<TMP_InputField>().text, out newColor);
                 uiObject.GetComponentInChildren<TMP_Text>().color = newColor;
             } 
