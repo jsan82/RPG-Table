@@ -5,8 +5,9 @@ public class ObjectID : MonoBehaviour
 {
     public string _id; //ID of the object
     public string _prefabName; //Prefab name of the object
-    private static Dictionary<string, GameObject> _objectDictionary = new Dictionary<string, GameObject>(); //Dictionary to store objects by ID
+    //private static Dictionary<string, GameObject> CardAreaSaver._objectDictionary = new Dictionary<string, GameObject>(); //Dictionary to store objects by ID
 
+    
     //Method to set the ID and add the object to the dictionary
     public void SetID(string newId, GameObject objectRef, string prefabName = null) 
     {
@@ -17,34 +18,30 @@ public class ObjectID : MonoBehaviour
         }
 
         _id = newId;
-
         _prefabName = prefabName ?? objectRef.name; 
 
 
         //Check if the ID already exists in the dictionary
-        if (!_objectDictionary.ContainsKey(_id))
-        {   
-           
-            _objectDictionary.Add(_id, objectRef);
-            
-        }
-        else
+        // if (!CardAreaSaver._objectDictionary.ContainsKey(_id))
+        
+        //     CardAreaSaver._objectDictionary.Add(_id, objectRef);
+        // } else {
+        //     Debug.LogWarning($"ID '{_id}' already exists.");
+        //     Destroy(objectRef);
+        // }
+        if(!CardAreaSaver._objectDictionary.ContainsKey(_id))
         {
-            Debug.LogWarning($"ID '{_id}' already exists.");
+            CardAreaSaver._objectDictionary.Add(_id, objectRef);
+        } else {
+            Debug.LogWarning($"ID '{_id}' already exists. Destroying the object.");
             Destroy(objectRef);
         }
 
         //Check if the object reference is already in the dictionary
-        if (!_objectDictionary.ContainsKey(_id))
+        if (!CardAreaSaver._objectDictionary.ContainsKey(_id))
         {
-            _objectDictionary.Add(_id, objectRef);
+            CardAreaSaver._objectDictionary.Add(_id, objectRef);
         }
-
-        if (!_objectDictionary.ContainsKey(_id))
-    {
-        _objectDictionary.Add(_id, objectRef);
-    }
-
 
     }
 
@@ -52,12 +49,12 @@ public class ObjectID : MonoBehaviour
 
     public string GetPrefab() => _prefabName;
 
-    public static bool IDExists(string idToCheck) => _objectDictionary.ContainsKey(idToCheck);
+    public static bool IDExists(string idToCheck) => CardAreaSaver._objectDictionary.ContainsKey(idToCheck);
 
 
     public static void printDictionary()
     {
-        foreach (var kvp in _objectDictionary)
+        foreach (var kvp in CardAreaSaver._objectDictionary)
         {
             Debug.Log($"ID: {kvp.Key}");
             Debug.Log($"Prefab of ^:{kvp.Value.GetComponent<ObjectID>()._prefabName}");
@@ -69,7 +66,7 @@ public class ObjectID : MonoBehaviour
     //Method to get the object by ID
     public static GameObject GetObjectByID(string id)
     {
-        if (_objectDictionary.TryGetValue(id, out GameObject obj))
+        if (CardAreaSaver._objectDictionary.TryGetValue(id, out GameObject obj))
         {
             return obj;
         }
@@ -79,24 +76,35 @@ public class ObjectID : MonoBehaviour
     //Method to get all objects in the dictionary
     public static Dictionary<string, GameObject> GetAllObjects()
     {
-
-        return _objectDictionary;
-
+        return CardAreaSaver._objectDictionary;
     }
 
-    public static void ClearObjectDictionary()
+    public static void RemoveObjectByID(string id)
     {
-        _objectDictionary.Clear();
+        if (CardAreaSaver._objectDictionary.ContainsKey(id))
+        {   
+            Destroy(CardAreaSaver._objectDictionary[id]);
+            CardAreaSaver._objectDictionary.Remove(id);
+            Debug.Log($"Removed object with ID: {id}");
+        }
+        else
+        {
+            Debug.LogWarning($"No object found with ID: {id}");
+        }
+    }
+    public static void Clear_objectDictionary()
+    {
+        //CardAreaSaver._objectDictionary = new Dictionary<string, GameObject>();
         Debug.Log("Cleared Dictionary.");
 
     }
 
     //Method to delete an object from the dictionary by ID
-    private void OnDestroy()
-    {
-        if (!string.IsNullOrEmpty(_id) && _objectDictionary.ContainsKey(_id))
-        {
-            _objectDictionary.Remove(_id);
-        }
-    }
+    // private void OnDestroy()
+    // {
+    //     if (!string.IsNullOrEmpty(_id) && CardAreaSaver._objectDictionary.ContainsKey(_id))
+    //     {
+    //         CardAreaSaver._objectDictionary.Remove(_id);
+    //     }
+    // }
 }

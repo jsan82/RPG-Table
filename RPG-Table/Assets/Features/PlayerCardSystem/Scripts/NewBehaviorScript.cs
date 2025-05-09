@@ -8,7 +8,7 @@ using System.Linq;
 using UnityEngine.EventSystems;
 using System.IO;
 
-public class NewBehaviourScript : MonoBehaviour
+public class NewBehaviourScript : MonoBehaviour, IUIBehavior
 {   
     // Singleton instance
     private static NewBehaviourScript _instance;
@@ -80,7 +80,7 @@ public class NewBehaviourScript : MonoBehaviour
     }
 
     //Logick to handle the click on the UI elements
-    void HandleUIClick()
+    public void HandleUIClick()
     {
         if (Input.GetMouseButtonDown(0) && _editMode.isOn)
         {
@@ -123,9 +123,16 @@ public class NewBehaviourScript : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                cancelEditMode();
+                if(_addSelector.activeSelf){
+                    addValueCancel();
+                }
+                else{
+                    cancelEditMode();
+                }
             }
 
+            HandleUIClick();
+        } else {
             HandleUIClick();
         }
 
@@ -260,13 +267,20 @@ public class NewBehaviourScript : MonoBehaviour
         if (isNumberValueOn)
         {
             string value = _numberInputbox.GetComponent<TMP_InputField>().text;
-            _currentConfigText += ($"{value}");
+            if(value == ""){
+                 currentConfig.GetComponent<TMP_InputField>().text += ($"0");
+            } else{
+                currentConfig.GetComponent<TMP_InputField>().text += ($"{value}");
+            }
         }
         else if (isIdValueOn)
         {
             string id = _idDropdown.GetComponent<TMP_Dropdown>().options[_idDropdown.GetComponent<TMP_Dropdown>().value].text;
-            _currentConfigText += ($"@{id}");
+            currentConfig.GetComponent<TMP_InputField>().text += ($"@{id}");
         }
+        _addSelector.SetActive(false);
+    }
+    public void addValueCancel(){
         _addSelector.SetActive(false);
     }
 
@@ -295,4 +309,20 @@ public class NewBehaviourScript : MonoBehaviour
         _objectDictionary.Clear();
         Debug.Log("Cleared all operations from the dictionary.");
     }
+
+    public void deleteKey(string id)
+    {
+        if(_objectDictionary.ContainsKey(id))
+        {
+            _objectDictionary.Remove(id);
+        }
+    }
+
+}
+
+
+
+public interface IUIBehavior
+{
+    void HandleUIClick();
 }
