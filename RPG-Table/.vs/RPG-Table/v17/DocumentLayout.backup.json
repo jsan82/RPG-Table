@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Projects\\RPG-Table\\RPG-Table\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|c:\\projects\\rpg-table\\rpg-table\\assets\\features\\mapdrawingsystem\\mapdrawingtool.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:assets\\features\\mapdrawingsystem\\mapdrawingtool.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|c:\\projects\\rpg-table\\rpg-table\\assets\\features\\mapdrawingsystem\\mapbrush.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\mapdrawingsystem\\mapbrush.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|C:\\Projects\\RPG-Table\\RPG-Table\\assets\\features\\settingsmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -13,6 +13,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|C:\\Projects\\RPG-Table\\RPG-Table\\assets\\features\\boardeditor\\planehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\boardeditor\\planehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|c:\\projects\\rpg-table\\rpg-table\\assets\\features\\mapdrawingsystem\\mapdrawingtool.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:assets\\features\\mapdrawingsystem\\mapdrawingtool.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,6 +31,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "MapBrush.cs",
+              "DocumentMoniker": "C:\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\MapDrawingSystem\\MapBrush.cs",
+              "RelativeDocumentMoniker": "Assets\\Features\\MapDrawingSystem\\MapBrush.cs",
+              "ToolTip": "C:\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\MapDrawingSystem\\MapBrush.cs",
+              "RelativeToolTip": "Assets\\Features\\MapDrawingSystem\\MapBrush.cs",
+              "ViewState": "AgIAAD4AAAAAAAAAAAAwwFUAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-11T15:33:53.657Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "MapDrawingTool.cs",
               "DocumentMoniker": "C:\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\MapDrawingSystem\\MapDrawingTool.cs",
               "RelativeDocumentMoniker": "Assets\\Features\\MapDrawingSystem\\MapDrawingTool.cs",
@@ -34,8 +51,7 @@
               "RelativeToolTip": "Assets\\Features\\MapDrawingSystem\\MapDrawingTool.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAAAQwAUAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-11T15:27:47.335Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-11T15:27:47.335Z"
             },
             {
               "$type": "Document",
