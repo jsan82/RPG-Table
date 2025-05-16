@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "A:\\projects\\Unity\\RPG-Table\\RPG-Table\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|a:\\projects\\unity\\rpg-table\\rpg-table\\assets\\features\\boardeditor\\movableprop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\boardeditor\\movableprop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|a:\\projects\\unity\\rpg-table\\rpg-table\\assets\\features\\boardeditor\\planehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\boardeditor\\planehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|a:\\projects\\unity\\rpg-table\\rpg-table\\assets\\features\\boardeditor\\prophandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|a:\\projects\\unity\\rpg-table\\rpg-table\\assets\\features\\boardeditor\\terraindata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\boardeditor\\terraindata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|A:\\projects\\Unity\\RPG-Table\\RPG-Table\\assets\\features\\boardeditor\\prophandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\boardeditor\\prophandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|A:\\projects\\Unity\\RPG-Table\\RPG-Table\\assets\\features\\boardeditor\\movableprop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\boardeditor\\movableprop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,11 +26,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TerrainData.cs",
+              "DocumentMoniker": "A:\\projects\\Unity\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\TerrainData.cs",
+              "RelativeDocumentMoniker": "Assets\\Features\\BoardEditor\\TerrainData.cs",
+              "ToolTip": "A:\\projects\\Unity\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\TerrainData.cs",
+              "RelativeToolTip": "Assets\\Features\\BoardEditor\\TerrainData.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-16T21:35:56.526Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "PlaneHandler.cs",
+              "DocumentMoniker": "A:\\projects\\Unity\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\PlaneHandler.cs",
+              "RelativeDocumentMoniker": "Assets\\Features\\BoardEditor\\PlaneHandler.cs",
+              "ToolTip": "A:\\projects\\Unity\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\PlaneHandler.cs",
+              "RelativeToolTip": "Assets\\Features\\BoardEditor\\PlaneHandler.cs",
+              "ViewState": "AQIAAA4BAAAAAAAAAAAAABsBAAATAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-16T21:22:14.303Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "MovableProp.cs",
               "DocumentMoniker": "A:\\projects\\Unity\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\MovableProp.cs",
               "RelativeDocumentMoniker": "Assets\\Features\\BoardEditor\\MovableProp.cs",
@@ -35,13 +69,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "PropHandler.cs",
               "DocumentMoniker": "A:\\projects\\Unity\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\PropHandler.cs",
               "RelativeDocumentMoniker": "Assets\\Features\\BoardEditor\\PropHandler.cs",
               "ToolTip": "A:\\projects\\Unity\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\PropHandler.cs",
               "RelativeToolTip": "Assets\\Features\\BoardEditor\\PropHandler.cs",
-              "ViewState": "AQIAAPYAAAAAAAAAAADwvycAAAAaAAAA",
+              "ViewState": "AQIAAP4AAAAAAAAAAAAAACcAAAAaAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-16T19:43:22.674Z",
               "EditorCaption": ""
