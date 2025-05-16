@@ -11,7 +11,7 @@ public class StlConverter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Convert("C:\\Users\\huber\\Desktop\\convtest\\body.stl", "C:\\Users\\huber\\Desktop\\convtest\\bodyConv.obj"); //comment if not testing
+        //Convert("input model path", "output model path"); //comment if not testing
     }
 
     // Update is called once per frame

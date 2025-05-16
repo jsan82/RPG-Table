@@ -24,15 +24,24 @@ public class PropHandler : MonoBehaviour
     private float scaleTimer;
     private float scaleLimit;
 
+    private float colorPower;
+    private float colorTimer;
+    private float colorLimit;
+
     // Start is called before the first frame update
     void Start()
     {
         rotateLimit = 0.1f;
         rotatePower = 5.0f;
+
         elevateLimit = 0.1f;
         elevatePower = 0.1f;
+
         scaleLimit = 0.1f;
         scalePower = 0.1f;
+
+        colorLimit = 0.1f;
+        colorPower = 0.1f;
     }
 
     // Update is called once per frame
@@ -42,9 +51,9 @@ public class PropHandler : MonoBehaviour
         HandleRotation();
         HandleElevation();
         HandleScale();
-
-        if (Input.GetKeyDown(KeyCode.R))
-            SpawnProp();
+        HandleBloomToggle();
+        HandleBloomIntensity();
+        HandleSpawnProp();
     }
 
     //pyknij propa via referance
@@ -63,40 +72,43 @@ public class PropHandler : MonoBehaviour
         }
     }
 
-    public void SpawnProp()
+    public void HandleSpawnProp()
     {
-        Vector3 mousePos = Input.mousePosition;
-        mousePos.z = 5f;
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos); //o tutej spawnuj
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = 5f;
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos); //o tutej spawnuj
 
-        Instantiate(objectToSpawn, worldPos, Quaternion.identity);
+            Instantiate(objectToSpawn, worldPos, Quaternion.identity);
+        }
     }
 
     private void HandleRotation()
     {
         if (selectedProp != null)
         {
-            bool leftHeld = Input.GetKey(KeyCode.Q);
-            bool rightHeld = Input.GetKey(KeyCode.E);
+            bool plusHeld = Input.GetKey(KeyCode.Q);
+            bool minusHeld = Input.GetKey(KeyCode.E);
 
-            bool leftDown = Input.GetKeyDown(KeyCode.Q);
-            bool rightDown = Input.GetKeyDown(KeyCode.E);
+            bool plusDown = Input.GetKeyDown(KeyCode.Q);
+            bool minusDown = Input.GetKeyDown(KeyCode.E);
 
             rotateTimer += Time.deltaTime;
 
             //ratatuj
-            if (leftDown || (leftHeld && rotateTimer >= rotateLimit)) //E
+            if (plusDown || (plusHeld && rotateTimer >= rotateLimit)) //E
             {
                 rotateTimer = 0f;
                 selectedProp.OnRotate(Vector3.up, -rotatePower);
             }
-            else if (rightDown || (rightHeld && rotateTimer >= rotateLimit)) //Q
+            else if (minusDown || (minusHeld && rotateTimer >= rotateLimit)) //Q
             {
                 rotateTimer = 0f;
                 selectedProp.OnRotate(Vector3.up, rotatePower);
             }
 
-            if (!leftHeld && !rightHeld)
+            if (!plusHeld && !minusHeld)
             {
                 rotateTimer = rotateLimit;
             }
@@ -110,29 +122,29 @@ public class PropHandler : MonoBehaviour
     {
         if (selectedProp != null)
         {
-            bool leftHeld = Input.GetKey(KeyCode.Z);
-            bool rightHeld = Input.GetKey(KeyCode.X);
+            bool plusHeld = Input.GetKey(KeyCode.Z);
+            bool minusHeld = Input.GetKey(KeyCode.X);
 
-            bool leftDown = Input.GetKeyDown(KeyCode.Z);
-            bool rightDown = Input.GetKeyDown(KeyCode.X);
+            bool plusDown = Input.GetKeyDown(KeyCode.Z);
+            bool minusDown = Input.GetKeyDown(KeyCode.X);
 
             elevateTimer += Time.deltaTime;
 
             //elewatuj
-            if (leftDown || (leftHeld && elevateTimer >= elevateLimit)) //X
+            if (plusDown || (plusHeld && elevateTimer >= elevateLimit)) //X
             {
                 elevateTimer = 0f;
                 Vector3 newPosition = selectedProp.GetPosition() + new Vector3(0, elevatePower, 0);
                 selectedProp.OnDrag(newPosition);
             }
-            else if (rightDown || (rightHeld && elevateTimer >= elevateLimit)) //Z
+            else if (minusDown || (minusHeld && elevateTimer >= elevateLimit)) //Z
             {
                 elevateTimer = 0f;
                 Vector3 newPosition = selectedProp.GetPosition() + new Vector3(0, -elevatePower, 0);
                 selectedProp.OnDrag(newPosition);
             }
 
-            if (!leftHeld && !rightHeld)
+            if (!plusHeld && !minusHeld)
             {
                 elevateTimer = elevateLimit;
             }
@@ -183,22 +195,22 @@ public class PropHandler : MonoBehaviour
     {
         if (selectedProp != null)
         {
-            bool leftHeld = Input.GetKey(KeyCode.C);
-            bool rightHeld = Input.GetKey(KeyCode.V);
+            bool plusHeld = Input.GetKey(KeyCode.C);
+            bool minusHeld = Input.GetKey(KeyCode.V);
 
-            bool leftDown = Input.GetKeyDown(KeyCode.C);
-            bool rightDown = Input.GetKeyDown(KeyCode.V);
+            bool plusDown = Input.GetKeyDown(KeyCode.C);
+            bool minusDown = Input.GetKeyDown(KeyCode.V);
 
             scaleTimer += Time.deltaTime;
 
             //scaleuj
-            if (leftDown || (leftHeld && scaleTimer >= scaleLimit)) //C
+            if (plusDown || (plusHeld && scaleTimer >= scaleLimit)) //C
             {
                 scaleTimer = 0f;
                 Vector3 newScale = selectedProp.GetScale() + Vector3.one * scalePower;
                 selectedProp.OnScale(newScale);
             }
-            else if (rightDown || (rightHeld && scaleTimer >= scaleLimit)) //V
+            else if (minusDown || (minusHeld && scaleTimer >= scaleLimit)) //V
             {
                 scaleTimer = 0f;
                 Vector3 newScale = selectedProp.GetScale() - Vector3.one * scalePower;
@@ -211,7 +223,7 @@ public class PropHandler : MonoBehaviour
                 selectedProp.OnScale(newScale);
             }
 
-            if (!leftHeld && !rightHeld)
+            if (!plusHeld && !minusHeld)
             {
                 scaleTimer = scaleLimit;
             }
@@ -220,5 +232,53 @@ public class PropHandler : MonoBehaviour
         {
             scaleTimer = scaleLimit;
         }
+    }
+
+    private void HandleBloomToggle()
+    {
+        if (selectedProp != null) 
+        {
+            if (Input.GetKeyDown(KeyCode.T)) //T
+            {
+                selectedProp.ToggleBloom();
+            }
+            
+        }
+    }
+
+    private void HandleBloomIntensity()
+    {
+        if (selectedProp != null)
+        {
+            bool plusHeld = Input.GetKey(KeyCode.F);
+            bool minusHeld = Input.GetKey(KeyCode.G);
+
+            bool plusDown = Input.GetKeyDown(KeyCode.F);
+            bool minusDown = Input.GetKeyDown(KeyCode.G);
+            
+            colorTimer += Time.deltaTime;
+
+            //coloruj
+            if (plusDown || (plusHeld && colorTimer >= colorLimit)) //F
+            {
+                colorTimer = 0f;
+                selectedProp.SetIntensity(colorPower);
+            }
+            else if (minusDown || (minusHeld && colorTimer >= colorLimit)) //G
+            {
+                colorTimer = 0f;
+                selectedProp.SetIntensity(-colorPower);
+            }
+
+            if (!plusHeld && !minusHeld)
+            {
+                colorTimer = colorLimit;
+            }
+        }
+        else
+        {
+            colorTimer = colorLimit;
+        }
+
     }
 }
