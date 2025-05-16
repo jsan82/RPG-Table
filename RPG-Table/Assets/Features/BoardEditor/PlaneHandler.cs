@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using System;
+using System.IO;
 
 public class PlaneHandler : MonoBehaviour
 {
@@ -12,7 +15,7 @@ public class PlaneHandler : MonoBehaviour
     private float brushDefoult;
 
     public Terrain terrain;
-    private TerrainData terrainData;
+    private UnityEngine.TerrainData terrainData;
     private int heightmapResolution;
 
     // Start is called before the first frame update
@@ -252,5 +255,43 @@ public class PlaneHandler : MonoBehaviour
         }
 
         terrainData.SetHoles(startX, startZ, map);
+    }
+
+    public void ExportTerrain(string outputPath)
+    {
+        var data = CalcualteTerrainData();
+        if (data == null) return;
+        var (modifRadius, startX, startZ, width, height) = data.Value;
+
+        bool[,] mapHole = terrainData.GetHoles(startX, startZ, width, height);
+        float[,] mapHeight = terrainData.GetHeights(startX, startZ, width, height);
+
+        TerrainData exportData = new TerrainData
+        {
+            width = width,
+            height = height,
+            heightMap = mapHeight,
+            holeMap = mapHole
+        };
+
+        string jsonString = JsonUtility.ToJson(exportData);
+        File.WriteAllText(outputPath, jsonString);
+    }
+
+    public void ImportTerrain(string inputPath)
+    {
+        if (!File.Exists(inputPath))
+            return;
+
+        string jsonString = File.ReadAllText(inputPath);
+        TerrainData exportData = JsonUtility.FromJson<TerrainData>(jsonString);
+
+        int width = exportData.width;
+        int height = exportData.height;
+        var terrainData = terrain.terrainData;
+
+        terrainData.heightmapResolution = Mathf.Max(exportData.width, exportData.height);
+        terrainData.SetHeights(0, 0, exportData.heightMap);
+        terrainData.SetHoles(0, 0, exportData.holeMap);
     }
 }
