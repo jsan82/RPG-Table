@@ -11,7 +11,7 @@ public class StlConverter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Convert("C:\\Users\\huber\\Desktop\\convtest\\cube.stl", "C:\\Users\\huber\\Desktop\\convtest\\cubeConv.obj");
+        //Convert("input model path", "output model path"); //comment if not testing
     }
 
     // Update is called once per frame
@@ -93,12 +93,14 @@ public class StlConverter : MonoBehaviour
                 if (line.StartsWith("vertex"))
                 {
                     Vector3 vertex = ParseVector(line.Substring(6));
-                    if (!vertexDict.ContainsKey(vertex))
-                    {
-                        vertexDict[vertex] = vertices.Count;
-                        vertices.Add(vertex);
-                    }
-                    triangles.Add(vertexDict[vertex]);
+                    vertices.Add(vertex);
+                    triangles.Add(vertices.Count - 1);
+                    //if (!vertexDict.ContainsKey(vertex))
+                    //{
+                    //    vertexDict[vertex] = vertices.Count;
+                    //    vertices.Add(vertex);
+                    //}
+                    //triangles.Add(vertexDict[vertex]);
                 }
             }
         }

@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using System;
+using System.IO;
 
 public class PlaneHandler : MonoBehaviour
 {
@@ -9,9 +12,10 @@ public class PlaneHandler : MonoBehaviour
     private float brushPower { get; set; } // Power per tick of Bruh
     private float brushTimer;
     private float brushLimit { get; set; } // Rate on hold of Bruh
+    private float brushDefoult;
 
     public Terrain terrain;
-    private TerrainData terrainData;
+    private UnityEngine.TerrainData terrainData;
     private int heightmapResolution;
 
     // Start is called before the first frame update
@@ -20,6 +24,7 @@ public class PlaneHandler : MonoBehaviour
         brushSize = 10.0f;
         brushPower = 0.01f;
         brushLimit = 0.01f;
+        brushDefoult = 0.0f;
 
         terrainData = terrain.terrainData;
         heightmapResolution = terrainData.heightmapResolution;
@@ -29,6 +34,7 @@ public class PlaneHandler : MonoBehaviour
     void Update()
     {
         HandleElevation();
+        HandleAllElevation();
         HandleHole();
     }
 
@@ -41,22 +47,22 @@ public class PlaneHandler : MonoBehaviour
 
     private void HandleElevation()
     {
-        bool growHeld = Input.GetKey(KeyCode.J);
-        bool lowerHeld = Input.GetKey(KeyCode.K);
+        bool plusHeld = Input.GetKey(KeyCode.J);
+        bool minusHeld = Input.GetKey(KeyCode.K);
         bool resetHeld = Input.GetKey(KeyCode.L);
 
-        bool growDown = Input.GetKeyDown(KeyCode.J);
-        bool lowerDown = Input.GetKeyDown(KeyCode.K);
+        bool plusDown = Input.GetKeyDown(KeyCode.J);
+        bool minusDown = Input.GetKeyDown(KeyCode.K);
         bool resetDown = Input.GetKeyDown(KeyCode.L);
 
         brushTimer += Time.deltaTime;
 
-        if (growDown || (growHeld && brushTimer >= brushLimit)) //J
+        if (plusDown || (plusHeld && brushTimer >= brushLimit)) //J
         {
             brushTimer = 0f;
             ModifyTerrainAtPosition(0);
         }
-        else if (lowerDown || (lowerHeld && brushTimer >= brushLimit)) //K
+        else if (minusDown || (minusHeld && brushTimer >= brushLimit)) //K
         {
             brushTimer = 0f;
             ModifyTerrainAtPosition(1);
@@ -68,7 +74,35 @@ public class PlaneHandler : MonoBehaviour
         }
 
 
-        if (!growHeld && !lowerHeld && !resetHeld)
+        if (!plusHeld && !minusHeld && !resetHeld)
+        {
+            brushTimer = brushLimit;
+        }
+    }
+
+
+    private void HandleAllElevation()
+    {
+        bool plusHeld = Input.GetKey(KeyCode.O);
+        bool minusHeld = Input.GetKey(KeyCode.P);
+
+        bool plusDown = Input.GetKeyDown(KeyCode.O);
+        bool minusDown = Input.GetKeyDown(KeyCode.P);
+
+        brushTimer += Time.deltaTime;
+
+        if (plusDown || (plusHeld && brushTimer >= brushLimit)) //O
+        {
+            brushTimer = 0f;
+            ModifyAllTerrain(true);
+        }
+        else if (minusDown || (minusHeld && brushTimer >= brushLimit)) //P
+        {
+            brushTimer = 0f;
+            ModifyAllTerrain(false);
+        }
+
+        if (!plusHeld && !minusHeld)
         {
             brushTimer = brushLimit;
         }
@@ -105,7 +139,7 @@ public class PlaneHandler : MonoBehaviour
     private (int modifRadius, int startX, int startZ, int width, int height)? CalcualteTerrainData()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (!Physics.Raycast(ray, out RaycastHit hit))
+        if (!Physics.Raycast(ray, out RaycastHit hit) || hit.collider.gameObject != terrain.gameObject)
             return null;
 
         Vector3 terrainPos = hit.point - terrain.transform.position;
@@ -129,8 +163,8 @@ public class PlaneHandler : MonoBehaviour
         return (modifRadius, startX, startZ, width, height);
     }
 
-
-    private void ModifyTerrainAtPosition(int raiseTerrain)
+    //na kopiec kreta i kilimanjaro
+    private void ModifyTerrainAtPosition(int modTerrain)
     {
         var data = CalcualteTerrainData();
         if (data == null) return;
@@ -145,9 +179,9 @@ public class PlaneHandler : MonoBehaviour
                 float distance = Vector2.Distance(new Vector2(x, z), new Vector2(width / 2, height / 2));
                 float strength = Mathf.Clamp01(1f - (distance / (float)modifRadius)) * brushPower;
 
-                if (raiseTerrain == 0) map[z, x] += strength;
-                else if (raiseTerrain == 1) map[z, x] -= strength;
-                else if (raiseTerrain == 2) map[z, x] = 0;
+                if (modTerrain == 0) map[z, x] += strength;
+                else if (modTerrain == 1) map[z, x] -= strength;
+                else if (modTerrain == 2) map[z, x] = brushDefoult;
 
                 map[z, x] = Mathf.Clamp01(map[z, x]);
             }
@@ -156,7 +190,47 @@ public class PlaneHandler : MonoBehaviour
         terrainData.SetHeights(startX, startZ, map);
     }
 
+    //elevate all
+    private void ModifyAllTerrain(bool raiseTerrain)
+    {
+        int heightmapWidth = terrainData.heightmapResolution;
+        int heightmapHeight = terrainData.heightmapResolution;
 
+        float[,] heights = terrainData.GetHeights(0, 0, heightmapWidth, heightmapHeight);
+
+        for (int x = 0; x < heightmapWidth; x++)
+        {
+            for (int y = 0; y < heightmapHeight; y++)
+            {
+                if (raiseTerrain)
+                {
+                    heights[y, x] += brushPower;
+                }
+                else
+                {
+                    heights[y, x] -= brushPower;
+                }
+
+
+                heights[y, x] = Mathf.Clamp01(heights[y, x]);
+            }
+        }
+
+        terrainData.SetHeights(0, 0, heights);
+
+        //new def
+        if (raiseTerrain)
+        {
+            brushDefoult += brushPower;
+        }
+        else
+        {
+            brushDefoult -= brushPower;
+            if (brushDefoult < 0) brushDefoult = 0;
+        }
+    }
+
+    //kto dolki kopie ten sam w nie wpada
     private void HoleTerrainAtPosition(bool holeTerrain)
     {
         var data = CalcualteTerrainData();
@@ -181,5 +255,43 @@ public class PlaneHandler : MonoBehaviour
         }
 
         terrainData.SetHoles(startX, startZ, map);
+    }
+
+    public void ExportTerrain(string outputPath)
+    {
+        var data = CalcualteTerrainData();
+        if (data == null) return;
+        var (modifRadius, startX, startZ, width, height) = data.Value;
+
+        bool[,] mapHole = terrainData.GetHoles(startX, startZ, width, height);
+        float[,] mapHeight = terrainData.GetHeights(startX, startZ, width, height);
+
+        TerrainData exportData = new TerrainData
+        {
+            width = width,
+            height = height,
+            heightMap = mapHeight,
+            holeMap = mapHole
+        };
+
+        string jsonString = JsonUtility.ToJson(exportData);
+        File.WriteAllText(outputPath, jsonString);
+    }
+
+    public void ImportTerrain(string inputPath)
+    {
+        if (!File.Exists(inputPath))
+            return;
+
+        string jsonString = File.ReadAllText(inputPath);
+        TerrainData exportData = JsonUtility.FromJson<TerrainData>(jsonString);
+
+        int width = exportData.width;
+        int height = exportData.height;
+        var terrainData = terrain.terrainData;
+
+        terrainData.heightmapResolution = Mathf.Max(exportData.width, exportData.height);
+        terrainData.SetHeights(0, 0, exportData.heightMap);
+        terrainData.SetHoles(0, 0, exportData.holeMap);
     }
 }
