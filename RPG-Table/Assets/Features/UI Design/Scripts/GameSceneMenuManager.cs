@@ -67,6 +67,12 @@ public class GameSceneMenuManager : MonoBehaviour
         // Implement brush button here
         isBrushSettingsVisible = !isBrushSettingsVisible;
         brushSettingsPanel.SetActive(isBrushSettingsVisible);
+        isHammerSettingsVisible = false;
+        isDiceSettingsVisible = false;
+        isLayerSelectorVisible = false;
+        hammerSettingsPanel.SetActive(false);
+        diceSettingsPanel.SetActive(false); 
+        layerSelectorPanel.SetActive(false);
         Debug.Log("Brush Panel toggled: " + isBrushSettingsVisible);
     }
 
@@ -81,6 +87,12 @@ public class GameSceneMenuManager : MonoBehaviour
         // Implement hammer button here
         isHammerSettingsVisible = !isHammerSettingsVisible;
         hammerSettingsPanel.SetActive(isHammerSettingsVisible);
+        isBrushSettingsVisible = false;
+        isDiceSettingsVisible = false;
+        isLayerSelectorVisible = false;
+        brushSettingsPanel.SetActive(false);
+        diceSettingsPanel.SetActive(false);
+        layerSelectorPanel.SetActive(false);
         Debug.Log("Hammer button toggled: " + isHammerSettingsVisible);
     }
 
@@ -89,6 +101,12 @@ public class GameSceneMenuManager : MonoBehaviour
         // Implement dice button here
         isDiceSettingsVisible = !isDiceSettingsVisible;
         diceSettingsPanel.SetActive(isDiceSettingsVisible);
+        isBrushSettingsVisible = false;
+        isHammerSettingsVisible = false;
+        isLayerSelectorVisible = false;
+        brushSettingsPanel.SetActive(false);
+        hammerSettingsPanel.SetActive(false);
+        layerSelectorPanel.SetActive(false);
         Debug.Log("Dice button toggled: " + isDiceSettingsVisible);
     }
 
@@ -97,6 +115,12 @@ public class GameSceneMenuManager : MonoBehaviour
         // Implement list button here
         isLayerSelectorVisible = !isLayerSelectorVisible;
         layerSelectorPanel.SetActive(isLayerSelectorVisible);
+        isBrushSettingsVisible = false;
+        isHammerSettingsVisible = false;
+        isDiceSettingsVisible = false;
+        brushSettingsPanel.SetActive(false);
+        hammerSettingsPanel.SetActive(false);
+        diceSettingsPanel.SetActive(false);
         Debug.Log("Layer selector toggled: " + isLayerSelectorVisible);
     }
 
