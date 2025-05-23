@@ -14,9 +14,10 @@ public class DiceExpressionEvaluator : MonoBehaviour
     public bool evaluateOnStart = true;
     public bool showPostfixNotation = true;
     public bool detailedDiceLogging = true;
+    public GameObject inputField;
     
     //operators precedence
-    private readonly Dictionary<char, int> precedence = new Dictionary<char, int> 
+    private readonly Dictionary<char, int> precedence = new Dictionary<char, int>
     {
         {'+', 2}, {'-', 2}, {'*', 3}, {'/', 3}, {'^', 4}, {'d', 5}
     };
@@ -258,6 +259,19 @@ public class DiceExpressionEvaluator : MonoBehaviour
 
         Debug.LogError($"No CharacterAttributes component found on {objectID}");
         return 0;
+    }
+
+    public void throwButton()
+    {
+        if (inputField != null)
+        {
+            string expression = inputField.GetComponent<TMP_InputField>().text;
+            EvaluateAndLog(expression);
+        }
+        else
+        {
+            Debug.LogError("Input field is not assigned.");
+        }
     }
 
     //Method to check if the character is an operator
