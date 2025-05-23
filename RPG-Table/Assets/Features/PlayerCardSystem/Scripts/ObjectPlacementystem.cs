@@ -119,6 +119,7 @@ public class ObjectPlacementSystem : MonoBehaviour
         }
         if (pendingObject != null && !CustomPrefabCreator.activeSelf) //checkign if we are placing an object
         {
+
             bool isInsideCardArea = RectTransformUtility.RectangleContainsScreenPoint(
                 cardArea as RectTransform,
                 Input.mousePosition,
@@ -399,6 +400,11 @@ public class ObjectPlacementSystem : MonoBehaviour
         CustomPrefabCreator.transform.Find("PrefabName").GetComponent<TMP_InputField>().text = "";
 
     }
+
+
+
+
+
 
 }
 
