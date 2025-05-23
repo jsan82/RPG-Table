@@ -14,19 +14,19 @@ public class PropHandler : MonoBehaviour
     private Vector3 dragOffset;
     private Plane dragPlane;
 
-    private float rotatePower;
+    private float rotatePower { get; set; }
     private float rotateTimer;
     private float rotateLimit;
 
-    private float elevatePower;
+    private float elevatePower { get; set; }
     private float elevateTimer;
     private float elevateLimit;
 
-    private float scalePower;
+    private float scalePower { get; set; }
     private float scaleTimer;
     private float scaleLimit;
 
-    private float colorPower;
+    private float colorPower { get; set; }
     private float colorTimer;
     private float colorLimit;
 
@@ -45,7 +45,7 @@ public class PropHandler : MonoBehaviour
         colorLimit = 0.1f;
         colorPower = 0.1f;
 
-        LoadOBJFromPath("C:\\Users\\huber\\Desktop\\convtest\\body2Conv.obj");
+        //LoadOBJFromPath("P A T H"); //comment if not testing
     }
 
     // Update is called once per frame
