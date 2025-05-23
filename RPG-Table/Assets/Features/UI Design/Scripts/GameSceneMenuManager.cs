@@ -1,8 +1,39 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 public class GameSceneMenuManager : MonoBehaviour
 {
+    // Brush Settings
+    public GameObject brushSettingsPanel;
+    public TMP_InputField hexColorInput;
+    public Slider brushSizeSlider;
+
+    private bool isBrushSettingsVisible = false;
+
+    // Hammer Settings
+    public GameObject hammerSettingsPanel;
+    public Slider hammerSizeSlider;
+
+    private bool isHammerSettingsVisible = false;
+
+    // Dice Settings
+    public GameObject diceSettingsPanel;
+
+    private bool isDiceSettingsVisible = false;
+
+    // Layer Selector
+    public GameObject layerSelectorPanel;
+
+    public Toggle toggleGrid;
+    public Toggle toggleTokens;
+    public Toggle toggleFogOfWar;
+    public Toggle toggleEnvironment;
+    public Toggle toggleBackground;
+
+    private bool isLayerSelectorVisible = false;
+
     public void ButtonChat()
     {
         // Implement chat button here
@@ -34,7 +65,15 @@ public class GameSceneMenuManager : MonoBehaviour
     public void ButtonBrush()
     {
         // Implement brush button here
-        Debug.Log("Brush button clicked.");
+        isBrushSettingsVisible = !isBrushSettingsVisible;
+        brushSettingsPanel.SetActive(isBrushSettingsVisible);
+        isHammerSettingsVisible = false;
+        isDiceSettingsVisible = false;
+        isLayerSelectorVisible = false;
+        hammerSettingsPanel.SetActive(false);
+        diceSettingsPanel.SetActive(false); 
+        layerSelectorPanel.SetActive(false);
+        Debug.Log("Brush Panel toggled: " + isBrushSettingsVisible);
     }
 
     public void ButtonRuler()
@@ -43,16 +82,46 @@ public class GameSceneMenuManager : MonoBehaviour
         Debug.Log("Ruler button clicked.");
     }
 
+    public void ButtonHammer()
+    {
+        // Implement hammer button here
+        isHammerSettingsVisible = !isHammerSettingsVisible;
+        hammerSettingsPanel.SetActive(isHammerSettingsVisible);
+        isBrushSettingsVisible = false;
+        isDiceSettingsVisible = false;
+        isLayerSelectorVisible = false;
+        brushSettingsPanel.SetActive(false);
+        diceSettingsPanel.SetActive(false);
+        layerSelectorPanel.SetActive(false);
+        Debug.Log("Hammer button toggled: " + isHammerSettingsVisible);
+    }
+
     public void ButtonDice()
     {
         // Implement dice button here
-        Debug.Log("Dice button clicked.");
+        isDiceSettingsVisible = !isDiceSettingsVisible;
+        diceSettingsPanel.SetActive(isDiceSettingsVisible);
+        isBrushSettingsVisible = false;
+        isHammerSettingsVisible = false;
+        isLayerSelectorVisible = false;
+        brushSettingsPanel.SetActive(false);
+        hammerSettingsPanel.SetActive(false);
+        layerSelectorPanel.SetActive(false);
+        Debug.Log("Dice button toggled: " + isDiceSettingsVisible);
     }
 
     public void ButtonList()
     {
         // Implement list button here
-        Debug.Log("List button clicked.");
+        isLayerSelectorVisible = !isLayerSelectorVisible;
+        layerSelectorPanel.SetActive(isLayerSelectorVisible);
+        isBrushSettingsVisible = false;
+        isHammerSettingsVisible = false;
+        isDiceSettingsVisible = false;
+        brushSettingsPanel.SetActive(false);
+        hammerSettingsPanel.SetActive(false);
+        diceSettingsPanel.SetActive(false);
+        Debug.Log("Layer selector toggled: " + isLayerSelectorVisible);
     }
 
     public void ButtonSend()
@@ -81,5 +150,21 @@ public class GameSceneMenuManager : MonoBehaviour
     public void HidePanel(GameObject panel)
     {
         panel.SetActive(false);
+    }
+
+    public Color GetBrushColor()
+    {
+        if (ColorUtility.TryParseHtmlString(hexColorInput.text, out Color color))
+            return color;
+        else
+        {
+            Debug.LogWarning("Invalid hex color. Using white as fallback.");
+            return Color.white;
+        }
+    }
+
+    public float GetBrushSize()
+    {
+        return brushSizeSlider.value;
     }
 }

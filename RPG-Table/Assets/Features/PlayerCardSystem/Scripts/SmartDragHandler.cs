@@ -35,6 +35,7 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
 
         offset = rectTransform.anchoredPosition - localPointerPosition;
         dragStartPosition = rectTransform.anchoredPosition;
+
         // Ustaw ten obiekt jako lidera przeciągania
         currentDragLeader = this;
         
@@ -50,15 +51,14 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
             selectedObjects.Clear();
             selectedObjects.Add(this);
         }
-        
+
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         if (currentDragLeader != this) return;
 
-        
-        
+
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
             canvas.GetComponent<RectTransform>(),
             eventData.position,
@@ -106,6 +106,7 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
     private void Update()
     {
 
+
         if (currentDragLeader == this)
         {
             //up and down in hierarchy
@@ -127,6 +128,7 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
             }
         }
 
+
         // Aktualizacja stanu multiDrag
         if (Input.GetKeyDown(multiDragKey) && currentDragLeader == null)
         {
@@ -139,8 +141,7 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
             isMultiDragActive = false;
             selectedObjects.Clear();
         }
-        
-        
+
     }
 
     private void OnDestroy()

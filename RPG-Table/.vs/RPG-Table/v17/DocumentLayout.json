@@ -1,0 +1,149 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "F:\\Program Files\\Unity\\Projects\\RPG-Table\\RPG-Table\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|f:\\program files\\unity\\projects\\rpg-table\\rpg-table\\assets\\features\\ui design\\scripts\\gamescenemenumanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\ui design\\scripts\\gamescenemenumanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|F:\\Program Files\\Unity\\Projects\\RPG-Table\\RPG-Table\\assets\\features\\playercardsystem\\scripts\\saveload.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\playercardsystem\\scripts\\saveload.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|F:\\Program Files\\Unity\\Projects\\RPG-Table\\RPG-Table\\assets\\features\\camera\\scripts\\cameracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\camera\\scripts\\cameracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|F:\\Program Files\\Unity\\Projects\\RPG-Table\\RPG-Table\\assets\\features\\ui design\\scripts\\mainmenucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\ui design\\scripts\\mainmenucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|F:\\Program Files\\Unity\\Projects\\RPG-Table\\RPG-Table\\assets\\features\\boardeditor\\prophandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\boardeditor\\prophandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|F:\\Program Files\\Unity\\Projects\\RPG-Table\\RPG-Table\\assets\\features\\boardeditor\\movableprop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\boardeditor\\movableprop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|F:\\Program Files\\Unity\\Projects\\RPG-Table\\RPG-Table\\assets\\features\\boardeditor\\planehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\boardeditor\\planehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|F:\\Program Files\\Unity\\Projects\\RPG-Table\\RPG-Table\\assets\\features\\boardeditor\\terraindata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\boardeditor\\terraindata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SaveLoad.cs",
+              "DocumentMoniker": "F:\\Program Files\\Unity\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\PlayerCardSystem\\Scripts\\SaveLoad.cs",
+              "RelativeDocumentMoniker": "Assets\\Features\\PlayerCardSystem\\Scripts\\SaveLoad.cs",
+              "ToolTip": "F:\\Program Files\\Unity\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\PlayerCardSystem\\Scripts\\SaveLoad.cs",
+              "RelativeToolTip": "Assets\\Features\\PlayerCardSystem\\Scripts\\SaveLoad.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-17T20:46:32.194Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CameraController.cs",
+              "DocumentMoniker": "F:\\Program Files\\Unity\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\Camera\\Scripts\\CameraController.cs",
+              "RelativeDocumentMoniker": "Assets\\Features\\Camera\\Scripts\\CameraController.cs",
+              "ToolTip": "F:\\Program Files\\Unity\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\Camera\\Scripts\\CameraController.cs",
+              "RelativeToolTip": "Assets\\Features\\Camera\\Scripts\\CameraController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-17T20:43:42.408Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MainMenuController.cs",
+              "DocumentMoniker": "F:\\Program Files\\Unity\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\UI Design\\Scripts\\MainMenuController.cs",
+              "RelativeDocumentMoniker": "Assets\\Features\\UI Design\\Scripts\\MainMenuController.cs",
+              "ToolTip": "F:\\Program Files\\Unity\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\UI Design\\Scripts\\MainMenuController.cs",
+              "RelativeToolTip": "Assets\\Features\\UI Design\\Scripts\\MainMenuController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-17T20:30:57.375Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GameSceneMenuManager.cs",
+              "DocumentMoniker": "F:\\Program Files\\Unity\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\UI Design\\Scripts\\GameSceneMenuManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Features\\UI Design\\Scripts\\GameSceneMenuManager.cs",
+              "ToolTip": "F:\\Program Files\\Unity\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\UI Design\\Scripts\\GameSceneMenuManager.cs",
+              "RelativeToolTip": "Assets\\Features\\UI Design\\Scripts\\GameSceneMenuManager.cs",
+              "ViewState": "AgIAAE4AAABA/f///985wHoAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-17T20:22:06.91Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "TerrainData.cs",
+              "DocumentMoniker": "F:\\Program Files\\Unity\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\TerrainData.cs",
+              "RelativeDocumentMoniker": "Assets\\Features\\BoardEditor\\TerrainData.cs",
+              "ToolTip": "F:\\Program Files\\Unity\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\TerrainData.cs",
+              "RelativeToolTip": "Assets\\Features\\BoardEditor\\TerrainData.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-16T21:35:56.526Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "PlaneHandler.cs",
+              "DocumentMoniker": "F:\\Program Files\\Unity\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\PlaneHandler.cs",
+              "RelativeDocumentMoniker": "Assets\\Features\\BoardEditor\\PlaneHandler.cs",
+              "ToolTip": "F:\\Program Files\\Unity\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\PlaneHandler.cs",
+              "RelativeToolTip": "Assets\\Features\\BoardEditor\\PlaneHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsBAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-16T21:22:14.303Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MovableProp.cs",
+              "DocumentMoniker": "F:\\Program Files\\Unity\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\MovableProp.cs",
+              "RelativeDocumentMoniker": "Assets\\Features\\BoardEditor\\MovableProp.cs",
+              "ToolTip": "F:\\Program Files\\Unity\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\MovableProp.cs",
+              "RelativeToolTip": "Assets\\Features\\BoardEditor\\MovableProp.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-16T19:43:30.517Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PropHandler.cs",
+              "DocumentMoniker": "F:\\Program Files\\Unity\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\PropHandler.cs",
+              "RelativeDocumentMoniker": "Assets\\Features\\BoardEditor\\PropHandler.cs",
+              "ToolTip": "F:\\Program Files\\Unity\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\PropHandler.cs",
+              "RelativeToolTip": "Assets\\Features\\BoardEditor\\PropHandler.cs",
+              "ViewState": "AgIAAKkAAAAAAAAAAAAUwCcAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-16T19:43:22.674Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
