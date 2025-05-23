@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -42,6 +44,8 @@ public class PropHandler : MonoBehaviour
 
         colorLimit = 0.1f;
         colorPower = 0.1f;
+
+        LoadOBJFromPath("C:\\Users\\huber\\Desktop\\convtest\\body2Conv.obj");
     }
 
     // Update is called once per frame
@@ -80,7 +84,8 @@ public class PropHandler : MonoBehaviour
             mousePos.z = 5f;
             Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos); //o tutej spawnuj
 
-            Instantiate(objectToSpawn, worldPos, Quaternion.identity);
+            GameObject spawned = Instantiate(objectToSpawn, worldPos, Quaternion.identity);
+            spawned.SetActive(true);
         }
     }
 
@@ -280,5 +285,70 @@ public class PropHandler : MonoBehaviour
             colorTimer = colorLimit;
         }
 
+    }
+
+    public void LoadOBJFromPath(string filePath)
+    {
+        if (!System.IO.File.Exists(filePath))
+        {
+            return;
+        }
+
+        List<Vector3> vertices = new List<Vector3>();
+        List<int> triangles = new List<int>();
+
+        string[] lines = File.ReadAllLines(filePath);
+
+        foreach (string line in lines)
+        {
+            if (line.StartsWith("v "))
+            {
+                string[] parts = line.Split(new[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
+                float x = float.Parse(parts[1], CultureInfo.InvariantCulture);
+                float y = float.Parse(parts[2], CultureInfo.InvariantCulture);
+                float z = float.Parse(parts[3], CultureInfo.InvariantCulture);
+                vertices.Add(new Vector3(x, y, z));
+            }
+            else if (line.StartsWith("f "))
+            {
+                string[] parts = line.Split(new[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 1; i < parts.Length - 2; i++)
+                {
+                    triangles.Add(ParseFaceIndex(parts[1]) - 1);
+                    triangles.Add(ParseFaceIndex(parts[i + 1]) - 1);
+                    triangles.Add(ParseFaceIndex(parts[i + 2]) - 1);
+                }
+            }
+        }
+
+        GameObject obj = new GameObject("RuntimeOBJ");
+
+        MeshFilter mf = obj.AddComponent<MeshFilter>();
+        MeshRenderer mr = obj.AddComponent<MeshRenderer>();
+        obj.AddComponent<MovableProp>();
+
+        Mesh mesh = new Mesh();
+        mesh.SetVertices(vertices);
+        mesh.SetTriangles(triangles, 0);
+        mesh.RecalculateNormals();
+
+        mf.mesh = mesh;
+
+        MeshCollider mc = obj.AddComponent<MeshCollider>();
+        mc.sharedMesh = mesh;
+        mc.convex = true;
+
+        mr.material = new Material(Shader.Find("Standard"));
+
+        obj.SetActive(false);
+        objectToSpawn = obj;
+        //UnityEngine.Object.DestroyImmediate(obj); //It will explode.
+        
+    }
+
+    private int ParseFaceIndex(string part)
+    {
+        string[] comps = part.Split('/');
+        return int.Parse(comps[0]);
     }
 }
