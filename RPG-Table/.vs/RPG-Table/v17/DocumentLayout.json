@@ -7,16 +7,16 @@
       "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\boardeditor\\prophandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|A:\\projects\\Unity\\RPG-Table\\RPG-Table\\assets\\features\\boardeditor\\planehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\boardeditor\\planehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|A:\\projects\\Unity\\RPG-Table\\RPG-Table\\assets\\features\\boardeditor\\stlconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\boardeditor\\stlconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|A:\\projects\\Unity\\RPG-Table\\RPG-Table\\assets\\features\\boardeditor\\movableprop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\boardeditor\\movableprop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|A:\\projects\\Unity\\RPG-Table\\RPG-Table\\assets\\features\\boardeditor\\planehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\boardeditor\\planehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +30,7 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "StlConverter.cs",
               "DocumentMoniker": "A:\\projects\\Unity\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\StlConverter.cs",
               "RelativeDocumentMoniker": "Assets\\Features\\BoardEditor\\StlConverter.cs",
@@ -42,19 +42,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "PlaneHandler.cs",
               "DocumentMoniker": "A:\\projects\\Unity\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\PlaneHandler.cs",
               "RelativeDocumentMoniker": "Assets\\Features\\BoardEditor\\PlaneHandler.cs",
               "ToolTip": "A:\\projects\\Unity\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\PlaneHandler.cs",
               "RelativeToolTip": "Assets\\Features\\BoardEditor\\PlaneHandler.cs",
-              "ViewState": "AQIAAA4BAAAAAAAAAAA2wAAAAAAAAAAA",
+              "ViewState": "AQIAAP0AAAAAAAAAAAAmwAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-16T21:22:14.303Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "MovableProp.cs",
               "DocumentMoniker": "A:\\projects\\Unity\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\MovableProp.cs",
               "RelativeDocumentMoniker": "Assets\\Features\\BoardEditor\\MovableProp.cs",
@@ -72,7 +72,7 @@
               "RelativeDocumentMoniker": "Assets\\Features\\BoardEditor\\PropHandler.cs",
               "ToolTip": "A:\\projects\\Unity\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\PropHandler.cs",
               "RelativeToolTip": "Assets\\Features\\BoardEditor\\PropHandler.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAqwC0AAAAaAAAA",
+              "ViewState": "AQIAACABAAAAAAAAAAAgwC0BAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-16T19:43:22.674Z",
               "EditorCaption": ""
