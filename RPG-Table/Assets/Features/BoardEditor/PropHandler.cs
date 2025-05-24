@@ -1,10 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UIElements;
-
+using Dummiesman;
 
 public class PropHandler : MonoBehaviour
 {
@@ -45,7 +46,7 @@ public class PropHandler : MonoBehaviour
         colorLimit = 0.1f;
         colorPower = 0.1f;
 
-        //LoadOBJFromPath("P A T H"); //comment if not testing
+        LoadOBJFromPath("C:\\Users\\huber\\Desktop\\convtest\\uploads_files_4162193_OldBook001_tex\\magic_staff.obj"); // comment if not testing
     }
 
     // Update is called once per frame
@@ -286,69 +287,36 @@ public class PropHandler : MonoBehaviour
         }
 
     }
-
+    ///*
     public void LoadOBJFromPath(string filePath)
     {
-        if (!System.IO.File.Exists(filePath))
-        {
+        if (!File.Exists(filePath))
             return;
-        }
 
-        List<Vector3> vertices = new List<Vector3>();
-        List<int> triangles = new List<int>();
+        GameObject obj = new OBJLoader().Load(filePath);
+        obj.name = Path.GetFileNameWithoutExtension(filePath);
 
-        string[] lines = File.ReadAllLines(filePath);
+        obj.transform.position = Vector3.zero;
+        obj.transform.rotation = Quaternion.identity;
+        obj.transform.localScale = Vector3.one;
 
-        foreach (string line in lines)
+        Bounds bounds = new Bounds(obj.transform.position, Vector3.zero);
+        var renderers = obj.GetComponentsInChildren<Renderer>();
+        if (renderers.Length > 0)
         {
-            if (line.StartsWith("v "))
+            bounds = renderers[0].bounds;
+            foreach (var rend in renderers)
             {
-                string[] parts = line.Split(new[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
-                float x = float.Parse(parts[1], CultureInfo.InvariantCulture);
-                float y = float.Parse(parts[2], CultureInfo.InvariantCulture);
-                float z = float.Parse(parts[3], CultureInfo.InvariantCulture);
-                vertices.Add(new Vector3(x, y, z));
-            }
-            else if (line.StartsWith("f "))
-            {
-                string[] parts = line.Split(new[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
-                for (int i = 1; i < parts.Length - 2; i++)
-                {
-                    triangles.Add(ParseFaceIndex(parts[1]) - 1);
-                    triangles.Add(ParseFaceIndex(parts[i + 1]) - 1);
-                    triangles.Add(ParseFaceIndex(parts[i + 2]) - 1);
-                }
+                bounds.Encapsulate(rend.bounds);
             }
         }
 
-        GameObject obj = new GameObject("RuntimeOBJ");
+        BoxCollider boxCollider = obj.AddComponent<BoxCollider>();
+        boxCollider.center = obj.transform.InverseTransformPoint(bounds.center);
+        boxCollider.size = bounds.size;
 
-        MeshFilter mf = obj.AddComponent<MeshFilter>();
-        MeshRenderer mr = obj.AddComponent<MeshRenderer>();
         obj.AddComponent<MovableProp>();
-
-        Mesh mesh = new Mesh();
-        mesh.SetVertices(vertices);
-        mesh.SetTriangles(triangles, 0);
-        mesh.RecalculateNormals();
-
-        mf.mesh = mesh;
-
-        MeshCollider mc = obj.AddComponent<MeshCollider>();
-        mc.sharedMesh = mesh;
-        mc.convex = true;
-
-        mr.material = new Material(Shader.Find("Standard"));
-
         obj.SetActive(false);
         objectToSpawn = obj;
-        //UnityEngine.Object.DestroyImmediate(obj); //It will explode.
-        
-    }
-
-    private int ParseFaceIndex(string part)
-    {
-        string[] comps = part.Split('/');
-        return int.Parse(comps[0]);
     }
 }
