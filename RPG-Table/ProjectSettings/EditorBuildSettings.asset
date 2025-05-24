@@ -23,7 +23,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Features/UI Design/Scenes/LANChatTest.unity
     guid: ea19cffeac1e1944fac85399fb28279f
-  - enabled: 1
-    path: Assets/Features/UI Design/Scenes/ChatScene.unity
+  - enabled: 0
+    path: Assets/Features/Networking/Scenes/ChatScene.unity
     guid: 929012be4ee42a241b132b21493bcd33
+  - enabled: 0
+    path: Assets/Features/Networking/Scenes/SampleNetworkScene.unity
+    guid: 5c8e827b2ab66b545a853fc54325ee81
+  - enabled: 1
+    path: Assets/Features/Networking/Scenes/ChatSceneCOMPLETE.unity
+    guid: bcfd449d867ba144c84c46dc7f762d0f
   m_configObjects: {}
