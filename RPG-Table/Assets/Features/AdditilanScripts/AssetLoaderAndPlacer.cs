@@ -13,24 +13,33 @@ public class AssetLoaderAndPlacer : MonoBehaviour
     public GameObject assetPanel;
     public GameObject asset2DAssetPanel;
     public GameObject asset3DAssetPanel;
-    public GameObject buttonPrefab;
-    private List<string> fileNames = new List<string>();
-
+    public GameObject buttonPrefab2D;
+    public GameObject buttonPrefab3D;
+    private List<string> fileNames2D = new List<string>();
+    private List<string> fileNames3D = new List<string>();
     private string PATH_TO_2D_ASSETS = SettingsManager._CurrentSettings.Assets2DPath;
+    private string PATH_TO_3D_ASSETS = SettingsManager._CurrentSettings.Assets3DPath;
     // Start is called before the first frame update
     void Start()
     {
-    
+
         if (!Directory.Exists(PATH_TO_2D_ASSETS))
         {
             Directory.CreateDirectory(PATH_TO_2D_ASSETS);
         }
-        fileNames.AddRange(Directory.GetFiles(PATH_TO_2D_ASSETS, "*.png"));
-        fileNames.AddRange(Directory.GetFiles(PATH_TO_2D_ASSETS, "*.jpg"));
-        foreach (string filePath in fileNames)
+
+        if (!Directory.Exists(PATH_TO_3D_ASSETS))
+        {
+            Directory.CreateDirectory(PATH_TO_3D_ASSETS);
+        }
+
+        //2D Assets
+        fileNames2D.AddRange(Directory.GetFiles(PATH_TO_2D_ASSETS, "*.png"));
+        fileNames2D.AddRange(Directory.GetFiles(PATH_TO_2D_ASSETS, "*.jpg"));
+        foreach (string filePath in fileNames2D)
         {
             string fileName = Path.GetFileNameWithoutExtension(filePath);
-            GameObject button = Instantiate(buttonPrefab, asset2DAssetPanel.transform);
+            GameObject button = Instantiate(buttonPrefab2D, asset2DAssetPanel.transform);
             button.GetComponentInChildren<TextMeshProUGUI>().text = fileName;
             Image image = button.transform.Find("photo").GetComponent<Image>();
             Texture2D texture = new Texture2D(2, 2);
@@ -40,16 +49,16 @@ public class AssetLoaderAndPlacer : MonoBehaviour
                 continue;
             }
             byte[] fileData = File.ReadAllBytes(filePath);
-            
-            if (texture.LoadImage(fileData)) 
+
+            if (texture.LoadImage(fileData))
             {
 
                 Sprite sprite = Sprite.Create(
                     texture,
                     new Rect(0, 0, texture.width, texture.height),
-                    new Vector2(0.5f, 0.5f) 
+                    new Vector2(0.5f, 0.5f)
                 );
-                
+
 
                 image.sprite = sprite;
             }
@@ -58,15 +67,23 @@ public class AssetLoaderAndPlacer : MonoBehaviour
                 Debug.LogError("Failed to load image at path: " + filePath);
             }
         }
-        
+
+        //3D Assets
+
+        fileNames3D.AddRange(Directory.GetFiles(PATH_TO_3D_ASSETS, "*.obj"));
+        fileNames3D.AddRange(Directory.GetFiles(PATH_TO_3D_ASSETS, "*.fbx"));
+
+        foreach (string filePath in fileNames3D)
+        {
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
+            GameObject button = Instantiate(buttonPrefab3D, asset3DAssetPanel.transform);
+            button.GetComponentInChildren<TextMeshProUGUI>().text = fileName;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (assetPanel.activeSelf)
-        {
-            
-        }
     }
+    
 }
