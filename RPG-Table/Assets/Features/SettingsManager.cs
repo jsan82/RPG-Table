@@ -78,6 +78,5 @@ public class GameSettings
     public string playerCardsPrefabPath = Path.Combine(Application.persistentDataPath,"PlayerPrefab/");
     public string Assets2DPath = Path.Combine(Application.persistentDataPath,"2DAssets/");
     public string Assets3DPath = Path.Combine(Application.persistentDataPath,"3DAssets/");
-
-
+    public string GameCardsPath = Path.Combine(Application.persistentDataPath,"PlayerCards/Game/");
 }
