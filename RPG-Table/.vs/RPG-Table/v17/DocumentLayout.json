@@ -1,21 +1,37 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "A:\\projects\\Unity\\RPG-Table\\RPG-Table\\",
+  "WorkspaceRootPath": "C:\\Projects\\RPG-Table\\RPG-Table\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|a:\\projects\\unity\\rpg-table\\rpg-table\\assets\\features\\boardeditor\\prophandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|c:\\projects\\rpg-table\\rpg-table\\assets\\features\\ui design\\scripts\\mainmenucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\ui design\\scripts\\mainmenucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|c:\\projects\\rpg-table\\rpg-table\\assets\\features\\audio\\scripts\\sfxmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\audio\\scripts\\sfxmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|c:\\projects\\rpg-table\\rpg-table\\assets\\features\\audio\\scripts\\sfxelement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\audio\\scripts\\sfxelement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|C:\\Projects\\RPG-Table\\RPG-Table\\assets\\features\\audio\\scripts\\sfxtype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\audio\\scripts\\sfxtype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|C:\\Projects\\RPG-Table\\RPG-Table\\assets\\features\\boardeditor\\prophandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\boardeditor\\prophandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|A:\\projects\\Unity\\RPG-Table\\RPG-Table\\assets\\features\\boardeditor\\planehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|C:\\Projects\\RPG-Table\\RPG-Table\\assets\\features\\boardeditor\\planehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\boardeditor\\planehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|A:\\projects\\Unity\\RPG-Table\\RPG-Table\\assets\\features\\boardeditor\\stlconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|C:\\Projects\\RPG-Table\\RPG-Table\\assets\\features\\boardeditor\\stlconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\boardeditor\\stlconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|A:\\projects\\Unity\\RPG-Table\\RPG-Table\\assets\\features\\boardeditor\\movableprop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|C:\\Projects\\RPG-Table\\RPG-Table\\assets\\features\\boardeditor\\movableprop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4AE356F8-1E80-565D-04BC-3615356FB97C}|Assembly-CSharp.csproj|solutionrelative:assets\\features\\boardeditor\\movableprop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -26,15 +42,67 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainMenuController.cs",
+              "DocumentMoniker": "C:\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\UI Design\\Scripts\\MainMenuController.cs",
+              "RelativeDocumentMoniker": "Assets\\Features\\UI Design\\Scripts\\MainMenuController.cs",
+              "ToolTip": "C:\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\UI Design\\Scripts\\MainMenuController.cs",
+              "RelativeToolTip": "Assets\\Features\\UI Design\\Scripts\\MainMenuController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T19:41:58.335Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SFXManager.cs",
+              "DocumentMoniker": "C:\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\Audio\\Scripts\\SFXManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Features\\Audio\\Scripts\\SFXManager.cs",
+              "ToolTip": "C:\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\Audio\\Scripts\\SFXManager.cs",
+              "RelativeToolTip": "Assets\\Features\\Audio\\Scripts\\SFXManager.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAQwCMAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T18:14:30.409Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SFXType.cs",
+              "DocumentMoniker": "C:\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\Audio\\Scripts\\SFXType.cs",
+              "RelativeDocumentMoniker": "Assets\\Features\\Audio\\Scripts\\SFXType.cs",
+              "ToolTip": "C:\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\Audio\\Scripts\\SFXType.cs",
+              "RelativeToolTip": "Assets\\Features\\Audio\\Scripts\\SFXType.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T18:06:49.504Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "SFXElement.cs",
+              "DocumentMoniker": "C:\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\Audio\\Scripts\\SFXElement.cs",
+              "RelativeDocumentMoniker": "Assets\\Features\\Audio\\Scripts\\SFXElement.cs",
+              "ToolTip": "C:\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\Audio\\Scripts\\SFXElement.cs",
+              "RelativeToolTip": "Assets\\Features\\Audio\\Scripts\\SFXElement.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T18:06:39.67Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "StlConverter.cs",
-              "DocumentMoniker": "A:\\projects\\Unity\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\StlConverter.cs",
+              "DocumentMoniker": "C:\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\StlConverter.cs",
               "RelativeDocumentMoniker": "Assets\\Features\\BoardEditor\\StlConverter.cs",
-              "ToolTip": "A:\\projects\\Unity\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\StlConverter.cs",
+              "ToolTip": "C:\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\StlConverter.cs",
               "RelativeToolTip": "Assets\\Features\\BoardEditor\\StlConverter.cs",
               "ViewState": "AQIAABgAAAAAAAAAAAA0wCQAAAA1AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -42,11 +110,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "PlaneHandler.cs",
-              "DocumentMoniker": "A:\\projects\\Unity\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\PlaneHandler.cs",
+              "DocumentMoniker": "C:\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\PlaneHandler.cs",
               "RelativeDocumentMoniker": "Assets\\Features\\BoardEditor\\PlaneHandler.cs",
-              "ToolTip": "A:\\projects\\Unity\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\PlaneHandler.cs",
+              "ToolTip": "C:\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\PlaneHandler.cs",
               "RelativeToolTip": "Assets\\Features\\BoardEditor\\PlaneHandler.cs",
               "ViewState": "AQIAAP0AAAAAAAAAAAAmwAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -54,11 +122,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "MovableProp.cs",
-              "DocumentMoniker": "A:\\projects\\Unity\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\MovableProp.cs",
+              "DocumentMoniker": "C:\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\MovableProp.cs",
               "RelativeDocumentMoniker": "Assets\\Features\\BoardEditor\\MovableProp.cs",
-              "ToolTip": "A:\\projects\\Unity\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\MovableProp.cs",
+              "ToolTip": "C:\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\MovableProp.cs",
               "RelativeToolTip": "Assets\\Features\\BoardEditor\\MovableProp.cs",
               "ViewState": "AQIAAGUAAAAAAAAAAAAowGsAAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -66,16 +134,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "PropHandler.cs",
-              "DocumentMoniker": "A:\\projects\\Unity\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\PropHandler.cs",
+              "DocumentMoniker": "C:\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\PropHandler.cs",
               "RelativeDocumentMoniker": "Assets\\Features\\BoardEditor\\PropHandler.cs",
-              "ToolTip": "A:\\projects\\Unity\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\PropHandler.cs",
+              "ToolTip": "C:\\Projects\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\PropHandler.cs",
               "RelativeToolTip": "Assets\\Features\\BoardEditor\\PropHandler.cs",
-              "ViewState": "AQIAACABAAAAAAAAAAAgwC0BAAAAAAAA",
+              "ViewState": "AgIAACABAAAAAAAAAAAgwC0BAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-16T19:43:22.674Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-16T19:43:22.674Z"
             }
           ]
         }
