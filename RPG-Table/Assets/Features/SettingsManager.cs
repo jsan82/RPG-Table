@@ -88,9 +88,9 @@ public class SettingsManager : MonoBehaviour
 
     private void loadSTLAsOBJ()
     {
-        if(!Directory.Exists(Path.Combine(_CurrentSettings.Assets3DPath,"convertedSTL/")))
+        if (!Directory.Exists(Path.Combine(_CurrentSettings.Assets3DPath, "convertedSTL/")))
         {
-            Directory.CreateDirectory(Path.Combine(_CurrentSettings.Assets3DPath,"convertedSTL/"));
+            Directory.CreateDirectory(Path.Combine(_CurrentSettings.Assets3DPath, "convertedSTL/"));
         }
         fileNames.AddRange(Directory.GetFiles(_CurrentSettings.Assets3DPath, "*.stl"));
         Debug.Log(_CurrentSettings.Assets3DPath);
@@ -98,20 +98,20 @@ public class SettingsManager : MonoBehaviour
         {
             Debug.Log($"Converting STL file: {filePath}");
             stlConverter.Convert(filePath, Path.Combine(_CurrentSettings.Assets3DPath, Path.GetFileNameWithoutExtension(filePath) + ".obj"));
-            File.Move(filePath, Path.Combine(_CurrentSettings.Assets3DPath,"convertedSTL/", Path.GetFileName(filePath)));
+            File.Move(filePath, Path.Combine(_CurrentSettings.Assets3DPath, "convertedSTL/", Path.GetFileName(filePath)));
         }
-        
+
     }
 
+    
 }
 
 [System.Serializable]
 public class GameSettings
 {
     public string playerCardsPath = Path.Combine(Application.persistentDataPath,"PlayerCards/");
-
     public string playerCardsPrefabPath = Path.Combine(Application.persistentDataPath, "PlayerPrefab/");
     public string Assets2DPath = Path.Combine(Application.persistentDataPath,"2DAssets/");
     public string Assets3DPath = Path.Combine(Application.persistentDataPath,"3DAssets/");
-    public string GameCardsPath = Path.Combine(playerCardsPath ,"Game/");
+    public string GameCardsPath = Path.Combine(Application.persistentDataPath ,"PlayerCardsGame/");
 }

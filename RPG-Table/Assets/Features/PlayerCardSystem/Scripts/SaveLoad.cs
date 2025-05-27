@@ -12,7 +12,7 @@ public class CardAreaSaver : MonoBehaviour
     public static string saveFileName;
     public bool debugLog = true;
     public Transform cardArea;
-    private string _fullSavePath;
+    public static string _fullSavePath;
     
     private string PATH_TO_2D_ASSETS = SettingsManager._CurrentSettings.Assets2DPath;
 
@@ -202,8 +202,9 @@ public class CardAreaSaver : MonoBehaviour
         }
 
         GameObject newChild = Instantiate(prefab, cardArea);
-        newChild.transform.localPosition = childData.localPosition;
-        newChild.transform.localRotation = childData.localRotation;
+        Debug.Log($"Creating child at {newChild.transform.localPosition} with rotation {newChild.transform.localRotation}");
+        newChild.transform.SetParent(cardArea, false); // Set parent without changing world position
+        
         newChild.transform.localScale = childData.localScale;
         
         ((RectTransform)newChild.transform).sizeDelta =new Vector2(float.Parse(childData.Width),float.Parse(childData.Height));
@@ -309,7 +310,9 @@ public class CardAreaSaver : MonoBehaviour
                 }
                 break;
         }
-
+        newChild.transform.localPosition = childData.localPosition;
+        newChild.transform.localRotation = childData.localRotation;
+        Debug.Log($"Setting local position to {newChild.transform.localPosition}");
         newChild.SetActive(childData.isActive);
 
         ObjectID objID = newChild.GetComponent<ObjectID>();

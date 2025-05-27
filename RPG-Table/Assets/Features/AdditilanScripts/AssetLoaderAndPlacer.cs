@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using TMPro;
 public class AssetLoaderAndPlacer : MonoBehaviour
 {
@@ -15,10 +17,16 @@ public class AssetLoaderAndPlacer : MonoBehaviour
     public GameObject asset3DAssetPanel;
     public GameObject buttonPrefab2D;
     public GameObject buttonPrefab3D;
+    public GameObject playerCardArea;
+    public GameObject PlayerCardWindow;
+    public GameObject PlayerCardPanel;
     private List<string> fileNames2D = new List<string>();
     private List<string> fileNames3D = new List<string>();
+    private List<string> fileNamesPlayerCards = new List<string>();
     private string PATH_TO_2D_ASSETS = SettingsManager._CurrentSettings.Assets2DPath;
     private string PATH_TO_3D_ASSETS = SettingsManager._CurrentSettings.Assets3DPath;
+    private string PATH_TO_PLAYER_CARDS = SettingsManager._CurrentSettings.GameCardsPath;
+    private LoadPlayerCard lpc;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +39,10 @@ public class AssetLoaderAndPlacer : MonoBehaviour
         if (!Directory.Exists(PATH_TO_3D_ASSETS))
         {
             Directory.CreateDirectory(PATH_TO_3D_ASSETS);
+        }
+        if (!Directory.Exists(PATH_TO_PLAYER_CARDS))
+        {
+            Directory.CreateDirectory(PATH_TO_PLAYER_CARDS);
         }
 
         //2D Assets
@@ -79,11 +91,30 @@ public class AssetLoaderAndPlacer : MonoBehaviour
             GameObject button = Instantiate(buttonPrefab3D, asset3DAssetPanel.transform);
             button.GetComponentInChildren<TextMeshProUGUI>().text = fileName;
         }
+
+        //Player Cards
+        fileNamesPlayerCards.AddRange(Directory.GetFiles(PATH_TO_PLAYER_CARDS, "*.json"));
+        foreach (string filePath in fileNamesPlayerCards)
+        {   
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
+            Debug.Log(fileName);
+            GameObject button = Instantiate(buttonPrefab3D, PlayerCardPanel.transform);
+            button.GetComponentInChildren<TextMeshProUGUI>().text = fileName;
+            button.name = fileName; // Set the name of the button to the file name
+            lpc = new LoadPlayerCard();
+            
+            button.GetComponent<Button>().onClick.AddListener(() => lpc.loadPlayerCard(fileName + ".json", playerCardArea, PlayerCardWindow));
+        }
+        
     }
 
     // Update is called once per frame
     void Update()
     {
     }
-    
+
+    public void addCharacter()
+    {
+        
+    }
 }
