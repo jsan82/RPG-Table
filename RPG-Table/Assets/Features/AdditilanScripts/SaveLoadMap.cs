@@ -168,7 +168,19 @@ public class SaveLoadMap : MonoBehaviour
             {
                 if (child.name == "Terrain")
                 {
-
+                    //Terrain terrain = child.GetComponent<Terrain>();
+                    
+                        
+                        ObjectData data = new ObjectData
+                        {
+                            assetName = "Terrain",
+                            holeMap = child.GetComponent<PlaneHandler>().holeMap,
+                            heightMap = child.GetComponent<PlaneHandler>().heightMap
+                        };
+                        mapLayer.Add(data);
+                    
+                    
+                    child.GetComponent<PlaneHandler>().ExportTerrain(Path.Combine(SettingsManager._CurrentSettings.MapsPath, $"Terrain{mapName}"));
                 }
                 else
                 {
@@ -290,4 +302,6 @@ public class ObjectData
     public Vector3 position;
     public Quaternion rotation;
     public Vector3 scale;
+    public float[,] heightMap; // For 3D maps, if needed
+    public bool[,] holeMap;   // For 3D maps, if needed
 }

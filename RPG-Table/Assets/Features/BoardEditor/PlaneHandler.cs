@@ -8,7 +8,7 @@ using System.IO;
 
 public class PlaneHandler : MonoBehaviour
 {
-    private float brushSize { get; set; } // Size of bruh
+    public float brushSize { get; set; } // Size of bruh
     private float brushPower { get; set; } // Power per tick of Bruh
     private float brushTimer;
     private float brushLimit { get; set; } // Rate on hold of Bruh
@@ -16,7 +16,10 @@ public class PlaneHandler : MonoBehaviour
 
     public Terrain terrain;
     private UnityEngine.TerrainData terrainData;
-    private int heightmapResolution;
+    public int heightmapResolution;
+
+    public float[,] heightMap;
+    public bool[,] holeMap;
 
     // Start is called before the first frame update
     void Start()
@@ -186,7 +189,7 @@ public class PlaneHandler : MonoBehaviour
                 map[z, x] = Mathf.Clamp01(map[z, x]);
             }
         }
-
+        heightMap = map;
         terrainData.SetHeights(startX, startZ, map);
     }
 
@@ -253,7 +256,7 @@ public class PlaneHandler : MonoBehaviour
                 }
             }
         }
-
+        holeMap = map;
         terrainData.SetHoles(startX, startZ, map);
     }
 
@@ -293,5 +296,100 @@ public class PlaneHandler : MonoBehaviour
         terrainData.heightmapResolution = Mathf.Max(exportData.width, exportData.height);
         terrainData.SetHeights(0, 0, exportData.heightMap);
         terrainData.SetHoles(0, 0, exportData.holeMap);
+    }
+}
+
+
+[System.Serializable]
+public class TerrainSaveData
+{
+    public int width;
+    public int height;
+    public float[] heightmap; // spłaszczona tablica wysokości
+    public bool[] holes;     // spłaszczona tablica dziur
+
+    public TerrainSaveData(int width, int height, float[,] heightmap2D, bool[,] holes2D)
+    {
+        this.width = width;
+        this.height = height;
+
+        heightmap = new float[width * height];
+        holes = new bool[width * height];
+
+        // Konwersja 2D -> 1D
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                heightmap[y * width + x] = heightmap2D[y, x];
+                holes[y * width + x] = holes2D[y, x];
+            }
+        }
+    }
+
+    public void ApplyToTerrain(TerrainData terrainData)
+    {
+        float[,] heightmap2D = new float[height, width];
+        bool[,] holes2D = new bool[height, width];
+
+        // Konwersja 1D -> 2D
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                heightmap2D[y, x] = heightmap[y * width + x];
+                holes2D[y, x] = holes[y * width + x];
+            }
+        }
+
+        terrainData.SetHeights(0, 0, heightmap2D);
+        terrainData.SetHoles(0, 0, holes2D);
+    }
+}
+
+[System.Serializable]
+public class TerrainSaveData
+{
+    public int width;
+    public int height;
+    public float[] heightmap; // spłaszczona tablica wysokości
+    public bool[] holes;     // spłaszczona tablica dziur
+    
+    public TerrainSaveData(int width, int height, float[,] heightmap2D, bool[,] holes2D)
+    {
+        this.width = width;
+        this.height = height;
+        
+        heightmap = new float[width * height];
+        holes = new bool[width * height];
+        
+        // Konwersja 2D -> 1D
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                heightmap[y * width + x] = heightmap2D[y, x];
+                holes[y * width + x] = holes2D[y, x];
+            }
+        }
+    }
+    
+    public void ApplyToTerrain(TerrainData terrainData)
+    {
+        float[,] heightmap2D = new float[height, width];
+        bool[,] holes2D = new bool[height, width];
+        
+        // Konwersja 1D -> 2D
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                heightmap2D[y, x] = heightmap[y * width + x];
+                holes2D[y, x] = holes[y * width + x];
+            }
+        }
+        
+        terrainData.SetHeights(0, 0, heightmap2D);
+        terrainData.SetHoles(0, 0, holes2D);
     }
 }

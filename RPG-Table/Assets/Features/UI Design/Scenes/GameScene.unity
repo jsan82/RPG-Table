@@ -1818,8 +1818,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 96243507}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.912499, y: 1}
+  m_AnchorMin: {x: 0.08749992, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3220,7 +3220,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 318261113}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 878157885}
+        m_TargetAssemblyTypeName: AddPlayerCard, Assembly-CSharp
+        m_MethodName: PlayerCardNotes
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &318261113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4793,6 +4805,7 @@ GameObject:
   - component: {fileID: 439035174}
   - component: {fileID: 439035176}
   - component: {fileID: 439035175}
+  - component: {fileID: 439035177}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -4875,6 +4888,19 @@ Terrain:
   m_EnableHeightmapRayTracing: 1
   m_EnableTreesAndDetailsRayTracing: 0
   m_TreeMotionVectorModeOverride: 3
+--- !u!114 &439035177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439035173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19f4a26e765d36043b5746fd8554301b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrain: {fileID: 439035176}
 --- !u!1 &445958850
 GameObject:
   m_ObjectHideFlags: 0
@@ -5629,8 +5655,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1881393022}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.60142595}
+  m_AnchorMin: {x: 0, y: 0.19071098}
+  m_AnchorMax: {x: 1, y: 0.7812019}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -7876,7 +7902,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -11.540405, y: 2.5905762}
+  m_AnchoredPosition: {x: -63.000046, y: 15.447876}
   m_SizeDelta: {x: 1440, y: 1100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &864614133
@@ -8074,6 +8100,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectToSpawn: {fileID: 5033377188035230700, guid: e1f7da98bcc5c36479a8de35d9665caa, type: 3}
+  spawnActive: 0
+  spawnObjectName: 
+  currentLayer: {fileID: 0}
 --- !u!114 &878157882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8154,6 +8183,8 @@ MonoBehaviour:
   playerButtonPrefab: {fileID: 2131830001359561583, guid: 8e6aaa427f7e2d8c8814de80ad072bf6, type: 3}
   playerCardPanel: {fileID: 1481985952}
   playerCardArea: {fileID: 878157879}
+  playerCardCardPanel: {fileID: 1710730103}
+  PlayerCardNotesPanel: {fileID: 318261110}
 --- !u!114 &878157887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13093,8 +13124,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 564510847}
   m_HandleRect: {fileID: 564510846}
   m_Direction: 2
-  m_Value: -0.0000012761152
-  m_Size: 0.60142595
+  m_Value: 0.46570638
+  m_Size: 0.59049094
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -13650,7 +13681,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1493589260}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 878157885}
+        m_TargetAssemblyTypeName: AddPlayerCard, Assembly-CSharp
+        m_MethodName: PlayerCardCard
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1493589260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17833,8 +17876,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 177537079}
   m_HandleRect: {fileID: 177537078}
   m_Direction: 0
-  m_Value: -0.000003875244
-  m_Size: 0.912499
+  m_Value: 1.0000005
+  m_Size: 0.9125001
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

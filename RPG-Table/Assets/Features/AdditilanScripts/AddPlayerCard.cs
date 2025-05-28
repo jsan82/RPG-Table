@@ -12,7 +12,7 @@ using TMPro;
 
 public class AddPlayerCard : MonoBehaviour
 {
-    
+
     public GameObject PlayerCardWindow;
     public GameObject playerCardSelector;
     public GameObject playerCardDropdown;
@@ -20,6 +20,8 @@ public class AddPlayerCard : MonoBehaviour
     public GameObject playerButtonPrefab;
     public GameObject playerCardPanel;
     public GameObject playerCardArea;
+    public GameObject playerCardCardPanel;
+    public GameObject PlayerCardNotesPanel;
     private List<string> playerCardNames = new List<string>();
     float timer = 0f;
     float interval = 10f;
@@ -69,15 +71,27 @@ public class AddPlayerCard : MonoBehaviour
                 Debug.Log("Wykonuję się co sekundę!");
             }
         }
-        
+
+    }
+
+    public void PlayerCardNotes()
+    {
+        PlayerCardNotesPanel.SetActive(true);
+        playerCardCardPanel.SetActive(false);
+    }
+
+    public void PlayerCardCard()
+    {
+        playerCardCardPanel.SetActive(true);
+        PlayerCardNotesPanel.SetActive(false);
     }
 
     public void ShowPlayerCardSelector()
-    {
-        playerCardSelector.SetActive(true);
-        playerCardName.GetComponent<TMP_InputField>().text = "";
-        playerCardDropdown.GetComponent<TMP_Dropdown>().value = 0;
-    }
+{
+    playerCardSelector.SetActive(true);
+    playerCardName.GetComponent<TMP_InputField>().text = "";
+    playerCardDropdown.GetComponent<TMP_Dropdown>().value = 0;
+}
     public void Cancel()
     {
         playerCardName.GetComponent<TMP_InputField>().text = "";

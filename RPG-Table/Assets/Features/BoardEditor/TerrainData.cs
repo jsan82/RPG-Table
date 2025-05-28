@@ -1,3 +1,4 @@
+[System.Serializable]
 public class TerrainData
 {
     public int width { get; set; }
@@ -5,3 +6,4 @@ public class TerrainData
     public float[,] heightMap { get; set; }
     public bool[,] holeMap { get; set; }
 }
+
