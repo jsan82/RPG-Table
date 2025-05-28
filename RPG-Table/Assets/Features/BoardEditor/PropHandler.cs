@@ -32,6 +32,7 @@ public class PropHandler : MonoBehaviour
     private float colorLimit;
     public bool spawnActive = false;
     public string spawnObjectName;
+    public GameObject currentLayer;
 
     // Start is called before the first frame update
     void Start()
@@ -61,9 +62,20 @@ public class PropHandler : MonoBehaviour
         HandleBloomToggle();
         HandleBloomIntensity();
         HandleSpawnProp();
-        if (Input.GetKeyDown(KeyCode.Escape)) 
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            spawnActive = false ;
+            spawnActive = false;
+        }
+        if (this.GetComponent<LayerSystem>()._GAME_MODE == "3D")
+        {
+            currentLayer = this.GetComponent<LayerSystem>()._CURRENT_LAYER;
+        }
+        if (selectedProp != null && Input.GetKeyDown(KeyCode.Delete)) //Delete
+        {
+            Destroy(selectedProp.GetComponent<AssetName>());
+            Destroy(selectedProp.GetComponent<MovableProp>());
+            Destroy(selectedProp.gameObject);
+            selectedProp = null;
         }
     }
 
@@ -95,6 +107,7 @@ public class PropHandler : MonoBehaviour
             spawned.SetActive(true);
             spawned.AddComponent<AssetName>();
             spawned.GetComponent<AssetName>().assetName = spawnObjectName;
+            spawned.transform.SetParent(currentLayer.transform);
         }   
     }
 

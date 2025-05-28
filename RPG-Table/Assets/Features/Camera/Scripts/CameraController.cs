@@ -36,8 +36,8 @@ public class FreeCameraController : MonoBehaviour
         float moveY = 0;
 
         // Up/Down (Q/E)
-        if (Input.GetKey(KeyCode.Q)) moveY = -1;
-        if (Input.GetKey(KeyCode.E)) moveY = 1;
+        if (Input.GetKey(KeyCode.DownArrow)) moveY = -1;
+        if (Input.GetKey(KeyCode.UpArrow)) moveY = 1;
 
         Vector3 move = new Vector3(moveX, moveY, moveZ) * moveSpeed * Time.deltaTime;
         transform.Translate(move, Space.Self); 

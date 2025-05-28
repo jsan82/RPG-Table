@@ -61,7 +61,27 @@ public class SaveLoadMap : MonoBehaviour
         }
         else if (GameManager.GetComponent<LayerSystem>()._GAME_MODE == "3D")
         {
-            // Implement clearing logic for 3D layers if needed
+            foreach (Transform child in GameManager.GetComponent<LayerSystem>().token3DLayer.transform)
+            {
+                Destroy(child.gameObject.GetComponent<AssetName>());
+                Destroy(child.gameObject.GetComponent<MovableProp>());
+                Destroy(child.gameObject);
+            }
+            foreach (Transform child in GameManager.GetComponent<LayerSystem>().prop3DLayer.transform)
+            {
+                Destroy(child.gameObject.GetComponent<AssetName>());
+                Destroy(child.gameObject.GetComponent<MovableProp>());
+                Destroy(child.gameObject);
+            }
+            foreach (Transform child in GameManager.GetComponent<LayerSystem>().map3DLayer.transform)
+            {
+                if (child.name != "Terrain")
+                {
+                    Destroy(child.gameObject.GetComponent<AssetName>());
+                    Destroy(child.gameObject.GetComponent<MovableProp>());
+                    Destroy(child.gameObject);
+                }
+            }
         }
     }
     public void saveMap()
@@ -119,7 +139,62 @@ public class SaveLoadMap : MonoBehaviour
         }
         else if (GameManager.GetComponent<LayerSystem>()._GAME_MODE == "3D")
         {
+            List<ObjectData> tokenLayer = new List<ObjectData>();
+            List<ObjectData> propLayer = new List<ObjectData>();
+            List<ObjectData> mapLayer = new List<ObjectData>();
+            foreach (Transform child in GameManager.GetComponent<LayerSystem>().token3DLayer.transform)
+            {
+                ObjectData data = new ObjectData
+                {
+                    assetName = child.GetComponent<AssetName>()?.assetName ?? child.name,
+                    position = child.localPosition,
+                    rotation = child.rotation,
+                    scale = child.localScale
+                };
+                tokenLayer.Add(data);
+            }
+            foreach (Transform child in GameManager.GetComponent<LayerSystem>().prop3DLayer.transform)
+            {
+                ObjectData data = new ObjectData
+                {
+                    assetName = child.GetComponent<AssetName>()?.assetName ?? child.name,
+                    position = child.localPosition,
+                    rotation = child.rotation,
+                    scale = child.localScale
+                };
+                propLayer.Add(data);
+            }
+            foreach (Transform child in GameManager.GetComponent<LayerSystem>().map3DLayer.transform)
+            {
+                if (child.name == "Terrain")
+                {
 
+                }
+                else
+                {
+                    ObjectData data = new ObjectData
+                    {
+                        assetName = child.GetComponent<AssetName>()?.assetName ?? child.name,
+                        position = child.localPosition,
+                        rotation = child.rotation,
+                        scale = child.localScale
+                    };
+                    mapLayer.Add(data);
+
+                }
+
+            }
+                        MapInfo mapInfo = new MapInfo
+            {
+                saveTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                mapType = GameManager.GetComponent<LayerSystem>()._GAME_MODE,
+                tokenLayer = tokenLayer,
+                propLayer = propLayer,
+                mapLayer = mapLayer
+            };
+            string json = JsonUtility.ToJson(mapInfo, true);
+            string filePath = Path.Combine(SettingsManager._CurrentSettings.MapsPath, $"{mapName}");
+            File.WriteAllText(filePath, json);
         }
     }
 
