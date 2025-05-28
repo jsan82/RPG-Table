@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UIElements;
-
+using Dummiesman;
 
 public class PropHandler : MonoBehaviour
 {
@@ -12,21 +15,23 @@ public class PropHandler : MonoBehaviour
     private Vector3 dragOffset;
     private Plane dragPlane;
 
-    private float rotatePower;
+    private float rotatePower { get; set; }
     private float rotateTimer;
     private float rotateLimit;
 
-    private float elevatePower;
+    private float elevatePower { get; set; }
     private float elevateTimer;
     private float elevateLimit;
 
-    private float scalePower;
+    private float scalePower { get; set; }
     private float scaleTimer;
     private float scaleLimit;
 
-    private float colorPower;
+    private float colorPower { get; set; }
     private float colorTimer;
     private float colorLimit;
+    public bool spawnActive = false;
+    public string spawnObjectName;
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +47,8 @@ public class PropHandler : MonoBehaviour
 
         colorLimit = 0.1f;
         colorPower = 0.1f;
+
+        // /LoadOBJFromPath("C:\\Users\\huber\\Desktop\\convtest\\uploads_files_4162193_OldBook001_tex\\magic_staff.obj"); // comment if not testing
     }
 
     // Update is called once per frame
@@ -54,6 +61,10 @@ public class PropHandler : MonoBehaviour
         HandleBloomToggle();
         HandleBloomIntensity();
         HandleSpawnProp();
+        if (Input.GetKeyDown(KeyCode.Escape)) 
+        {
+            spawnActive = false ;
+        }
     }
 
     //pyknij propa via referance
@@ -74,15 +85,21 @@ public class PropHandler : MonoBehaviour
 
     public void HandleSpawnProp()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetMouseButtonDown(1) && spawnActive) //rmb
         {
             Vector3 mousePos = Input.mousePosition;
             mousePos.z = 5f;
             Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos); //o tutej spawnuj
 
-            Instantiate(objectToSpawn, worldPos, Quaternion.identity);
-        }
+            GameObject spawned = Instantiate(objectToSpawn, worldPos, Quaternion.identity);
+            spawned.SetActive(true);
+            spawned.AddComponent<AssetName>();
+            spawned.GetComponent<AssetName>().assetName = spawnObjectName;
+        }   
     }
+
+
+
 
     private void HandleRotation()
     {
@@ -280,5 +297,37 @@ public class PropHandler : MonoBehaviour
             colorTimer = colorLimit;
         }
 
+    }
+    ///*
+    public void LoadOBJFromPath(string filePath)
+    {
+        if (!File.Exists(filePath))
+            return;
+
+        GameObject obj = new OBJLoader().Load(filePath);
+        obj.name = Path.GetFileNameWithoutExtension(filePath);
+
+        obj.transform.position = Vector3.zero;
+        obj.transform.rotation = Quaternion.identity;
+        obj.transform.localScale = Vector3.one;
+
+        Bounds bounds = new Bounds(obj.transform.position, Vector3.zero);
+        var renderers = obj.GetComponentsInChildren<Renderer>();
+        if (renderers.Length > 0)
+        {
+            bounds = renderers[0].bounds;
+            foreach (var rend in renderers)
+            {
+                bounds.Encapsulate(rend.bounds);
+            }
+        }
+
+        BoxCollider boxCollider = obj.AddComponent<BoxCollider>();
+        boxCollider.center = obj.transform.InverseTransformPoint(bounds.center);
+        boxCollider.size = bounds.size;
+
+        obj.AddComponent<MovableProp>();
+        obj.SetActive(false);
+        objectToSpawn = obj;
     }
 }

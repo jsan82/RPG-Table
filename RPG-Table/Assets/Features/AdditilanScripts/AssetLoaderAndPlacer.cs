@@ -96,6 +96,12 @@ public class AssetLoaderAndPlacer : MonoBehaviour
             string fileName = Path.GetFileNameWithoutExtension(filePath);
             GameObject button = Instantiate(buttonPrefab3D, asset3DAssetPanel.transform);
             button.GetComponentInChildren<TextMeshProUGUI>().text = fileName;
+            button.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                playerCardArea.GetComponent<PropHandler>().LoadOBJFromPath(filePath);
+                playerCardArea.GetComponent<PropHandler>().spawnActive = true;
+                playerCardArea.GetComponent<PropHandler>().spawnObjectName = Path.GetFileName(filePath);
+            });
         }
 
         //Player Cards

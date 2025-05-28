@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Repo\\RPG-Table\\RPG-Table\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Repo\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\MovableProp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Features\\BoardEditor\\MovableProp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Repo\\RPG-Table\\RPG-Table\\Assets\\Features\\AdditilanScripts\\Placing2D.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Features\\AdditilanScripts\\Placing2D.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -35,10 +39,6 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Features\\BoardEditor\\PlaneHandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Repo\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\MovableProp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Features\\BoardEditor\\MovableProp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Repo\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\PropHandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Features\\BoardEditor\\PropHandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -50,49 +50,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Placing2D.cs",
-              "DocumentMoniker": "C:\\Repo\\RPG-Table\\RPG-Table\\Assets\\Features\\AdditilanScripts\\Placing2D.cs",
-              "RelativeDocumentMoniker": "Assets\\Features\\AdditilanScripts\\Placing2D.cs",
-              "ToolTip": "C:\\Repo\\RPG-Table\\RPG-Table\\Assets\\Features\\AdditilanScripts\\Placing2D.cs",
-              "RelativeToolTip": "Assets\\Features\\AdditilanScripts\\Placing2D.cs",
-              "ViewState": "AgIAACQAAAAAAAAAAAAEwDMAAABWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-27T23:15:27.639Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "LayerSystem.cs",
-              "DocumentMoniker": "C:\\Repo\\RPG-Table\\RPG-Table\\Assets\\Features\\AdditilanScripts\\LayerSystem.cs",
-              "RelativeDocumentMoniker": "Assets\\Features\\AdditilanScripts\\LayerSystem.cs",
-              "ToolTip": "C:\\Repo\\RPG-Table\\RPG-Table\\Assets\\Features\\AdditilanScripts\\LayerSystem.cs",
-              "RelativeToolTip": "Assets\\Features\\AdditilanScripts\\LayerSystem.cs",
-              "ViewState": "AgIAAFYAAAAAAAAAAAAEwGUAAABNAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-27T17:21:24.895Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "SaveLoad.cs",
-              "DocumentMoniker": "C:\\Repo\\RPG-Table\\RPG-Table\\Assets\\Features\\PlayerCardSystem\\Scripts\\SaveLoad.cs",
-              "RelativeDocumentMoniker": "Assets\\Features\\PlayerCardSystem\\Scripts\\SaveLoad.cs",
-              "ToolTip": "C:\\Repo\\RPG-Table\\RPG-Table\\Assets\\Features\\PlayerCardSystem\\Scripts\\SaveLoad.cs",
-              "RelativeToolTip": "Assets\\Features\\PlayerCardSystem\\Scripts\\SaveLoad.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-17T20:46:32.194Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "CameraController.cs",
               "DocumentMoniker": "C:\\Repo\\RPG-Table\\RPG-Table\\Assets\\Features\\Camera\\Scripts\\CameraController.cs",
               "RelativeDocumentMoniker": "Assets\\Features\\Camera\\Scripts\\CameraController.cs",
@@ -104,7 +66,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "MainMenuController.cs",
               "DocumentMoniker": "C:\\Repo\\RPG-Table\\RPG-Table\\Assets\\Features\\UI Design\\Scripts\\MainMenuController.cs",
               "RelativeDocumentMoniker": "Assets\\Features\\UI Design\\Scripts\\MainMenuController.cs",
@@ -116,7 +78,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "GameSceneMenuManager.cs",
               "DocumentMoniker": "C:\\Repo\\RPG-Table\\RPG-Table\\Assets\\Features\\UI Design\\Scripts\\GameSceneMenuManager.cs",
               "RelativeDocumentMoniker": "Assets\\Features\\UI Design\\Scripts\\GameSceneMenuManager.cs",
@@ -128,7 +90,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "TerrainData.cs",
               "DocumentMoniker": "C:\\Repo\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\TerrainData.cs",
               "RelativeDocumentMoniker": "Assets\\Features\\BoardEditor\\TerrainData.cs",
@@ -140,7 +102,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "PlaneHandler.cs",
               "DocumentMoniker": "C:\\Repo\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\PlaneHandler.cs",
               "RelativeDocumentMoniker": "Assets\\Features\\BoardEditor\\PlaneHandler.cs",
@@ -152,15 +114,53 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 0,
               "Title": "MovableProp.cs",
               "DocumentMoniker": "C:\\Repo\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\MovableProp.cs",
               "RelativeDocumentMoniker": "Assets\\Features\\BoardEditor\\MovableProp.cs",
               "ToolTip": "C:\\Repo\\RPG-Table\\RPG-Table\\Assets\\Features\\BoardEditor\\MovableProp.cs",
               "RelativeToolTip": "Assets\\Features\\BoardEditor\\MovableProp.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-16T19:43:30.517Z"
+              "WhenOpened": "2025-05-16T19:43:30.517Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SaveLoad.cs",
+              "DocumentMoniker": "C:\\Repo\\RPG-Table\\RPG-Table\\Assets\\Features\\PlayerCardSystem\\Scripts\\SaveLoad.cs",
+              "RelativeDocumentMoniker": "Assets\\Features\\PlayerCardSystem\\Scripts\\SaveLoad.cs",
+              "ToolTip": "C:\\Repo\\RPG-Table\\RPG-Table\\Assets\\Features\\PlayerCardSystem\\Scripts\\SaveLoad.cs",
+              "RelativeToolTip": "Assets\\Features\\PlayerCardSystem\\Scripts\\SaveLoad.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-17T20:46:32.194Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LayerSystem.cs",
+              "DocumentMoniker": "C:\\Repo\\RPG-Table\\RPG-Table\\Assets\\Features\\AdditilanScripts\\LayerSystem.cs",
+              "RelativeDocumentMoniker": "Assets\\Features\\AdditilanScripts\\LayerSystem.cs",
+              "ToolTip": "C:\\Repo\\RPG-Table\\RPG-Table\\Assets\\Features\\AdditilanScripts\\LayerSystem.cs",
+              "RelativeToolTip": "Assets\\Features\\AdditilanScripts\\LayerSystem.cs",
+              "ViewState": "AgIAAFYAAAAAAAAAAAAEwGUAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T17:21:24.895Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Placing2D.cs",
+              "DocumentMoniker": "C:\\Repo\\RPG-Table\\RPG-Table\\Assets\\Features\\AdditilanScripts\\Placing2D.cs",
+              "RelativeDocumentMoniker": "Assets\\Features\\AdditilanScripts\\Placing2D.cs",
+              "ToolTip": "C:\\Repo\\RPG-Table\\RPG-Table\\Assets\\Features\\AdditilanScripts\\Placing2D.cs",
+              "RelativeToolTip": "Assets\\Features\\AdditilanScripts\\Placing2D.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAAEwDMAAABWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T23:15:27.639Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
