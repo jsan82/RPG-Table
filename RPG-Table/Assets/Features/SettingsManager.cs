@@ -72,6 +72,10 @@ public class SettingsManager : MonoBehaviour
                 {
                     Directory.CreateDirectory(_CurrentSettings.GameCardsPath);
                 }
+                if (!Directory.Exists(_CurrentSettings.MapsPath))
+                {
+                    Directory.CreateDirectory(_CurrentSettings.MapsPath);
+                }
             }
             else
             {
@@ -109,9 +113,11 @@ public class SettingsManager : MonoBehaviour
 [System.Serializable]
 public class GameSettings
 {
-    public string playerCardsPath = Path.Combine(Application.persistentDataPath,"PlayerCards/");
+    public string playerCardsPath = Path.Combine(Application.persistentDataPath, "PlayerCards/");
     public string playerCardsPrefabPath = Path.Combine(Application.persistentDataPath, "PlayerPrefab/");
-    public string Assets2DPath = Path.Combine(Application.persistentDataPath,"2DAssets/");
-    public string Assets3DPath = Path.Combine(Application.persistentDataPath,"3DAssets/");
-    public string GameCardsPath = Path.Combine(Application.persistentDataPath ,"PlayerCardsGame/");
+    public string Assets2DPath = Path.Combine(Application.persistentDataPath, "2DAssets/");
+    public string Assets3DPath = Path.Combine(Application.persistentDataPath, "3DAssets/");
+    public string GameCardsPath = Path.Combine(Application.persistentDataPath, "PlayerCardsGame/");
+    public string MapsPath = Path.Combine(Application.persistentDataPath, "Maps/");
+
 }
