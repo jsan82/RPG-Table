@@ -33,7 +33,7 @@ public class PropHandler : MonoBehaviour
     public bool spawnActive = false;
     public string spawnObjectName;
     public GameObject currentLayer;
-
+    public GameObject particleSystemPrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -77,6 +77,20 @@ public class PropHandler : MonoBehaviour
             Destroy(selectedProp.gameObject);
             selectedProp = null;
         }
+        if (Input.GetKeyDown(KeyCode.F1)) //F1
+        {
+            foreach (GameObject child in this.transform)
+            {
+                child.SetActive(!child.activeSelf);
+            }
+        }
+        // if (Input.GetKeyDown(KeyCode.F2)) //F2
+        // {
+        //     foreach (GameObject child in this.transform)
+        //     {
+        //         foreach (GameObject grandChild)
+        //     }
+        // }
     }
 
     //pyknij propa via referance
@@ -108,6 +122,8 @@ public class PropHandler : MonoBehaviour
             spawned.AddComponent<AssetName>();
             spawned.GetComponent<AssetName>().assetName = spawnObjectName;
             spawned.transform.SetParent(currentLayer.transform);
+            // GameObject ps = Instantiate(particleSystemPrefab, worldPos, Quaternion.identity);
+            // ps.transform.SetParent(spawned.transform);
         }   
     }
 

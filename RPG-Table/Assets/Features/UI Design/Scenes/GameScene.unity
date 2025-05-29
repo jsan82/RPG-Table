@@ -4901,6 +4901,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrain: {fileID: 439035176}
+  heightmapResolution: 0
 --- !u!1 &445958850
 GameObject:
   m_ObjectHideFlags: 0
@@ -8103,6 +8104,7 @@ MonoBehaviour:
   spawnActive: 0
   spawnObjectName: 
   currentLayer: {fileID: 0}
+  particleSystemPrefab: {fileID: 520417064550854340, guid: 7e4f4cc841c20a94eb42ed770571162f, type: 3}
 --- !u!114 &878157882
 MonoBehaviour:
   m_ObjectHideFlags: 0
