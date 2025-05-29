@@ -20,6 +20,9 @@ public class AssetLoaderAndPlacer : MonoBehaviour
     public GameObject playerCardArea;
     public GameObject PlayerCardWindow;
     public GameObject PlayerCardPanel;
+
+    public Terrain terrain;
+
     public GameObject MapPanel;
     private List<string> fileNames2D = new List<string>();
     private List<string> fileNames3D = new List<string>();
@@ -77,6 +80,7 @@ public class AssetLoaderAndPlacer : MonoBehaviour
                 button.GetComponent<Placing2D>().asset = filePath;
                 button.GetComponent<Placing2D>().GameManager = playerCardArea;
                 button.GetComponent<Placing2D>().imagePrefab = imagePrefab;
+                button.GetComponent<Placing2D>().terrain = terrain;
                 button.GetComponent<Button>().onClick.AddListener(() => button.GetComponent<Placing2D>().PlaceAsset());
                 image.sprite = sprite;
             }

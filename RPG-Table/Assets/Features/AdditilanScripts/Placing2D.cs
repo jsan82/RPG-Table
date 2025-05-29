@@ -8,6 +8,7 @@ public class Placing2D : MonoBehaviour
     public GameObject GameManager;
     public GameObject imagePrefab; // To powinien być prefab z komponentem Image
 
+    public Terrain terrain;
     public GameObject placedObject;
     public void PlaceAsset()
     {
@@ -29,28 +30,38 @@ public class Placing2D : MonoBehaviour
         byte[] fileData = File.ReadAllBytes(filePath);
         texture.LoadImage(fileData);
 
-        // Tworzenie sprite
-        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-
-        // Instancjonowanie obiektu UI
-        placedObject = Instantiate(imagePrefab, GameManager.GetComponent<LayerSystem>()._CURRENT_LAYER.transform);
-
-        // Ustawianie Image
-        Image img = placedObject.GetComponent<Image>();
-        if (img == null)
+        if (GameManager.GetComponent<LayerSystem>()._GAME_MODE == "2D")
         {
-            img = placedObject.AddComponent<Image>();
-        }
-        img.sprite = sprite;
-        img.preserveAspect = true;
-        placedObject.AddComponent<SmartDragHandler>();
+            // Tworzenie sprite
+            Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
 
-        RectTransform rt = placedObject.GetComponent<RectTransform>();
-        rt.anchoredPosition = Input.mousePosition;
-        rt.localScale = Vector3.one;
-        placedObject.AddComponent<AssetName>();
-        placedObject.GetComponent<AssetName>().assetName = Path.GetFileName(filePath);
- 
+            // Instancjonowanie obiektu UI
+            placedObject = Instantiate(imagePrefab, GameManager.GetComponent<LayerSystem>()._CURRENT_LAYER.transform);
+
+            // Ustawianie Image
+            Image img = placedObject.GetComponent<Image>();
+            if (img == null)
+            {
+                img = placedObject.AddComponent<Image>();
+            }
+            img.sprite = sprite;
+            img.preserveAspect = true;
+            placedObject.AddComponent<SmartDragHandler>();
+
+            RectTransform rt = placedObject.GetComponent<RectTransform>();
+            rt.anchoredPosition = Input.mousePosition;
+            rt.localScale = Vector3.one;
+            placedObject.AddComponent<AssetName>();
+            placedObject.GetComponent<AssetName>().assetName = Path.GetFileName(filePath);
+        }
+        else
+        {
+            TerrainLayer terrainLayer = new TerrainLayer();
+            terrainLayer.diffuseTexture = texture;
+            terrainLayer.tileSize = new Vector2(700, 700);
+            terrain.terrainData.terrainLayers = new TerrainLayer[] { terrainLayer };
+        }
+    
     }
 
     void Update()

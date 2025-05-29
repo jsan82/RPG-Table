@@ -4113,7 +4113,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &366652401
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4811,7 +4811,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 127
   m_IsActive: 1
 --- !u!4 &439035174
 Transform:
@@ -4824,7 +4824,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1586231623}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8041,6 +8041,7 @@ MonoBehaviour:
   playerCardArea: {fileID: 878157879}
   PlayerCardWindow: {fileID: 1539652366}
   PlayerCardPanel: {fileID: 1481985952}
+  terrain: {fileID: 439035176}
   MapPanel: {fileID: 1086519003}
 --- !u!114 &878157885
 MonoBehaviour:
@@ -14665,7 +14666,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1586231623
 Transform:
   m_ObjectHideFlags: 0
@@ -14972,7 +14973,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1629110096
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15522,7 +15523,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1678127235
 Transform:
   m_ObjectHideFlags: 0
@@ -15984,7 +15985,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1708532315
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18387,7 +18388,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1857355883
 Transform:
   m_ObjectHideFlags: 0
