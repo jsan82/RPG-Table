@@ -14,6 +14,7 @@ public class AssetLoaderAndPlacer : MonoBehaviour
     public GameObject imagePrefab;
     public GameObject assetPanel;
     public GameObject asset2DAssetPanel;
+    public GameObject texturePanel;
     public GameObject asset3DAssetPanel;
     public GameObject buttonPrefab2D;
     public GameObject buttonPrefab3D;
@@ -57,6 +58,42 @@ public class AssetLoaderAndPlacer : MonoBehaviour
         {
             string fileName = Path.GetFileNameWithoutExtension(filePath);
             GameObject button = Instantiate(buttonPrefab2D, asset2DAssetPanel.transform);
+            button.GetComponentInChildren<TextMeshProUGUI>().text = fileName;
+            Image image = button.transform.Find("photo").GetComponent<Image>();
+            Texture2D texture = new Texture2D(2, 2);
+            if (image == null)
+            {
+                Debug.LogError("Image component not found in button prefab.");
+                continue;
+            }
+            byte[] fileData = File.ReadAllBytes(filePath);
+
+            if (texture.LoadImage(fileData))
+            {
+
+                Sprite sprite = Sprite.Create(
+                    texture,
+                    new Rect(0, 0, texture.width, texture.height),
+                    new Vector2(0.5f, 0.5f)
+                );
+                
+                button.AddComponent<Placing2D>();
+                button.GetComponent<Placing2D>().asset = filePath;
+                button.GetComponent<Placing2D>().GameManager = playerCardArea;
+                button.GetComponent<Placing2D>().imagePrefab = imagePrefab;
+                button.GetComponent<Placing2D>().terrain = terrain;
+                button.GetComponent<Button>().onClick.AddListener(() => button.GetComponent<Placing2D>().PlaceAsset());
+                image.sprite = sprite;
+            }
+            else
+            {
+                Debug.LogError("Failed to load image at path: " + filePath);
+            }
+        }
+        foreach (string filePath in fileNames2D)
+        {
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
+            GameObject button = Instantiate(buttonPrefab2D, texturePanel.transform);
             button.GetComponentInChildren<TextMeshProUGUI>().text = fileName;
             Image image = button.transform.Find("photo").GetComponent<Image>();
             Texture2D texture = new Texture2D(2, 2);

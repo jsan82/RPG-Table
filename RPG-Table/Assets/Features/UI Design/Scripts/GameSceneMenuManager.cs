@@ -16,6 +16,8 @@ public class GameSceneMenuManager : MonoBehaviour
     public GameObject hammerSettingsPanel;
     public Slider hammerSizeSlider;
 
+    public GameObject hammerTexturePanel;
+
     private bool isHammerSettingsVisible = false;
 
     // Dice Settings
@@ -80,6 +82,11 @@ public class GameSceneMenuManager : MonoBehaviour
     {
         // Implement ruler button here
         Debug.Log("Ruler button clicked.");
+    }
+
+    public void TextureButton()
+    {
+        hammerTexturePanel.SetActive(true);
     }
 
     public void ButtonHammer()
