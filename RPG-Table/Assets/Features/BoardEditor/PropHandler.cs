@@ -46,7 +46,7 @@ public class PropHandler : MonoBehaviour
         colorLimit = 0.1f;
         colorPower = 0.1f;
 
-        LoadOBJFromPath("C:\\Users\\huber\\Desktop\\convtest\\uploads_files_4162193_OldBook001_tex\\magic_staff.obj"); // comment if not testing
+        //LoadOBJFromPath("P A T H"); // comment if not testing
     }
 
     // Update is called once per frame

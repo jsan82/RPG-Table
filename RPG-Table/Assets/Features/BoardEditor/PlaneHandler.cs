@@ -5,6 +5,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using System;
 using System.IO;
+using UnityEngine.Networking;
+using UnityEngine.Tilemaps;
 
 public class PlaneHandler : MonoBehaviour
 {
@@ -28,6 +30,8 @@ public class PlaneHandler : MonoBehaviour
 
         terrainData = terrain.terrainData;
         heightmapResolution = terrainData.heightmapResolution;
+
+        //ChangeTerrainTexture("[P A T H]"); //comment if not testing
     }
 
     // Update is called once per frame
@@ -36,6 +40,15 @@ public class PlaneHandler : MonoBehaviour
         HandleElevation();
         HandleAllElevation();
         HandleHole();
+/*
+        if (Input.GetKeyDown(KeyCode.T))//comment if not testing
+        {
+            ExportTerrain("P A T H");
+        }
+        if (Input.GetKeyDown(KeyCode.G))//comment if not testing
+        {
+            ImportTerrain("P A T H");
+        }*/
     }
 
     //pyknij terrain
@@ -135,6 +148,7 @@ public class PlaneHandler : MonoBehaviour
             brushTimer = brushLimit;
         }
     }
+
 
     private (int modifRadius, int startX, int startZ, int width, int height)? CalcualteTerrainData()
     {
@@ -259,23 +273,44 @@ public class PlaneHandler : MonoBehaviour
 
     public void ExportTerrain(string outputPath)
     {
-        var data = CalcualteTerrainData();
-        if (data == null) return;
-        var (modifRadius, startX, startZ, width, height) = data.Value;
+        int heightRes = terrainData.heightmapResolution;
+        int holeRes = terrainData.holesResolution;
 
-        bool[,] mapHole = terrainData.GetHoles(startX, startZ, width, height);
-        float[,] mapHeight = terrainData.GetHeights(startX, startZ, width, height);
+        float[,] heightMap2D = terrainData.GetHeights(0, 0, heightRes, heightRes);
+        bool[,] holeMap2D = terrainData.GetHoles(0, 0, holeRes, holeRes);
+
+        List<float> heightMap1D = new List<float>(heightRes * heightRes);
+        List<bool> holeMap1D = new List<bool>(holeRes * holeRes);
+
+        for (int y = 0; y < heightRes; y++)
+        {
+            for (int x = 0; x < heightRes; x++)
+            {
+                heightMap1D.Add(heightMap2D[y, x]);
+            }
+        }
+
+        for (int y = 0; y < holeRes; y++)
+        {
+            for (int x = 0; x < holeRes; x++)
+            {
+                holeMap1D.Add(holeMap2D[y, x]);
+            }
+        }
 
         TerrainData exportData = new TerrainData
         {
-            width = width,
-            height = height,
-            heightMap = mapHeight,
-            holeMap = mapHole
+            brushDefoultSave = brushDefoult,
+            heightmapWidth = heightRes,
+            heightmapHeight = heightRes,
+            holemapWidth = holeRes,
+            holemapHeight = holeRes,
+            heightMap = heightMap1D,
+            holeMap = holeMap1D
         };
 
-        string jsonString = JsonUtility.ToJson(exportData);
-        File.WriteAllText(outputPath, jsonString);
+        string json = JsonUtility.ToJson(exportData, true);
+        File.WriteAllText(outputPath, json);
     }
 
     public void ImportTerrain(string inputPath)
@@ -283,15 +318,65 @@ public class PlaneHandler : MonoBehaviour
         if (!File.Exists(inputPath))
             return;
 
-        string jsonString = File.ReadAllText(inputPath);
-        TerrainData exportData = JsonUtility.FromJson<TerrainData>(jsonString);
+        string json = File.ReadAllText(inputPath);
+        TerrainData exportData = JsonUtility.FromJson<TerrainData>(json);
 
-        int width = exportData.width;
-        int height = exportData.height;
-        var terrainData = terrain.terrainData;
+        float[,] heightMap2D = new float[exportData.heightmapHeight, exportData.heightmapWidth];
+        bool[,] holeMap2D = new bool[exportData.holemapHeight, exportData.holemapWidth];
 
-        terrainData.heightmapResolution = Mathf.Max(exportData.width, exportData.height);
-        terrainData.SetHeights(0, 0, exportData.heightMap);
-        terrainData.SetHoles(0, 0, exportData.holeMap);
+        for (int y = 0; y < exportData.heightmapHeight; y++)
+        {
+            for (int x = 0; x < exportData.heightmapWidth; x++)
+            {
+                int index = y * exportData.heightmapWidth + x;
+                heightMap2D[y, x] = exportData.heightMap[index];
+            }
+        }
+
+        for (int y = 0; y < exportData.holemapHeight; y++)
+        {
+            for (int x = 0; x < exportData.holemapWidth; x++)
+            {
+                int index = y * exportData.holemapWidth + x;
+                holeMap2D[y, x] = exportData.holeMap[index];
+            }
+        }
+
+        terrainData.SetHeights(0, 0, heightMap2D);
+        terrainData.SetHoles(0, 0, holeMap2D);
+        brushDefoult = exportData.brushDefoultSave;
+    }
+
+    public void ChangeTerrainTexture(string imagePath)
+    {
+        if (!File.Exists(imagePath))
+        {
+            Debug.LogError("Texture file not found: " + imagePath);
+            return;
+        }
+
+        StartCoroutine(LoadTerrainTexture(imagePath));
+    }
+
+    private IEnumerator LoadTerrainTexture(string path)
+    {
+        string uri = "file:///" + path.Replace("\\", "/");
+        UnityWebRequest request = UnityWebRequestTexture.GetTexture(uri);
+        yield return request.SendWebRequest();
+
+        if (request.result != UnityWebRequest.Result.Success)
+        {
+            yield break;
+        }
+
+        Texture2D texture = DownloadHandlerTexture.GetContent(request);
+
+        TerrainLayer newLayer = new TerrainLayer();
+        newLayer.diffuseTexture = texture;
+        newLayer.tileSize = new Vector2(10, 10);
+
+        TerrainLayer[] layers = new TerrainLayer[1];
+        layers[0] = newLayer;
+        terrain.terrainData.terrainLayers = layers;
     }
 }
