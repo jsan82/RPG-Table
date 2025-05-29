@@ -43,6 +43,7 @@ public class FreeCameraController : MonoBehaviour
         transform.Translate(move, Space.Self); 
     }
 
+    
     void LateUpdate()
     {
         // Setting camera rotation

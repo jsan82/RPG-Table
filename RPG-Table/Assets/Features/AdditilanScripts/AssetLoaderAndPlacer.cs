@@ -151,6 +151,7 @@ public class AssetLoaderAndPlacer : MonoBehaviour
         }
     }
 
+
     public void PlaceToken(string assetName, Vector3 position, Quaternion rotation, Vector3 scale, int layerIndex = 0)
     {
         if (playerCardArea.GetComponent<LayerSystem>()._GAME_MODE == "2D")
@@ -235,7 +236,48 @@ public class AssetLoaderAndPlacer : MonoBehaviour
         }
         else if (playerCardArea.GetComponent<LayerSystem>()._GAME_MODE == "3D")
         {
-            // Implement 3D token placement logic here
+            switch (layerIndex)
+            {
+                case 0:
+                    playerCardArea.GetComponent<PropHandler>().LoadOBJFromPath(Path.Combine(SettingsManager._CurrentSettings.Assets3DPath, assetName));
+                    GameObject token3D = Instantiate(playerCardArea.GetComponent<PropHandler>().objectToSpawn, position, rotation);
+                    token3D.transform.SetParent(playerCardArea.GetComponent<LayerSystem>().token3DLayer.transform);
+                    token3D.name = assetName;
+                    token3D.SetActive(true);
+                    // token3D.transform.position = position;
+                    // token3D.transform.rotation = rotation;
+                    token3D.transform.localScale = scale;
+                    token3D.AddComponent<AssetName>();
+                    token3D.GetComponent<AssetName>().assetName = assetName;
+                    break;
+                case 1:
+                    playerCardArea.GetComponent<PropHandler>().LoadOBJFromPath(Path.Combine(SettingsManager._CurrentSettings.Assets3DPath, assetName));
+                    GameObject prop3D = Instantiate(playerCardArea.GetComponent<PropHandler>().objectToSpawn, position, rotation);
+                    prop3D.transform.SetParent(playerCardArea.GetComponent<LayerSystem>().prop3DLayer.transform);
+                    prop3D.name = assetName;
+                    // prop3D.transform.position = position;
+                    // prop3D.transform.rotation = rotation;
+                    prop3D.transform.localScale = scale;
+                    //prop3D.AddComponent<SmartDragHandler>();
+                    prop3D.AddComponent<AssetName>();
+                    prop3D.GetComponent<AssetName>().assetName = assetName;
+                    prop3D.SetActive(true);
+                    break;
+                case 2:
+                    playerCardArea.GetComponent<PropHandler>().LoadOBJFromPath(Path.Combine(SettingsManager._CurrentSettings.MapsPath, assetName));
+                    GameObject map3D = Instantiate(playerCardArea.GetComponent<PropHandler>().objectToSpawn, position, rotation);
+                    map3D.transform.SetParent(playerCardArea.GetComponent<LayerSystem>().map3DLayer.transform);
+                    map3D.name = assetName;
+                    // map3D.transform.position = position;
+                    // map3D.transform.rotation = rotation;
+                    map3D.transform.localScale = scale;
+                    //map3D.AddComponent<SmartDragHandler>();
+                    map3D.AddComponent<AssetName>();
+                    map3D.GetComponent<AssetName>().assetName = assetName;
+                    map3D.SetActive(true);
+                    break;
+            }
+            
         }
     }
 

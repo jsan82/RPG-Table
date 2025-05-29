@@ -122,10 +122,12 @@ public class PropHandler : MonoBehaviour
             spawned.AddComponent<AssetName>();
             spawned.GetComponent<AssetName>().assetName = spawnObjectName;
             spawned.transform.SetParent(currentLayer.transform);
-            // GameObject ps = Instantiate(particleSystemPrefab, worldPos, Quaternion.identity);
-            // ps.transform.SetParent(spawned.transform);
+            GameObject ps = Instantiate(particleSystemPrefab, worldPos, Quaternion.identity);
+            ps.transform.SetParent(spawned.transform);
         }   
     }
+
+
 
 
 
@@ -358,5 +360,6 @@ public class PropHandler : MonoBehaviour
         obj.AddComponent<MovableProp>();
         obj.SetActive(false);
         objectToSpawn = obj;
+        Destroy(obj);
     }
 }

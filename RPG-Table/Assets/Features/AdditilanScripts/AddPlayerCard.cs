@@ -22,7 +22,7 @@ public class AddPlayerCard : MonoBehaviour
     public GameObject playerCardArea;
     public GameObject playerCardCardPanel;
     public GameObject PlayerCardNotesPanel;
-    private List<string> playerCardNames = new List<string>();
+    private List<string> playerCardNames;
     float timer = 0f;
     float interval = 10f;
     private string saveFile;
@@ -31,6 +31,7 @@ public class AddPlayerCard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerCardNames = new List<string>();
         playerCardDropdown.GetComponent<TMP_Dropdown>().ClearOptions();
         playerCardNames.AddRange(Directory.GetFiles(SettingsManager._CurrentSettings.playerCardsPath, "*.json"));
         foreach (string filePath in playerCardNames)

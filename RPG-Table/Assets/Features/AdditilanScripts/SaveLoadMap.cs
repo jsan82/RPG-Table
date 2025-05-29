@@ -171,16 +171,16 @@ public class SaveLoadMap : MonoBehaviour
                     //Terrain terrain = child.GetComponent<Terrain>();
                     
                         
-                        ObjectData data = new ObjectData
-                        {
-                            assetName = "Terrain",
-                            holeMap = child.GetComponent<PlaneHandler>().holeMap,
-                            heightMap = child.GetComponent<PlaneHandler>().heightMap
-                        };
-                        mapLayer.Add(data);
+                        // ObjectData data = new ObjectData
+                        // {
+                        //     assetName = "Terrain",
+                        //     holeMap = child.GetComponent<PlaneHandler>().holeMap,
+                        //     heightMap = child.GetComponent<PlaneHandler>().heightMap
+                        // };
+                        // mapLayer.Add(data);
                     
                     
-                    child.GetComponent<PlaneHandler>().ExportTerrain(Path.Combine(SettingsManager._CurrentSettings.MapsPath, $"Terrain{mapName}"));
+                    //child.GetComponent<PlaneHandler>().ExportTerrain(Path.Combine(SettingsManager._CurrentSettings.MapsPath, $"Terrain{mapName}"));
                 }
                 else
                 {
@@ -247,19 +247,38 @@ public class SaveLoadMap : MonoBehaviour
 
             GameManager.GetComponent<LayerSystem>()._GAME_MODE = mapInfo.mapType;
 
-            foreach (ObjectData token in mapInfo.tokenLayer)
+            if (mapInfo.mapType == "2D")
             {
-                GameManager.GetComponent<AssetLoaderAndPlacer>().PlaceToken(token.assetName, token.position, token.rotation, token.scale, 0);
-            }
-            foreach (ObjectData prop in mapInfo.propLayer)
-            {
-                GameManager.GetComponent<AssetLoaderAndPlacer>().PlaceToken(prop.assetName, prop.position, prop.rotation, prop.scale, 1);
-            }
-            foreach (ObjectData map in mapInfo.mapLayer)
-            {
-                GameManager.GetComponent<AssetLoaderAndPlacer>().PlaceToken(map.assetName, map.position, map.rotation, map.scale, 2);
-            }
+                foreach (ObjectData token in mapInfo.tokenLayer)
+                {
+                    GameManager.GetComponent<AssetLoaderAndPlacer>().PlaceToken(token.assetName, token.position, token.rotation, token.scale, 0);
+                }
+                foreach (ObjectData prop in mapInfo.propLayer)
+                {
+                    GameManager.GetComponent<AssetLoaderAndPlacer>().PlaceToken(prop.assetName, prop.position, prop.rotation, prop.scale, 1);
+                }
+                foreach (ObjectData map in mapInfo.mapLayer)
+                {
+                    GameManager.GetComponent<AssetLoaderAndPlacer>().PlaceToken(map.assetName, map.position, map.rotation, map.scale, 2);
+                }
 
+            }
+            else if (mapInfo.mapType == "3D")
+            {
+                foreach (ObjectData token in mapInfo.tokenLayer)
+                {
+                    GameManager.GetComponent<AssetLoaderAndPlacer>().PlaceToken(token.assetName, token.position, token.rotation, token.scale, 0);
+                }
+                foreach (ObjectData prop in mapInfo.propLayer)
+                {
+                    GameManager.GetComponent<AssetLoaderAndPlacer>().PlaceToken(prop.assetName, prop.position, prop.rotation, prop.scale, 1);
+                }
+                foreach (ObjectData map in mapInfo.mapLayer)
+                {
+                    GameManager.GetComponent<AssetLoaderAndPlacer>().PlaceToken(map.assetName, map.position, map.rotation, map.scale, 2);
+                }
+            }
+            
 
             Debug.Log($"Map loaded from: {filePath}");
         }
