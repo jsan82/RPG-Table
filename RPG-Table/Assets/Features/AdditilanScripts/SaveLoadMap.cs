@@ -18,6 +18,7 @@ public class SaveLoadMap : MonoBehaviour
     public Transform terrain;
     public GameObject CreateMapWindow;
 
+
     public string mapName;
     float timer = 0f;
     float interval = 10f;
@@ -185,13 +186,15 @@ public class SaveLoadMap : MonoBehaviour
                 }
 
             }
-                        MapInfo mapInfo = new MapInfo
+            MapInfo mapInfo = new MapInfo
             {
                 saveTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                 mapType = GameManager.GetComponent<LayerSystem>()._GAME_MODE,
                 tokenLayer = tokenLayer,
                 propLayer = propLayer,
-                mapLayer = mapLayer
+                mapLayer = mapLayer,
+                terrainTexturePath = terrain.GetComponent<PlaneHandler>().terrainTexturePath,
+                skyboxTexturepath = GameManager.GetComponent<SkyboxHandler>().skyboxTexturePath
             };
             string json = JsonUtility.ToJson(mapInfo, true);
             string filePath = Path.Combine(SettingsManager._CurrentSettings.MapsPath, $"{mapName}");
@@ -308,6 +311,8 @@ public class MapInfo
 {
     public string saveTime;
     public string mapType;
+    public string terrainTexturePath;
+    public string skyboxTexturepath;
     public List<ObjectData> tokenLayer;
     public List<ObjectData> propLayer;
     public List<ObjectData> mapLayer;

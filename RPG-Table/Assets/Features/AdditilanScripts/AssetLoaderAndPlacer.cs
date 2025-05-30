@@ -15,10 +15,11 @@ public class AssetLoaderAndPlacer : MonoBehaviour
     public GameObject assetPanel;
     public GameObject asset2DAssetPanel;
     public GameObject texturePanel;
+    public GameObject skyboxPanel;
     public GameObject asset3DAssetPanel;
     public GameObject buttonPrefab2D;
     public GameObject buttonPrefab3D;
-    public GameObject playerCardArea;
+    public GameObject GameManager;
     public GameObject PlayerCardWindow;
     public GameObject PlayerCardPanel;
 
@@ -79,7 +80,7 @@ public class AssetLoaderAndPlacer : MonoBehaviour
                 
                 button.AddComponent<Placing2D>();
                 button.GetComponent<Placing2D>().asset = filePath;
-                button.GetComponent<Placing2D>().GameManager = playerCardArea;
+                button.GetComponent<Placing2D>().GameManager = GameManager;
                 button.GetComponent<Placing2D>().imagePrefab = imagePrefab;
                 button.GetComponent<Placing2D>().terrain = terrain;
                 button.GetComponent<Button>().onClick.AddListener(() => button.GetComponent<Placing2D>().PlaceAsset());
@@ -113,12 +114,8 @@ public class AssetLoaderAndPlacer : MonoBehaviour
                     new Vector2(0.5f, 0.5f)
                 );
                 
-                button.AddComponent<Placing2D>();
-                button.GetComponent<Placing2D>().asset = filePath;
-                button.GetComponent<Placing2D>().GameManager = playerCardArea;
-                button.GetComponent<Placing2D>().imagePrefab = imagePrefab;
-                button.GetComponent<Placing2D>().terrain = terrain;
-                button.GetComponent<Button>().onClick.AddListener(() => button.GetComponent<Placing2D>().PlaceAsset());
+                button.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+                button.GetComponent<Button>().onClick.AddListener(() => terrain.GetComponent<PlaneHandler>().ChangeTerrainTexture(filePath));
                 image.sprite = sprite;
             }
             else
@@ -126,7 +123,41 @@ public class AssetLoaderAndPlacer : MonoBehaviour
                 Debug.LogError("Failed to load image at path: " + filePath);
             }
         }
+        //Skyboxes
+        foreach (string filePath in fileNames2D)
+        {
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
+            GameObject button = Instantiate(buttonPrefab2D, skyboxPanel.transform);
+            button.GetComponentInChildren<TextMeshProUGUI>().text = fileName;
+            Image image = button.transform.Find("photo").GetComponent<Image>();
+            Texture2D texture = new Texture2D(2, 2);
+            if (image == null)
+            {
+                Debug.LogError("Image component not found in button prefab.");
+                continue;
+            }
+            byte[] fileData = File.ReadAllBytes(filePath);
 
+            if (texture.LoadImage(fileData))
+            {
+
+                Sprite sprite = Sprite.Create(
+                    texture,
+                    new Rect(0, 0, texture.width, texture.height),
+                    new Vector2(0.5f, 0.5f)
+                );
+                button.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+                button.GetComponent<Button>().onClick.AddListener(() =>
+                {
+                    GameManager.GetComponent<SkyboxHandler>().ChangeSkybox(filePath);
+                });
+                image.sprite = sprite;
+            }
+            else
+            {
+                Debug.LogError("Failed to load image at path: " + filePath);
+            }
+        }
         //3D Assets
 
         fileNames3D.AddRange(Directory.GetFiles(PATH_TO_3D_ASSETS, "*.obj"));
@@ -139,9 +170,9 @@ public class AssetLoaderAndPlacer : MonoBehaviour
             button.GetComponentInChildren<TextMeshProUGUI>().text = fileName;
             button.GetComponent<Button>().onClick.AddListener(() =>
             {
-                playerCardArea.GetComponent<PropHandler>().LoadOBJFromPath(filePath);
-                playerCardArea.GetComponent<PropHandler>().spawnActive = true;
-                playerCardArea.GetComponent<PropHandler>().spawnObjectName = Path.GetFileName(filePath);
+                GameManager.GetComponent<PropHandler>().LoadOBJFromPath(filePath);
+                GameManager.GetComponent<PropHandler>().spawnActive = true;
+                GameManager.GetComponent<PropHandler>().spawnObjectName = Path.GetFileName(filePath);
             });
         }
 
@@ -156,7 +187,7 @@ public class AssetLoaderAndPlacer : MonoBehaviour
             button.name = fileName; // Set the name of the button to the file name
             lpc = new LoadPlayerCard();
 
-            button.GetComponent<Button>().onClick.AddListener(() => lpc.loadPlayerCard(fileName + ".json", playerCardArea, PlayerCardWindow));
+            button.GetComponent<Button>().onClick.AddListener(() => lpc.loadPlayerCard(fileName + ".json", GameManager, PlayerCardWindow));
         }
 
         //Maps
@@ -168,7 +199,7 @@ public class AssetLoaderAndPlacer : MonoBehaviour
             GameObject button = Instantiate(buttonPrefab3D, MapPanel.transform);
             button.GetComponentInChildren<TextMeshProUGUI>().text = fileName;
             button.name = fileName; // Set the name of the button to the file name
-            button.GetComponent<Button>().onClick.AddListener(() => playerCardArea.GetComponent<SaveLoadMap>().loadMap($"{fileName}.json"));
+            button.GetComponent<Button>().onClick.AddListener(() => GameManager.GetComponent<SaveLoadMap>().loadMap($"{fileName}.json"));
         }
         
     }
@@ -188,14 +219,14 @@ public class AssetLoaderAndPlacer : MonoBehaviour
             GameObject button = Instantiate(buttonPrefab3D, MapPanel.transform);
             button.GetComponentInChildren<TextMeshProUGUI>().text = fileName;
             button.name = fileName; // Set the name of the button to the file name
-            button.GetComponent<Button>().onClick.AddListener(() => playerCardArea.GetComponent<SaveLoadMap>().loadMap($"{fileName}.json"));
+            button.GetComponent<Button>().onClick.AddListener(() => GameManager.GetComponent<SaveLoadMap>().loadMap($"{fileName}.json"));
         }
     }
 
 
     public void PlaceToken(string assetName, Vector3 position, Quaternion rotation, Vector3 scale, int layerIndex = 0)
     {
-        if (playerCardArea.GetComponent<LayerSystem>()._GAME_MODE == "2D")
+        if (GameManager.GetComponent<LayerSystem>()._GAME_MODE == "2D")
         {
             switch (layerIndex)
             {
@@ -209,7 +240,7 @@ public class AssetLoaderAndPlacer : MonoBehaviour
                         new Vector2(0.5f, 0.5f)
                     );
 
-                    GameObject token = Instantiate(imagePrefab, playerCardArea.GetComponent<LayerSystem>().token2DLayer.transform);
+                    GameObject token = Instantiate(imagePrefab, GameManager.GetComponent<LayerSystem>().token2DLayer.transform);
 
                     token.name = assetName;
 
@@ -235,7 +266,7 @@ public class AssetLoaderAndPlacer : MonoBehaviour
                         new Vector2(0.5f, 0.5f)
                     );
 
-                    GameObject prop = Instantiate(imagePrefab, playerCardArea.GetComponent<LayerSystem>().prop2DLayer.transform);
+                    GameObject prop = Instantiate(imagePrefab, GameManager.GetComponent<LayerSystem>().prop2DLayer.transform);
                     prop.name = assetName;
                     prop.GetComponent<Image>().sprite = propSprite;
                     prop.GetComponent<Image>().preserveAspect = true;
@@ -258,7 +289,7 @@ public class AssetLoaderAndPlacer : MonoBehaviour
                         new Rect(0, 0, mapTexture.width, mapTexture.height),
                         new Vector2(0.5f, 0.5f)
                     );
-                    GameObject mapObject = Instantiate(imagePrefab, playerCardArea.GetComponent<LayerSystem>().map2DLayer.transform);
+                    GameObject mapObject = Instantiate(imagePrefab, GameManager.GetComponent<LayerSystem>().map2DLayer.transform);
                     mapObject.name = assetName;
                     mapObject.GetComponent<Image>().sprite = mapSprite;
                     mapObject.GetComponent<Image>().preserveAspect = true;
@@ -275,14 +306,14 @@ public class AssetLoaderAndPlacer : MonoBehaviour
                     break;
             }
         }
-        else if (playerCardArea.GetComponent<LayerSystem>()._GAME_MODE == "3D")
+        else if (GameManager.GetComponent<LayerSystem>()._GAME_MODE == "3D")
         {
             switch (layerIndex)
             {
                 case 0:
-                    playerCardArea.GetComponent<PropHandler>().LoadOBJFromPath(Path.Combine(SettingsManager._CurrentSettings.Assets3DPath, assetName));
-                    GameObject token3D = Instantiate(playerCardArea.GetComponent<PropHandler>().objectToSpawn, position, rotation);
-                    token3D.transform.SetParent(playerCardArea.GetComponent<LayerSystem>().token3DLayer.transform);
+                    GameManager.GetComponent<PropHandler>().LoadOBJFromPath(Path.Combine(SettingsManager._CurrentSettings.Assets3DPath, assetName));
+                    GameObject token3D = Instantiate(GameManager.GetComponent<PropHandler>().objectToSpawn, position, rotation);
+                    token3D.transform.SetParent(GameManager.GetComponent<LayerSystem>().token3DLayer.transform);
                     token3D.name = assetName;
                     token3D.SetActive(true);
                     // token3D.transform.position = position;
@@ -292,9 +323,9 @@ public class AssetLoaderAndPlacer : MonoBehaviour
                     token3D.GetComponent<AssetName>().assetName = assetName;
                     break;
                 case 1:
-                    playerCardArea.GetComponent<PropHandler>().LoadOBJFromPath(Path.Combine(SettingsManager._CurrentSettings.Assets3DPath, assetName));
-                    GameObject prop3D = Instantiate(playerCardArea.GetComponent<PropHandler>().objectToSpawn, position, rotation);
-                    prop3D.transform.SetParent(playerCardArea.GetComponent<LayerSystem>().prop3DLayer.transform);
+                    GameManager.GetComponent<PropHandler>().LoadOBJFromPath(Path.Combine(SettingsManager._CurrentSettings.Assets3DPath, assetName));
+                    GameObject prop3D = Instantiate(GameManager.GetComponent<PropHandler>().objectToSpawn, position, rotation);
+                    prop3D.transform.SetParent(GameManager.GetComponent<LayerSystem>().prop3DLayer.transform);
                     prop3D.name = assetName;
                     // prop3D.transform.position = position;
                     // prop3D.transform.rotation = rotation;
@@ -305,9 +336,9 @@ public class AssetLoaderAndPlacer : MonoBehaviour
                     prop3D.SetActive(true);
                     break;
                 case 2:
-                    playerCardArea.GetComponent<PropHandler>().LoadOBJFromPath(Path.Combine(SettingsManager._CurrentSettings.MapsPath, assetName));
-                    GameObject map3D = Instantiate(playerCardArea.GetComponent<PropHandler>().objectToSpawn, position, rotation);
-                    map3D.transform.SetParent(playerCardArea.GetComponent<LayerSystem>().map3DLayer.transform);
+                    GameManager.GetComponent<PropHandler>().LoadOBJFromPath(Path.Combine(SettingsManager._CurrentSettings.MapsPath, assetName));
+                    GameObject map3D = Instantiate(GameManager.GetComponent<PropHandler>().objectToSpawn, position, rotation);
+                    map3D.transform.SetParent(GameManager.GetComponent<LayerSystem>().map3DLayer.transform);
                     map3D.name = assetName;
                     // map3D.transform.position = position;
                     // map3D.transform.rotation = rotation;

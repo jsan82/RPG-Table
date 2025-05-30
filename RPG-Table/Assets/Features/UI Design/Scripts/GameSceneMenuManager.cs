@@ -17,6 +17,7 @@ public class GameSceneMenuManager : MonoBehaviour
     public Slider hammerSizeSlider;
 
     public GameObject hammerTexturePanel;
+    public GameObject hammerSkyboxPanel;
 
     private bool isHammerSettingsVisible = false;
 
@@ -87,6 +88,11 @@ public class GameSceneMenuManager : MonoBehaviour
     public void TextureButton()
     {
         hammerTexturePanel.SetActive(true);
+    }
+
+    public void SkyboxButton()
+    {
+        hammerSkyboxPanel.SetActive(true);
     }
 
     public void ButtonHammer()

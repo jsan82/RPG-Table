@@ -15,6 +15,7 @@ public class PlaneHandler : MonoBehaviour
     private float brushTimer;
     private float brushLimit { get; set; } // Rate on hold of Bruh
     private float brushDefoult;
+    public string terrainTexturePath;
 
     public Terrain terrain;
     private UnityEngine.TerrainData terrainData;
@@ -380,7 +381,7 @@ public class PlaneHandler : MonoBehaviour
             Debug.LogError("Texture file not found: " + imagePath);
             return;
         }
-
+        terrainTexturePath = imagePath;
         StartCoroutine(LoadTerrainTexture(imagePath));
     }
 
