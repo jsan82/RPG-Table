@@ -313,6 +313,32 @@ public class PlaneHandler : MonoBehaviour
         File.WriteAllText(outputPath, json);
     }
 
+    public void ClearTerrain()
+    {
+        int heightRes = terrainData.heightmapResolution;
+        int holeRes = terrainData.holesResolution;
+
+        float[,] heightMap2D = terrainData.GetHeights(0, 0, heightRes, heightRes);
+        bool[,] holeMap2D = terrainData.GetHoles(0, 0, holeRes, holeRes);
+        for (int y = 0; y < heightRes; y++)
+        {
+            for (int x = 0; x < heightRes; x++)
+            {
+                heightMap2D[y, x] = 0f; // Reset height to 0
+            }
+        }
+        for (int y = 0; y < holeRes; y++)
+        {
+            for (int x = 0; x < holeRes; x++)
+            {
+                holeMap2D[y, x] = true; // Reset holes to false
+            }
+        }
+        terrainData.SetHeights(0, 0, heightMap2D);
+        terrainData.SetHoles(0, 0, holeMap2D);
+    }
+
+
     public void ImportTerrain(string inputPath)
     {
         if (!File.Exists(inputPath))

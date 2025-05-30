@@ -29,7 +29,6 @@ public class SaveLoadMap : MonoBehaviour
         mapInfo.saveTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         mapInfo.mapType = mapTypeWhileCreatingMap.GetComponent<TMP_Dropdown>().options[mapTypeWhileCreatingMap.GetComponent<TMP_Dropdown>().value].text;
 
-        //GameManager.GetComponent<LayerSystem>()._GAME_MODE = mapInfo.mapType;
 
         mapName = mapNameWhileCreatingMap.GetComponent<TMP_InputField>().text + ".json";
 
@@ -37,6 +36,7 @@ public class SaveLoadMap : MonoBehaviour
         string filePath = Path.Combine(SettingsManager._CurrentSettings.MapsPath, $"{mapName}");
         File.WriteAllText(filePath, json);
         CreateMapWindow.SetActive(false);
+        ClearMap(); // Clear the map before loading the new one
         loadMap(mapName);
         CancelMapCreation();
         GameManager.GetComponent<AssetLoaderAndPlacer>().restartMaps();
@@ -83,6 +83,7 @@ public class SaveLoadMap : MonoBehaviour
                 }
             }
         }
+        terrain.GetComponent<PlaneHandler>().ClearTerrain();
     }
     public void saveMap()
     {
@@ -167,19 +168,7 @@ public class SaveLoadMap : MonoBehaviour
             foreach (Transform child in GameManager.GetComponent<LayerSystem>().map3DLayer.transform)
             {
                 if (child.name == "Terrain")
-                {
-                    //Terrain terrain = child.GetComponent<Terrain>();
-                    
-                        
-                        // ObjectData data = new ObjectData
-                        // {
-                        //     assetName = "Terrain",
-                        //     holeMap = child.GetComponent<PlaneHandler>().holeMap,
-                        //     heightMap = child.GetComponent<PlaneHandler>().heightMap
-                        // };
-                        // mapLayer.Add(data);
-                    
-                    
+                {   
                     child.GetComponent<PlaneHandler>().ExportTerrain(Path.Combine(SettingsManager._CurrentSettings.MapsPath, $"terrainData/{mapName}"));
                 }
                 else

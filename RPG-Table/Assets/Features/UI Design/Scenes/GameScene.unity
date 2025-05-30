@@ -5474,7 +5474,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrain: {fileID: 439035176}
-  heightmapResolution: 0
 --- !u!1 &445958850
 GameObject:
   m_ObjectHideFlags: 0
@@ -8935,6 +8934,7 @@ MonoBehaviour:
   mapTypeWhileCreatingMap: {fileID: 1609454847}
   mapNameWhileCreatingMap: {fileID: 5040238}
   GameManager: {fileID: 878157879}
+  terrain: {fileID: 439035174}
   CreateMapWindow: {fileID: 222565292}
   mapName: 
 --- !u!1 &882789020
@@ -12872,7 +12872,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1244797344
 RectTransform:
   m_ObjectHideFlags: 0
