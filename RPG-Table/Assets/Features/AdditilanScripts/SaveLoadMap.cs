@@ -15,7 +15,7 @@ public class SaveLoadMap : MonoBehaviour
     public GameObject mapTypeWhileCreatingMap;
     public GameObject mapNameWhileCreatingMap;
     public GameObject GameManager;
-
+    public Transform terrain;
     public GameObject CreateMapWindow;
 
     public string mapName;
@@ -180,7 +180,7 @@ public class SaveLoadMap : MonoBehaviour
                         // mapLayer.Add(data);
                     
                     
-                    //child.GetComponent<PlaneHandler>().ExportTerrain(Path.Combine(SettingsManager._CurrentSettings.MapsPath, $"Terrain{mapName}"));
+                    child.GetComponent<PlaneHandler>().ExportTerrain(Path.Combine(SettingsManager._CurrentSettings.MapsPath, $"terrainData/{mapName}"));
                 }
                 else
                 {
@@ -276,6 +276,16 @@ public class SaveLoadMap : MonoBehaviour
                 foreach (ObjectData map in mapInfo.mapLayer)
                 {
                     GameManager.GetComponent<AssetLoaderAndPlacer>().PlaceToken(map.assetName, map.position, map.rotation, map.scale, 2);
+                }
+                // Load terrain data if available
+                string terrainDataPath = Path.Combine(SettingsManager._CurrentSettings.MapsPath, "terrainData", $"{mName}");
+                if (File.Exists(terrainDataPath))
+                {
+                    terrain.GetComponent<PlaneHandler>().ImportTerrain(terrainDataPath);
+                }
+                else
+                {
+                    Debug.LogWarning($"Terrain data not found for map: {mName}");
                 }
             }
             

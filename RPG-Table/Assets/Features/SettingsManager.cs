@@ -76,6 +76,10 @@ public class SettingsManager : MonoBehaviour
                 {
                     Directory.CreateDirectory(_CurrentSettings.MapsPath);
                 }
+                if (!Directory.Exists(Path.Combine(_CurrentSettings.MapsPath, "terrainData/")))
+                {
+                    Directory.CreateDirectory(Path.Combine(_CurrentSettings.MapsPath, "terrainData/"));
+                }
             }
             else
             {
