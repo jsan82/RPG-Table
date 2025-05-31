@@ -53,7 +53,7 @@ public class SaveLoadMap : MonoBehaviour
     {
         if (GameManager.GetComponent<LayerSystem>()._GAME_MODE == "2D")
         {
-            camera.SetActive(false);
+            //camera.SetActive(false);
             foreach (Transform child in GameManager.GetComponent<LayerSystem>().token2DLayer.transform)
             {
                 Destroy(child.gameObject);
@@ -69,7 +69,7 @@ public class SaveLoadMap : MonoBehaviour
         }
         else if (GameManager.GetComponent<LayerSystem>()._GAME_MODE == "3D")
         {
-            camera.SetActive(true);
+            //camera.SetActive(true);
             foreach (Transform child in GameManager.GetComponent<LayerSystem>().token3DLayer.transform)
             {
                 Destroy(child.gameObject.GetComponent<AssetName>());
