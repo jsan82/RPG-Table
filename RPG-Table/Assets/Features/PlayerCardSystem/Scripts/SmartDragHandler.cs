@@ -9,7 +9,8 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
     [SerializeField] private KeyCode multiDragKey = KeyCode.LeftControl;
     [SerializeField] private float dragThreshold = 5f;
     
-    public bool Edit = true;
+    public bool Edit = false;
+    public bool Game = true;
     private RectTransform rectTransform;
     private Canvas canvas;
     private Vector2 offset;
@@ -27,20 +28,24 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
     {
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
+        if (!Game)
+        {
+            Edit = true;
+        }
     }
 
     private void Update()
     {
         // Globalne przeciąganie prawym przyciskiem (nawet poza UI)
-        if (Input.GetMouseButtonDown(1)) // Prawy przycisk myszy wciśnięty
+        if (Input.GetKeyDown(multiDragKey)) // Prawy przycisk myszy wciśnięty
         {
             StartGlobalDrag();
         }
-        else if (Input.GetMouseButtonUp(1)) // Prawy przycisk myszy puszczony
+        else if (Input.GetKeyUp(multiDragKey)) // Prawy przycisk myszy puszczony
         {
             StopGlobalDrag();
         }
-        else if (isGlobalRightDrag && Input.GetMouseButton(1)) // Przeciąganie w trakcie
+        else if (isGlobalRightDrag && Input.GetKey(multiDragKey)) // Przeciąganie w trakcie
         {
             UpdateGlobalDrag();
         }
@@ -53,12 +58,12 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
             if (Input.GetKeyDown("w"))
             {
                 Debug.Log("Scale Up");
-                this.rectTransform.localScale = new Vector3(this.rectTransform.localScale.x + 0.2f, this.rectTransform.localScale.y + 0.2f, 1f);
+                this.rectTransform.localScale = new Vector3(this.rectTransform.localScale.x + 0.5f, this.rectTransform.localScale.y + 0.5f, 1f);
             }
             if (Input.GetKeyDown("s"))
             {
                 Debug.Log("Scale Down");
-                this.rectTransform.localScale = new Vector3(this.rectTransform.localScale.x - 0.2f, this.rectTransform.localScale.y - 0.2f, 1f);
+                this.rectTransform.localScale = new Vector3(this.rectTransform.localScale.x - 0.5f, this.rectTransform.localScale.y - 0.5f, 1f);
             }
             // if (Input.GetKeyDown("s") || Input.GetKeyDown(KeyCode.DownArrow))
             // {
@@ -82,17 +87,17 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
             // }
         }
 
-        if (Input.GetKeyDown(multiDragKey) && currentDragLeader == null)
-        {
-            isMultiDragActive = true;
-            if (!selectedObjects.Contains(this))
-                selectedObjects.Add(this);
-        }
-        else if (Input.GetKeyUp(multiDragKey) && currentDragLeader == null)
-        {
-            isMultiDragActive = false;
-            selectedObjects.Clear();
-        }
+        // if (Input.GetKeyDown(multiDragKey) && currentDragLeader == null)
+        // {
+        //     isMultiDragActive = true;
+        //     if (!selectedObjects.Contains(this))
+        //         selectedObjects.Add(this);
+        // }
+        // else if (Input.GetKeyUp(multiDragKey) && currentDragLeader == null)
+        // {
+        //     isMultiDragActive = false;
+        //     selectedObjects.Clear();
+        // }
     }
 
     // Rozpoczęcie globalnego przeciągania prawym przyciskiem

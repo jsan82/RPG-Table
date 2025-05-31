@@ -252,6 +252,7 @@ public class AssetLoaderAndPlacer : MonoBehaviour
                     rectTransform.anchoredPosition = position;
                     rectTransform.localScale = scale;
                     token.AddComponent<SmartDragHandler>();
+                    token.GetComponent<SmartDragHandler>().Game = true;
                     token.AddComponent<AssetName>();
                     token.GetComponent<AssetName>().assetName = assetName;
                     break;
@@ -275,13 +276,14 @@ public class AssetLoaderAndPlacer : MonoBehaviour
                     propRectTransform.anchoredPosition = position;
                     propRectTransform.localScale = scale;
                     prop.AddComponent<SmartDragHandler>();
+                    prop.GetComponent<SmartDragHandler>().Game = true;
                     prop.AddComponent<AssetName>();
                     prop.GetComponent<AssetName>().assetName = assetName;
                     break;
 
                 case 2: // Map Layer
                     Texture2D mapTexture = new Texture2D(2, 2);
-                    byte[] mapFileData = File.ReadAllBytes(Path.Combine(SettingsManager._CurrentSettings.MapsPath, assetName));
+                    byte[] mapFileData = File.ReadAllBytes(Path.Combine(SettingsManager._CurrentSettings.Assets2DPath, assetName));
                     mapTexture.LoadImage(mapFileData);
                     Sprite mapSprite = Sprite.Create(
                         mapTexture,
@@ -296,6 +298,7 @@ public class AssetLoaderAndPlacer : MonoBehaviour
                     mapRectTransform.anchoredPosition = position;
                     mapRectTransform.localScale = scale;
                     mapObject.AddComponent<SmartDragHandler>();
+                    mapObject.GetComponent<SmartDragHandler>().Game = true;
                     mapObject.AddComponent<AssetName>();
                     mapObject.GetComponent<AssetName>().assetName = assetName;
                     break;
