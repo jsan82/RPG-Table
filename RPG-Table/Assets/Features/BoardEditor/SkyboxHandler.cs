@@ -23,7 +23,13 @@ public class SkyboxHandler : MonoBehaviour
 
     public void ChangeSkybox(string texturePath)
     {
+        skyboxTexturePath = texturePath;
         StartCoroutine(LoadSkyboxFromPath(texturePath));
+    }
+    public void ClearSkybox()
+    {
+        RenderSettings.skybox = null;
+        DynamicGI.UpdateEnvironment();
     }
 
 

@@ -17,12 +17,18 @@ public class SaveLoadMap : MonoBehaviour
     public GameObject GameManager;
     public Transform terrain;
     public GameObject CreateMapWindow;
+    public GameObject camera;
 
 
     public string mapName;
     float timer = 0f;
     float interval = 10f;
 
+    void Start()
+    {
+        terrain.GetComponent<PlaneHandler>().ClearTerrain();
+        GameManager.GetComponent<SkyboxHandler>().ClearSkybox();
+    }
 
     public void createMap()
     {
@@ -47,6 +53,7 @@ public class SaveLoadMap : MonoBehaviour
     {
         if (GameManager.GetComponent<LayerSystem>()._GAME_MODE == "2D")
         {
+            camera.SetActive(false);
             foreach (Transform child in GameManager.GetComponent<LayerSystem>().token2DLayer.transform)
             {
                 Destroy(child.gameObject);
@@ -62,6 +69,7 @@ public class SaveLoadMap : MonoBehaviour
         }
         else if (GameManager.GetComponent<LayerSystem>()._GAME_MODE == "3D")
         {
+            camera.SetActive(true);
             foreach (Transform child in GameManager.GetComponent<LayerSystem>().token3DLayer.transform)
             {
                 Destroy(child.gameObject.GetComponent<AssetName>());
@@ -85,6 +93,7 @@ public class SaveLoadMap : MonoBehaviour
             }
         }
         terrain.GetComponent<PlaneHandler>().ClearTerrain();
+        GameManager.GetComponent<SkyboxHandler>().ClearSkybox();
     }
     public void saveMap()
     {
@@ -194,6 +203,7 @@ public class SaveLoadMap : MonoBehaviour
                 propLayer = propLayer,
                 mapLayer = mapLayer,
                 terrainTexturePath = terrain.GetComponent<PlaneHandler>().terrainTexturePath,
+                terrainFill = terrain.GetComponent<PlaneHandler>().fillTexture.isOn,
                 skyboxTexturepath = GameManager.GetComponent<SkyboxHandler>().skyboxTexturePath
             };
             string json = JsonUtility.ToJson(mapInfo, true);
@@ -203,7 +213,7 @@ public class SaveLoadMap : MonoBehaviour
     }
 
     void Update()
-    {   
+    {
 
         timer += Time.deltaTime;
         if (timer >= interval)
@@ -218,6 +228,14 @@ public class SaveLoadMap : MonoBehaviour
             {
                 Debug.Log("Map name is not set.");
             }
+        }
+        if(CreateMapWindow.activeSelf && camera.activeSelf)
+        {
+            camera.GetComponent<FreeCameraController>().enabled = false; // Disable camera movement while creating map
+        }
+        else 
+        {
+           camera.GetComponent<FreeCameraController>().enabled = true; // Enable camera movement when not creating map
         }
     }
 
@@ -279,6 +297,10 @@ public class SaveLoadMap : MonoBehaviour
                 {
                     Debug.LogWarning($"Terrain data not found for map: {mName}");
                 }
+                // Load terrain texture
+                GameManager.GetComponent<SkyboxHandler>().ChangeSkybox(mapInfo.skyboxTexturepath);
+                terrain.GetComponent<PlaneHandler>().ChangeTerrainTexture(mapInfo.terrainTexturePath);
+                terrain.GetComponent<PlaneHandler>().fillTexture.isOn = mapInfo.terrainFill;
             }
             
 
@@ -312,6 +334,7 @@ public class MapInfo
     public string saveTime;
     public string mapType;
     public string terrainTexturePath;
+    public bool terrainFill;
     public string skyboxTexturepath;
     public List<ObjectData> tokenLayer;
     public List<ObjectData> propLayer;

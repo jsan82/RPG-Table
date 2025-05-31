@@ -8,7 +8,7 @@ public class Placing2D : MonoBehaviour
     public GameObject GameManager;
     public GameObject imagePrefab; // To powinien być prefab z komponentem Image
 
-    public Terrain terrain;
+
     public GameObject placedObject;
     public void PlaceAsset()
     {
@@ -54,13 +54,7 @@ public class Placing2D : MonoBehaviour
             placedObject.AddComponent<AssetName>();
             placedObject.GetComponent<AssetName>().assetName = Path.GetFileName(filePath);
         }
-        else
-        {
-            TerrainLayer terrainLayer = new TerrainLayer();
-            terrainLayer.diffuseTexture = texture;
-            terrainLayer.tileSize = new Vector2(700, 700);
-            terrain.terrainData.terrainLayers = new TerrainLayer[] { terrainLayer };
-        }
+
     
     }
 
