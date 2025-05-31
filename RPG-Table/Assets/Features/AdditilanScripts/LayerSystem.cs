@@ -18,11 +18,17 @@ public class LayerSystem : MonoBehaviour
     public GameObject token2DLayer;
     public GameObject prop2DLayer;
     public GameObject map2DLayer;
+
+    public GameObject panel;
+    public GameObject drawingLayer;
     public GameObject token3DLayer;
     public GameObject prop3DLayer;
     public GameObject map3DLayer;
     public GameObject camera;
     public GameObject table;
+
+    public GameObject drawingButton;
+    public GameObject HammerButton;
 
 
     public string _GAME_MODE;
@@ -51,6 +57,9 @@ public class LayerSystem : MonoBehaviour
             token3DLayer.SetActive(false);
             prop3DLayer.SetActive(false);
             table.SetActive(true);
+            drawingLayer.SetActive(true);
+            HammerButton.SetActive(false);
+            drawingButton.SetActive(true);
             //map3DLayer.SetActive(false);
             // Ensure only one layer is active at a time
             if (tokenLayerToggle.isOn)
@@ -149,7 +158,9 @@ public class LayerSystem : MonoBehaviour
             prop3DLayer.SetActive(true);
             map3DLayer.SetActive(true);
             table.SetActive(false);
-            // Ensure only one layer is active at a time
+            drawingLayer.SetActive(false);
+            HammerButton.SetActive(true);
+            drawingButton.SetActive(false);
             if (tokenLayerToggle.isOn)
             {
                 _CURRENT_LAYER = token3DLayer;

@@ -66,6 +66,7 @@ public class SaveLoadMap : MonoBehaviour
             {
                 Destroy(child.gameObject);
             }
+            GameManager.GetComponent<MapBrushDrawer>().ClearTexture();
         }
         else if (GameManager.GetComponent<LayerSystem>()._GAME_MODE == "3D")
         {
@@ -135,7 +136,7 @@ public class SaveLoadMap : MonoBehaviour
                 };
                 mapLayer.Add(data);
             }
-
+            GameManager.GetComponent<MapBrushDrawer>().SaveDrawingToFile(Path.Combine(SettingsManager._CurrentSettings.MapsPath, "drawingData", $"{mapName}"));
             MapInfo mapInfo = new MapInfo
             {
                 saveTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
@@ -270,6 +271,16 @@ public class SaveLoadMap : MonoBehaviour
                 foreach (ObjectData map in mapInfo.mapLayer)
                 {
                     GameManager.GetComponent<AssetLoaderAndPlacer>().PlaceToken(map.assetName, map.position, map.rotation, map.scale, 2);
+                }
+                // Load drawing data if available
+                string drawingDataPath = Path.Combine(SettingsManager._CurrentSettings.MapsPath, "drawingData", $"{mName}");
+                if (File.Exists(drawingDataPath))
+                {
+                    GameManager.GetComponent<MapBrushDrawer>().LoadDrawingFromFile(drawingDataPath);
+                }
+                else
+                {
+                    Debug.LogWarning($"Drawing data not found for map: {mName}");
                 }
 
             }
