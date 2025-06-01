@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using UnityEngine.Networking;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 /// <summary>
 /// Handles terrain modification including elevation, flattening, holes, and texture changes.
@@ -30,6 +31,14 @@ public class PlaneHandler : MonoBehaviour
     private UnityEngine.TerrainData terrainData;
     /// <summary>Resolution of the terrain heightmap.</summary>
     private int heightmapResolution;
+    /// <summary>Path to texture for terrain.</summary>
+    public string terrainTexturePath;
+    /// <summary>Switch for filling the terrain texture.</summary>
+    public Toggle fillTexture;
+    /// <summary>Switch for edit mode.</summary>
+    public Toggle editModeOn;
+    /// <summary>Slider variable for brush size.</summary>
+    public Slider brushSizeSlider;
 
     /// <summary>
     /// Initializes brush settings and terrain data.
@@ -43,6 +52,7 @@ public class PlaneHandler : MonoBehaviour
 
         terrainData = terrain.terrainData;
         heightmapResolution = terrainData.heightmapResolution;
+        
 
         //ChangeTerrainTexture("[P A T H]"); //comment if not testing
     }
@@ -51,11 +61,17 @@ public class PlaneHandler : MonoBehaviour
     /// Handles terrain editing logic each frame.
     /// </summary>
     void Update()
-    {
+    {   
+        if (!editModeOn.isOn) return;
+        if(editModeOn.isOn && Input.GetKeyDown(KeyCode.Escape))
+        {
+            editModeOn.isOn = false;
+            return;
+        }
         HandleElevation();
         HandleAllElevation();
         HandleHole();
-
+        ChangeBrushSize();
 /*        if (Input.GetKeyDown(KeyCode.T))//comment if not testing
         {
             ExportTerrain("P A T H");
@@ -65,6 +81,11 @@ public class PlaneHandler : MonoBehaviour
         {
             ImportTerrain("P A T H");
         }*/
+    }
+
+    public void ChangeBrushSize()
+    {
+        brushSize = brushSizeSlider.value;
     }
 
     /// <summary>
@@ -392,6 +413,37 @@ public class PlaneHandler : MonoBehaviour
         terrainData.SetHoles(0, 0, holeMap2D);
         brushDefoult = exportData.brushDefoultSave;
     }
+    
+    /// <summary>
+    /// Resets terrain elevation and holes.
+    /// </summary>
+    public void ClearTerrain()
+    {
+        int heightRes = terrainData.heightmapResolution;
+        int holeRes = terrainData.holesResolution;
+
+        float[,] heightMap2D = terrainData.GetHeights(0, 0, heightRes, heightRes);
+        bool[,] holeMap2D = terrainData.GetHoles(0, 0, holeRes, holeRes);
+        for (int y = 0; y < heightRes; y++)
+        {
+            for (int x = 0; x < heightRes; x++)
+            {
+                heightMap2D[y, x] = 0f; // Reset height to 0
+            }
+        }
+        for (int y = 0; y < holeRes; y++)
+        {
+            for (int x = 0; x < holeRes; x++)
+            {
+                holeMap2D[y, x] = true; // Reset holes to false
+            }
+        }
+        terrainData.SetHeights(0, 0, heightMap2D);
+        terrainData.SetHoles(0, 0, holeMap2D);
+        terrainTexturePath = ""; // Clear texture path
+        terrain.terrainData.terrainLayers = new TerrainLayer[] { }; // Clear terrain layers
+
+    }
 
     /// <summary>
     /// Starts the process to change the terrain texture from a local file.
@@ -399,12 +451,16 @@ public class PlaneHandler : MonoBehaviour
     /// <param name="imagePath">Full path to the image file.</param>
     public void ChangeTerrainTexture(string imagePath)
     {
-        if (!File.Exists(imagePath))
+        if (imagePath == null || imagePath == "")
         {
-            Debug.LogError("Texture file not found: " + imagePath);
-            return;
+            imagePath = terrainTexturePath;
         }
-
+        if (!File.Exists(imagePath))
+            {
+                Debug.Log("Texture file not found: " + imagePath);
+                return;
+            }
+        terrainTexturePath = imagePath;
         StartCoroutine(LoadTerrainTexture(imagePath));
     }
 
@@ -428,10 +484,16 @@ public class PlaneHandler : MonoBehaviour
 
         TerrainLayer newLayer = new TerrainLayer();
         newLayer.diffuseTexture = texture;
-        newLayer.tileSize = new Vector2(10, 10);
+        if (fillTexture.isOn)
+        {
+            newLayer.tileSize = new Vector2(terrain.terrainData.size.x, terrain.terrainData.size.z);
+        }
+        else
+        {
+            newLayer.tileSize = new Vector2(10, 10);
+        }
 
-        TerrainLayer[] layers = new TerrainLayer[1];
-        layers[0] = newLayer;
-        terrain.terrainData.terrainLayers = layers;
+
+        terrain.terrainData.terrainLayers = new TerrainLayer[] { newLayer };
     }
 }

@@ -340,11 +340,11 @@ private void ProcessObjectSelection(ObjectID objectID)
         }
         if (savingCustomObjects.prefab != "TextBlockPrefab")
         {
-            savingCustomObjects.imageName = EditParametersPanel.transform.Find("IMGPlace").GetComponent<TMP_InputField>().text;
-            savingCustomObjects.transparency = EditParametersPanel.transform.Find("TransparencyPlace").GetComponent<TMP_InputField>().text;
+            savingCustomObjects.imageName = EditParametersPanel.transform.Find("IMGPanel/IMGPlace").GetComponent<TMP_InputField>().text;
+            savingCustomObjects.transparency = EditParametersPanel.transform.Find("TransparencyPanel/TransparencyPlace").GetComponent<TMP_InputField>().text;
         }
-        savingCustomObjects.Width = EditParametersPanel.transform.Find("WidthPlace").GetComponent<TMP_InputField>().text;
-        savingCustomObjects.Height = EditParametersPanel.transform.Find("HeightPlace").GetComponent<TMP_InputField>().text;
+        savingCustomObjects.Width = EditParametersPanel.transform.Find("BasicPanel/WidthPlace").GetComponent<TMP_InputField>().text;
+        savingCustomObjects.Height = EditParametersPanel.transform.Find("BasicPanel/HeightPlace").GetComponent<TMP_InputField>().text;
         ObjectPlacementSystem ops = FindObjectOfType<ObjectPlacementSystem>();
         if (ops != null)
         {
@@ -358,7 +358,8 @@ private void ProcessObjectSelection(ObjectID objectID)
 
     public void destroyObject(){
         CardAreaSaver cardAreaSaver = new CardAreaSaver();
-        cardAreaSaver.deleteObject(EditParametersPanel.transform.Find("IDPlace").GetComponent<TMP_InputField>().text);
+        Debug.Log(EditParametersPanel.transform.Find("BasicPanel/IDPlace").GetComponent<TMP_InputField>().text);
+        cardAreaSaver.deleteObject(EditParametersPanel.transform.Find("BasicPanel/IDPlace").GetComponent<TMP_InputField>().text);
     }
 
 }

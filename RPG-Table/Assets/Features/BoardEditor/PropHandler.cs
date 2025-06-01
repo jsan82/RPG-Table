@@ -37,12 +37,23 @@ public class PropHandler : MonoBehaviour
     private float colorPower { get; set; }
     private float colorTimer;
     private float colorLimit;
+    
+    /// <summary>Switch for spawning props.</summary>
+    public bool spawnActive;
+    /// <summary>Holds name for object to spawn.</summary>
+    public string spawnObjectName;
+    /// <summary>Contains information about current layer on which objects are spawned.</summary>
+    public GameObject currentLayer;
+    /// <summary>Contains prefab for particle system.</summary>
+    public GameObject particleSystemPrefab;
 
     /// <summary>
     /// Initializes default settings for prop manipulation controls.
     /// </summary>
     void Start()
     {
+
+    
         rotateLimit = 0.1f;
         rotatePower = 5.0f;
 
@@ -54,8 +65,10 @@ public class PropHandler : MonoBehaviour
 
         colorLimit = 0.1f;
         colorPower = 0.1f;
+        
+        spawnActive = false;
 
-        //LoadOBJFromPath("P A T H"); // comment if not testing
+        //LoadOBJFromPath("[P A T H]"); // comment if not testing
     }
 
     /// <summary>
@@ -70,6 +83,36 @@ public class PropHandler : MonoBehaviour
         HandleBloomToggle();
         HandleBloomIntensity();
         HandleSpawnProp();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            spawnActive = false;
+        }
+        if (this.GetComponent<LayerSystem>()._GAME_MODE == "3D")
+        {
+            currentLayer = this.GetComponent<LayerSystem>()._CURRENT_LAYER;
+        }
+        if (selectedProp != null && Input.GetKeyDown(KeyCode.Delete)) //Delete
+        {
+            Destroy(selectedProp.GetComponent<AssetName>());
+            Destroy(selectedProp.GetComponent<MovableProp>());
+            Destroy(selectedProp.gameObject);
+            selectedProp = null;
+            Destroy(objectToSpawn);
+        }
+        if (Input.GetKeyDown(KeyCode.F1)) //F1
+        {
+            foreach (GameObject child in this.transform)
+            {
+                child.SetActive(!child.activeSelf);
+            }
+        }
+        // if (Input.GetKeyDown(KeyCode.F2)) //F2
+        // {
+        //     foreach (GameObject child in this.transform)
+        //     {
+        //         foreach (GameObject grandChild)
+        //     }
+        // }
     }
 
     /// <summary>
@@ -99,7 +142,7 @@ public class PropHandler : MonoBehaviour
     /// </summary>
     public void HandleSpawnProp()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetMouseButtonDown(0) && spawnActive) //rmb
         {
             Vector3 mousePos = Input.mousePosition;
             mousePos.z = 5f;
@@ -107,7 +150,12 @@ public class PropHandler : MonoBehaviour
 
             GameObject spawned = Instantiate(objectToSpawn, worldPos, Quaternion.identity);
             spawned.SetActive(true);
-        }
+            spawned.AddComponent<AssetName>();
+            spawned.GetComponent<AssetName>().assetName = spawnObjectName;
+            spawned.transform.SetParent(currentLayer.transform);
+            // GameObject ps = Instantiate(particleSystemPrefab, worldPos, Quaternion.identity);
+            // ps.transform.SetParent(spawned.transform);
+        }   
     }
 
     /// <summary>
@@ -355,5 +403,6 @@ public class PropHandler : MonoBehaviour
         obj.AddComponent<MovableProp>();
         obj.SetActive(false);
         objectToSpawn = obj;
+        if (!spawnActive) Destroy(obj);
     }
 }

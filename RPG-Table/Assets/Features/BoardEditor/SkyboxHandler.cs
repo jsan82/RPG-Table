@@ -13,6 +13,7 @@ public class SkyboxHandler : MonoBehaviour
     /// Template material used for setting the loaded skybox texture.
     /// </summary>
     public Material skyboxMaterialTemplate;
+    public string skyboxTexturePath;
 
 /*    void Start() //comment if not testing
     {
@@ -25,7 +26,13 @@ public class SkyboxHandler : MonoBehaviour
     /// <param name="texturePath">Absolute path to the texture file.</param>
     public void ChangeSkybox(string texturePath)
     {
+        skyboxTexturePath = texturePath;
         StartCoroutine(LoadSkyboxFromPath(texturePath));
+    }
+    public void ClearSkybox()
+    {
+        RenderSettings.skybox = null;
+        DynamicGI.UpdateEnvironment();
     }
 
     /// <summary>
