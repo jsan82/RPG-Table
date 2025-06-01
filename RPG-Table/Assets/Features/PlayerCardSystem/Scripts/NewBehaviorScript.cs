@@ -52,8 +52,13 @@ public class NewBehaviourScript : MonoBehaviour, IUIBehavior
     private bool isIdValueOn = false;
     private string _currentlyEditedButtonId = null; // To keep track of which button is being edited
 
+    private void Start()
+    {
+        Debug.Log("NewBehaviourScript Awake called");
+    }
     private void Awake()
     {
+
         if (_instance != null && _instance != this)
         {
             Destroy(this.gameObject);
@@ -118,21 +123,26 @@ public class NewBehaviourScript : MonoBehaviour, IUIBehavior
 
     //Method to handle the button click event
     void Update()
-    {
+    {   if(_editMode)
+        {
         if (_editMode.isOn)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                if(_addSelector.activeSelf){
+                if (_addSelector.activeSelf)
+                {
                     addValueCancel();
                 }
-                else{
+                else
+                {
                     cancelEditMode();
                 }
             }
 
             HandleUIClick();
-        } else {
+        }
+        else
+        {
             HandleUIClick();
         }
 
@@ -152,6 +162,7 @@ public class NewBehaviourScript : MonoBehaviour, IUIBehavior
             _numberValue.isOn = false;
             _idDropdown.SetActive(true);
             _numberInputbox.SetActive(false);
+        }
         }
     }
 

@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 public class SkyboxHandler : MonoBehaviour
 {
     public Material skyboxMaterialTemplate;
+    public string skyboxTexturePath;
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +23,13 @@ public class SkyboxHandler : MonoBehaviour
 
     public void ChangeSkybox(string texturePath)
     {
+        skyboxTexturePath = texturePath;
         StartCoroutine(LoadSkyboxFromPath(texturePath));
+    }
+    public void ClearSkybox()
+    {
+        RenderSettings.skybox = null;
+        DynamicGI.UpdateEnvironment();
     }
 
 
