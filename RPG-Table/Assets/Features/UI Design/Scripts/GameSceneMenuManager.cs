@@ -1,10 +1,12 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Collections.Generic;
 using TMPro;
 
 public class GameSceneMenuManager : MonoBehaviour
 {
+    private SFXManager _sfxManager;
     // Brush Settings
     public GameObject brushSettingsPanel;
     public TMP_InputField hexColorInput;
@@ -37,15 +39,21 @@ public class GameSceneMenuManager : MonoBehaviour
 
     private bool isLayerSelectorVisible = false;
 
+    void Start()
+    {
+        _sfxManager = FindObjectOfType<SFXManager>();
+        FindAllButtonsInScene();
+    }
     public void ButtonChat()
     {
         // Implement chat button here
         Debug.Log("Chat button clicked.");
     }
 
-    public void ButtonExit(){
-        SceneManager.LoadScene("MainMenu"); 
-    
+    public void ButtonExit()
+    {
+        SceneManager.LoadScene("MainMenu");
+
     }
     public void ButtonPhoto()
     {
@@ -74,7 +82,7 @@ public class GameSceneMenuManager : MonoBehaviour
         isDiceSettingsVisible = false;
         isLayerSelectorVisible = false;
         hammerSettingsPanel.SetActive(false);
-        diceSettingsPanel.SetActive(false); 
+        diceSettingsPanel.SetActive(false);
         layerSelectorPanel.SetActive(false);
         Debug.Log("Brush Panel toggled: " + isBrushSettingsVisible);
     }
@@ -179,5 +187,31 @@ public class GameSceneMenuManager : MonoBehaviour
     public float GetBrushSize()
     {
         return brushSizeSlider.value;
+    }
+    
+    public void FindAllButtonsInScene()
+    {
+        // Znajdź wszystkie obiekty Button w scenie (również nieaktywne)
+        Button[] allButtons = Resources.FindObjectsOfTypeAll<Button>();
+
+        List<GameObject> buttonGameObjects = new List<GameObject>();
+
+        foreach (Button button in allButtons)
+        {
+            // Sprawdź czy obiekt jest częścią sceny (nie jest prefabem)
+            if (button.hideFlags == HideFlags.None)
+            {
+                if (button.gameObject.name == "ButtonThrow")
+                {
+                    button.onClick.AddListener(() => _sfxManager.Play(SFXType.DICE_ROLL));
+                }
+                else
+                {
+                    button.onClick.AddListener(() => _sfxManager.Play(SFXType.BUTTON_CLICK));
+                }
+            }
+        }
+
+        Debug.Log($"Znaleziono {buttonGameObjects.Count} przycisków w scenie.");
     }
 }

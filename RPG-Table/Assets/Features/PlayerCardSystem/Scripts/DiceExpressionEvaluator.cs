@@ -15,6 +15,8 @@ public class DiceExpressionEvaluator : MonoBehaviour
     public bool showPostfixNotation = true;
     public bool detailedDiceLogging = true;
     public GameObject inputField;
+    public GameObject MessagePanel;
+    public GameObject messagePrefab;
     
     //operators precedence
     private readonly Dictionary<char, int> precedence = new Dictionary<char, int>
@@ -23,7 +25,11 @@ public class DiceExpressionEvaluator : MonoBehaviour
     };
 
     private static DiceExpressionEvaluator _instance;
-    
+
+    void Start()
+    {
+        
+    }
     public static DiceExpressionEvaluator Instance
     {
         get
@@ -66,6 +72,26 @@ public class DiceExpressionEvaluator : MonoBehaviour
     {
         try
         {   
+            if (MessagePanel == null)
+            {
+                MessagePanel = GameObject.Find("MenuAnd2DWorld/MenuRight/MenuRightChatPanel/Chat/View/Messages");
+                if (MessagePanel == null)
+                {
+                    Debug.LogWarning("MessagePanel not found. Please assign it in the inspector.");
+                }
+                else
+                {
+                    Debug.Log("MessagePanel found and assigned.");
+                }
+            }
+            if (messagePrefab == null)
+            {
+                messagePrefab = Resources.Load<GameObject>("Message");
+                if (messagePrefab == null)
+                {
+                    Debug.LogError("MessagePrefab not found in Resources. Please assign it in the inspector.");
+                }
+            }
             string postfix = InfixToPostfix(infixExpression);
             if (showPostfixNotation) Debug.Log($"Postfix: {postfix}");
             
@@ -81,6 +107,16 @@ public class DiceExpressionEvaluator : MonoBehaviour
                 foreach (var roll in diceRolls)
                 {
                     sb.AppendLine(roll.ToString());
+                }
+                if (MessagePanel != null)
+                {
+                    GameObject messageObject = Instantiate(messagePrefab, MessagePanel.transform);
+                    TextMeshProUGUI textComponent = messageObject.GetComponent<TextMeshProUGUI>();
+                    textComponent.text = sb.ToString();
+                }
+                else
+                {
+                    Debug.Log(sb.ToString());
                 }
                 sb.AppendLine($"Final result: {result}");
                 Debug.Log(sb.ToString());

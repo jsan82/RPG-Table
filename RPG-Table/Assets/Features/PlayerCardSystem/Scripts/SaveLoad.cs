@@ -103,20 +103,20 @@ public class CardAreaSaver : MonoBehaviour
     }
     
     // Method to load the card area from a JSON file
-    public static void LoadCardArea(string filePath)
+    public static void LoadCardArea(string filePath, bool Editing=true)
     {
         saveFileName = filePath;
         CardAreaSaver instance = FindObjectOfType<CardAreaSaver>();
         if (instance != null)
         {
-            instance.LoadCardArea();
+            instance.LoadCardArea(Editing);
         }
         else
         {
             Debug.LogError("CardAreaSaver instance not found in the scene.");
         }
     }
-    public void LoadCardArea()
+    public void LoadCardArea(bool Editing)
     {
         try
         {
@@ -146,6 +146,10 @@ public class CardAreaSaver : MonoBehaviour
             {
                 if (childData == null) continue;
                 GameObject newChild = CreateChildFromData(childData);
+                if (!Editing)
+                {
+                    newChild.GetComponent<SmartDragHandler>().enabled = false; // Disable drag functionality for loaded objects
+                }
                 SetImage(newChild, childData.backgroundImage);
             }
             foreach (ChildData childData in loadedData.children)

@@ -84,6 +84,10 @@ public class SettingsManager : MonoBehaviour
                 {
                     Directory.CreateDirectory(Path.Combine(_CurrentSettings.MapsPath, "drawingData/"));
                 }
+                if(!Directory.Exists(Path.Combine(_CurrentSettings.GameCardsPath, "playerCardNotes/")))
+                {
+                    Directory.CreateDirectory(Path.Combine(_CurrentSettings.GameCardsPath, "playerCardNotes/"));
+                }
             }
             else
             {

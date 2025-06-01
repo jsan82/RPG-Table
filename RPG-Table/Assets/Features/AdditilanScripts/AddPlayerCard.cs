@@ -62,7 +62,7 @@ public class AddPlayerCard : MonoBehaviour
                 if (CardAreaSaver._fullSavePath != null && CardAreaSaver._fullSavePath != "")
                 {
 
-                    lpc.savePlayerCard(saveFile, playerCardArea, PlayerCardWindow);
+                    lpc.savePlayerCard(saveFile, playerCardArea, PlayerCardWindow, PlayerCardNotesPanel);
                 }
                 else
                 {
@@ -83,8 +83,8 @@ public class AddPlayerCard : MonoBehaviour
 
     public void PlayerCardCard()
     {
-        playerCardCardPanel.SetActive(true);
         PlayerCardNotesPanel.SetActive(false);
+        playerCardCardPanel.SetActive(true);
     }
 
     public void ShowPlayerCardSelector()
@@ -128,7 +128,7 @@ public class AddPlayerCard : MonoBehaviour
         File.Copy(Path.Combine(SettingsManager._CurrentSettings.playerCardsPath, selectedCard + ".json"), Path.Combine(SettingsManager._CurrentSettings.GameCardsPath, playerName + ".json"), true);
         lpc = new LoadPlayerCard();
 
-        newPlayerButton.GetComponent<Button>().onClick.AddListener(() => lpc.loadPlayerCard(playerName +".json", playerCardArea, PlayerCardWindow));
+        newPlayerButton.GetComponent<Button>().onClick.AddListener(() => lpc.loadPlayerCard(playerName +".json", playerCardArea, PlayerCardWindow,playerCardName));
         playerCardName.GetComponent<TMP_InputField>().text = "";
         playerCardDropdown.GetComponent<TMP_Dropdown>().value = 0;
         playerCardSelector.SetActive(false);

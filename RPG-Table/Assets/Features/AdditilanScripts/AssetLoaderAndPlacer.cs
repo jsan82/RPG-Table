@@ -10,18 +10,24 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 public class AssetLoaderAndPlacer : MonoBehaviour
-{
+{   
+    private SFXManager _sfxManager;
     public GameObject imagePrefab;
     public GameObject assetPanel;
     public GameObject asset2DAssetPanel;
+    public GameObject asset2DPanel;
+    public GameObject asset2Dtext;
     public GameObject texturePanel;
     public GameObject skyboxPanel;
     public GameObject asset3DAssetPanel;
+    public GameObject asset3DPanel;
+    public GameObject asset3Dtext;
     public GameObject buttonPrefab2D;
     public GameObject buttonPrefab3D;
     public GameObject GameManager;
     public GameObject PlayerCardWindow;
     public GameObject PlayerCardPanel;
+    public GameObject PlayerCardNotes;
 
     public Terrain terrain;
 
@@ -36,7 +42,8 @@ public class AssetLoaderAndPlacer : MonoBehaviour
     private LoadPlayerCard lpc;
     // Start is called before the first frame update
     void Start()
-    {
+    {   
+        _sfxManager = FindObjectOfType<SFXManager>();
 
         if (!Directory.Exists(PATH_TO_2D_ASSETS))
         {
@@ -83,6 +90,7 @@ public class AssetLoaderAndPlacer : MonoBehaviour
                 button.GetComponent<Placing2D>().GameManager = GameManager;
                 button.GetComponent<Placing2D>().imagePrefab = imagePrefab;
                 button.GetComponent<Button>().onClick.AddListener(() => button.GetComponent<Placing2D>().PlaceAsset());
+                button.GetComponent<Button>().onClick.AddListener(() => _sfxManager.Play(SFXType.BUTTON_CLICK));
                 image.sprite = sprite;
             }
             else
@@ -115,6 +123,7 @@ public class AssetLoaderAndPlacer : MonoBehaviour
                 
                 button.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
                 button.GetComponent<Button>().onClick.AddListener(() => terrain.GetComponent<PlaneHandler>().ChangeTerrainTexture(filePath));
+                button.GetComponent<Button>().onClick.AddListener(() => _sfxManager.Play(SFXType.BUTTON_CLICK));
                 image.sprite = sprite;
             }
             else
@@ -150,6 +159,7 @@ public class AssetLoaderAndPlacer : MonoBehaviour
                 {
                     GameManager.GetComponent<SkyboxHandler>().ChangeSkybox(filePath);
                 });
+                button.GetComponent<Button>().onClick.AddListener(() => _sfxManager.Play(SFXType.BUTTON_CLICK));
                 image.sprite = sprite;
             }
             else
@@ -173,6 +183,7 @@ public class AssetLoaderAndPlacer : MonoBehaviour
                 GameManager.GetComponent<PropHandler>().spawnActive = true;
                 GameManager.GetComponent<PropHandler>().spawnObjectName = Path.GetFileName(filePath);
             });
+            button.GetComponent<Button>().onClick.AddListener(() => _sfxManager.Play(SFXType.BUTTON_CLICK));
         }
 
         //Player Cards
@@ -186,7 +197,8 @@ public class AssetLoaderAndPlacer : MonoBehaviour
             button.name = fileName; // Set the name of the button to the file name
             lpc = new LoadPlayerCard();
 
-            button.GetComponent<Button>().onClick.AddListener(() => lpc.loadPlayerCard(fileName + ".json", GameManager, PlayerCardWindow));
+            button.GetComponent<Button>().onClick.AddListener(() => lpc.loadPlayerCard(fileName + ".json", GameManager, PlayerCardWindow, PlayerCardNotes));
+            button.GetComponent<Button>().onClick.AddListener(() => _sfxManager.Play(SFXType.BUTTON_CLICK));
         }
 
         //Maps
@@ -199,10 +211,12 @@ public class AssetLoaderAndPlacer : MonoBehaviour
             button.GetComponentInChildren<TextMeshProUGUI>().text = fileName;
             button.name = fileName; // Set the name of the button to the file name
             button.GetComponent<Button>().onClick.AddListener(() => GameManager.GetComponent<SaveLoadMap>().loadMap($"{fileName}.json"));
+            button.GetComponent<Button>().onClick.AddListener(() => _sfxManager.Play(SFXType.BUTTON_CLICK));
         }
         
     }
     
+
     public void restartMaps()
     {
         foreach (Transform child in MapPanel.transform)
@@ -318,8 +332,7 @@ public class AssetLoaderAndPlacer : MonoBehaviour
                     token3D.transform.SetParent(GameManager.GetComponent<LayerSystem>().token3DLayer.transform);
                     token3D.name = assetName;
                     token3D.SetActive(true);
-                    // token3D.transform.position = position;
-                    // token3D.transform.rotation = rotation;
+
                     token3D.transform.localScale = scale;
                     token3D.AddComponent<AssetName>();
                     token3D.GetComponent<AssetName>().assetName = assetName;
@@ -329,8 +342,6 @@ public class AssetLoaderAndPlacer : MonoBehaviour
                     GameObject prop3D = Instantiate(GameManager.GetComponent<PropHandler>().objectToSpawn, position, rotation);
                     prop3D.transform.SetParent(GameManager.GetComponent<LayerSystem>().prop3DLayer.transform);
                     prop3D.name = assetName;
-                    // prop3D.transform.position = position;
-                    // prop3D.transform.rotation = rotation;
                     prop3D.transform.localScale = scale;
                     //prop3D.AddComponent<SmartDragHandler>();
                     prop3D.AddComponent<AssetName>();
@@ -358,10 +369,21 @@ public class AssetLoaderAndPlacer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(GameManager.GetComponent<LayerSystem>()._GAME_MODE == "2D")
+        {
+            asset2Dtext.SetActive(true);
+            asset3Dtext.SetActive(false);
+            asset2DPanel.SetActive(true);
+            asset3DPanel.SetActive(false);
+        }
+        else if(GameManager.GetComponent<LayerSystem>()._GAME_MODE == "3D")
+        {
+            asset2Dtext.SetActive(false);
+            asset3Dtext.SetActive(true);
+            asset2DPanel.SetActive(false);
+            asset3DPanel.SetActive(true);
+        }
     }
 
-    public void addCharacter()
-    {
-        
-    }
+
 }
