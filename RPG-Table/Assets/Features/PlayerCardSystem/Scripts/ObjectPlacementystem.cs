@@ -92,19 +92,19 @@ public class ObjectPlacementSystem : MonoBehaviour
                 button.name = obj.name;
                 GameObject prefab = Resources.Load<GameObject>(obj.prefab);
   
-                if(File.Exists(Path.Combine(PATH_TO_2D_ASSETS, obj.imageName)))
-                {   
-                    byte[] imageBytes = File.ReadAllBytes(Path.Combine(PATH_TO_2D_ASSETS, obj.imageName));
-                    Texture2D texture = new Texture2D(2, 2);
-                    texture.LoadImage(imageBytes); // Load the image data into the texture
-                    Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-                    button.GetComponent<Button>().image.sprite = sprite;
-                    Debug.Log("Obrazek dodany");
-                }
-                else
-                {
-                    Debug.Log("Nie ma obrazka");
-                }
+                // if(File.Exists(Path.Combine(PATH_TO_2D_ASSETS, obj.imageName)))
+                // {   
+                //     byte[] imageBytes = File.ReadAllBytes(Path.Combine(PATH_TO_2D_ASSETS, obj.imageName));
+                //     Texture2D texture = new Texture2D(2, 2);
+                //     texture.LoadImage(imageBytes); // Load the image data into the texture
+                //     Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                //     button.GetComponent<Button>().image.sprite = sprite;
+                //     Debug.Log("Obrazek dodany");
+                // }
+                // else
+                // {
+                //     Debug.Log("Nie ma obrazka");
+                // }
                 button.GetComponent<Button>().onClick.AddListener(() => SelectObject(prefab,obj));
             }
        }
@@ -347,15 +347,6 @@ public class ObjectPlacementSystem : MonoBehaviour
         buttonText.text = obj.name;
         button.name = obj.name;
         GameObject prefab = Resources.Load<GameObject>(obj.prefab);
-        
-        if(File.Exists(Path.Combine(PATH_TO_2D_ASSETS, obj.imageName)))
-        {   
-            byte[] imageBytes = File.ReadAllBytes(Path.Combine(PATH_TO_2D_ASSETS, obj.imageName));
-            Texture2D texture = new Texture2D(2, 2);
-            texture.LoadImage(imageBytes);
-            Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-            button.GetComponent<Button>().image.sprite = sprite;
-        }
         button.GetComponent<Button>().onClick.AddListener(() => SelectObject(prefab, obj));
     }
 }

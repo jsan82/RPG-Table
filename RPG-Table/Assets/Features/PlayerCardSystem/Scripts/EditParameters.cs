@@ -358,7 +358,8 @@ private void ProcessObjectSelection(ObjectID objectID)
 
     public void destroyObject(){
         CardAreaSaver cardAreaSaver = new CardAreaSaver();
-        cardAreaSaver.deleteObject(EditParametersPanel.transform.Find("IDPlace").GetComponent<TMP_InputField>().text);
+        Debug.Log(EditParametersPanel.transform.Find("BasicPanel/IDPlace").GetComponent<TMP_InputField>().text);
+        cardAreaSaver.deleteObject(EditParametersPanel.transform.Find("BasicPanel/IDPlace").GetComponent<TMP_InputField>().text);
     }
 
 }
