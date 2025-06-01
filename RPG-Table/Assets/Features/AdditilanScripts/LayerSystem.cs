@@ -10,6 +10,19 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+
+/// <summary>
+/// Manages the layer system for 2D and 3D game modes
+/// </summary>
+/// <remarks>
+/// Handles:
+/// - Layer toggling between Token/Prop/Map layers
+/// - 2D/3D mode switching
+/// - Raycast target management for 2D
+/// - Collider management for 3D
+/// - Camera control activation
+/// - UI element visibility
+/// </remarks>
 public class LayerSystem : MonoBehaviour
 {
     public Toggle tokenLayerToggle;
@@ -38,6 +51,10 @@ public class LayerSystem : MonoBehaviour
 
     private bool isChangingToggles = false;
 
+
+    /// <summary>
+    /// Initializes toggle listeners
+    /// </summary>
     void Start()
     {
         // Set up the toggle listeners
@@ -46,9 +63,20 @@ public class LayerSystem : MonoBehaviour
         mapLayerToggle.onValueChanged.AddListener(OnMapToggleChanged);
     }
 
+    /// <summary>
+    /// Handles layer management and mode switching
+    /// </summary>
+    /// <remarks>
+    /// Manages:
+    /// - 2D/3D mode visual states
+    /// - Raycast target enabling/disabling
+    /// - Collider enabling/disabling
+    /// - UI element visibility
+    /// - Current layer tracking
+    /// </remarks>
     void Update()
     {
-        if(_GAME_MODE == "2D")
+        if (_GAME_MODE == "2D")
         {
             camera.GetComponent<FreeCameraController>().enabled = false;
             token2DLayer.SetActive(true);
@@ -239,6 +267,10 @@ public class LayerSystem : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles token layer toggle changes
+    /// </summary>
+    /// <param name="isOn">Whether the toggle is being turned on</param>
     private void OnTokenToggleChanged(bool isOn)
     {
         if (!isOn || isChangingToggles) return;
@@ -252,6 +284,10 @@ public class LayerSystem : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Handles prop layer toggle changes
+    /// </summary>
+    /// <param name="isOn">Whether the toggle is being turned on</param>
     private void OnPropToggleChanged(bool isOn)
     {
         if (!isOn || isChangingToggles) return;
@@ -264,6 +300,10 @@ public class LayerSystem : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Handles map layer toggle changes
+    /// </summary>
+    /// <param name="isOn">Whether the toggle is being turned on</param>
     private void OnMapToggleChanged(bool isOn)
     {
         if (!isOn || isChangingToggles) return;
@@ -275,11 +315,15 @@ public class LayerSystem : MonoBehaviour
 
 
     }
-    
+
 }
 
+/// <summary>
+/// Simple component for tagging game objects with their asset names
+/// </summary>
 public class AssetName : MonoBehaviour
 {
+    /// <summary>The name of the asset this GameObject represents</summary>
     public string assetName;
 
     

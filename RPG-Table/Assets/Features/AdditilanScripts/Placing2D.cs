@@ -2,14 +2,36 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.UI;
 
+/// <summary>
+/// Handles 2D asset placement in the UI layer system
+/// </summary>
+/// <remarks>
+/// Features:
+/// - Loads and places 2D assets from files
+/// - Manages placement preview with mouse tracking
+/// - Handles placement cancellation
+/// - Integrates with LayerSystem for proper positioning
+/// </remarks>
 public class Placing2D : MonoBehaviour
 {
-    public string asset;
-    public GameObject GameManager;
-    public GameObject imagePrefab; // To powinien być prefab z komponentem Image
+    [Header("Configuration")]
+    public string asset;               // Path to the asset file
+    public GameObject GameManager;     // Reference to game manager
+    public GameObject imagePrefab;     // Prefab with Image component for instantiation
 
+    [Header("Runtime State")]
+    public GameObject placedObject;    // Currently placed/previewed object
 
-    public GameObject placedObject;
+    /// <summary>
+    /// Places the configured asset in the game world
+    /// </summary>
+    /// <remarks>
+    /// - Validates asset path
+    /// - Loads texture from file
+    /// - Creates UI Image with proper sprite
+    /// - Adds necessary components (SmartDragHandler, AssetName)
+    /// - Positions at mouse location
+    /// </remarks>
     public void PlaceAsset()
     {
         if (string.IsNullOrEmpty(asset))
@@ -55,9 +77,18 @@ public class Placing2D : MonoBehaviour
             placedObject.GetComponent<AssetName>().assetName = Path.GetFileName(filePath);
         }
 
-    
+
     }
 
+
+    /// <summary>
+    /// Updates placement preview and handles input
+    /// </summary>
+    /// <remarks>
+    /// - Tracks mouse position for preview
+    /// - Handles placement confirmation (left click)
+    /// - Handles cancellation (ESC key)
+    /// </remarks>
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -70,19 +101,25 @@ public class Placing2D : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 placedObject = null;
-                return; 
+                return;
             }
-             RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            GameManager.GetComponent<LayerSystem>()._CURRENT_LAYER.GetComponent<RectTransform>(),
-            Input.mousePosition,
-            null, // Dla UI
-            out Vector2 localPoint);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+           GameManager.GetComponent<LayerSystem>()._CURRENT_LAYER.GetComponent<RectTransform>(),
+           Input.mousePosition,
+           null, // Dla UI
+           out Vector2 localPoint);
 
-        placedObject.GetComponent<RectTransform>().anchoredPosition = localPoint;
+            placedObject.GetComponent<RectTransform>().anchoredPosition = localPoint;
 
         }
     }
 
+    /// <summary>
+    /// Cancels current placement operation
+    /// </summary>
+    /// <remarks>
+    /// Destroys preview object if exists
+    /// </remarks>
     private void CancelPlacement()
     {
         if (placedObject != null)
@@ -91,6 +128,16 @@ public class Placing2D : MonoBehaviour
             placedObject = null;
         }
     }
+
+    /// <summary>
+    /// Enables/disables components on placed object
+    /// </summary>
+    /// <param name="enabled">Whether to enable components</param>
+    /// <remarks>
+    /// Affects:
+    /// - All Collider2D components
+    /// - All MonoBehaviour components
+    /// </remarks>
     private void SetObjectComponentsEnabled(bool enabled)
     {
         foreach (var collider in placedObject.GetComponents<Collider2D>())

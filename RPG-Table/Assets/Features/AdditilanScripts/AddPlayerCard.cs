@@ -10,6 +10,18 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
+
+/// <summary>
+/// Manager for player card creation and selection in the game UI
+/// </summary>
+/// <remarks>
+/// Handles:
+/// - Player card template selection
+/// - Player name assignment
+/// - Card instantiation
+/// - Auto-saving functionality
+/// - Notes/card view switching
+/// </remarks>
 public class AddPlayerCard : MonoBehaviour
 {
 
@@ -28,7 +40,9 @@ public class AddPlayerCard : MonoBehaviour
     private string saveFile;
     private LoadPlayerCard lpc;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Initializes available player card templates
+    /// </summary>
     void Start()
     {
         playerCardNames = new List<string>();
@@ -42,7 +56,10 @@ public class AddPlayerCard : MonoBehaviour
 
     }
 
-    // Update is called once per frame
+
+    /// <summary>
+    /// Handles auto-saving when player card window is active
+    /// </summary>
     void Update()
     {
         if (CardAreaSaver._fullSavePath != null && CardAreaSaver._fullSavePath != "")
@@ -75,24 +92,39 @@ public class AddPlayerCard : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Switches to notes view
+    /// </summary>
     public void PlayerCardNotes()
     {
         PlayerCardNotesPanel.SetActive(true);
         playerCardCardPanel.SetActive(false);
     }
 
+
+    /// <summary>
+    /// Switches to card view
+    /// </summary>
     public void PlayerCardCard()
     {
         PlayerCardNotesPanel.SetActive(false);
         playerCardCardPanel.SetActive(true);
     }
 
+
+    /// <summary>
+    /// Shows the player card selection interface
+    /// </summary>
     public void ShowPlayerCardSelector()
-{
-    playerCardSelector.SetActive(true);
-    playerCardName.GetComponent<TMP_InputField>().text = "";
-    playerCardDropdown.GetComponent<TMP_Dropdown>().value = 0;
-}
+    {
+        playerCardSelector.SetActive(true);
+        playerCardName.GetComponent<TMP_InputField>().text = "";
+        playerCardDropdown.GetComponent<TMP_Dropdown>().value = 0;
+    }
+
+    /// <summary>
+    /// Cancels card creation and resets UI
+    /// </summary>
     public void Cancel()
     {
         playerCardName.GetComponent<TMP_InputField>().text = "";
@@ -100,6 +132,15 @@ public class AddPlayerCard : MonoBehaviour
         playerCardSelector.SetActive(false);
     }
 
+    /// <summary>
+    /// Creates a new player card instance
+    /// </summary>
+    /// <remarks>
+    /// Validates inputs and:
+    /// - Creates player button
+    /// - Copies template file
+    /// - Sets up click handler
+    /// </remarks>
     public void addPlayerCard()
     {
         string selectedCard = playerCardDropdown.GetComponent<TMP_Dropdown>().options[playerCardDropdown.GetComponent<TMP_Dropdown>().value].text;
@@ -123,22 +164,32 @@ public class AddPlayerCard : MonoBehaviour
         GameObject newPlayerButton = Instantiate(playerButtonPrefab, playerCardPanel.transform);
         newPlayerButton.GetComponentInChildren<TextMeshProUGUI>().text = playerName;
         newPlayerButton.name = playerName; // Set the name of the button to the player's name
-       
+
         //newPlayerButton.GetComponent<PlayerButton>().playerCardPath = Path.Combine(SettingsManager._CurrentSettings.playerCardsPath, selectedCard + ".json");
         File.Copy(Path.Combine(SettingsManager._CurrentSettings.playerCardsPath, selectedCard + ".json"), Path.Combine(SettingsManager._CurrentSettings.GameCardsPath, playerName + ".json"), true);
         lpc = new LoadPlayerCard();
 
-        newPlayerButton.GetComponent<Button>().onClick.AddListener(() => lpc.loadPlayerCard(playerName +".json", playerCardArea, PlayerCardWindow,playerCardName));
+        newPlayerButton.GetComponent<Button>().onClick.AddListener(() => lpc.loadPlayerCard(playerName + ".json", playerCardArea, PlayerCardWindow, playerCardName));
         playerCardName.GetComponent<TMP_InputField>().text = "";
         playerCardDropdown.GetComponent<TMP_Dropdown>().value = 0;
         playerCardSelector.SetActive(false);
     }
+
+    /// <summary>
+    /// Closes the player card window
+    /// </summary>
     public void exitPlayerCardWindow()
     {
         PlayerCardWindow.SetActive(false);
-        
-        
+
+
     }
+
+
+    /// <summary>
+    /// Debug method for button click handling
+    /// </summary>
+    /// <param name="clickedButton">Name of clicked button</param>
     public void butClick(string clickedButton)
     {
         Debug.Log(clickedButton);

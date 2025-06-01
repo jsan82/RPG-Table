@@ -10,26 +10,53 @@ using UnityEngine.UI;
 using TMPro;
 
 
+/// <summary>
+/// Manages map saving and loading operations for both 2D and 3D modes
+/// </summary>
+/// <remarks>
+/// Handles:
+/// - Map creation and serialization
+/// - Layer-based object storage
+/// - Automatic periodic saving
+/// - Terrain and skybox management
+/// - Drawing data persistence
+/// </remarks>
 public class SaveLoadMap : MonoBehaviour
 {
-    public GameObject mapTypeWhileCreatingMap;
-    public GameObject mapNameWhileCreatingMap;
-    public GameObject GameManager;
-    public Transform terrain;
-    public GameObject CreateMapWindow;
-    public GameObject camera;
+        [Header("UI References")]
+    public GameObject mapTypeWhileCreatingMap;  // Dropdown for selecting map type
+    public GameObject mapNameWhileCreatingMap;  // Input field for map name
+    public GameObject CreateMapWindow;         // Map creation UI window
+    public GameObject camera;                  // Main camera reference
+
+    [Header("Scene References")]
+    public GameObject GameManager;             // Central game manager
+    public Transform terrain;                  // Terrain reference
+
+    [Header("Configuration")]
+    public string mapName;                     // Current map name
+    private float timer = 0f;                  // Auto-save timer
+    private const float interval = 10f;        // Auto-save interval (seconds)
 
 
-    public string mapName;
-    float timer = 0f;
-    float interval = 10f;
-
+    /// <summary>
+    /// Initializes map system by clearing existing terrain and skybox
+    /// </summary>
     void Start()
     {
         terrain.GetComponent<PlaneHandler>().ClearTerrain();
         GameManager.GetComponent<SkyboxHandler>().ClearSkybox();
     }
 
+    /// <summary>
+    /// Creates a new map with specified parameters
+    /// </summary>
+    /// <remarks>
+    /// - Creates map info file
+    /// - Clears existing map
+    /// - Loads new empty map
+    /// - Refreshes map selection UI
+    /// </remarks>
     public void createMap()
     {
         MapInfo mapInfo = new MapInfo();
@@ -49,6 +76,14 @@ public class SaveLoadMap : MonoBehaviour
         GameManager.GetComponent<AssetLoaderAndPlacer>().restartMaps();
     }
 
+    /// <summary>
+    /// Completely clears the current map state
+    /// </summary>
+    /// <remarks>
+    /// Handles both 2D and 3D cases:
+    /// - 2D: Clears all layer objects and drawings
+    /// - 3D: Clears objects and resets terrain/skybox
+    /// </remarks>
     public void ClearMap()
     {
         if (GameManager.GetComponent<LayerSystem>()._GAME_MODE == "2D")
@@ -96,6 +131,15 @@ public class SaveLoadMap : MonoBehaviour
         terrain.GetComponent<PlaneHandler>().ClearTerrain();
         GameManager.GetComponent<SkyboxHandler>().ClearSkybox();
     }
+
+    /// <summary>
+    /// Saves current map state to file
+    /// </summary>
+    /// <remarks>
+    /// Saves different data based on mode:
+    /// - 2D: Layer objects + drawing data
+    /// - 3D: Layer objects + terrain data + skybox
+    /// </remarks>
     public void saveMap()
     {
         if (GameManager.GetComponent<LayerSystem>()._GAME_MODE == "2D")
@@ -179,7 +223,7 @@ public class SaveLoadMap : MonoBehaviour
             foreach (Transform child in GameManager.GetComponent<LayerSystem>().map3DLayer.transform)
             {
                 if (child.name == "Terrain")
-                {   
+                {
                     child.GetComponent<PlaneHandler>().ExportTerrain(Path.Combine(SettingsManager._CurrentSettings.MapsPath, $"terrainData/{mapName}"));
                 }
                 else
@@ -213,6 +257,10 @@ public class SaveLoadMap : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// Handles periodic auto-saving and camera control
+    /// </summary>
     void Update()
     {
 
@@ -230,16 +278,27 @@ public class SaveLoadMap : MonoBehaviour
                 Debug.Log("Map name is not set.");
             }
         }
-        if(CreateMapWindow.activeSelf && camera.activeSelf)
+        if (CreateMapWindow.activeSelf && camera.activeSelf)
         {
             camera.GetComponent<FreeCameraController>().enabled = false; // Disable camera movement while creating map
         }
-        else 
+        else
         {
-           camera.GetComponent<FreeCameraController>().enabled = true; // Enable camera movement when not creating map
+            camera.GetComponent<FreeCameraController>().enabled = true; // Enable camera movement when not creating map
         }
     }
 
+
+    /// <summary>
+    /// Loads a map from file
+    /// </summary>
+    /// <param name="mName">Map filename to load</param>
+    /// <remarks>
+    /// - Automatically saves current map before loading
+    /// - Handles both 2D and 3D map types
+    /// - Restores all layer objects
+    /// - Loads additional data (drawings/terrain)
+    /// </remarks>
     public void loadMap(string mName)
     {
         if (mapName != null && mapName != "")
@@ -247,7 +306,7 @@ public class SaveLoadMap : MonoBehaviour
             saveMap(); // Save the current map before loading a new one
             ClearMap(); // Clear the current map before loading a new one
         }
-        
+
         mapName = mName;
         string filePath = Path.Combine(SettingsManager._CurrentSettings.MapsPath, $"{mName}");
 
@@ -313,7 +372,7 @@ public class SaveLoadMap : MonoBehaviour
                 terrain.GetComponent<PlaneHandler>().ChangeTerrainTexture(mapInfo.terrainTexturePath);
                 terrain.GetComponent<PlaneHandler>().fillTexture.isOn = mapInfo.terrainFill;
             }
-            
+
 
             Debug.Log($"Map loaded from: {filePath}");
         }
@@ -323,12 +382,20 @@ public class SaveLoadMap : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Opens the map creation UI window
+    /// </summary>
     public void OpenCreateMapWindow()
     {
         CreateMapWindow.SetActive(true);
         mapTypeWhileCreatingMap.GetComponent<TMP_Dropdown>().value = 0;
         mapNameWhileCreatingMap.GetComponent<TMP_InputField>().text = "";
     }
+
+
+    /// <summary>
+    /// Cancels map creation and resets UI
+    /// </summary>
     public void CancelMapCreation()
     {
         CreateMapWindow.SetActive(false);
@@ -339,26 +406,32 @@ public class SaveLoadMap : MonoBehaviour
 }
 
 
+/// <summary>
+/// Container for map metadata and content
+/// </summary>
 [System.Serializable]
 public class MapInfo
 {
-    public string saveTime;
-    public string mapType;
-    public string terrainTexturePath;
-    public bool terrainFill;
-    public string skyboxTexturepath;
-    public List<ObjectData> tokenLayer;
-    public List<ObjectData> propLayer;
-    public List<ObjectData> mapLayer;
+    public string saveTime;                // Timestamp of last save
+    public string mapType;                 // "2D" or "3D"
+    public string terrainTexturePath;      // Path to terrain texture
+    public bool terrainFill;               // Whether terrain uses fill texture
+    public string skyboxTexturepath;       // Path to skybox texture
+    public List<ObjectData> tokenLayer;    // Token layer objects
+    public List<ObjectData> propLayer;     // Prop layer objects
+    public List<ObjectData> mapLayer;      // Map layer objects
 }
 
+/// <summary>
+/// Serialized data for individual map objects
+/// </summary>
 [System.Serializable]
 public class ObjectData
 {
-    public string assetName;
-    public Vector3 position;
-    public Quaternion rotation;
-    public Vector3 scale;
-    public float[,] heightMap; // For 3D maps, if needed
-    public bool[,] holeMap;   // For 3D maps, if needed
+    public string assetName;       // Name/path of the asset
+    public Vector3 position;      // World position
+    public Quaternion rotation;   // Object rotation
+    public Vector3 scale;         // Object scale
+    public float[,] heightMap;    // Terrain heightmap (3D only)
+    public bool[,] holeMap;       // Terrain holes (3D only)}
 }

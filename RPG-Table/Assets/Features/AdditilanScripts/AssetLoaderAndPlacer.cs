@@ -9,8 +9,20 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+
+/// <summary>
+/// Central manager for loading and placing 2D/3D assets in the game environment
+/// </summary>
+/// <remarks>
+/// Handles:
+/// - Loading and displaying available assets from directories
+/// - Creating UI buttons for asset selection
+/// - Placing assets in appropriate layers
+/// - Managing 2D/3D mode switching
+/// - Supporting textures, skyboxes, player cards and maps
+/// </remarks>
 public class AssetLoaderAndPlacer : MonoBehaviour
-{   
+{
     private SFXManager _sfxManager;
     public GameObject imagePrefab;
     public GameObject assetPanel;
@@ -40,9 +52,21 @@ public class AssetLoaderAndPlacer : MonoBehaviour
     private string PATH_TO_3D_ASSETS = SettingsManager._CurrentSettings.Assets3DPath;
     private string PATH_TO_PLAYER_CARDS = SettingsManager._CurrentSettings.GameCardsPath;
     private LoadPlayerCard lpc;
-    // Start is called before the first frame update
+
+    // <summary>
+    /// Initializes asset directories and populates UI panels
+    /// </summary>
+    /// <remarks>
+    /// Loads assets from configured paths and creates:
+    /// - 2D asset buttons with preview images
+    /// - Terrain texture buttons
+    /// - Skybox selection buttons
+    /// - 3D model buttons
+    /// - Player card buttons
+    /// - Map selection buttons
+    /// </remarks>
     void Start()
-    {   
+    {
         _sfxManager = FindObjectOfType<SFXManager>();
 
         if (!Directory.Exists(PATH_TO_2D_ASSETS))
@@ -84,7 +108,7 @@ public class AssetLoaderAndPlacer : MonoBehaviour
                     new Rect(0, 0, texture.width, texture.height),
                     new Vector2(0.5f, 0.5f)
                 );
-                
+
                 button.AddComponent<Placing2D>();
                 button.GetComponent<Placing2D>().asset = filePath;
                 button.GetComponent<Placing2D>().GameManager = GameManager;
@@ -120,7 +144,7 @@ public class AssetLoaderAndPlacer : MonoBehaviour
                     new Rect(0, 0, texture.width, texture.height),
                     new Vector2(0.5f, 0.5f)
                 );
-                
+
                 button.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
                 button.GetComponent<Button>().onClick.AddListener(() => terrain.GetComponent<PlaneHandler>().ChangeTerrainTexture(filePath));
                 button.GetComponent<Button>().onClick.AddListener(() => _sfxManager.Play(SFXType.BUTTON_CLICK));
@@ -213,10 +237,15 @@ public class AssetLoaderAndPlacer : MonoBehaviour
             button.GetComponent<Button>().onClick.AddListener(() => GameManager.GetComponent<SaveLoadMap>().loadMap($"{fileName}.json"));
             button.GetComponent<Button>().onClick.AddListener(() => _sfxManager.Play(SFXType.BUTTON_CLICK));
         }
-        
-    }
-    
 
+    }
+
+    /// <summary>
+    /// Refreshes the map selection panel
+    /// </summary>
+    /// <remarks>
+    /// Clears and repopulates the map panel with current map files
+    /// </remarks>
     public void restartMaps()
     {
         foreach (Transform child in MapPanel.transform)
@@ -236,7 +265,18 @@ public class AssetLoaderAndPlacer : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Places an asset in the game world
+    /// </summary>
+    /// <param name="assetName">Name of the asset to place</param>
+    /// <param name="position">World position for placement</param>
+    /// <param name="rotation">Rotation of the placed asset</param>
+    /// <param name="scale">Scale of the placed asset</param>
+    /// <param name="layerIndex">Destination layer (0=Token, 1=Prop, 2=Map)</param>
+    /// <remarks>
+    /// Handles placement differently based on current game mode (2D/3D)
+    /// Automatically adds required components (SmartDragHandler, AssetName)
+    /// </remarks>
     public void PlaceToken(string assetName, Vector3 position, Quaternion rotation, Vector3 scale, int layerIndex = 0)
     {
         if (GameManager.GetComponent<LayerSystem>()._GAME_MODE == "2D")
@@ -362,21 +402,27 @@ public class AssetLoaderAndPlacer : MonoBehaviour
                     map3D.SetActive(true);
                     break;
             }
-            
+
         }
     }
 
-    // Update is called once per frame
+ 
+    /// <summary>
+    /// Updates UI based on current game mode (2D/3D)
+    /// </summary>
+    /// <remarks>
+    /// Shows/hides appropriate panels and indicators
+    /// </remarks>
     void Update()
     {
-        if(GameManager.GetComponent<LayerSystem>()._GAME_MODE == "2D")
+        if (GameManager.GetComponent<LayerSystem>()._GAME_MODE == "2D")
         {
             asset2Dtext.SetActive(true);
             asset3Dtext.SetActive(false);
             asset2DPanel.SetActive(true);
             asset3DPanel.SetActive(false);
         }
-        else if(GameManager.GetComponent<LayerSystem>()._GAME_MODE == "3D")
+        else if (GameManager.GetComponent<LayerSystem>()._GAME_MODE == "3D")
         {
             asset2Dtext.SetActive(false);
             asset3Dtext.SetActive(true);

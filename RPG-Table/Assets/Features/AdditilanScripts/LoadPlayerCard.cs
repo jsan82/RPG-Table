@@ -10,14 +10,36 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
+/// <summary>
+/// Handles loading and saving player card data and associated notes
+/// </summary>
+/// <remarks>
+/// Manages:
+/// - Player card UI state
+/// - Card content serialization
+/// - Notes storage/retrieval
+/// - Content size calculation
+/// </remarks>
 public class LoadPlayerCard : MonoBehaviour
 {
-    public GameObject PlayerCardWindow;
-    public RectTransform playerCardArea;
-    public GameObject playerCardNotes;
+    [Header("UI References")]
+    public GameObject PlayerCardWindow;    // Main player card window
+    public RectTransform playerCardArea;   // Container for card content
+    public GameObject playerCardNotes;     // Notes input field
+    public GameObject manager;             // Game manager reference
 
-    public GameObject manager;
-
+    /// <summary>
+    /// Saves player card data and associated notes
+    /// </summary>
+    /// <param name="cardPath">Destination file path</param>
+    /// <param name="pca">Player card area reference</param>
+    /// <param name="pcw">Player card window reference</param>
+    /// <param name="pcn">Player notes reference</param>
+    /// <remarks>
+    /// Saves two files:
+    /// 1. Card content via CardAreaSaver
+    /// 2. Notes as separate JSON file
+    /// </remarks>
     public void savePlayerCard(string cardPath, GameObject pca, GameObject pcw, GameObject pcn)
     {
         PlayerCardWindow = pcw;
@@ -36,6 +58,16 @@ public class LoadPlayerCard : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Loads player card data and associated notes
+    /// </summary>
+    /// <param name="cardPath">Source file path</param>
+    /// <param name="pca">Player card area reference</param>
+    /// <param name="pcw">Player card window reference</param>
+    /// <param name="pcn">Player notes reference</param>
+    /// <remarks>
+    /// Handles cases where notes file doesn't exist
+    /// </remarks>
     public void loadPlayerCard(string cardPath, GameObject pca, GameObject pcw, GameObject pcn)
     {
         PlayerCardWindow = pcw;
@@ -58,9 +90,16 @@ public class LoadPlayerCard : MonoBehaviour
         {
             pcn.GetComponent<TMP_InputField>().text = "";
         }
-        
+
 
     }
+
+    /// <summary>
+    /// Updates content container size based on children
+    /// </summary>
+    /// <remarks>
+    /// Calculates total height and maximum width of all child elements
+    /// </remarks>
     public void UpdateContentSize()
     {
         if (playerCardArea == null) return;
@@ -80,7 +119,11 @@ public class LoadPlayerCard : MonoBehaviour
     }
 }
 
+/// <summary>
+/// Serializable container for player card notes
+/// </summary>
 [Serializable]
 public class PlayercardNotes {
+    /// <summary>The text content of player notes</summary>
     public string Notes;
 }
