@@ -7,8 +7,15 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Dummiesman;
 
+/// <summary>
+/// Handles the interaction logic for props including spawning, dragging, rotating, scaling,
+/// elevation, bloom toggle, and intensity adjustments.
+/// </summary>
 public class PropHandler : MonoBehaviour
 {
+    /// <summary>
+    /// The object (prefab or loaded model) to spawn.
+    /// </summary>
     public GameObject objectToSpawn;
 
     private MovableProp selectedProp;
@@ -31,7 +38,9 @@ public class PropHandler : MonoBehaviour
     private float colorTimer;
     private float colorLimit;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Initializes default settings for prop manipulation controls.
+    /// </summary>
     void Start()
     {
         rotateLimit = 0.1f;
@@ -49,7 +58,9 @@ public class PropHandler : MonoBehaviour
         //LoadOBJFromPath("P A T H"); // comment if not testing
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Per-frame update to handle all interactions.
+    /// </summary>
     void Update()
     {
         HandleDrag();
@@ -61,13 +72,19 @@ public class PropHandler : MonoBehaviour
         HandleSpawnProp();
     }
 
-    //pyknij propa via referance
+    /// <summary>
+    /// Sets the object to be spawned.
+    /// </summary>
+    /// <param name="newObject">The new object prefab or model.</param>
     public void SetObjectToSpawn(GameObject newObject)
     {
         objectToSpawn = newObject;
     }
 
-    //pyknij propa via nazwa
+    /// <summary>
+    /// Loads a prefab from Resources by name and sets it as the object to spawn.
+    /// </summary>
+    /// <param name="prefabName">Name of the prefab in the Resources folder.</param>
     public void SetObjectToSpawnByName(string prefabName)
     {
         GameObject prefab = Resources.Load<GameObject>(prefabName);
@@ -77,19 +94,25 @@ public class PropHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Instantiates the selected objectToSpawn at the mouse position when R is pressed.
+    /// </summary>
     public void HandleSpawnProp()
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
             Vector3 mousePos = Input.mousePosition;
             mousePos.z = 5f;
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos); //o tutej spawnuj
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
 
             GameObject spawned = Instantiate(objectToSpawn, worldPos, Quaternion.identity);
             spawned.SetActive(true);
         }
     }
 
+    /// <summary>
+    /// Rotates the selected prop using Q and E keys.
+    /// </summary>
     private void HandleRotation()
     {
         if (selectedProp != null)
@@ -102,7 +125,6 @@ public class PropHandler : MonoBehaviour
 
             rotateTimer += Time.deltaTime;
 
-            //ratatuj
             if (plusDown || (plusHeld && rotateTimer >= rotateLimit)) //E
             {
                 rotateTimer = 0f;
@@ -124,6 +146,10 @@ public class PropHandler : MonoBehaviour
             rotateTimer = rotateLimit;
         }
     }
+
+    /// <summary>
+    /// Elevates (moves up/down) the selected prop using Z and X keys.
+    /// </summary>
     private void HandleElevation()
     {
         if (selectedProp != null)
@@ -136,7 +162,6 @@ public class PropHandler : MonoBehaviour
 
             elevateTimer += Time.deltaTime;
 
-            //elewatuj
             if (plusDown || (plusHeld && elevateTimer >= elevateLimit)) //X
             {
                 elevateTimer = 0f;
@@ -161,6 +186,9 @@ public class PropHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles selecting and dragging a prop with the left mouse button.
+    /// </summary>
     private void HandleDrag()
     {
         if (Input.GetMouseButtonDown(0)) //lmb
@@ -183,7 +211,6 @@ public class PropHandler : MonoBehaviour
             selectedProp = null;
         }
 
-        //draguj
         if (selectedProp != null && Input.GetMouseButton(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -197,6 +224,9 @@ public class PropHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Scales the selected prop using C and V keys.
+    /// </summary>
     private void HandleScale()
     {
         if (selectedProp != null)
@@ -209,7 +239,6 @@ public class PropHandler : MonoBehaviour
 
             scaleTimer += Time.deltaTime;
 
-            //scaleuj
             if (plusDown || (plusHeld && scaleTimer >= scaleLimit)) //C
             {
                 scaleTimer = 0f;
@@ -240,6 +269,9 @@ public class PropHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Toggles the bloom effect on the selected prop using the T key.
+    /// </summary>
     private void HandleBloomToggle()
     {
         if (selectedProp != null) 
@@ -252,6 +284,9 @@ public class PropHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Adjusts bloom intensity of the selected prop using F and G keys.
+    /// </summary>
     private void HandleBloomIntensity()
     {
         if (selectedProp != null)
@@ -264,7 +299,6 @@ public class PropHandler : MonoBehaviour
             
             colorTimer += Time.deltaTime;
 
-            //coloruj
             if (plusDown || (plusHeld && colorTimer >= colorLimit)) //F
             {
                 colorTimer = 0f;
@@ -285,9 +319,12 @@ public class PropHandler : MonoBehaviour
         {
             colorTimer = colorLimit;
         }
-
     }
-    ///*
+
+    /// <summary>
+    /// Loads an OBJ model from a file path and sets it as the object to spawn.
+    /// </summary>
+    /// <param name="filePath">Full path to the .obj file.</param>
     public void LoadOBJFromPath(string filePath)
     {
         if (!File.Exists(filePath))
