@@ -4,23 +4,26 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.Networking;
 
+/// <summary>
+/// Handles dynamic loading and application of a skybox texture at runtime.
+/// </summary>
 public class SkyboxHandler : MonoBehaviour
 {
+    /// <summary>
+    /// Template material used for setting the loaded skybox texture.
+    /// </summary>
     public Material skyboxMaterialTemplate;
     public string skyboxTexturePath;
 
-    // Start is called before the first frame update
-    void Start()
+/*    void Start() //comment if not testing
     {
-        //ChangeSkybox("[P A T H]"); //comment if not testing
-    }
+        ChangeSkybox("[P A T H]"); 
+    }*/
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    /// <summary>
+    /// Changes the current skybox using the texture at the specified path.
+    /// </summary>
+    /// <param name="texturePath">Absolute path to the texture file.</param>
     public void ChangeSkybox(string texturePath)
     {
         skyboxTexturePath = texturePath;
@@ -32,7 +35,11 @@ public class SkyboxHandler : MonoBehaviour
         DynamicGI.UpdateEnvironment();
     }
 
-
+    /// <summary>
+    /// Coroutine to load a skybox texture from a file path and apply it as the current skybox.
+    /// </summary>
+    /// <param name="path">Absolute path to the texture file.</param>
+    /// <returns>IEnumerator for coroutine execution.</returns>
     private IEnumerator LoadSkyboxFromPath(string path)
     {
         if (!File.Exists(path))

@@ -4,22 +4,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Globalization;
 
+/// <summary>
+/// Converts STL files (ASCII or binary) to Unity Meshes and exports them as OBJ files.
+/// </summary>
 public class StlConverter : MonoBehaviour
 {
+    /// <summary>
+    /// Optional material to assign to the created GameObject when converting.
+    /// </summary>
     private Material material;
 
-    // Start is called before the first frame update
-    void Start()
+/*    void Start() //comment if not testing
     {
-        //Convert("input model path", "output model path"); //comment if not testing
-    }
+        Convert("input model path", "output model path"); 
+    }*/
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    /// <summary>
+    /// Converts an STL file into a Unity Mesh and exports it as an OBJ file.
+    /// </summary>
+    /// <param name="filePath">Path to the input STL file.</param>
+    /// <param name="exportPath">Path to save the output OBJ file.</param>
     public void Convert(string filePath, string exportPath)
     {
         Mesh mesh = FileIsAscii(filePath) ? LoadAsciiStl(filePath) : LoadBinaryStl(filePath);
@@ -39,6 +43,11 @@ public class StlConverter : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks whether an STL file is ASCII or binary.
+    /// </summary>
+    /// <param name="path">Path to the STL file.</param>
+    /// <returns>True if ASCII, false if binary.</returns>
     private bool FileIsAscii(string path)
     {
         using (StreamReader reader = new StreamReader(path))
@@ -48,6 +57,11 @@ public class StlConverter : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Loads a binary STL file and converts it to a Unity Mesh.
+    /// </summary>
+    /// <param name="path">Path to the binary STL file.</param>
+    /// <returns>Converted Unity Mesh.</returns>
     private Mesh LoadBinaryStl(string path)
     {
         using (BinaryReader reader = new BinaryReader(File.Open(path, FileMode.Open)))
@@ -78,6 +92,11 @@ public class StlConverter : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Loads an ASCII STL file and converts it to a Unity Mesh.
+    /// </summary>
+    /// <param name="path">Path to the ASCII STL file.</param>
+    /// <returns>Converted Unity Mesh.</returns>
     private Mesh LoadAsciiStl(string path)
     {
         var vertices = new List<Vector3>();
@@ -95,12 +114,6 @@ public class StlConverter : MonoBehaviour
                     Vector3 vertex = ParseVector(line.Substring(6));
                     vertices.Add(vertex);
                     triangles.Add(vertices.Count - 1);
-                    //if (!vertexDict.ContainsKey(vertex))
-                    //{
-                    //    vertexDict[vertex] = vertices.Count;
-                    //    vertices.Add(vertex);
-                    //}
-                    //triangles.Add(vertexDict[vertex]);
                 }
             }
         }
@@ -108,6 +121,11 @@ public class StlConverter : MonoBehaviour
         return CreateMesh(vertices.ToArray(), triangles.ToArray());
     }
 
+    /// <summary>
+    /// Parses a line into a Vector3.
+    /// </summary>
+    /// <param name="input">Space-separated string of 3 float values.</param>
+    /// <returns>Parsed Vector3.</returns>
     private Vector3 ParseVector(string input)
     {
         var parts = input.Trim().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -118,6 +136,12 @@ public class StlConverter : MonoBehaviour
         );
     }
 
+    /// <summary>
+    /// Creates a Unity Mesh from vertex and triangle data.
+    /// </summary>
+    /// <param name="vertices">Array of vertex positions.</param>
+    /// <param name="triangles">Array of triangle indices.</param>
+    /// <returns>Generated Mesh.</returns>
     private Mesh CreateMesh(Vector3[] vertices, int[] triangles)
     {
         Mesh mesh = new Mesh();
@@ -125,10 +149,14 @@ public class StlConverter : MonoBehaviour
         mesh.triangles = triangles;
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
-        // no textures and no UV so no more recalculating I guess
         return mesh;
     }
 
+    /// <summary>
+    /// Exports a Unity Mesh to an OBJ file.
+    /// </summary>
+    /// <param name="mesh">Mesh to export.</param>
+    /// <param name="path">Destination file path for the OBJ.</param>
     private void ExportMeshToObj(Mesh mesh, string path)
     {
         using (StreamWriter writer = new StreamWriter(path))
@@ -137,11 +165,9 @@ public class StlConverter : MonoBehaviour
 
             foreach (Vector3 v in mesh.vertices)
                 writer.WriteLine(string.Format(CultureInfo.InvariantCulture, "v {0} {1} {2}", v.x, v.y, v.z));
-            //writer.WriteLine(string.Format(CultureInfo.InvariantCulture, $"v {v.x} {v.y} {v.z}"));
 
             foreach (Vector3 n in mesh.normals)
                 writer.WriteLine(string.Format(CultureInfo.InvariantCulture, "vn {0} {1} {2}", n.x, n.y, n.z));
-            //writer.WriteLine(string.Format(CultureInfo.InvariantCulture, $"vn {n.x} {n.y} {n.z}"));
 
             for (int i = 0; i < mesh.triangles.Length; i += 3)
             {

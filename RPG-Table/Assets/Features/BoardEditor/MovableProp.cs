@@ -4,16 +4,26 @@ using System.IO;
 using UnityEngine;
 using System.Globalization;
 
+/// <summary>
+/// A component for handling a movable and interactive prop in the scene,
+/// supporting dragging, rotating, scaling, and bloom/emission lighting control.
+/// </summary>
 public class MovableProp : MonoBehaviour
 {
+    /// <summary>Material used for emission and bloom effects.</summary>
     private Material bloomMaterial;
+    /// <summary>Base emission color.</summary>
     private Color emissionColor;
+    /// <summary>Intensity multiplier for emission and light.</summary>
     private float intensity;
+    /// <summary>Flag indicating whether bloom is currently enabled.</summary>
     private bool bloomEnabled;
-
+    /// <summary>Associated point light used to simulate bloom lighting.</summary>
     private Light pointLight;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Initializes the component, including emission setup and optional creation of a child light source.
+    /// </summary>
     void Start()
     {
         emissionColor = Color.white;
@@ -42,19 +52,47 @@ public class MovableProp : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    /// <summary>
+    /// Moves the object to a new position.
+    /// </summary>
+    /// <param name="newPos">The target world position.</param>
     public void OnDrag(Vector3 newPos) { transform.position = newPos; }
+
+    /// <summary>
+    /// Rotates the object around a given axis.
+    /// </summary>
+    /// <param name="axis">The axis to rotate around.</param>
+    /// <param name="angle">The angle in degrees to rotate.</param>
     public void OnRotate(Vector3 axis, float angle) { transform.Rotate(axis, angle, Space.World); }
+
+    /// <summary>
+    /// Sets the local scale of the object.
+    /// </summary>
+    /// <param name="newScale">New local scale vector.</param>
     public void OnScale(Vector3 newScale) { transform.localScale = newScale; }
+
+    /// <summary>
+    /// Gets the current world position of the object.
+    /// </summary>
+    /// <returns>World position of the transform.</returns>
     public Vector3 GetPosition() { return transform.position; }
+
+    /// <summary>
+    /// Gets the current local scale of the object.
+    /// </summary>
+    /// <returns>Local scale of the transform.</returns>
     public Vector3 GetScale() { return transform.localScale; }
+
+    /// <summary>
+    /// Gets the current emission/light intensity.
+    /// </summary>
+    /// <returns>Current intensity value.</returns>
     public float GetIntensity() { return intensity; }
 
+    /// <summary>
+    /// Toggles the bloom/emission effect on or off.
+    /// Updates material emission and light state accordingly.
+    /// </summary>
     public void ToggleBloom()
     {
         if (bloomMaterial == null) return;
@@ -79,6 +117,10 @@ public class MovableProp : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the emission color for both the material and the point light.
+    /// </summary>
+    /// <param name="color">New emission color.</param>
     public void SetEmissionColor(Color color)
     {
         emissionColor = color;
@@ -93,6 +135,10 @@ public class MovableProp : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Adjusts the emission/light intensity by a delta value.
+    /// </summary>
+    /// <param name="power">Amount to add to current intensity (clamped to non-negative).</param>
     public void SetIntensity(float power)
     {
         intensity = Mathf.Max(0, intensity+power);

@@ -9,23 +9,40 @@ using UnityEngine.Networking;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
+/// <summary>
+/// Handles terrain modification including elevation, flattening, holes, and texture changes.
+/// Provides tools for user interaction and terrain data import/export.
+/// </summary>
 public class PlaneHandler : MonoBehaviour
 {
-    public float brushSize { get; set; } // Size of bruh
-    private float brushPower { get; set; } // Power per tick of Bruh
+    /// <summary>Current brush size used for terrain modification.</summary>
+    private float brushSize { get; set; }
+    /// <summary>Current brush power (influence strength).</summary>
+    private float brushPower { get; set; }
+    /// <summary>Time tracker for continuous brush input.</summary>
     private float brushTimer;
-    private float brushLimit { get; set; } // Rate on hold of Bruh
+    /// <summary>Minimum interval between brush applications.</summary>
+    private float brushLimit { get; set; }
+    /// <summary>Default terrain height used for resetting elevation.</summary>
     private float brushDefoult;
+    /// <summary>Reference to the active terrain object.</summary>
+    public Terrain terrain;
+    /// <summary>TerrainData associated with the current terrain.</summary>
+    private UnityEngine.TerrainData terrainData;
+    /// <summary>Resolution of the terrain heightmap.</summary>
+    private int heightmapResolution;
+    /// <summary>Path to texture for terrain.</summary>
     public string terrainTexturePath;
+    /// <summary>Switch for filling the terrain texture.</summary>
     public Toggle fillTexture;
+    /// <summary>Switch for edit mode.</summary>
     public Toggle editModeOn;
+    /// <summary>Slider variable for brush size.</summary>
     public Slider brushSizeSlider;
 
-    public Terrain terrain;
-    private UnityEngine.TerrainData terrainData;
-    private int heightmapResolution;
-
-    // Start is called before the first frame update
+    /// <summary>
+    /// Initializes brush settings and terrain data.
+    /// </summary>
     void Start()
     {
         brushSize = 10.0f;
@@ -40,7 +57,9 @@ public class PlaneHandler : MonoBehaviour
         //ChangeTerrainTexture("[P A T H]"); //comment if not testing
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Handles terrain editing logic each frame.
+    /// </summary>
     void Update()
     {   
         if (!editModeOn.isOn) return;
@@ -53,15 +72,15 @@ public class PlaneHandler : MonoBehaviour
         HandleAllElevation();
         HandleHole();
         ChangeBrushSize();
-/*
-                if (Input.GetKeyDown(KeyCode.T))//comment if not testing
-                {
-                    ExportTerrain("P A T H");
-                }
-                if (Input.GetKeyDown(KeyCode.G))//comment if not testing
-                {
-                    ImportTerrain("P A T H");
-                }*/
+/*        if (Input.GetKeyDown(KeyCode.T))//comment if not testing
+        {
+            ExportTerrain("P A T H");
+        }*/
+
+/*        if (Input.GetKeyDown(KeyCode.G))//comment if not testing
+        {
+            ImportTerrain("P A T H");
+        }*/
     }
 
     public void ChangeBrushSize()
@@ -69,13 +88,18 @@ public class PlaneHandler : MonoBehaviour
         brushSize = brushSizeSlider.value;
     }
 
-    //pyknij terrain
+    /// <summary>
+    /// Sets a new terrain reference.
+    /// </summary>
+    /// <param name="newTerrain">The new terrain to use.</param>
     public void GiveTerrain(Terrain newTerrain)
     {
         terrain = newTerrain;
     }
 
-
+    /// <summary>
+    /// Handles terrain elevation at the mouse position (raise, lower, reset).
+    /// </summary>
     private void HandleElevation()
     {
         bool plusHeld = Input.GetKey(KeyCode.J);
@@ -111,7 +135,9 @@ public class PlaneHandler : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Raises or lowers the entire terrain uniformly.
+    /// </summary>
     private void HandleAllElevation()
     {
         bool plusHeld = Input.GetKey(KeyCode.O);
@@ -139,7 +165,9 @@ public class PlaneHandler : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Adds or removes holes in the terrain at the mouse position.
+    /// </summary>
     private void HandleHole()
     {
         bool leftHeld = Input.GetKey(KeyCode.N);
@@ -167,7 +195,12 @@ public class PlaneHandler : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Calculates terrain brush area and transformation details.
+    /// </summary>
+    /// <returns>
+    /// Tuple of radius, start X/Z, width and height, or null if raycast fails.
+    /// </returns>
     private (int modifRadius, int startX, int startZ, int width, int height)? CalcualteTerrainData()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -195,7 +228,10 @@ public class PlaneHandler : MonoBehaviour
         return (modifRadius, startX, startZ, width, height);
     }
 
-    //na kopiec kreta i kilimanjaro
+    /// <summary>
+    /// Modifies the terrain heightmap at the cursor position.
+    /// </summary>
+    /// <param name="modTerrain">0 to raise, 1 to lower, 2 to reset.</param>
     private void ModifyTerrainAtPosition(int modTerrain)
     {
         var data = CalcualteTerrainData();
@@ -222,7 +258,10 @@ public class PlaneHandler : MonoBehaviour
         terrainData.SetHeights(startX, startZ, map);
     }
 
-    //elevate all
+    /// <summary>
+    /// Modifies the entire terrain uniformly based on the brushPower.
+    /// </summary>
+    /// <param name="raiseTerrain">True to raise, false to lower.</param>
     private void ModifyAllTerrain(bool raiseTerrain)
     {
         int heightmapWidth = terrainData.heightmapResolution;
@@ -250,7 +289,6 @@ public class PlaneHandler : MonoBehaviour
 
         terrainData.SetHeights(0, 0, heights);
 
-        //new def
         if (raiseTerrain)
         {
             brushDefoult += brushPower;
@@ -262,7 +300,10 @@ public class PlaneHandler : MonoBehaviour
         }
     }
 
-    //kto dolki kopie ten sam w nie wpada
+    /// <summary>
+    /// Edits terrain holes at the cursor position.
+    /// </summary>
+    /// <param name="holeTerrain">True to add a hole, false to remove.</param>
     private void HoleTerrainAtPosition(bool holeTerrain)
     {
         var data = CalcualteTerrainData();
@@ -289,6 +330,10 @@ public class PlaneHandler : MonoBehaviour
         terrainData.SetHoles(startX, startZ, map);
     }
 
+    /// <summary>
+    /// Exports terrain data (height and holes) to a JSON file.
+    /// </summary>
+    /// <param name="outputPath">The file path to write to.</param>
     public void ExportTerrain(string outputPath)
     {
         int heightRes = terrainData.heightmapResolution;
@@ -331,35 +376,10 @@ public class PlaneHandler : MonoBehaviour
         File.WriteAllText(outputPath, json);
     }
 
-    public void ClearTerrain()
-    {
-        int heightRes = terrainData.heightmapResolution;
-        int holeRes = terrainData.holesResolution;
-
-        float[,] heightMap2D = terrainData.GetHeights(0, 0, heightRes, heightRes);
-        bool[,] holeMap2D = terrainData.GetHoles(0, 0, holeRes, holeRes);
-        for (int y = 0; y < heightRes; y++)
-        {
-            for (int x = 0; x < heightRes; x++)
-            {
-                heightMap2D[y, x] = 0f; // Reset height to 0
-            }
-        }
-        for (int y = 0; y < holeRes; y++)
-        {
-            for (int x = 0; x < holeRes; x++)
-            {
-                holeMap2D[y, x] = true; // Reset holes to false
-            }
-        }
-        terrainData.SetHeights(0, 0, heightMap2D);
-        terrainData.SetHoles(0, 0, holeMap2D);
-        terrainTexturePath = ""; // Clear texture path
-        terrain.terrainData.terrainLayers = new TerrainLayer[] { }; // Clear terrain layers
-
-    }
-
-
+    /// <summary>
+    /// Imports terrain data (height and holes) from a JSON file.
+    /// </summary>
+    /// <param name="inputPath">The file path to read from.</param>
     public void ImportTerrain(string inputPath)
     {
         if (!File.Exists(inputPath))
@@ -393,7 +413,42 @@ public class PlaneHandler : MonoBehaviour
         terrainData.SetHoles(0, 0, holeMap2D);
         brushDefoult = exportData.brushDefoultSave;
     }
+    
+    /// <summary>
+    /// Resets terrain elevation and holes.
+    /// </summary>
+    public void ClearTerrain()
+    {
+        int heightRes = terrainData.heightmapResolution;
+        int holeRes = terrainData.holesResolution;
 
+        float[,] heightMap2D = terrainData.GetHeights(0, 0, heightRes, heightRes);
+        bool[,] holeMap2D = terrainData.GetHoles(0, 0, holeRes, holeRes);
+        for (int y = 0; y < heightRes; y++)
+        {
+            for (int x = 0; x < heightRes; x++)
+            {
+                heightMap2D[y, x] = 0f; // Reset height to 0
+            }
+        }
+        for (int y = 0; y < holeRes; y++)
+        {
+            for (int x = 0; x < holeRes; x++)
+            {
+                holeMap2D[y, x] = true; // Reset holes to false
+            }
+        }
+        terrainData.SetHeights(0, 0, heightMap2D);
+        terrainData.SetHoles(0, 0, holeMap2D);
+        terrainTexturePath = ""; // Clear texture path
+        terrain.terrainData.terrainLayers = new TerrainLayer[] { }; // Clear terrain layers
+
+    }
+
+    /// <summary>
+    /// Starts the process to change the terrain texture from a local file.
+    /// </summary>
+    /// <param name="imagePath">Full path to the image file.</param>
     public void ChangeTerrainTexture(string imagePath)
     {
         if (imagePath == null || imagePath == "")
@@ -409,6 +464,11 @@ public class PlaneHandler : MonoBehaviour
         StartCoroutine(LoadTerrainTexture(imagePath));
     }
 
+    /// <summary>
+    /// Loads a texture asynchronously from a local file and applies it to the terrain.
+    /// </summary>
+    /// <param name="path">Full path to the texture image.</param>
+    /// <returns>Coroutine for Unity async operation.</returns>
     private IEnumerator LoadTerrainTexture(string path)
     {
         string uri = "file:///" + path.Replace("\\", "/");
