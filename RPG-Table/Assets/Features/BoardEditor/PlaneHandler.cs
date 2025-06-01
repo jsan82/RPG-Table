@@ -7,7 +7,10 @@ using System;
 using System.IO;
 using UnityEngine.Networking;
 using UnityEngine.Tilemaps;
+<<<<<<< HEAD
 using UnityEngine.UI;
+=======
+>>>>>>> e91458933ac7029391988ba4b9ffac29c4b2ced8
 
 public class PlaneHandler : MonoBehaviour
 {
@@ -35,7 +38,10 @@ public class PlaneHandler : MonoBehaviour
 
         terrainData = terrain.terrainData;
         heightmapResolution = terrainData.heightmapResolution;
+<<<<<<< HEAD
         
+=======
+>>>>>>> e91458933ac7029391988ba4b9ffac29c4b2ced8
 
         //ChangeTerrainTexture("[P A T H]"); //comment if not testing
     }
@@ -52,6 +58,7 @@ public class PlaneHandler : MonoBehaviour
         HandleElevation();
         HandleAllElevation();
         HandleHole();
+<<<<<<< HEAD
         ChangeBrushSize();
 /*
                 if (Input.GetKeyDown(KeyCode.T))//comment if not testing
@@ -67,6 +74,17 @@ public class PlaneHandler : MonoBehaviour
     public void ChangeBrushSize()
     {
         brushSize = brushSizeSlider.value;
+=======
+/*
+        if (Input.GetKeyDown(KeyCode.T))//comment if not testing
+        {
+            ExportTerrain("P A T H");
+        }
+        if (Input.GetKeyDown(KeyCode.G))//comment if not testing
+        {
+            ImportTerrain("P A T H");
+        }*/
+>>>>>>> e91458933ac7029391988ba4b9ffac29c4b2ced8
     }
 
     //pyknij terrain
@@ -396,6 +414,7 @@ public class PlaneHandler : MonoBehaviour
 
     public void ChangeTerrainTexture(string imagePath)
     {
+<<<<<<< HEAD
         if (imagePath == null || imagePath == "")
         {
             imagePath = terrainTexturePath;
@@ -406,6 +425,14 @@ public class PlaneHandler : MonoBehaviour
                 return;
             }
         terrainTexturePath = imagePath;
+=======
+        if (!File.Exists(imagePath))
+        {
+            Debug.LogError("Texture file not found: " + imagePath);
+            return;
+        }
+
+>>>>>>> e91458933ac7029391988ba4b9ffac29c4b2ced8
         StartCoroutine(LoadTerrainTexture(imagePath));
     }
 
@@ -424,6 +451,7 @@ public class PlaneHandler : MonoBehaviour
 
         TerrainLayer newLayer = new TerrainLayer();
         newLayer.diffuseTexture = texture;
+<<<<<<< HEAD
         if (fillTexture.isOn)
         {
             newLayer.tileSize = new Vector2(terrain.terrainData.size.x, terrain.terrainData.size.z);
@@ -435,5 +463,12 @@ public class PlaneHandler : MonoBehaviour
 
 
         terrain.terrainData.terrainLayers = new TerrainLayer[] { newLayer };
+=======
+        newLayer.tileSize = new Vector2(10, 10);
+
+        TerrainLayer[] layers = new TerrainLayer[1];
+        layers[0] = newLayer;
+        terrain.terrainData.terrainLayers = layers;
+>>>>>>> e91458933ac7029391988ba4b9ffac29c4b2ced8
     }
 }

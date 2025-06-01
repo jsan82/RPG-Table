@@ -49,7 +49,11 @@ public class PropHandler : MonoBehaviour
         colorLimit = 0.1f;
         colorPower = 0.1f;
 
+<<<<<<< HEAD
         // /LoadOBJFromPath("C:\\Users\\huber\\Desktop\\convtest\\uploads_files_4162193_OldBook001_tex\\magic_staff.obj"); // comment if not testing
+=======
+        //LoadOBJFromPath("P A T H"); // comment if not testing
+>>>>>>> e91458933ac7029391988ba4b9ffac29c4b2ced8
     }
 
     // Update is called once per frame
@@ -119,12 +123,16 @@ public class PropHandler : MonoBehaviour
 
             GameObject spawned = Instantiate(objectToSpawn, worldPos, Quaternion.identity);
             spawned.SetActive(true);
+<<<<<<< HEAD
             spawned.AddComponent<AssetName>();
             spawned.GetComponent<AssetName>().assetName = spawnObjectName;
             spawned.transform.SetParent(currentLayer.transform);
             GameObject ps = Instantiate(particleSystemPrefab, worldPos, Quaternion.identity);
             ps.transform.SetParent(spawned.transform);
         }   
+=======
+        }
+>>>>>>> e91458933ac7029391988ba4b9ffac29c4b2ced8
     }
 
 
@@ -360,6 +368,9 @@ public class PropHandler : MonoBehaviour
         obj.AddComponent<MovableProp>();
         obj.SetActive(false);
         objectToSpawn = obj;
+<<<<<<< HEAD
         Destroy(obj);
+=======
+>>>>>>> e91458933ac7029391988ba4b9ffac29c4b2ced8
     }
 }
