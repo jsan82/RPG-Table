@@ -8,11 +8,21 @@ using System.Linq;
 using UnityEngine.EventSystems;
 using System.IO;
 
+
+/// <summary>
+/// Singleton manager for handling button operations and expressions in the UI
+/// </summary>
+/// <remarks>
+/// Implements IUIBehavior to manage interactive editing of button expressions.
+/// Maintains a dictionary of button operations and provides UI for editing them.
+/// Supports mathematical operations and references to other UI elements.
+/// </remarks>
 public class NewBehaviourScript : MonoBehaviour, IUIBehavior
-{   
+{
     // Singleton instance
     private static NewBehaviourScript _instance;
-    
+
+    /// <summary>Singleton instance accessor</summary>
     public static NewBehaviourScript Instance
     {
         get
@@ -32,10 +42,10 @@ public class NewBehaviourScript : MonoBehaviour, IUIBehavior
         }
     }
 
-    //Dictionary to store operations for each object ID
-    private Dictionary<string, string> _objectDictionary = new Dictionary<string, string>(); 
+    /// <summary>Dictionary storing operations for each button ID</summary>
+    private Dictionary<string, string> _objectDictionary = new Dictionary<string, string>();
 
-    //List to store the current operations for the edited button
+    /// <summary>Currently edited operations string</summary>
     private string _currentOperations = "";
     [SerializeField] private TMP_Dropdown buttonDropdown; // Dropdown for selecting buttons
     [SerializeField] private Toggle _editMode; // Toggle for edit mode
@@ -50,6 +60,7 @@ public class NewBehaviourScript : MonoBehaviour, IUIBehavior
     private string _currentConfigText;
     private bool isNumberValueOn = true;
     private bool isIdValueOn = false;
+    /// <summary>Currently edited button ID</summary>
     private string _currentlyEditedButtonId = null; // To keep track of which button is being edited
 
     private void Start()
@@ -70,7 +81,11 @@ public class NewBehaviourScript : MonoBehaviour, IUIBehavior
         }
     }
 
-    //Returns the operations for a given object ID
+    /// <summary>
+    /// Retrieves operations string for a specific object ID
+    /// </summary>
+    /// <param name="objectId">The ID of the object to look up</param>
+    /// <returns>Operations string if found, null otherwise</returns>
     public string GetOperationsForObject(string objectId)
     {
         foreach (var kvp in _objectDictionary)
@@ -84,7 +99,13 @@ public class NewBehaviourScript : MonoBehaviour, IUIBehavior
         return null;
     }
 
-    //Logick to handle the click on the UI elements
+    /// <summary>
+    /// Handles UI click events to select buttons for editing
+    /// </summary>
+    /// <remarks>
+    /// Activates when in edit mode and detects clicks on button objects.
+    /// Updates the UI to show the selected button's current operations.
+    /// </remarks>
     public void HandleUIClick()
     {
         if (Input.GetMouseButtonDown(0) && _editMode.isOn)
@@ -112,7 +133,7 @@ public class NewBehaviourScript : MonoBehaviour, IUIBehavior
                         LoadOperationsForCurrentButton(); // Load operations for the selected button
                         break;
                     }
-                    LoadOperationsForCurrentButton(); 
+                    LoadOperationsForCurrentButton();
                     _editDialog.SetActive(true);
 
                     break;
@@ -123,46 +144,47 @@ public class NewBehaviourScript : MonoBehaviour, IUIBehavior
 
     //Method to handle the button click event
     void Update()
-    {   if(_editMode)
+    {
+        if (_editMode)
         {
-        if (_editMode.isOn)
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (_editMode.isOn)
             {
-                if (_addSelector.activeSelf)
+                if (Input.GetKeyDown(KeyCode.Escape))
                 {
-                    addValueCancel();
+                    if (_addSelector.activeSelf)
+                    {
+                        addValueCancel();
+                    }
+                    else
+                    {
+                        cancelEditMode();
+                    }
                 }
-                else
-                {
-                    cancelEditMode();
-                }
+
+                HandleUIClick();
+            }
+            else
+            {
+                HandleUIClick();
             }
 
-            HandleUIClick();
-        }
-        else
-        {
-            HandleUIClick();
-        }
-
-        // Toggle handling
-        if (_numberValue.isOn && !isNumberValueOn)
-        {
-            isNumberValueOn = true;
-            isIdValueOn = false;
-            _idValue.isOn = false;
-            _idDropdown.SetActive(false);
-            _numberInputbox.SetActive(true);
-        }
-        else if (_idValue.isOn && !isIdValueOn)
-        {
-            isIdValueOn = true;
-            isNumberValueOn = false;
-            _numberValue.isOn = false;
-            _idDropdown.SetActive(true);
-            _numberInputbox.SetActive(false);
-        }
+            // Toggle handling
+            if (_numberValue.isOn && !isNumberValueOn)
+            {
+                isNumberValueOn = true;
+                isIdValueOn = false;
+                _idValue.isOn = false;
+                _idDropdown.SetActive(false);
+                _numberInputbox.SetActive(true);
+            }
+            else if (_idValue.isOn && !isIdValueOn)
+            {
+                isIdValueOn = true;
+                isNumberValueOn = false;
+                _numberValue.isOn = false;
+                _idDropdown.SetActive(true);
+                _numberInputbox.SetActive(false);
+            }
         }
     }
 
@@ -192,8 +214,10 @@ public class NewBehaviourScript : MonoBehaviour, IUIBehavior
             Debug.Log($"Added operations for ID: {id}");
         }
     }
-    
-    //Method to load operations for the currently edited button
+
+    /// <summary>
+    /// Loads operations for the currently selected button
+    /// </summary>
     public void LoadOperationsForCurrentButton()
     {
         if (!string.IsNullOrEmpty(_currentlyEditedButtonId) && _objectDictionary.ContainsKey(_currentlyEditedButtonId))
@@ -218,7 +242,9 @@ public class NewBehaviourScript : MonoBehaviour, IUIBehavior
         currentConfig.GetComponent<TMP_InputField>().text = _currentConfigText;
     }
 
-    //Method to update the dropdowns with available buttons and input fields
+    /// <summary>
+    /// Updates dropdown menus with available buttons and input fields
+    /// </summary>
     void UpdateDropdown()
     {
         buttonDropdown.ClearOptions();
@@ -240,47 +266,57 @@ public class NewBehaviourScript : MonoBehaviour, IUIBehavior
             .Where(x => x.Value.GetComponent<ObjectID>() != null && x.Value.GetComponent<ObjectID>().GetPrefab() == "InputField")
             .ToDictionary(x => x.Key, x => x.Value);
 
-        
+
         buttonDropdown.AddOptions(buttons.Keys.ToList());
 
 
         _idDropdown.GetComponent<TMP_Dropdown>().AddOptions(inputBox.Keys.ToList());
     }
 
+
+    /// <summary>
+    /// Adds a mathematical operator to the current operations
+    /// </summary>
     public void plusButton()
     {
         _currentConfigText += ("+");
     }
-
     public void minusButton()
     {
         _currentConfigText += ("-");
     }
-
     public void timesButton()
     {
         _currentConfigText += ("*");
     }
-
     public void divideButton()
     {
         _currentConfigText += ("/");
     }
 
+    
+    /// <summary>
+    /// Shows the value addition selector UI
+    /// </summary>
     public void addButton()
     {
         _addSelector.SetActive(true);
     }
 
-    //Method to handle the addition of a value to the current operations
+    /// <summary>
+    /// Adds a numeric or ID reference value to the operations
+    /// </summary>
     public void addValueButton()
     {
         if (isNumberValueOn)
         {
             string value = _numberInputbox.GetComponent<TMP_InputField>().text;
-            if(value == ""){
-                 currentConfig.GetComponent<TMP_InputField>().text += ($"0");
-            } else{
+            if (value == "")
+            {
+                currentConfig.GetComponent<TMP_InputField>().text += ($"0");
+            }
+            else
+            {
                 currentConfig.GetComponent<TMP_InputField>().text += ($"{value}");
             }
         }
@@ -291,11 +327,14 @@ public class NewBehaviourScript : MonoBehaviour, IUIBehavior
         }
         _addSelector.SetActive(false);
     }
-    public void addValueCancel(){
+    public void addValueCancel()
+    {
         _addSelector.SetActive(false);
     }
 
-    //Method to handle the removal of a value from the current operations
+    /// <summary>
+    /// Saves the current operations to the selected button
+    /// </summary>
     public void confirmButton()
     {
         if (!string.IsNullOrEmpty(_currentlyEditedButtonId))
@@ -314,16 +353,24 @@ public class NewBehaviourScript : MonoBehaviour, IUIBehavior
             Debug.LogWarning("No button is currently being edited!");
         }
     }
-    
+
+
+    /// <summary>
+    /// Clears all stored operations from the dictionary
+    /// </summary>
     public void clearDictionary()
     {
         _objectDictionary.Clear();
         Debug.Log("Cleared all operations from the dictionary.");
     }
 
+    /// <summary>
+    /// Removes operations for a specific ID from the dictionary
+    /// </summary>
+    /// <param name="id">The ID to remove</param>
     public void deleteKey(string id)
     {
-        if(_objectDictionary.ContainsKey(id))
+        if (_objectDictionary.ContainsKey(id))
         {
             _objectDictionary.Remove(id);
         }
@@ -332,8 +379,13 @@ public class NewBehaviourScript : MonoBehaviour, IUIBehavior
 }
 
 
-
+/// <summary>
+/// Interface for UI click handling behavior
+/// </summary>
 public interface IUIBehavior
 {
+    /// <summary>
+    /// Method to handle UI click interactions
+    /// </summary>
     void HandleUIClick();
 }

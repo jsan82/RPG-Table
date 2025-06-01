@@ -8,6 +8,13 @@ using System;
 using UnityEngine.UI;
 using TMPro;
 
+/// <summary>
+/// UI manager for loading and saving card layouts
+/// </summary>
+/// <remarks>
+/// Handles file selection, deletion, and save/load operations for card layouts.
+/// Manages the file browser interface and confirmation dialogs.
+/// </remarks>
 public class SelectLoad : MonoBehaviour
 {
     public GameObject objectButtonPrefab;
@@ -22,6 +29,9 @@ public class SelectLoad : MonoBehaviour
     private bool isDeleteMode = false;
     private string saveToDelete;
 
+    /// <summary>
+    /// Handles escape key for UI navigation
+    /// </summary>
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -43,15 +53,22 @@ public class SelectLoad : MonoBehaviour
             }
         }
     }
-    
+
+    /// <summary>
+    /// Loads a card layout from file
+    /// </summary>
+    /// <param name="filePath">Full path to the JSON file</param>
+    /// <remarks>
+    /// In delete mode, shows confirmation dialog instead of loading
+    /// </remarks>
     void LoadCard(string filePath)
     {
         if (isDeleteMode)
         {
-  
+
             saveToDelete = filePath;
             deleteConfirmationDialog.SetActive(true);
-            
+
 
             var fileNameText = deleteConfirmationDialog.transform.Find("SaveNamePlace");
             if (fileNameText != null)
@@ -71,12 +88,18 @@ public class SelectLoad : MonoBehaviour
         ClearFileList();
     }
 
+    /// <summary>
+    /// Activates file deletion mode
+    /// </summary>
     public void EnterDeleteMode()
     {
         isDeleteMode = true;
         Debug.Log("Delete mode activated. Click on a save file to delete it.");
     }
 
+    /// <summary>
+    /// Confirms and executes file deletion
+    /// </summary>
     public void ConfirmDelete()
     {
         if (!string.IsNullOrEmpty(saveToDelete))
@@ -95,6 +118,9 @@ public class SelectLoad : MonoBehaviour
         CancelDelete();
     }
 
+    /// <summary>
+    /// Cancels pending deletion operation
+    /// </summary>
     public void CancelDelete()
     {
         isDeleteMode = false;
@@ -102,16 +128,23 @@ public class SelectLoad : MonoBehaviour
         deleteConfirmationDialog.SetActive(false);
     }
 
+    /// <summary>
+    /// Opens the save dialog window
+    /// </summary>
     public void onSaveButtonClick()
     {
         saveWindow.SetActive(true);
-        if(currentEditingFileName != null)
+        if (currentEditingFileName != null)
         {
             saveWindow.transform.Find("CardName").GetComponent<TMP_InputField>().text = currentEditingFileName;
         }
-        Debug.Log(PATH_TO_FILES);  
+        Debug.Log(PATH_TO_FILES);
     }
 
+
+    /// <summary>
+    /// Executes save operation with current filename
+    /// </summary>
     public void savingButtonClick()
     {
         currentEditingFileName = saveWindow.transform.Find("CardName").GetComponent<TMP_InputField>().text;
@@ -120,11 +153,14 @@ public class SelectLoad : MonoBehaviour
         saveWindow.SetActive(false);
     }
 
+    /// <summary>
+    /// Opens file browser and populates file list
+    /// </summary>
     public void onLoadButtonClick()
     {
         fileNames.Clear();
         fileNames.AddRange(Directory.GetFiles(PATH_TO_FILES, "*.json"));
-        
+
         foreach (string file in fileNames)
         {
             string fileName = Path.GetFileNameWithoutExtension(file);
@@ -138,9 +174,12 @@ public class SelectLoad : MonoBehaviour
         loadSelectWindow.SetActive(true);
     }
 
+    /// <summary>
+    /// Closes active windows
+    /// </summary>
     public void onCancelButtonClick()
     {
-        if(saveWindow.activeSelf)
+        if (saveWindow.activeSelf)
         {
             saveWindow.SetActive(false);
         }
@@ -151,15 +190,22 @@ public class SelectLoad : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// Clears the file browser UI
+    /// </summary>
     private void ClearFileList()
     {
-        fileNames.Clear();  
+        fileNames.Clear();
         foreach (Transform child in filesPanel)
         {
             Destroy(child.gameObject);
         }
     }
 
+    /// <summary>
+    /// Refreshes the file browser contents
+    /// </summary>
     private void RefreshFileList()
     {
         ClearFileList();

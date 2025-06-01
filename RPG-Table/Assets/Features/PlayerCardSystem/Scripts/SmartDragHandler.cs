@@ -2,6 +2,18 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
+
+/// <summary>
+/// Advanced drag handler for UI elements with multi-select and global drag capabilities
+/// </summary>
+/// <remarks>
+/// Features:
+/// - Single object dragging
+/// - Global right-click drag for all objects
+/// - Drag threshold to prevent accidental movements
+/// - Hierarchy manipulation shortcuts
+/// - Edit/Game mode differentiation
+/// </remarks>
 [RequireComponent(typeof(RectTransform))]
 public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
@@ -20,10 +32,13 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
     private static SmartDragHandler currentDragLeader;
     public static bool isDragging => currentDragLeader != null;
 
-    // Nowe zmienne dla globalnego przeciągania prawym przyciskiem
     private static bool isGlobalRightDrag = false;
     private static Vector2 globalDragStartPos;
 
+
+    /// <summary>
+    /// Initializes drag handler components
+    /// </summary>
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -34,27 +49,36 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
         }
     }
 
+    /// <summary>
+    /// Handles per-frame input processing
+    /// </summary>
+    /// <remarks>
+    /// Manages:
+    /// - Global right-drag operations
+    /// - Scale modification shortcuts (W/S keys)
+    /// - Multi-drag key states
+    /// </remarks>
     private void Update()
     {
-        // Globalne przeciąganie prawym przyciskiem (nawet poza UI)
-        if (Input.GetKeyDown(multiDragKey)) // Prawy przycisk myszy wciśnięty
+
+        if (Input.GetKeyDown(multiDragKey))
         {
             StartGlobalDrag();
         }
-        else if (Input.GetKeyUp(multiDragKey)) // Prawy przycisk myszy puszczony
+        else if (Input.GetKeyUp(multiDragKey))
         {
             StopGlobalDrag();
         }
-        else if (isGlobalRightDrag && Input.GetKey(multiDragKey)) // Przeciąganie w trakcie
+        else if (isGlobalRightDrag && Input.GetKey(multiDragKey))
         {
             UpdateGlobalDrag();
         }
 
-        // Reszta logiki (hierarchia, multi-drag itp.)
+
         if (currentDragLeader == this)
         {
 
-           // Debug.Log($"shift down:  {Input.GetKeyDown(KeyCode.LeftShift)}");
+            // Debug.Log($"shift down:  {Input.GetKeyDown(KeyCode.LeftShift)}");
             if (Input.GetKeyDown("w"))
             {
                 Debug.Log("Scale Up");
@@ -65,42 +89,14 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
                 Debug.Log("Scale Down");
                 this.rectTransform.localScale = new Vector3(this.rectTransform.localScale.x - 0.5f, this.rectTransform.localScale.y - 0.5f, 1f);
             }
-            // if (Input.GetKeyDown("s") || Input.GetKeyDown(KeyCode.DownArrow))
-            // {
-            //     Debug.Log("Move Up");
-            //     if (!Edit) return;
-            //     if (this.transform.GetSiblingIndex() > 0)
-            //     {
-            //         int currentIndex = this.transform.GetSiblingIndex();
-            //         this.transform.SetSiblingIndex(currentIndex - 1);
-            //     }
-            // }
-            // if (Input.GetKeyDown("w") || Input.GetKeyDown(KeyCode.UpArrow))
-            // {
-            //     Debug.Log("Move Down");
-            //     if (!Edit) return;
-            //     if (this.transform.GetSiblingIndex() < this.transform.parent.childCount - 1)
-            //     {
-            //         int currentIndex = this.transform.GetSiblingIndex();
-            //         this.transform.SetSiblingIndex(currentIndex + 1);
-            //     }
-            // }
-        }
 
-        // if (Input.GetKeyDown(multiDragKey) && currentDragLeader == null)
-        // {
-        //     isMultiDragActive = true;
-        //     if (!selectedObjects.Contains(this))
-        //         selectedObjects.Add(this);
-        // }
-        // else if (Input.GetKeyUp(multiDragKey) && currentDragLeader == null)
-        // {
-        //     isMultiDragActive = false;
-        //     selectedObjects.Clear();
-        // }
+        }
     }
 
-    // Rozpoczęcie globalnego przeciągania prawym przyciskiem
+    
+    /// <summary>
+    /// Initiates global drag for all objects
+    /// </summary>
     private void StartGlobalDrag()
     {
         isGlobalRightDrag = true;
@@ -109,11 +105,14 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
         selectedObjects.AddRange(FindObjectsOfType<SmartDragHandler>());
     }
 
-    // Aktualizacja pozycji podczas globalnego przeciągania
+    
+    /// <summary>
+    /// Updates positions during global drag
+    /// </summary>
     private void UpdateGlobalDrag()
     {
         Vector2 currentMousePos = Input.mousePosition;
-        Vector2 delta = (currentMousePos - globalDragStartPos) / canvas.scaleFactor; // Uwzględniamy skalę canvasa
+        Vector2 delta = (currentMousePos - globalDragStartPos) / canvas.scaleFactor; 
 
         foreach (var draggable in selectedObjects)
         {
@@ -123,17 +122,22 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
             }
         }
 
-        globalDragStartPos = currentMousePos; // Aktualizujemy pozycję startową
+        globalDragStartPos = currentMousePos;
     }
 
-    // Zakończenie globalnego przeciągania
+    /// <summary>
+    /// Terminates global drag operation
+    /// </summary>
     private void StopGlobalDrag()
     {
         isGlobalRightDrag = false;
         selectedObjects.Clear();
     }
 
-    // Standardowe przeciąganie (lewy przycisk myszy)
+    /// <summary>
+    /// Handles pointer down event (drag start)
+    /// </summary>
+    /// <param name="eventData">Pointer event data</param>
     public void OnPointerDown(PointerEventData eventData)
     {
         if (eventData.button != PointerEventData.InputButton.Left) return;
@@ -163,6 +167,10 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
         }
     }
 
+    /// <summary>
+    /// Handles drag movement
+    /// </summary>
+    /// <param name="eventData">Pointer event data</param>
     public void OnDrag(PointerEventData eventData)
     {
         if (eventData.button != PointerEventData.InputButton.Left || currentDragLeader != this) return;
@@ -184,6 +192,11 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
         }
     }
 
+
+    /// <summary>
+    /// Moves all selected objects by delta amount
+    /// </summary>
+    /// <param name="delta">Movement vector</param>
     private void MoveAllSelectedObjects(Vector2 delta)
     {
         foreach (var draggable in selectedObjects)
@@ -195,6 +208,10 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
         }
     }
 
+    /// <summary>
+    /// Handles pointer release (drag end)
+    /// </summary>
+    /// <param name="eventData">Pointer event data</param>
     public void OnPointerUp(PointerEventData eventData)
     {
         if (eventData.button != PointerEventData.InputButton.Left || currentDragLeader != this) return;
@@ -206,11 +223,14 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
         }
     }
 
+    /// <summary>
+    /// Cleans up static references when destroyed
+    /// </summary>
     private void OnDestroy()
     {
         if (selectedObjects.Contains(this))
             selectedObjects.Remove(this);
-            
+
         if (currentDragLeader == this)
             currentDragLeader = null;
     }

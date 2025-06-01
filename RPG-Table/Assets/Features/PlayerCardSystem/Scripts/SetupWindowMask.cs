@@ -4,6 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems; // Dodane dla obsługi przeciągania
 
+/// <summary>
+/// Handles draggable masked window area for UI cards
+/// </summary>
+/// <remarks>
+/// Implements drag functionality for a masked content area.
+/// Automatically adds RectMask2D if missing and manages parent-child relationship.
+/// </remarks>
 public class SetupWindowMask : MonoBehaviour, IDragHandler, IBeginDragHandler
 {
     [SerializeField] private RectTransform window; // Panel z maską
@@ -13,6 +20,14 @@ public class SetupWindowMask : MonoBehaviour, IDragHandler, IBeginDragHandler
     private Vector2 initialCardAreaPos;
     private Vector2 initialDragPos;
 
+    /// <summary>
+    /// Initializes the masked window setup
+    /// </summary>
+    /// <remarks>
+    /// - Adds RectMask2D component if missing
+    /// - Sets up parent-child hierarchy
+    /// - Stores initial positions
+    /// </remarks>
     void Start()
     {
         // Dodaj RectMask2D jeśli nie istnieje
@@ -29,14 +44,24 @@ public class SetupWindowMask : MonoBehaviour, IDragHandler, IBeginDragHandler
         initialCardAreaPos = cardArea.anchoredPosition;
     }
 
-    // Rozpoczęcie przeciągania
+
+    /// <summary>
+    /// Handles drag start event
+    /// </summary>
+    /// <param name="eventData">Pointer event data</param>
     public void OnBeginDrag(PointerEventData eventData)
     {
         initialDragPos = eventData.position;
         Debug.Log("Dragging");
     }
 
-    // Przeciąganie
+    /// <summary>
+    /// Handles continuous drag movement
+    /// </summary>
+    /// <param name="eventData">Pointer event data</param>
+    /// <remarks>
+    /// Moves content area relative to drag delta with speed adjustment
+    /// </remarks>
     public void OnDrag(PointerEventData eventData)
     {
         Vector2 dragDelta = (eventData.position - initialDragPos) * dragSpeed;

@@ -9,17 +9,26 @@ using UnityEngine.EventSystems;
 using System.IO;
 
 
+/// <summary>
+/// Singleton MonoBehaviour that handles UI element parameter editing
+/// </summary>
+/// <remarks>
+/// Implements IUIBehavior to manage interactive editing of UI elements.
+/// Provides comprehensive editing capabilities for position, size, text, 
+/// appearance, and other parameters of various UI elements.
+/// </remarks>
 public class EditParameters : MonoBehaviour, IUIBehavior
 {
 
+    /// <summary>Singleton instance accessor</summary>
     public static EditParameters Instance { get; private set; }
 
     public GameObject objectPanel;
     public GameObject EditParametersPanel;
     private string prefabName;
     private GameObject uiObject;
-    
-   private void Awake()
+
+    private void Awake()
     {
         // Singleton pattern implementation
         if (Instance != null && Instance != this)
@@ -32,7 +41,7 @@ public class EditParameters : MonoBehaviour, IUIBehavior
 
         }
     }
-    
+
     void clearData()
     {
         EditParametersPanel.transform.Find("BasicPanel/IDPlace").GetComponent<TMP_InputField>().text = "";
@@ -47,120 +56,141 @@ public class EditParameters : MonoBehaviour, IUIBehavior
         EditParametersPanel.transform.Find("TextPanel/TextPlace").GetComponent<TMP_InputField>().text = "";
         EditParametersPanel.transform.Find("TextPanel/Italic").GetComponent<Toggle>().isOn = false;
         EditParametersPanel.transform.Find("TextPanel/Bold").GetComponent<Toggle>().isOn = false;
-        
+
 
     }
-    
+
+    /// <summary>
+    /// Handles mouse clicks to select UI elements for editing
+    /// </summary>
+    /// <remarks>
+    /// Uses raycasting to detect clicked UI elements and initiates their editing process
+    /// </remarks>
     public void HandleUIClick()
-{
-    if(Input.GetMouseButtonDown(0))
     {
-        PointerEventData pointerData = new PointerEventData(EventSystem.current);
-        pointerData.position = Input.mousePosition;
-
-        List<RaycastResult> results = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(pointerData, results);
-        
-        // Only process if we have results
-        if(results.Count == 0) return;
-        
-        // Get the top-most result (first in the list is top-most in GraphicRaycaster)
-        RaycastResult topResult = results[0];
-        ObjectID objectID = topResult.gameObject.GetComponent<ObjectID>();
-        
-        if(objectID == null)
+        if (Input.GetMouseButtonDown(0))
         {
-            // Check if we clicked on a child of an ObjectID element
-            objectID = topResult.gameObject.GetComponentInParent<ObjectID>();
-            if(objectID == null) return;
+            PointerEventData pointerData = new PointerEventData(EventSystem.current);
+            pointerData.position = Input.mousePosition;
+
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(pointerData, results);
+
+            // Only process if we have results
+            if (results.Count == 0) return;
+
+            // Get the top-most result (first in the list is top-most in GraphicRaycaster)
+            RaycastResult topResult = results[0];
+            ObjectID objectID = topResult.gameObject.GetComponent<ObjectID>();
+
+            if (objectID == null)
+            {
+                // Check if we clicked on a child of an ObjectID element
+                objectID = topResult.gameObject.GetComponentInParent<ObjectID>();
+                if (objectID == null) return;
+            }
+
+            ProcessObjectSelection(objectID);
         }
-
-        ProcessObjectSelection(objectID);
     }
-}
 
-private void ProcessObjectSelection(ObjectID objectID)
-{
-    if(EditParametersPanel.transform.Find("BasicPanel/IDPlace").GetComponent<TMP_InputField>().text != objectID._id)
-        clearData();
-        
-    EditParametersPanel.transform.Find("BasicPanel/IDPlace").GetComponent<TMP_InputField>().text = objectID._id;
-    GameObject uiObject = ObjectID.GetObjectByID(objectID._id);
-    prefabName = objectID._prefabName;
-    
-    if(uiObject == null) return;
-    if (uiObject != null)
+    /// <summary>
+    /// Processes the selection of a UI object for editing
+    /// </summary>
+    private void ProcessObjectSelection(ObjectID objectID)
+    {
+        if (EditParametersPanel.transform.Find("BasicPanel/IDPlace").GetComponent<TMP_InputField>().text != objectID._id)
+            clearData();
+
+        EditParametersPanel.transform.Find("BasicPanel/IDPlace").GetComponent<TMP_InputField>().text = objectID._id;
+        GameObject uiObject = ObjectID.GetObjectByID(objectID._id);
+        prefabName = objectID._prefabName;
+
+        if (uiObject == null) return;
+        if (uiObject != null)
+        {
+            if (objectID._prefabName == "TextBlockPrefab")
+            {
+                EditParametersPanel.transform.Find("TransparencyPanel")?.gameObject.SetActive(false);
+                EditParametersPanel.transform.Find("IMGPanel")?.gameObject.SetActive(false);
+            }
+            else
+            {
+                EditParametersPanel.transform.Find("TransparencyPanel")?.gameObject.SetActive(true);
+                EditParametersPanel.transform.Find("IMGPanel")?.gameObject.SetActive(true);
+            }
+
+            RectTransform rectTransform = uiObject.GetComponent<RectTransform>();
+            if (rectTransform != null)
+            {
+                // Download width and height
+                float width = rectTransform.rect.width;
+                float height = rectTransform.rect.height;
+                EditParametersPanel.transform.Find("BasicPanel/WidthPlace").GetComponent<TMP_InputField>().text = width.ToString("F2");
+                EditParametersPanel.transform.Find("BasicPanel/HeightPlace").GetComponent<TMP_InputField>().text = height.ToString("F2");
+                EditParametersPanel.transform.Find("BasicPanel/XPlace").GetComponent<TMP_InputField>().text = rectTransform.anchoredPosition.x.ToString("F2");
+                EditParametersPanel.transform.Find("BasicPanel/YPlace").GetComponent<TMP_InputField>().text = rectTransform.anchoredPosition.y.ToString("F2");
+                EditParametersPanel.transform.Find("TextPanel")?.gameObject.SetActive(true);
+
+                switch (objectID._prefabName)
                 {
-                    if(objectID._prefabName == "TextBlockPrefab"){
-                        EditParametersPanel.transform.Find("TransparencyPanel")?.gameObject.SetActive(false);
-                        EditParametersPanel.transform.Find("IMGPanel")?.gameObject.SetActive(false);
-                    } else {
-                        EditParametersPanel.transform.Find("TransparencyPanel")?.gameObject.SetActive(true);
-                        EditParametersPanel.transform.Find("IMGPanel")?.gameObject.SetActive(true);
-                    }
-                    
-                    RectTransform rectTransform = uiObject.GetComponent<RectTransform>();
-                    if (rectTransform != null)
-                    {
-                        // Download width and height
-                        float width = rectTransform.rect.width;
-                        float height = rectTransform.rect.height;
-                        EditParametersPanel.transform.Find("BasicPanel/WidthPlace").GetComponent<TMP_InputField>().text = width.ToString("F2"); 
-                        EditParametersPanel.transform.Find("BasicPanel/HeightPlace").GetComponent<TMP_InputField>().text = height.ToString("F2"); 
-                        EditParametersPanel.transform.Find("BasicPanel/XPlace").GetComponent<TMP_InputField>().text = rectTransform.anchoredPosition.x.ToString("F2"); 
-                        EditParametersPanel.transform.Find("BasicPanel/YPlace").GetComponent<TMP_InputField>().text = rectTransform.anchoredPosition.y.ToString("F2"); 
-                        EditParametersPanel.transform.Find("TextPanel")?.gameObject.SetActive(true);
-                        
-                        switch (objectID._prefabName)
-                        {
-                            case "TextBlockPrefab":
-                                EditParametersPanel.transform.Find("TextPanel/TextPlace").GetComponent<TMP_InputField>().text = 
-                                    uiObject.GetComponent<TextMeshProUGUI>().text;
-                                EditParametersPanel.transform.Find("TextPanel/FontSizePlace").GetComponent<TMP_InputField>().text =
-                                    uiObject.GetComponent<TextMeshProUGUI>().fontSize.ToString("F0");
-                                EditParametersPanel.transform.Find("TextPanel/ColorPlace").GetComponent<TMP_InputField>().text =
-                                    ColorUtility.ToHtmlStringRGB(uiObject.GetComponent<TextMeshProUGUI>().color);
-                                break;
-                            case "Button":
-                                EditParametersPanel.transform.Find("TextPanel/TextPlace").GetComponent<TMP_InputField>().text = 
-                                    uiObject.GetComponentInChildren<TMP_Text>().text;
-                                EditParametersPanel.transform.Find("TextPanel/FontSizePlace").GetComponent<TMP_InputField>().text =
-                                    uiObject.GetComponentInChildren<TMP_Text>().fontSize.ToString("F0");  
-                                EditParametersPanel.transform.Find("TextPanel/ColorPlace").GetComponent<TMP_InputField>().text =
-                                    ColorUtility.ToHtmlStringRGB(uiObject.GetComponentInChildren<TMP_Text>().color);
+                    case "TextBlockPrefab":
+                        EditParametersPanel.transform.Find("TextPanel/TextPlace").GetComponent<TMP_InputField>().text =
+                            uiObject.GetComponent<TextMeshProUGUI>().text;
+                        EditParametersPanel.transform.Find("TextPanel/FontSizePlace").GetComponent<TMP_InputField>().text =
+                            uiObject.GetComponent<TextMeshProUGUI>().fontSize.ToString("F0");
+                        EditParametersPanel.transform.Find("TextPanel/ColorPlace").GetComponent<TMP_InputField>().text =
+                            ColorUtility.ToHtmlStringRGB(uiObject.GetComponent<TextMeshProUGUI>().color);
+                        break;
+                    case "Button":
+                        EditParametersPanel.transform.Find("TextPanel/TextPlace").GetComponent<TMP_InputField>().text =
+                            uiObject.GetComponentInChildren<TMP_Text>().text;
+                        EditParametersPanel.transform.Find("TextPanel/FontSizePlace").GetComponent<TMP_InputField>().text =
+                            uiObject.GetComponentInChildren<TMP_Text>().fontSize.ToString("F0");
+                        EditParametersPanel.transform.Find("TextPanel/ColorPlace").GetComponent<TMP_InputField>().text =
+                            ColorUtility.ToHtmlStringRGB(uiObject.GetComponentInChildren<TMP_Text>().color);
 
-                                break;
-                            case "InputField":
-                                EditParametersPanel.transform.Find("TextPanel/TextPlace").GetComponent<TMP_InputField>().text = 
-                                    uiObject.GetComponent<TMP_InputField>().text;
-                                EditParametersPanel.transform.Find("TextPanel/FontSizePlace").GetComponent<TMP_InputField>().text = 
-                                    uiObject.GetComponent<TMP_InputField>().pointSize.ToString("F0");
-                                EditParametersPanel.transform.Find("TextPanel/ColorPlace").GetComponent<TMP_InputField>().text = 
-                                    ColorUtility.ToHtmlStringRGB(uiObject.GetComponent<TMP_InputField>().textComponent.color);
+                        break;
+                    case "InputField":
+                        EditParametersPanel.transform.Find("TextPanel/TextPlace").GetComponent<TMP_InputField>().text =
+                            uiObject.GetComponent<TMP_InputField>().text;
+                        EditParametersPanel.transform.Find("TextPanel/FontSizePlace").GetComponent<TMP_InputField>().text =
+                            uiObject.GetComponent<TMP_InputField>().pointSize.ToString("F0");
+                        EditParametersPanel.transform.Find("TextPanel/ColorPlace").GetComponent<TMP_InputField>().text =
+                            ColorUtility.ToHtmlStringRGB(uiObject.GetComponent<TMP_InputField>().textComponent.color);
 
-                                break;
-                            default:
-                                EditParametersPanel.transform.Find("TextPanel")?.gameObject.SetActive(false);
-                                break;
-                        }
-                    }
-                    if(uiObject.GetComponent<Image>()!= null){
-                        double alpha;
-                        alpha = uiObject.GetComponent<Image>().color.a;
-                        alpha = alpha * 100;
-                        EditParametersPanel.transform.Find("TransparencyPanel/TransparencyPlace").GetComponent<TMP_InputField>().text = (alpha).ToString("F2");
-                        EditParametersPanel.transform.Find("IMGPanel/IMGPlace").GetComponent<TMP_InputField>().text = uiObject.GetComponent<Image>().sprite.name;
-                    } else if(uiObject.GetComponent<RawImage>()!=null){
-                        double alpha;
-                        alpha = uiObject.GetComponent<RawImage>().color.a;
-                        alpha = alpha * 100;
-                        EditParametersPanel.transform.Find("TransparencyPanel/TransparencyPlace").GetComponent<TMP_InputField>().text = (alpha).ToString("F2");
-                        //EditParametersPanel.transform.Find("IMGPlace").GetComponent<TMP_InputField>().text = uiObject.GetComponent<RawImage>().sprite.name;
+                        break;
+                    default:
+                        EditParametersPanel.transform.Find("TextPanel")?.gameObject.SetActive(false);
+                        break;
+                }
+            }
+            if (uiObject.GetComponent<Image>() != null)
+            {
+                double alpha;
+                alpha = uiObject.GetComponent<Image>().color.a;
+                alpha = alpha * 100;
+                EditParametersPanel.transform.Find("TransparencyPanel/TransparencyPlace").GetComponent<TMP_InputField>().text = (alpha).ToString("F2");
+                EditParametersPanel.transform.Find("IMGPanel/IMGPlace").GetComponent<TMP_InputField>().text = uiObject.GetComponent<Image>().sprite.name;
+            }
+            else if (uiObject.GetComponent<RawImage>() != null)
+            {
+                double alpha;
+                alpha = uiObject.GetComponent<RawImage>().color.a;
+                alpha = alpha * 100;
+                EditParametersPanel.transform.Find("TransparencyPanel/TransparencyPlace").GetComponent<TMP_InputField>().text = (alpha).ToString("F2");
+                //EditParametersPanel.transform.Find("IMGPlace").GetComponent<TMP_InputField>().text = uiObject.GetComponent<RawImage>().sprite.name;
             }
         }
     }
-        
 
+    /// <summary>
+    /// Updates all parameters of the currently selected UI object
+    /// </summary>
+    /// <remarks>
+    /// Continuously applies changes from edit fields to the live UI object.
+    /// Handles position, size, text properties, colors, and transparency.
+    /// </remarks>
     void updateObjectParameters()
     {
         string id = EditParametersPanel.transform.Find("BasicPanel/IDPlace").GetComponent<TMP_InputField>().text;
@@ -282,15 +312,16 @@ private void ProcessObjectSelection(ObjectID objectID)
             }
         }
     }
-    
+
 
     public void onEditParametersButtonClick()
     {
-        if(objectPanel.activeSelf)
+        if (objectPanel.activeSelf)
         {
             objectPanel.SetActive(false);
             EditParametersPanel.SetActive(true);
-        } else if(EditParametersPanel.activeSelf)
+        }
+        else if (EditParametersPanel.activeSelf)
         {
             objectPanel.SetActive(true);
             EditParametersPanel.SetActive(false);
@@ -298,7 +329,7 @@ private void ProcessObjectSelection(ObjectID objectID)
     }
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -308,6 +339,9 @@ private void ProcessObjectSelection(ObjectID objectID)
         updateObjectParameters();
     }
 
+    /// <summary>
+    /// Moves the selected object up in the sibling hierarchy
+    /// </summary>
     public void objUp()
     {
         if (uiObject.transform.GetSiblingIndex() < uiObject.transform.parent.childCount - 1)
@@ -316,6 +350,9 @@ private void ProcessObjectSelection(ObjectID objectID)
         }
     }
 
+    /// <summary>
+    /// Moves the selected object down in the sibling hierarchy
+    /// </summary>
     public void objDown()
     {
         if (uiObject.transform.GetSiblingIndex() > 0)
@@ -325,6 +362,10 @@ private void ProcessObjectSelection(ObjectID objectID)
 
     }
 
+
+    /// <summary>
+    /// Saves the current object's parameters as a prefab template
+    /// </summary>
     public void savePrefab()
     {
         savingCustomObjects savingCustomObjects = new savingCustomObjects();
@@ -356,7 +397,11 @@ private void ProcessObjectSelection(ObjectID objectID)
         }
     }
 
-    public void destroyObject(){
+    /// <summary>
+    /// Destroys the currently selected object
+    /// </summary>
+    public void destroyObject()
+    {
         CardAreaSaver cardAreaSaver = new CardAreaSaver();
         Debug.Log(EditParametersPanel.transform.Find("BasicPanel/IDPlace").GetComponent<TMP_InputField>().text);
         cardAreaSaver.deleteObject(EditParametersPanel.transform.Find("BasicPanel/IDPlace").GetComponent<TMP_InputField>().text);

@@ -7,9 +7,16 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
+/// <summary>
+/// System for placing and managing UI objects in a card-based interface
+/// </summary>
+/// <remarks>
+/// Handles object selection, placement, configuration and persistence.
+/// Manages both predefined and user-created prefabs with full customization.
+/// Integrates wit
 public class ObjectPlacementSystem : MonoBehaviour
 {
-    
+
     private string PATH_TO_FILES = SettingsManager._CurrentSettings.playerCardsPrefabPath;
     private string FILE_NAME = "PlayerPrefab.json";
     private string PATH_TO_2D_ASSETS = SettingsManager._CurrentSettings.Assets2DPath;
@@ -29,7 +36,7 @@ public class ObjectPlacementSystem : MonoBehaviour
     private bool isDeleteMode = false;
     private savingCustomObjects objectToDelete;
 
-
+    /// <summary>Serializable class representing a placeable object</summary>
     [System.Serializable]
     public class PlaceableObject
     {
@@ -38,13 +45,24 @@ public class ObjectPlacementSystem : MonoBehaviour
         public string imageName;
 
     }
-    
+
+
+    /// <summary>
+    /// Enters object deletion mode
+    /// </summary>
     public void EnterDeleteMode()
     {
         isDeleteMode = true;
         // You might want to highlight deletable objects or change cursor here
         Debug.Log("Delete mode activated. Click on a prefab to delete it.");
     }
+
+    /// <summary>
+    /// Initializes the placement system and loads saved objects
+    /// </summary>
+    /// <remarks>
+    /// Creates necessary directories and sets up UI buttons for all placeable objects
+    /// </remarks>
     void Start()
     {
         //PATH_TO_FILES = Path.Combine(Application.persistentDataPath, "PlayerPrefab/");
@@ -78,8 +96,8 @@ public class ObjectPlacementSystem : MonoBehaviour
             button.name = obj.name;
             button.GetComponent<Button>().onClick.AddListener(() => SelectObject(obj.prefab));
         }
-       if (File.Exists(Path.Combine(PATH_TO_FILES, FILE_NAME)))
-       {
+        if (File.Exists(Path.Combine(PATH_TO_FILES, FILE_NAME)))
+        {
             string json = File.ReadAllText(Path.Combine(PATH_TO_FILES, FILE_NAME));
             SavePrefabData savePrefabData = JsonUtility.FromJson<SavePrefabData>(json);
             userObjects = savePrefabData.prefabs;
@@ -91,7 +109,7 @@ public class ObjectPlacementSystem : MonoBehaviour
                 buttonText.text = obj.name;
                 button.name = obj.name;
                 GameObject prefab = Resources.Load<GameObject>(obj.prefab);
-  
+
                 // if(File.Exists(Path.Combine(PATH_TO_2D_ASSETS, obj.imageName)))
                 // {   
                 //     byte[] imageBytes = File.ReadAllBytes(Path.Combine(PATH_TO_2D_ASSETS, obj.imageName));
@@ -105,15 +123,18 @@ public class ObjectPlacementSystem : MonoBehaviour
                 // {
                 //     Debug.Log("Nie ma obrazka");
                 // }
-                button.GetComponent<Button>().onClick.AddListener(() => SelectObject(prefab,obj));
+                button.GetComponent<Button>().onClick.AddListener(() => SelectObject(prefab, obj));
             }
-       }
+        }
     }
 
-   void Update()
+    /// <summary>
+    /// Main update loop handling object placement and UI interactions
+    /// </summary>
+    void Update()
     {
 
-        if(Input.GetKeyDown(KeyCode.Escape) && confirmationDialog.activeSelf) //checking if we are placing an object and pressing escape
+        if (Input.GetKeyDown(KeyCode.Escape) && confirmationDialog.activeSelf) //checking if we are placing an object and pressing escape
         {
             CancelPlacement();
         }
@@ -125,38 +146,47 @@ public class ObjectPlacementSystem : MonoBehaviour
                 Input.mousePosition,
                 null
             );
-            if (Input.GetMouseButtonDown(0) && isInsideCardArea) 
+            if (Input.GetMouseButtonDown(0) && isInsideCardArea)
+            {
+                if (selectedPrefab.name == "InputField") //checking for input field
                 {
-                    if(selectedPrefab.name == "InputField") //checking for input field
-                    {
-                        inputTypeDropdown.SetActive(true);
-                    }
-                    else
-                    {
-                        inputTypeDropdown.SetActive(false);
-                    }
-                    confirmationDialog.SetActive(true);
+                    inputTypeDropdown.SetActive(true);
                 }
+                else
+                {
+                    inputTypeDropdown.SetActive(false);
+                }
+                confirmationDialog.SetActive(true);
+            }
 
-            if(!confirmationDialog.activeSelf){ //if we are not placing an object, we can move it
+            if (!confirmationDialog.activeSelf)
+            { //if we are not placing an object, we can move it
                 Vector2 mousePos = Input.mousePosition;
                 // Dla obiektów UI
                 if (pendingObject.GetComponent<RectTransform>() != null)
                 {
                     RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                        cardArea as RectTransform, 
-                        mousePos, 
+                        cardArea as RectTransform,
+                        mousePos,
                         null, // Dla UI używamy null zamiast Camera.main
                         out Vector2 localPoint);
-                        
+
                     pendingObject.GetComponent<RectTransform>().anchoredPosition = localPoint;
                 }
-                
+
             }
         }
     }
-    
-    // Method to select an object prefab from the list and instantiate it in the card area
+
+
+    /// <summary>
+    /// Selects an object for placement and creates a preview instance
+    /// </summary>
+    /// <param name="prefab">The prefab to place</param>
+    /// <param name="obj">Optional saved object configuration</param>
+    /// <remarks>
+    /// In delete mode, triggers deletion flow instead of placement
+    /// </remarks>
     public void SelectObject(GameObject prefab, savingCustomObjects obj = null)
     {
 
@@ -171,39 +201,40 @@ public class ObjectPlacementSystem : MonoBehaviour
 
         selectedPrefab = prefab;
         if (pendingObject != null) Destroy(pendingObject);
-        
+
         pendingObject = Instantiate(prefab, cardArea);
 
-        if(obj!= null)
+        if (obj != null)
         {
 
             CardAreaSaver cardAreaSaver = new CardAreaSaver();
             cardAreaSaver.SetImage(pendingObject, obj.imageName);
             pendingObject.GetComponent<RectTransform>().sizeDelta = new Vector2(float.Parse(obj.Width), float.Parse(obj.Height));
-            if(obj.prefab != "Image")
+            if (obj.prefab != "Image")
             {
                 Color newColor;
-                if(pendingObject.GetComponent<TextMeshProUGUI>() != null)
+                if (pendingObject.GetComponent<TextMeshProUGUI>() != null)
                 {
                     pendingObject.GetComponent<TextMeshProUGUI>().fontSize = float.Parse(obj.fontSize);
 
                     FontStyles style = FontStyles.Normal;
-                    if(obj.isBold)
+                    if (obj.isBold)
                         style |= FontStyles.Bold;
-                    if(obj.isItalic)
+                    if (obj.isItalic)
                         style |= FontStyles.Italic;
                     pendingObject.GetComponent<TextMeshProUGUI>().fontStyle = style;
 
                     ColorUtility.TryParseHtmlString("#" + obj.fontColor, out newColor);
                     pendingObject.GetComponent<TextMeshProUGUI>().color = newColor;
-                } else if(pendingObject.GetComponent<TMP_Text>() != null)
+                }
+                else if (pendingObject.GetComponent<TMP_Text>() != null)
                 {
                     pendingObject.GetComponent<TMP_Text>().fontSize = float.Parse(obj.fontSize);
 
                     FontStyles style = FontStyles.Normal;
-                    if(obj.isBold)
+                    if (obj.isBold)
                         style |= FontStyles.Bold;
-                    if(obj.isItalic)
+                    if (obj.isItalic)
                         style |= FontStyles.Italic;
                     pendingObject.GetComponent<TMP_Text>().fontStyle = style;
 
@@ -211,26 +242,32 @@ public class ObjectPlacementSystem : MonoBehaviour
                     pendingObject.GetComponent<TMP_Text>().color = newColor;
                 }
             }
-            if(obj.prefab != "TextBlockPrefab")
+            if (obj.prefab != "TextBlockPrefab")
             {
                 Image image = pendingObject.GetComponent<Image>();
                 pendingObject.GetComponent<Image>().color = new Color(image.color.r, image.color.g, image.color.b,
-                    Mathf.Clamp01(float.Parse(obj.transparency)/100));
+                    Mathf.Clamp01(float.Parse(obj.transparency) / 100));
             }
 
         }
-        
+
         SetObjectComponentsEnabled(pendingObject, false);
     }
 
-    // Method to confirm the placement of the object and set its ID
+    /// <summary>
+    /// Finalizes placement of the current object with assigned ID
+    /// </summary>
+    /// <remarks>
+    /// Handles special configuration for input fields
+    /// Adds ObjectID component if missing
+    /// </remarks>
     public void ConfirmPlacement()
     {
         if (pendingObject == null) return;
 
         if (!string.IsNullOrEmpty(idInputField.text))
         {
-            if(selectedPrefab.name == "InputField") 
+            if (selectedPrefab.name == "InputField")
             {
                 switch (GameObject.Find("InputFieldType").GetComponent<TMP_Dropdown>().value)
                 {
@@ -254,7 +291,7 @@ public class ObjectPlacementSystem : MonoBehaviour
 
             objId.SetID(idInputField.text, pendingObject, selectedPrefab.name);
             pendingObject.name = idInputField.text;
-            
+
             SetObjectComponentsEnabled(pendingObject, true);
             pendingObject = null;
             selectedPrefab = null;
@@ -269,29 +306,39 @@ public class ObjectPlacementSystem : MonoBehaviour
         ResetPlacement();
     }
 
+    /// <summary>
+    /// Confirms deletion of selected object
+    /// </summary>
+    /// <remarks>
+    /// Updates save file and refreshes UI
+    /// </remarks>
     public void ConfirmDeletion()
     {
         if (objectToDelete != null)
         {
             // Remove from list
             userObjects.Remove(objectToDelete);
-            
+
             // Update save file
-            SavePrefabData savePrefabData = new SavePrefabData{
+            SavePrefabData savePrefabData = new SavePrefabData
+            {
                 saveTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                 prefabCount = userObjects.Count,
                 prefabs = userObjects
             };
             string json = JsonUtility.ToJson(savePrefabData, true);
             File.WriteAllText(Path.Combine(PATH_TO_FILES, FILE_NAME), json);
-            
+
             // Refresh UI (you might need to implement this)
             RefreshObjectButtons();
         }
-        
+
         CancelDeletion();
     }
 
+    /// <summary>
+    /// Cancels current deletion operation
+    /// </summary>
     public void CancelDeletion()
     {
         isDeleteMode = false;
@@ -305,7 +352,9 @@ public class ObjectPlacementSystem : MonoBehaviour
         ObjectID.printDictionary();
     }
 
-    // Method to cancel the placement of the object and reset the state
+    /// <summary>
+    /// Cancels current placement operation
+    /// </summary>
     public void CancelPlacement()
     {
         if (pendingObject != null) Destroy(pendingObject);
@@ -321,44 +370,54 @@ public class ObjectPlacementSystem : MonoBehaviour
         confirmationDialog.SetActive(false);
     }
 
+    /// <summary>
+    /// Refreshes the object selection UI
+    /// </summary>
+    /// <remarks>
+    /// Recreates buttons for both predefined and custom objects
+    /// </remarks>
     private void RefreshObjectButtons()
-{
-    // Clear existing buttons
-    foreach (Transform child in objectsPanel)
     {
-        Destroy(child.gameObject);
-    }
-    
-    // Recreate buttons for available objects
-    foreach (var obj in availableObjects)
-    {
-        GameObject button = Instantiate(objectButtonPrefab, objectsPanel);
-        TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
-        buttonText.text = obj.name;
-        button.name = obj.name;
-        button.GetComponent<Button>().onClick.AddListener(() => SelectObject(obj.prefab));
-    }
-    
-    // Recreate buttons for user objects
-    foreach (var obj in userObjects)
-    {
-        GameObject button = Instantiate(objectButtonPrefab, objectsPanel);
-        TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
-        buttonText.text = obj.name;
-        button.name = obj.name;
-        GameObject prefab = Resources.Load<GameObject>(obj.prefab);
-        button.GetComponent<Button>().onClick.AddListener(() => SelectObject(prefab, obj));
-    }
-}
+        // Clear existing buttons
+        foreach (Transform child in objectsPanel)
+        {
+            Destroy(child.gameObject);
+        }
 
-    // Method to enable or disable all components of the object (except for the ObjectID component)
-   public static void SetObjectComponentsEnabled(GameObject obj, bool enabled)
+        // Recreate buttons for available objects
+        foreach (var obj in availableObjects)
+        {
+            GameObject button = Instantiate(objectButtonPrefab, objectsPanel);
+            TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
+            buttonText.text = obj.name;
+            button.name = obj.name;
+            button.GetComponent<Button>().onClick.AddListener(() => SelectObject(obj.prefab));
+        }
+
+        // Recreate buttons for user objects
+        foreach (var obj in userObjects)
+        {
+            GameObject button = Instantiate(objectButtonPrefab, objectsPanel);
+            TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
+            buttonText.text = obj.name;
+            button.name = obj.name;
+            GameObject prefab = Resources.Load<GameObject>(obj.prefab);
+            button.GetComponent<Button>().onClick.AddListener(() => SelectObject(prefab, obj));
+        }
+    }
+
+    /// <summary>
+    /// Enables/disables all components on an object except ObjectID
+    /// </summary>
+    /// <param name="obj">Target object</param>
+    /// <param name="enabled">Enable state</param>
+    public static void SetObjectComponentsEnabled(GameObject obj, bool enabled)
     {
         // Collidery 2D
         foreach (var collider in obj.GetComponents<Collider2D>())
             collider.enabled = enabled;
-        
-        
+
+
         foreach (var behaviour in obj.GetComponents<MonoBehaviour>())
             behaviour.enabled = enabled;
     }
@@ -372,13 +431,19 @@ public class ObjectPlacementSystem : MonoBehaviour
     {
         CustomPrefabCreator.SetActive(false);
         CustomPrefabCreator.transform.Find("PrefabName").GetComponent<TMP_InputField>().text = "";
-        
+
     }
+
+    /// <summary>
+    /// Saves a custom object configuration
+    /// </summary>
+    /// <param name="customObject">Object configuration to save</param>
     public void onCustomPrefabSaveButtonClick(savingCustomObjects customObject)
     {
         customObject.name = CustomPrefabCreator.transform.Find("PrefabName").GetComponent<TMP_InputField>().text;
         userObjects.Add(customObject);
-        SavePrefabData savePrefabData = new SavePrefabData{
+        SavePrefabData savePrefabData = new SavePrefabData
+        {
             saveTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
             prefabCount = userObjects.Count,
             prefabs = userObjects
@@ -399,6 +464,9 @@ public class ObjectPlacementSystem : MonoBehaviour
 
 }
 
+    /// <summary>
+    /// Data structure for saving prefab configurations
+    /// </summary>
     [System.Serializable]
     public class SavePrefabData
     {
@@ -407,6 +475,9 @@ public class ObjectPlacementSystem : MonoBehaviour
         public List<savingCustomObjects> prefabs;
     }
 
+    /// <summary>
+    /// Complete configuration for a saved UI object
+    /// </summary>
     [System.Serializable]
     public class savingCustomObjects
     {

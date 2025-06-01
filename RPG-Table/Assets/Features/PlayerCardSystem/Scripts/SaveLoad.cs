@@ -6,6 +6,13 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
 
+/// <summary>
+/// System for saving and loading card-based UI layouts with full serialization
+/// </summary>
+/// <remarks>
+/// Handles persistence of UI elements including their positions, appearances,
+/// and custom behaviors. Supports both editor and runtime usage.
+/// </remarks>
 public class CardAreaSaver : MonoBehaviour
 {
     [Header("Settings")]
@@ -13,20 +20,30 @@ public class CardAreaSaver : MonoBehaviour
     public bool debugLog = true;
     public Transform cardArea;
     public static string _fullSavePath;
-    
+
     private string PATH_TO_2D_ASSETS = SettingsManager._CurrentSettings.Assets2DPath;
 
+    /// <summary>Global dictionary tracking all UI objects by ID</summary>    
     public static Dictionary<string, GameObject> _objectDictionary = new Dictionary<string, GameObject>();//Dictionary to store objects by ID
 
-    
+
 
     void Awake()
     {
         //_fullSavePath = Path.Combine(Application.persistentDataPath, saveFileName);
-        
+
     }
 
-    // Method to save the card area to a JSON file
+    /// <summary>
+    /// Saves the current card area layout to JSON
+    /// </summary>
+    /// <remarks>
+    /// Captures:
+    /// - Object transforms and visibility
+    /// - Custom component states
+    /// - Button operations
+    /// - Visual properties (colors, text, etc.)
+    /// </remarks>
     public void SaveCardArea()
     {
         try
@@ -43,7 +60,7 @@ public class CardAreaSaver : MonoBehaviour
                     foreach (var script in scripts)
                     {
                         if (script == null || script.GetType() == typeof(ObjectID)) continue;
-                        
+
                         ScriptData scriptData = new ScriptData
                         {
                             type = script.GetType().AssemblyQualifiedName,
@@ -51,7 +68,7 @@ public class CardAreaSaver : MonoBehaviour
                         };
                         childData.scripts.Add(scriptData);
                     }
-                    
+
                     // Save button operations if this is a button
                     if (childData.objectType == "Button")
                     {
@@ -61,11 +78,11 @@ public class CardAreaSaver : MonoBehaviour
                             childData.currentOperations = operations;
                         }
                     }
-                    
+
                     childrenData.Add(childData);
                 }
             }
-            
+
             SaveData saveData = new SaveData
             {
                 saveTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
@@ -101,9 +118,9 @@ public class CardAreaSaver : MonoBehaviour
             Debug.LogError("CardAreaSaver instance not found in the scene.");
         }
     }
-    
+
     // Method to load the card area from a JSON file
-    public static void LoadCardArea(string filePath, bool Editing=true)
+    public static void LoadCardArea(string filePath, bool Editing = true)
     {
         saveFileName = filePath;
         CardAreaSaver instance = FindObjectOfType<CardAreaSaver>();
@@ -116,12 +133,21 @@ public class CardAreaSaver : MonoBehaviour
             Debug.LogError("CardAreaSaver instance not found in the scene.");
         }
     }
+
+    /// <summary>
+    /// Loads a card area layout from JSON
+    /// </summary>
+    /// <param name="Editing">If true, enables editing functionality</param>
+    /// <remarks>
+    /// Reconstructs the entire UI hierarchy from serialized data.
+    /// Can operate in either editor or play mode.
+    /// </remarks>
     public void LoadCardArea(bool Editing)
     {
         try
         {
             _fullSavePath = saveFileName;
-        
+
             // Ensure the directory exists
             string directory = Path.GetDirectoryName(_fullSavePath);
             Debug.Log($"Directory: {directory}");
@@ -139,7 +165,7 @@ public class CardAreaSaver : MonoBehaviour
             SaveData loadedData = JsonUtility.FromJson<SaveData>(jsonData);
 
             ClearCardArea();
-             //_objectDictionary = new Dictionary<string, GameObject>();
+            //_objectDictionary = new Dictionary<string, GameObject>();
             NewBehaviourScript.Instance.clearDictionary();
 
             foreach (ChildData childData in loadedData.children)
@@ -155,7 +181,7 @@ public class CardAreaSaver : MonoBehaviour
             foreach (ChildData childData in loadedData.children)
             {
                 if (childData == null || string.IsNullOrEmpty(childData.currentOperations)) continue;
-                
+
                 if (childData.objectType == "Button")
                 {
                     NewBehaviourScript.Instance.loadOperations(childData.objectID, childData.currentOperations);
@@ -174,19 +200,22 @@ public class CardAreaSaver : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Clears all objects from the card area
+    /// </summary>
     public void ClearCardArea()
     {
         _objectDictionary = new Dictionary<string, GameObject>();
         foreach (Transform child in cardArea) //Del objectid script from object
         {
-            Destroy(child.gameObject.GetComponent<ObjectID>()); 
+            Destroy(child.gameObject.GetComponent<ObjectID>());
             Destroy(child.gameObject);
-        }   
+        }
     }
 
     public void deleteObject(string id)
     {
-        if(_objectDictionary.ContainsKey(id))
+        if (_objectDictionary.ContainsKey(id))
         {
             NewBehaviourScript.Instance.deleteKey(id);
             GameObject toKill = _objectDictionary[id];
@@ -196,6 +225,12 @@ public class CardAreaSaver : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Creates a UI object from serialized data
+    /// </summary>
+    /// <param name="childData">Serialized object data</param>
+    /// <param name="dragOn">Enable drag functionality</param>
+    /// <returns>Reconstructed GameObject</returns>
     public virtual GameObject CreateChildFromData(ChildData childData, bool dragOn = true)
     {
         GameObject prefab = Resources.Load<GameObject>(childData.objectType);
@@ -208,17 +243,18 @@ public class CardAreaSaver : MonoBehaviour
         GameObject newChild = Instantiate(prefab, cardArea);
         Debug.Log($"Creating child at {newChild.transform.localPosition} with rotation {newChild.transform.localRotation}");
         newChild.transform.SetParent(cardArea, false); // Set parent without changing world position
-        
+
         newChild.transform.localScale = childData.localScale;
-        
-        ((RectTransform)newChild.transform).sizeDelta =new Vector2(float.Parse(childData.Width),float.Parse(childData.Height));
-        
-        if(newChild.GetComponent<Image>() != null){
-            newChild.GetComponent<Image>().color = new Color( 
+
+        ((RectTransform)newChild.transform).sizeDelta = new Vector2(float.Parse(childData.Width), float.Parse(childData.Height));
+
+        if (newChild.GetComponent<Image>() != null)
+        {
+            newChild.GetComponent<Image>().color = new Color(
                 newChild.GetComponent<Image>().color.r,
                 newChild.GetComponent<Image>().color.g,
                 newChild.GetComponent<Image>().color.b,
-                Mathf.Clamp01(float.Parse(childData.transparency)/100));
+                Mathf.Clamp01(float.Parse(childData.transparency) / 100));
         }
         Color newColor;
         // Handle different object types
@@ -229,12 +265,12 @@ public class CardAreaSaver : MonoBehaviour
                 if (textComponent != null)
                 {
                     textComponent.text = childData.Text;
-                    
-                    if(childData.isBold)
+
+                    if (childData.isBold)
                     {
                         textComponent.fontStyle |= FontStyles.Bold;
                     }
-                    if(childData.isItalic)
+                    if (childData.isItalic)
                     {
                         textComponent.fontStyle |= FontStyles.Italic;
                     }
@@ -242,20 +278,20 @@ public class CardAreaSaver : MonoBehaviour
                     textComponent.color = newColor;
                     textComponent.fontSize = float.Parse(childData.fontSize);
                 }
-                
+
                 break;
-                
+
             case "TextBlockPrefab":
                 var textBlock = newChild.GetComponent<TextMeshProUGUI>();
                 if (textBlock != null && !string.IsNullOrEmpty(childData.Text))
                 {
                     textBlock.text = childData.Text;
                     textBlock.text = childData.Text;
-                    if(childData.isBold)
+                    if (childData.isBold)
                     {
-                        textBlock.fontStyle|= FontStyles.Bold;
+                        textBlock.fontStyle |= FontStyles.Bold;
                     }
-                    if(childData.isItalic)
+                    if (childData.isItalic)
                     {
                         textBlock.fontStyle |= FontStyles.Italic;
                     }
@@ -265,24 +301,24 @@ public class CardAreaSaver : MonoBehaviour
                 }
 
                 break;
-                
+
             case "InputField":
                 var inputField = newChild.GetComponent<TMP_InputField>();
                 if (inputField != null)
                 {
                     inputField.text = childData.Text;
                     inputField.pointSize = float.Parse(childData.fontSize);
-                     if(childData.isBold)
+                    if (childData.isBold)
                     {
                         inputField.textComponent.fontStyle |= FontStyles.Bold;
                     }
-                    if(childData.isItalic)
+                    if (childData.isItalic)
                     {
                         inputField.textComponent.fontStyle |= FontStyles.Italic;
                     }
                     ColorUtility.TryParseHtmlString("#" + childData.fontColor, out newColor);
-                    inputField.textComponent.color = newColor;  
-                    
+                    inputField.textComponent.color = newColor;
+
                     var inputImage = newChild.GetComponentInChildren<Image>();
                     if (inputImage != null)
                     {
@@ -293,11 +329,11 @@ public class CardAreaSaver : MonoBehaviour
                         }
                     }
                     inputField.text = childData.Text;
-                    
+
                     inputField.contentType = TMP_InputField.ContentType.Standard;
                     if (!string.IsNullOrEmpty(childData.inputType))
                     {
-                        
+
                         switch (childData.inputType)
                         {
                             case "InputFieldStandard":
@@ -320,7 +356,7 @@ public class CardAreaSaver : MonoBehaviour
         newChild.SetActive(childData.isActive);
 
         ObjectID objID = newChild.GetComponent<ObjectID>();
-        if (objID == null) 
+        if (objID == null)
         {
             objID = newChild.AddComponent<ObjectID>();
         }
@@ -348,33 +384,41 @@ public class CardAreaSaver : MonoBehaviour
         return _fullSavePath;
     }
 
+    /// <summary>
+    /// Sets an image on a UI object from file
+    /// </summary>
+    /// <param name="obj">Target object</param>
+    /// <param name="imageName">Filename of the image</param>
     public void SetImage(GameObject obj, string imageName)
-    {   
-        if(obj != null){
+    {
+        if (obj != null)
+        {
             Debug.Log("GameObj not null");
-            if(imageName!=null){
+            if (imageName != null)
+            {
                 Debug.Log("image not null");
             }
         }
-        if(File.Exists(Path.Combine(PATH_TO_2D_ASSETS, imageName)))
-                {   
-                    byte[] imageBytes = File.ReadAllBytes(Path.Combine(PATH_TO_2D_ASSETS, imageName));
-                    Texture2D texture = new Texture2D(2, 2);
-                    texture.LoadImage(imageBytes); // Load the image data into the texture
-                    Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-                    sprite.name = imageName;
-                    if (obj.GetComponent<Image>() != null)
-                    {
-                        obj.GetComponent<Image>().sprite = sprite;
-                    }
-                    else{
-                        Debug.Log("image component existingn't");
-                    }
-                }   
-                   
+        if (File.Exists(Path.Combine(PATH_TO_2D_ASSETS, imageName)))
+        {
+            byte[] imageBytes = File.ReadAllBytes(Path.Combine(PATH_TO_2D_ASSETS, imageName));
+            Texture2D texture = new Texture2D(2, 2);
+            texture.LoadImage(imageBytes); // Load the image data into the texture
+            Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            sprite.name = imageName;
+            if (obj.GetComponent<Image>() != null)
+            {
+                obj.GetComponent<Image>().sprite = sprite;
+            }
+            else
+            {
+                Debug.Log("image component existingn't");
+            }
+        }
+
     }
 
-    
+
 
     ~CardAreaSaver()
     {
@@ -385,6 +429,9 @@ public class CardAreaSaver : MonoBehaviour
     }
 }
 
+/// <summary>
+/// Top-level container for saved layout data
+/// </summary>
 [System.Serializable]
 public class SaveData
 {
@@ -393,6 +440,9 @@ public class SaveData
     public List<ChildData> children;
 }
 
+/// <summary>
+/// Complete serialization data for a UI element
+/// </summary>
 [System.Serializable]
 public class ObjectDictData
 {
