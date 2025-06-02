@@ -84,7 +84,7 @@ public class DiceExpressionEvaluator : MonoBehaviour
     /// <summary>Evaluates a dice expression string and returns the result</summary>
     /// <param name="infixExpression">Expression in infix notation (e.g. "2d6+@str")</param>
     /// <returns>Integer result of the evaluated expression</returns>
-    public int EvaluateAndLog(string infixExpression)
+    public int EvaluateAndLog(string infixExpression = "0")
     {
         try
         {
@@ -143,13 +143,13 @@ public class DiceExpressionEvaluator : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.LogError($"Evaluation error: {e.Message}");
+            Debug.Log($"Evaluation error: {e.Message}");
             return 0;
         }
     }
 
     /// <summary>Converts infix notation to postfix notation for evaluation</summary>
-    private string InfixToPostfix(string infix)
+    private string InfixToPostfix(string infix = "0")
     {
 
         var output = new Queue<string>();

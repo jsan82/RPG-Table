@@ -135,6 +135,7 @@ public class EditParameters : MonoBehaviour, IUIBehavior
                 EditParametersPanel.transform.Find("BasicPanel/HeightPlace").GetComponent<TMP_InputField>().text = height.ToString("F2");
                 EditParametersPanel.transform.Find("BasicPanel/XPlace").GetComponent<TMP_InputField>().text = rectTransform.anchoredPosition.x.ToString("F2");
                 EditParametersPanel.transform.Find("BasicPanel/YPlace").GetComponent<TMP_InputField>().text = rectTransform.anchoredPosition.y.ToString("F2");
+                EditParametersPanel.transform.Find("BasicPanel/RotationPlace").GetComponent<TMP_InputField>().text = rectTransform.localRotation.z.ToString("F2");
                 EditParametersPanel.transform.Find("TextPanel")?.gameObject.SetActive(true);
 
                 switch (objectID._prefabName)
@@ -218,17 +219,32 @@ public class EditParameters : MonoBehaviour, IUIBehavior
 
 
             rectTransform.anchoredPosition = new Vector2(
-                float.Parse(EditParametersPanel.transform.Find("BasicPanel/XPlace").GetComponent<TMP_InputField>().text),
-                 float.Parse(EditParametersPanel.transform.Find("BasicPanel/YPlace").GetComponent<TMP_InputField>().text));
+                float.Parse((EditParametersPanel.transform.Find("BasicPanel/XPlace").GetComponent<TMP_InputField>().text == "" ||
+                EditParametersPanel.transform.Find("BasicPanel/XPlace").GetComponent<TMP_InputField>().text == "-") ? "0" :
+                EditParametersPanel.transform.Find("BasicPanel/XPlace").GetComponent<TMP_InputField>().text),
+               float.Parse((EditParametersPanel.transform.Find("BasicPanel/YPlace").GetComponent<TMP_InputField>().text == "" ||
+                EditParametersPanel.transform.Find("BasicPanel/YPlace").GetComponent<TMP_InputField>().text == "-") ? "0" :
+                EditParametersPanel.transform.Find("BasicPanel/YPlace").GetComponent<TMP_InputField>().text)
+            );
+            float zRotation = float.Parse((EditParametersPanel.transform.Find("BasicPanel/RotationPlace").GetComponent<TMP_InputField>().text == "" || 
+                EditParametersPanel.transform.Find("BasicPanel/RotationPlace").GetComponent<TMP_InputField>().text == "-") ? "0" : 
+                EditParametersPanel.transform.Find("BasicPanel/RotationPlace").GetComponent<TMP_InputField>().text);
+
+            rectTransform.localRotation = Quaternion.Euler(0, 0, zRotation);
             //update position
+
 
 
             //update width and height
             if (rectTransform != null)
             {
 
-                float width = float.Parse((EditParametersPanel.transform.Find("BasicPanel/WidthPlace").GetComponent<TMP_InputField>().text == "") ? "0" : EditParametersPanel.transform.Find("BasicPanel/WidthPlace").GetComponent<TMP_InputField>().text);
-                float height = float.Parse((EditParametersPanel.transform.Find("BasicPanel/HeightPlace").GetComponent<TMP_InputField>().text == "") ? "0" : EditParametersPanel.transform.Find("BasicPanel/HeightPlace").GetComponent<TMP_InputField>().text);
+                float width = float.Parse((EditParametersPanel.transform.Find("BasicPanel/WidthPlace").GetComponent<TMP_InputField>().text == "" ||
+                EditParametersPanel.transform.Find("BasicPanel/WidthPlace").GetComponent<TMP_InputField>().text == "-") ? "0" :
+                EditParametersPanel.transform.Find("BasicPanel/WidthPlace").GetComponent<TMP_InputField>().text);
+                float height = float.Parse((EditParametersPanel.transform.Find("BasicPanel/HeightPlace").GetComponent<TMP_InputField>().text == "" ||
+                EditParametersPanel.transform.Find("BasicPanel/HeightPlace").GetComponent<TMP_InputField>().text == "-") ? "0" :
+                EditParametersPanel.transform.Find("BasicPanel/HeightPlace").GetComponent<TMP_InputField>().text);
 
                 rectTransform.sizeDelta = new Vector2(width, height);
             }

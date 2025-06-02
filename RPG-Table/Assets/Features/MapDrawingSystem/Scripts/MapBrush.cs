@@ -36,8 +36,16 @@ public class MapBrushDrawer : MonoBehaviour
 
     void Update()
     {
-        isErasing = ErasingToggle.isOn;
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            isDrawing = false;
+            isErasing = false;
+            ErasingToggle.isOn = false;
+            scrollView.GetComponent<ScrollRect>().enabled = true;
+            drawingSurface.GetComponent<CanvasRenderer>().cullTransparentMesh = false;
+        }
         if (!isDrawing && !isErasing) return;
+        isErasing = ErasingToggle.isOn;
         brushSize = (int)brushSizeSlider.value;
         scrollView.GetComponent<ScrollRect>().enabled = false;
         drawingSurface.GetComponent<CanvasRenderer>().cullTransparentMesh = true;
@@ -76,13 +84,7 @@ public class MapBrushDrawer : MonoBehaviour
                 drawingTexture.Apply();
             }
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            isDrawing = false;
-            isErasing = false;
-            scrollView.GetComponent<ScrollRect>().enabled = true;
-            drawingSurface.GetComponent<CanvasRenderer>().cullTransparentMesh = false;
-        }
+
     }
 
     void DrawCircle(int x, int y)

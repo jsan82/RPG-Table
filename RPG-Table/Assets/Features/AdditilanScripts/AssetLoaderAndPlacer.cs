@@ -92,7 +92,7 @@ public class AssetLoaderAndPlacer : MonoBehaviour
             GameObject button = Instantiate(buttonPrefab2D, asset2DAssetPanel.transform);
             button.GetComponentInChildren<TextMeshProUGUI>().text = fileName;
             Image image = button.transform.Find("photo").GetComponent<Image>();
-            Texture2D texture = new Texture2D(2, 2);
+            Texture2D texture = new Texture2D(10, 10);
             if (image == null)
             {
                 Debug.LogError("Image component not found in button prefab.");

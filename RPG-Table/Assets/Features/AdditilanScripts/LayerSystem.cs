@@ -99,23 +99,23 @@ public class LayerSystem : MonoBehaviour
                     _CURRENT_LAYER = token2DLayer;
                     foreach (Transform child in token2DLayer.transform)
                     {
-                        if (child.gameObject.GetComponent<RawImage>() != null)
+                        if (child.gameObject.GetComponent<Image>() != null)
                         {
-                            child.gameObject.GetComponent<RawImage>().raycastTarget = true;
+                            child.gameObject.GetComponent<Image>().raycastTarget = true;
                         }
                     }
                     foreach (Transform child in prop2DLayer.transform)
                     {
-                        if (child.gameObject.GetComponent<RawImage>() != null)
+                        if (child.gameObject.GetComponent<Image>() != null)
                         {
-                            child.gameObject.GetComponent<RawImage>().raycastTarget = false;
+                            child.gameObject.GetComponent<Image>().raycastTarget = false;
                         }
                     }
                     foreach (Transform child in map2DLayer.transform)
                     {
-                        if (child.gameObject.GetComponent<RawImage>() != null)
+                        if (child.gameObject.GetComponent<Image>() != null)
                         {
-                            child.gameObject.GetComponent<RawImage>().raycastTarget = false;
+                            child.gameObject.GetComponent<Image>().raycastTarget = false;
                         }
                     }
                     token2DLayer.GetComponent<Image>().raycastTarget = true;
@@ -128,23 +128,23 @@ public class LayerSystem : MonoBehaviour
                     _CURRENT_LAYER = prop2DLayer;
                     foreach (Transform child in prop2DLayer.transform)
                     {
-                        if (child.gameObject.GetComponent<RawImage>() != null)
+                        if (child.gameObject.GetComponent<Image>() != null)
                         {
-                            child.gameObject.GetComponent<RawImage>().raycastTarget = true;
+                            child.gameObject.GetComponent<Image>().raycastTarget = true;
                         }
                     }
                     foreach (Transform child in prop2DLayer.transform)
                     {
-                        if (child.gameObject.GetComponent<RawImage>() != null)
+                        if (child.gameObject.GetComponent<Image>() != null)
                         {
-                            child.gameObject.GetComponent<RawImage>().raycastTarget = true;
+                            child.gameObject.GetComponent<Image>().raycastTarget = true;
                         }
                     }
                     foreach (Transform child in map2DLayer.transform)
                     {
-                        if (child.gameObject.GetComponent<RawImage>() != null)
+                        if (child.gameObject.GetComponent<Image>() != null)
                         {
-                            child.gameObject.GetComponent<RawImage>().raycastTarget = false;
+                            child.gameObject.GetComponent<Image>().raycastTarget = false;
                         }
                     }
                     token2DLayer.GetComponent<Image>().raycastTarget = false;
@@ -156,23 +156,23 @@ public class LayerSystem : MonoBehaviour
                     _CURRENT_LAYER = map2DLayer;
                     foreach (Transform child in map2DLayer.transform)
                     {
-                        if (child.gameObject.GetComponent<RawImage>() != null)
+                        if (child.gameObject.GetComponent<Image>() != null)
                         {
-                            child.gameObject.GetComponent<RawImage>().raycastTarget = true;
+                            child.gameObject.GetComponent<Image>().raycastTarget = true;
                         }
                     }
                     foreach (Transform child in token2DLayer.transform)
                     {
-                        if (child.gameObject.GetComponent<RawImage>() != null)
+                        if (child.gameObject.GetComponent<Image>() != null)
                         {
-                            child.gameObject.GetComponent<RawImage>().raycastTarget = false;
+                            child.gameObject.GetComponent<Image>().raycastTarget = false;
                         }
                     }
                     foreach (Transform child in prop2DLayer.transform)
                     {
-                        if (child.gameObject.GetComponent<RawImage>() != null)
+                        if (child.gameObject.GetComponent<Image>() != null)
                         {
-                            child.gameObject.GetComponent<RawImage>().raycastTarget = false;
+                            child.gameObject.GetComponent<Image>().raycastTarget = false;
                         }
                     }
                     token2DLayer.GetComponent<Image>().raycastTarget = false;
