@@ -27,6 +27,11 @@ public class EditParameters : MonoBehaviour, IUIBehavior
     public GameObject EditParametersPanel;
     private string prefabName;
     private GameObject uiObject;
+    public GameObject TextureList;
+    public GameObject TexturePanel;
+    public GameObject buttonPrefab;
+    private string PATH_TO_2D_ASSETS = SettingsManager._CurrentSettings.Assets2DPath;
+    private List<string> fileNames2D = new List<string>();
 
     private void Awake()
     {
@@ -239,7 +244,10 @@ public class EditParameters : MonoBehaviour, IUIBehavior
                 }
                 if (EditParametersPanel.transform.Find("IMGPanel/IMGPlace").GetComponent<TMP_InputField>().text != "")
                 {
-                    if (uiObject.GetComponent<Image>().sprite.name != EditParametersPanel.transform.Find("IMGPanel/IMGPlace").GetComponent<TMP_InputField>().text && !EditParametersPanel.transform.Find("IMGPanel/IMGPlace").GetComponent<TMP_InputField>().isFocused)
+                    Image image = uiObject.GetComponent<Image>();
+                    // Check if the image has a sprite assigned before accessing its name
+                    if ((image.sprite == null || image.sprite.name != EditParametersPanel.transform.Find("IMGPanel/IMGPlace").GetComponent<TMP_InputField>().text) 
+                        && !EditParametersPanel.transform.Find("IMGPanel/IMGPlace").GetComponent<TMP_InputField>().isFocused)
                     {
                         CardAreaSaver cardAreaSaver = new CardAreaSaver();
                         cardAreaSaver.SetImage(uiObject, EditParametersPanel.transform.Find("IMGPanel/IMGPlace").GetComponent<TMP_InputField>().text);
@@ -322,6 +330,18 @@ public class EditParameters : MonoBehaviour, IUIBehavior
     }
 
 
+    public void textureButtonClick()
+    {
+        if (TexturePanel.activeSelf)
+        {
+            TexturePanel.SetActive(false);
+        }
+        else
+        {
+            TexturePanel.SetActive(true);
+        }
+    }
+
     public void onEditParametersButtonClick()
     {
         if (objectPanel.activeSelf)
@@ -338,6 +358,43 @@ public class EditParameters : MonoBehaviour, IUIBehavior
     void Start()
     {
 
+
+
+
+        //2D Assets
+        fileNames2D.AddRange(Directory.GetFiles(PATH_TO_2D_ASSETS, "*.png"));
+        fileNames2D.AddRange(Directory.GetFiles(PATH_TO_2D_ASSETS, "*.jpg"));
+        foreach (string filePath in fileNames2D)
+        {
+            string fileName = Path.GetFileName(filePath);
+            GameObject button = Instantiate(buttonPrefab, TextureList.transform);
+            button.GetComponentInChildren<TextMeshProUGUI>().text = fileName;
+            Image image = button.transform.Find("photo").GetComponent<Image>();
+            Texture2D texture = new Texture2D(2, 2);
+            if (image == null)
+            {
+                Debug.LogError("Image component not found in button prefab.");
+                continue;
+            }
+            byte[] fileData = File.ReadAllBytes(filePath);
+
+            if (texture.LoadImage(fileData))
+            {
+
+                Sprite sprite = Sprite.Create(
+                    texture,
+                    new Rect(0, 0, texture.width, texture.height),
+                    new Vector2(0.5f, 0.5f)
+                );
+
+                button.GetComponent<Button>().onClick.AddListener(() => EditParametersPanel.transform.Find("IMGPanel/IMGPlace").GetComponent<TMP_InputField>().text = fileName);
+                image.sprite = sprite;
+            }
+            else
+            {
+                Debug.LogError("Failed to load image at path: " + filePath);
+            }
+        }
     }
 
     // Update is called once per frame
