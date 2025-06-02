@@ -16,7 +16,9 @@ public class MapBrushDrawer : MonoBehaviour
     public Slider brushSizeSlider;
     private Texture2D drawingTexture;
     private RectTransform drawRect;
-    private bool isDrawing = false;
+    public bool isDrawing = false;
+    public Toggle ErasingToggle;
+    public bool isErasing = false;
     private Vector2 previousDrawPosition;
 
     public GameObject scrollView;
@@ -34,11 +36,17 @@ public class MapBrushDrawer : MonoBehaviour
 
     void Update()
     {
-        if (!isDrawing) return;
+        isErasing = ErasingToggle.isOn;
+        if (!isDrawing && !isErasing) return;
         brushSize = (int)brushSizeSlider.value;
         scrollView.GetComponent<ScrollRect>().enabled = false;
         drawingSurface.GetComponent<CanvasRenderer>().cullTransparentMesh = true;
-        brushColor = ColorUtility.TryParseHtmlString(brushSizeColorField.GetComponent<TMP_InputField>().text, out Color parsedColor) ? parsedColor : Color.black;
+        
+        // Ustaw kolor tylko gdy nie jesteśmy w trybie gumki
+        if (!isErasing)
+        {
+            brushColor = ColorUtility.TryParseHtmlString(brushSizeColorField.GetComponent<TMP_InputField>().text, out Color parsedColor) ? parsedColor : Color.black;
+        }
 
         if (Input.GetMouseButton(0))
         {
@@ -56,13 +64,11 @@ public class MapBrushDrawer : MonoBehaviour
 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    // Pierwszy punkt - po prostu narysuj okrąg
                     DrawCircle((int)x, (int)y);
                     previousDrawPosition = currentPosition;
                 }
                 else
                 {
-                    // Rysuj linię między poprzednią a obecną pozycją
                     DrawLine(previousDrawPosition, currentPosition);
                     previousDrawPosition = currentPosition;
                 }
@@ -73,6 +79,7 @@ public class MapBrushDrawer : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             isDrawing = false;
+            isErasing = false;
             scrollView.GetComponent<ScrollRect>().enabled = true;
             drawingSurface.GetComponent<CanvasRenderer>().cullTransparentMesh = false;
         }
@@ -80,6 +87,8 @@ public class MapBrushDrawer : MonoBehaviour
 
     void DrawCircle(int x, int y)
     {
+        Color colorToUse = isErasing ? Color.clear : brushColor;
+
         for (int i = -brushSize; i < brushSize; i++)
         {
             for (int j = -brushSize; j < brushSize; j++)
@@ -90,7 +99,7 @@ public class MapBrushDrawer : MonoBehaviour
                     int py = y + j;
                     if (px >= 0 && px < drawingTexture.width && py >= 0 && py < drawingTexture.height)
                     {
-                        drawingTexture.SetPixel(px, py, brushColor);
+                        drawingTexture.SetPixel(px, py, colorToUse);
                     }
                 }
             }
@@ -134,6 +143,14 @@ public class MapBrushDrawer : MonoBehaviour
     public void ToggleDrawing()
     {
         isDrawing = !isDrawing;
+        isErasing = false; // Wyłącz tryb gumki gdy włączamy rysowanie
+    }
+
+    // Nowa metoda do przełączania trybu gumki
+    public void ToggleErasing()
+    {
+        isErasing = !isErasing;
+        isDrawing = false; // Wyłącz tryb rysowania gdy włączamy gumkę
     }
 
     public void ClearTexture()

@@ -171,7 +171,11 @@ public class EditParameters : MonoBehaviour, IUIBehavior
                 alpha = uiObject.GetComponent<Image>().color.a;
                 alpha = alpha * 100;
                 EditParametersPanel.transform.Find("TransparencyPanel/TransparencyPlace").GetComponent<TMP_InputField>().text = (alpha).ToString("F2");
-                EditParametersPanel.transform.Find("IMGPanel/IMGPlace").GetComponent<TMP_InputField>().text = uiObject.GetComponent<Image>().sprite.name;
+                if(EditParametersPanel.transform.Find("IMGPanel/IMGPlace").GetComponent<TMP_InputField>().text != "")
+                {
+                    EditParametersPanel.transform.Find("IMGPanel/IMGPlace").GetComponent<TMP_InputField>().text = EditParametersPanel.transform.Find("IMGPanel/IMGPlace").GetComponent<TMP_InputField>().text = uiObject.GetComponent<Image>().sprite.name;
+                }
+                
             }
             else if (uiObject.GetComponent<RawImage>() != null)
             {
@@ -233,11 +237,15 @@ public class EditParameters : MonoBehaviour, IUIBehavior
                     Image image = uiObject.GetComponent<Image>();
                     image.color = new Color(image.color.r, image.color.g, image.color.b, Mathf.Clamp01(alphaValue));
                 }
-                if (uiObject.GetComponent<Image>().sprite.name != EditParametersPanel.transform.Find("IMGPanel/IMGPlace").GetComponent<TMP_InputField>().text && !EditParametersPanel.transform.Find("IMGPanel/IMGPlace").GetComponent<TMP_InputField>().isFocused)
+                if (EditParametersPanel.transform.Find("IMGPanel/IMGPlace").GetComponent<TMP_InputField>().text != "")
                 {
-                    CardAreaSaver cardAreaSaver = new CardAreaSaver();
-                    cardAreaSaver.SetImage(uiObject, EditParametersPanel.transform.Find("IMGPanel/IMGPlace").GetComponent<TMP_InputField>().text);
+                    if (uiObject.GetComponent<Image>().sprite.name != EditParametersPanel.transform.Find("IMGPanel/IMGPlace").GetComponent<TMP_InputField>().text && !EditParametersPanel.transform.Find("IMGPanel/IMGPlace").GetComponent<TMP_InputField>().isFocused)
+                    {
+                        CardAreaSaver cardAreaSaver = new CardAreaSaver();
+                        cardAreaSaver.SetImage(uiObject, EditParametersPanel.transform.Find("IMGPanel/IMGPlace").GetComponent<TMP_InputField>().text);
+                    } 
                 }
+
             }
             //else if (float.TryParse(EditParametersPanel.transform.Find("TransparencyPlace").GetComponent<TMP_InputField>().text, out float alphaValue))
             // {

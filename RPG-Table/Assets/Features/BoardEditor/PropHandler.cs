@@ -162,38 +162,58 @@ public class PropHandler : MonoBehaviour
     /// Rotates the selected prop using Q and E keys.
     /// </summary>
     private void HandleRotation()
+{
+    if (selectedProp != null)
     {
-        if (selectedProp != null)
+        // Rotacja w osi Y (góra-dół)
+        bool yPlusHeld = Input.GetKey(KeyCode.Q);
+        bool yMinusHeld = Input.GetKey(KeyCode.E);
+
+        bool yPlusDown = Input.GetKeyDown(KeyCode.Q);
+        bool yMinusDown = Input.GetKeyDown(KeyCode.E);
+
+        // Rotacja w osi X (lewo-prawo)
+        bool xPlusHeld = Input.GetKey(KeyCode.Y);
+        bool xMinusHeld = Input.GetKey(KeyCode.U);
+
+        bool xPlusDown = Input.GetKeyDown(KeyCode.Y);
+        bool xMinusDown = Input.GetKeyDown(KeyCode.U);
+
+        rotateTimer += Time.deltaTime;
+
+        // Rotacja w osi Y
+        if (yPlusDown || (yPlusHeld && rotateTimer >= rotateLimit)) // Q
         {
-            bool plusHeld = Input.GetKey(KeyCode.Q);
-            bool minusHeld = Input.GetKey(KeyCode.E);
-
-            bool plusDown = Input.GetKeyDown(KeyCode.Q);
-            bool minusDown = Input.GetKeyDown(KeyCode.E);
-
-            rotateTimer += Time.deltaTime;
-
-            if (plusDown || (plusHeld && rotateTimer >= rotateLimit)) //E
-            {
-                rotateTimer = 0f;
-                selectedProp.OnRotate(Vector3.up, -rotatePower);
-            }
-            else if (minusDown || (minusHeld && rotateTimer >= rotateLimit)) //Q
-            {
-                rotateTimer = 0f;
-                selectedProp.OnRotate(Vector3.up, rotatePower);
-            }
-
-            if (!plusHeld && !minusHeld)
-            {
-                rotateTimer = rotateLimit;
-            }
+            rotateTimer = 0f;
+            selectedProp.OnRotate(Vector3.up, -rotatePower);
         }
-        else
+        else if (yMinusDown || (yMinusHeld && rotateTimer >= rotateLimit)) // E
+        {
+            rotateTimer = 0f;
+            selectedProp.OnRotate(Vector3.up, rotatePower);
+        }
+        // Rotacja w osi X
+        else if (xPlusDown || (xPlusHeld && rotateTimer >= rotateLimit)) // Y
+        {
+            rotateTimer = 0f;
+            selectedProp.OnRotate(Vector3.right, -rotatePower);
+        }
+        else if (xMinusDown || (xMinusHeld && rotateTimer >= rotateLimit)) // U
+        {
+            rotateTimer = 0f;
+            selectedProp.OnRotate(Vector3.right, rotatePower);
+        }
+
+        if (!yPlusHeld && !yMinusHeld && !xPlusHeld && !xMinusHeld)
         {
             rotateTimer = rotateLimit;
         }
     }
+    else
+    {
+        rotateTimer = rotateLimit;
+    }
+}
 
     /// <summary>
     /// Elevates (moves up/down) the selected prop using Z and X keys.
@@ -209,7 +229,7 @@ public class PropHandler : MonoBehaviour
             bool minusDown = Input.GetKeyDown(KeyCode.X);
 
             elevateTimer += Time.deltaTime;
-
+            elevatePower = selectedProp.GetScale().y; // Adjust elevation power based on scale
             if (plusDown || (plusHeld && elevateTimer >= elevateLimit)) //X
             {
                 elevateTimer = 0f;

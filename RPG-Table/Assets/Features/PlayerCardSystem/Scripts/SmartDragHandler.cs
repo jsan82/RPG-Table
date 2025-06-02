@@ -91,6 +91,10 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
             }
 
         }
+        if (Input.GetKeyDown(KeyCode.Delete) && isDragging && Game)
+        {
+            Destroy(currentDragLeader.gameObject);
+        }
     }
 
     

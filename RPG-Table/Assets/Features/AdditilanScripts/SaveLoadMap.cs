@@ -59,6 +59,7 @@ public class SaveLoadMap : MonoBehaviour
     /// </remarks>
     public void createMap()
     {
+        ClearMap(); // Clear the map before loading the new one
         MapInfo mapInfo = new MapInfo();
         mapInfo.saveTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         mapInfo.mapType = mapTypeWhileCreatingMap.GetComponent<TMP_Dropdown>().options[mapTypeWhileCreatingMap.GetComponent<TMP_Dropdown>().value].text;
@@ -70,7 +71,6 @@ public class SaveLoadMap : MonoBehaviour
         string filePath = Path.Combine(SettingsManager._CurrentSettings.MapsPath, $"{mapName}");
         File.WriteAllText(filePath, json);
         CreateMapWindow.SetActive(false);
-        ClearMap(); // Clear the map before loading the new one
         loadMap(mapName);
         CancelMapCreation();
         GameManager.GetComponent<AssetLoaderAndPlacer>().restartMaps();
