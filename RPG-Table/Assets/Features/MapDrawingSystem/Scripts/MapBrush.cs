@@ -53,7 +53,8 @@ public class MapBrushDrawer : MonoBehaviour
         // Ustaw kolor tylko gdy nie jesteśmy w trybie gumki
         if (!isErasing)
         {
-            brushColor = ColorUtility.TryParseHtmlString(brushSizeColorField.GetComponent<TMP_InputField>().text, out Color parsedColor) ? parsedColor : Color.black;
+            Debug.Log(brushSizeColorField.GetComponent<TMP_InputField>().text);
+            brushColor = ColorUtility.TryParseHtmlString("#"+brushSizeColorField.GetComponent<TMP_InputField>().text, out Color parsedColor) ? parsedColor : Color.black;
         }
 
         if (Input.GetMouseButton(0))

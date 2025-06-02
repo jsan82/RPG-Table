@@ -60,18 +60,18 @@ public class SaveLoadMap : MonoBehaviour
     public void createMap()
     {
         ClearMap(); // Clear the map before loading the new one
-        MapInfo mapInfo = new MapInfo();
-        mapInfo.saveTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-        mapInfo.mapType = mapTypeWhileCreatingMap.GetComponent<TMP_Dropdown>().options[mapTypeWhileCreatingMap.GetComponent<TMP_Dropdown>().value].text;
+       
 
 
         mapName = mapNameWhileCreatingMap.GetComponent<TMP_InputField>().text + ".json";
-
+         MapInfo mapInfo = new MapInfo();
+        mapInfo.saveTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        mapInfo.mapType = mapTypeWhileCreatingMap.GetComponent<TMP_Dropdown>().options[mapTypeWhileCreatingMap.GetComponent<TMP_Dropdown>().value].text;
         string json = JsonUtility.ToJson(mapInfo, true);
         string filePath = Path.Combine(SettingsManager._CurrentSettings.MapsPath, $"{mapName}");
         File.WriteAllText(filePath, json);
-        CreateMapWindow.SetActive(false);
-        loadMap(mapName);
+        // CreateMapWindow.SetActive(false);
+        // //loadMap(mapName);
         CancelMapCreation();
         GameManager.GetComponent<AssetLoaderAndPlacer>().restartMaps();
     }

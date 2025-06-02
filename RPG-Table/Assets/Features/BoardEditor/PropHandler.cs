@@ -346,7 +346,7 @@ public class PropHandler : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.T)) //T
             {
-                selectedProp.ToggleBloom();
+                selectedProp.GetComponent<Light>().enabled = !selectedProp.GetComponent<Light>().enabled;
             }
             
         }
@@ -370,12 +370,13 @@ public class PropHandler : MonoBehaviour
             if (plusDown || (plusHeld && colorTimer >= colorLimit)) //F
             {
                 colorTimer = 0f;
-                selectedProp.SetIntensity(colorPower);
+                selectedProp.GetComponent<Light>().intensity += 1;
+
             }
             else if (minusDown || (minusHeld && colorTimer >= colorLimit)) //G
             {
                 colorTimer = 0f;
-                selectedProp.SetIntensity(-colorPower);
+                selectedProp.GetComponent<Light>().intensity -= 1;
             }
 
             if (!plusHeld && !minusHeld)
@@ -423,6 +424,9 @@ public class PropHandler : MonoBehaviour
         obj.AddComponent<MovableProp>();
         obj.SetActive(false);
         objectToSpawn = obj;
+        objectToSpawn.AddComponent<Light>();
+        objectToSpawn.GetComponent<Light>().enabled = false;
+        objectToSpawn.GetComponent<Light>().range = 100;
         if (!spawnActive) Destroy(obj);
     }
 }
