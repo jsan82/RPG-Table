@@ -6,6 +6,9 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.Generic;
 
+/// <summary>
+/// Enables drawing, erasing, and saving/loading textures on a UI canvas.
+/// </summary>
 public class MapBrushDrawer : MonoBehaviour
 {
     public RawImage drawingSurface;
