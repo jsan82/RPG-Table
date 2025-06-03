@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Manages and plays sound effects, including one-shot and looped audio.
+/// </summary>
 public class SFXManager : MonoBehaviour
 {
     [SerializeField] private AudioSource _source;

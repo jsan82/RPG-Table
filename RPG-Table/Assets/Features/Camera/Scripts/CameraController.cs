@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Controls free camera movement, rotation, and zoom using mouse and keyboard.
+/// </summary>
 public class FreeCameraController : MonoBehaviour
 {
     public float moveSpeed = 50.0f;     // Camera speed
