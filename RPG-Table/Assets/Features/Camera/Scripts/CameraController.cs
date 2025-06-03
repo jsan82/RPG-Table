@@ -2,22 +2,54 @@ using UnityEngine;
 
 /// <summary>
 /// Controls free camera movement, rotation, and zoom using mouse and keyboard.
+/// Provides first-person style controls with mouse look and keyboard movement.
 /// </summary>
 public class FreeCameraController : MonoBehaviour
 {
-    public float moveSpeed = 50.0f;     // Camera speed
-    public float rotationSpeed = 10.0f; // Camera rotation speed
-    public float zoomSpeed = 50.0f;     // Camera zoom speed
-    public float minZoom = 5f;          // Minimal zoom
-    public float maxZoom = 1000f;       // Maximal zoom
+    /// <summary>
+    /// Base movement speed of the camera in units per second.
+    /// </summary>
+    public float moveSpeed = 50.0f;
+    
+    /// <summary>
+    /// Rotation sensitivity for mouse look in degrees per pixel movement.
+    /// </summary>
+    public float rotationSpeed = 10.0f;
+    
+    /// <summary>
+    /// Zoom speed multiplier for mouse wheel input.
+    /// </summary>
+    public float zoomSpeed = 50.0f;
+    
+    /// <summary>
+    /// Minimum allowed zoom distance from the focal point.
+    /// </summary>
+    public float minZoom = 5f;
+    
+    /// <summary>
+    /// Maximum allowed zoom distance from the focal point.
+    /// </summary>
+    public float maxZoom = 1000f;
 
-    private float currentX = 0.0f;      // Current rotation X 
-    private float currentY = 0.0f;      // current rotation y
-    private float currentDistance = 200.0f; // current zoom
+    private float currentX = 0.0f;
+    private float currentY = 0.0f;
+    private float currentDistance = 200.0f;
 
-    public float yMinLimit = -90f;      // minimal tile angle
-    public float yMaxLimit = 90f;       // maximal tile angle
+    /// <summary>
+    /// Minimum vertical rotation angle (looking down) in degrees.
+    /// </summary>
+    public float yMinLimit = -90f;
+    
+    /// <summary>
+    /// Maximum vertical rotation angle (looking up) in degrees.
+    /// </summary>
+    public float yMaxLimit = 90f;
 
+    /// <summary>
+    /// Handles per-frame input for camera movement and rotation.
+    /// Processes mouse look (right mouse button), keyboard movement (WSAD/QE),
+    /// and zoom (mouse wheel) inputs.
+    /// </summary>
     void Update()
     {
         // Camera rotation (right mouse)
@@ -46,7 +78,10 @@ public class FreeCameraController : MonoBehaviour
         transform.Translate(move, Space.Self); 
     }
 
-    
+    /// <summary>
+    /// Handles camera rotation and zoom after all Update methods have completed.
+    /// Ensures smooth camera movement by applying transformations after regular updates.
+    /// </summary>
     void LateUpdate()
     {
         // Setting camera rotation
