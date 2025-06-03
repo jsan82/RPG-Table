@@ -1,0 +1,7 @@
+<map id="NewBehaviourScript.deleteKey" name="NewBehaviourScript.deleteKey">
+<area shape="rect" id="Node000001" title="Removes operations for a specific ID from the dictionary." alt="" coords="485,5,687,32"/>
+<area shape="rect" id="Node000002" href="$class_card_area_saver.html#aed081510d5ac815cfb41cfe82ecb2c23" title="Deletes an object by ID." alt="" coords="250,5,437,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="469,21,437,21,437,16,469,16"/>
+<area shape="rect" id="Node000003" href="$class_edit_parameters.html#a593c38abd10b1feb25e28500c3a8af36" title="Destroys the currently selected object." alt="" coords="5,5,202,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="234,21,202,21,202,16,234,16"/>
+</map>

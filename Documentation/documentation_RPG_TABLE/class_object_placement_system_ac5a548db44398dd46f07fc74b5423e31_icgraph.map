@@ -1,0 +1,11 @@
+<map id="ObjectPlacementSystem.SetObjectComponentsEnabled" name="ObjectPlacementSystem.SetObjectComponentsEnabled">
+<area shape="rect" id="Node000001" title="Enables/disables all components on an object except ObjectID." alt="" coords="515,72,705,115"/>
+<area shape="rect" id="Node000002" href="$class_object_placement_system.html#ac7b3efc5cda2b5d884d74b6c9a46f918" title="Finalizes placement of the current object with assigned ID." alt="" coords="251,5,467,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="512,70,441,51,443,46,513,65"/>
+<area shape="rect" id="Node000003" href="$class_card_area_saver.html#a760e957d0d69071014611760c8b27923" title="Creates a UI object from serialized data." alt="" coords="267,72,450,115"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="499,96,451,96,451,91,499,91"/>
+<area shape="rect" id="Node000005" href="$class_object_placement_system.html#a26590b6819b2805b16acc8e229ce2eab" title="Selects an object for placement and creates a preview instance." alt="" coords="255,139,462,181"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="513,122,443,141,441,135,512,117"/>
+<area shape="rect" id="Node000004" href="$class_card_area_saver.html#a4a4b111b494928756027f1e7bd81a815" title="Loads a card area layout from JSON." alt="" coords="5,80,203,107"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="252,96,203,96,203,91,252,91"/>
+</map>

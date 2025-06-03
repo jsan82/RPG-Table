@@ -1,0 +1,6 @@
+<map id="CardAreaSaver.LoadCardArea" name="CardAreaSaver.LoadCardArea">
+<area shape="rect" id="Node000001" title="Static method to load card area from specified file path." alt="" coords="261,29,458,56"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="403,17,388,10,359,8,333,10,318,15,315,20,322,27,318,31,310,21,315,11,332,5,359,3,390,5,405,12"/>
+<area shape="rect" id="Node000002" href="$class_load_player_card.html#a00009839457e493b703ac108bb8fb856" title="Loads player card data and associated notes." alt="" coords="5,29,213,56"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="245,45,213,45,213,40,245,40"/>
+</map>

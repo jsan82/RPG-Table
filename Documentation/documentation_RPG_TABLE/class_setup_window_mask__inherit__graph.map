@@ -1,0 +1,9 @@
+<map id="SetupWindowMask" name="SetupWindowMask">
+<area shape="rect" id="Node000001" title="Handles draggable masked window area for UI cards." alt="" coords="123,80,258,107"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,117,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,38,169,77,166,82,95,42"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="141,5,240,32"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="193,48,193,80,188,80,188,48"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="263,5,395,32"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="293,42,216,82,213,77,290,37"/>
+</map>

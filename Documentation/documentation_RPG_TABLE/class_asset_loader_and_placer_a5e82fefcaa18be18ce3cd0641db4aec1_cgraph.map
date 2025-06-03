@@ -1,0 +1,9 @@
+<map id="AssetLoaderAndPlacer.restartMaps" name="AssetLoaderAndPlacer.restartMaps">
+<area shape="rect" id="Node000001" title="Refreshes the map selection panel." alt="" coords="5,31,233,57"/>
+<area shape="rect" id="Node000002" href="$class_save_load_map.html#a5290a7e8e08748459502701a79629fd3" title="Loads a map from file." alt="" coords="281,31,438,57"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="233,41,265,41,265,47,233,47"/>
+<area shape="rect" id="Node000003" href="$class_save_load_map.html#add82c6be905a1b9c8ee40576ecf75035" title="Completely clears the current map state." alt="" coords="486,5,650,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="438,32,470,28,471,33,439,37"/>
+<area shape="rect" id="Node000004" href="$class_save_load_map.html#a4357493124291635cd1fbb643afa619c" title="Saves current map state to file." alt="" coords="488,56,649,83"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="439,51,472,55,472,60,438,56"/>
+</map>

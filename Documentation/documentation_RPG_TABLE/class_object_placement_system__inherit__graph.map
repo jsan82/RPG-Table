@@ -1,0 +1,5 @@
+<map id="ObjectPlacementSystem" name="ObjectPlacementSystem">
+<area shape="rect" id="Node000001" title="System for placing and managing UI objects in a card&#45;based interface." alt="" coords="5,80,172,107"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="33,5,144,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,48,91,80,86,80,86,48"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="FreeCameraController" name="FreeCameraController">
+<area shape="rect" id="Node000001" title="Controls free camera movement, rotation, and zoom using mouse and keyboard. Provides first&#45;person sty..." alt="" coords="5,80,155,107"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="24,5,136,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,48,83,80,77,80,77,48"/>
+</map>

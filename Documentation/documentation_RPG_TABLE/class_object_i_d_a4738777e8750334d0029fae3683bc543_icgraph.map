@@ -1,0 +1,9 @@
+<map id="ObjectID.SetID" name="ObjectID.SetID">
+<area shape="rect" id="Node000001" title="Sets the object&#39;s ID and registers it in the global dictionary." alt="" coords="515,47,626,73"/>
+<area shape="rect" id="Node000002" href="$class_object_placement_system.html#ac7b3efc5cda2b5d884d74b6c9a46f918" title="Finalizes placement of the current object with assigned ID." alt="" coords="251,5,467,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="499,51,467,46,468,41,500,46"/>
+<area shape="rect" id="Node000003" href="$class_card_area_saver.html#a760e957d0d69071014611760c8b27923" title="Creates a UI object from serialized data." alt="" coords="267,72,450,115"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="500,74,452,81,451,76,499,69"/>
+<area shape="rect" id="Node000004" href="$class_card_area_saver.html#a4a4b111b494928756027f1e7bd81a815" title="Loads a card area layout from JSON." alt="" coords="5,80,203,107"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="252,96,203,96,203,91,252,91"/>
+</map>

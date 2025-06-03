@@ -1,0 +1,9 @@
+<map id="SaveLoadMap.ClearMap" name="SaveLoadMap.ClearMap">
+<area shape="rect" id="Node000001" title="Completely clears the current map state." alt="" coords="498,31,662,57"/>
+<area shape="rect" id="Node000002" href="$class_save_load_map.html#a20803199ef39ce101fc642aa9b11921a" title="Creates a new map with specified parameters." alt="" coords="281,5,450,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="482,35,450,31,451,26,483,30"/>
+<area shape="rect" id="Node000003" href="$class_save_load_map.html#a5290a7e8e08748459502701a79629fd3" title="Loads a map from file." alt="" coords="287,56,444,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="483,58,445,63,444,57,482,53"/>
+<area shape="rect" id="Node000004" href="$class_asset_loader_and_placer.html#a5e82fefcaa18be18ce3cd0641db4aec1" title="Refreshes the map selection panel." alt="" coords="5,56,233,83"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="271,72,233,72,233,67,271,67"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="ButtonThrow" name="ButtonThrow">
+<area shape="rect" id="Node000001" title="A MonoBehaviour class that handles dice throw operations when a button is clicked." alt="" coords="13,80,109,107"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,117,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="64,48,64,80,58,80,58,48"/>
+</map>

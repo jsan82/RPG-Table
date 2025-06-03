@@ -1,0 +1,7 @@
+<map id="ChildData.ChildData" name="ChildData.ChildData">
+<area shape="rect" id="Node000001" title="Constructor that creates ChildData from a Transform." alt="" coords="5,43,147,69"/>
+<area shape="rect" id="Node000002" href="$class_new_behaviour_script.html#a3f454039e463c4d43f397879198531d4" title="Retrieves operations string for a specific object ID." alt="" coords="195,5,423,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="147,44,179,40,180,46,147,50"/>
+<area shape="rect" id="Node000003" href="$class_object_i_d.html#acb05f9fdc73821cc818d802d5d7f8963" title="Gets the object&#39;s prefab name." alt="" coords="241,72,377,99"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="147,62,225,72,225,77,147,68"/>
+</map>

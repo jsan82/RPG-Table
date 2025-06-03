@@ -1,0 +1,5 @@
+<map id="GameSceneMenuManager" name="GameSceneMenuManager">
+<area shape="rect" id="Node000001" title="Manages the UI menu in the game scene, including brush, hammer, dice, and layer settings." alt="" coords="5,80,181,107"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="37,5,149,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,48,96,80,90,80,90,48"/>
+</map>

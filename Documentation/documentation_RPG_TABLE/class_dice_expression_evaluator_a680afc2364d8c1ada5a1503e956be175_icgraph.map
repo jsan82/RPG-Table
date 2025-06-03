@@ -1,0 +1,5 @@
+<map id="DiceExpressionEvaluator.EvaluateAndLog" name="DiceExpressionEvaluator.EvaluateAndLog">
+<area shape="rect" id="Node000001" title="Evaluates a dice expression string and returns the result." alt="" coords="220,5,392,48"/>
+<area shape="rect" id="Node000002" href="$class_button_throw.html#a3bc595a04c0e2386aa500ee4f9c37132" title="Handles the button click event, evaluates the associated dice expression, and logs the result." alt="" coords="5,13,172,40"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,29,172,29,172,24,204,24"/>
+</map>
