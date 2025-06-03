@@ -15,23 +15,29 @@ using TMPro;
 /// </remarks>
 public class CardAreaSaver : MonoBehaviour
 {
+    /// <summary>Header for settings section</summary>
     [Header("Settings")]
+    /// <summary>Filename for saving</summary>
     public static string saveFileName;
+    /// <summary>Enable debug logging</summary>
     public bool debugLog = true;
+    /// <summary>Parent transform for card area</summary>
     public Transform cardArea;
+    /// <summary>Complete path for save file</summary>
     public static string _fullSavePath;
 
+    /// <summary>Path to 2D assets directory</summary>
     private string PATH_TO_2D_ASSETS = SettingsManager._CurrentSettings.Assets2DPath;
 
     /// <summary>Global dictionary tracking all UI objects by ID</summary>    
-    public static Dictionary<string, GameObject> _objectDictionary = new Dictionary<string, GameObject>();//Dictionary to store objects by ID
+    public static Dictionary<string, GameObject> _objectDictionary = new Dictionary<string, GameObject>();
 
-
-
+    /// <summary>
+    /// Called when the script instance is being loaded
+    /// </summary>
     void Awake()
     {
-        //_fullSavePath = Path.Combine(Application.persistentDataPath, saveFileName);
-
+        // Initialization if needed
     }
 
     /// <summary>
@@ -105,6 +111,10 @@ public class CardAreaSaver : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Static method to save card area to specified file path
+    /// </summary>
+    /// <param name="filePath">Path to save file</param>
     public static void SaveCardArea(string filePath)
     {
         saveFileName = filePath;
@@ -119,7 +129,11 @@ public class CardAreaSaver : MonoBehaviour
         }
     }
 
-    // Method to load the card area from a JSON file
+    /// <summary>
+    /// Static method to load card area from specified file path
+    /// </summary>
+    /// <param name="filePath">Path to load file</param>
+    /// <param name="Editing">Whether to enable editing functionality</param>
     public static void LoadCardArea(string filePath, bool Editing = true)
     {
         saveFileName = filePath;
@@ -165,7 +179,6 @@ public class CardAreaSaver : MonoBehaviour
             SaveData loadedData = JsonUtility.FromJson<SaveData>(jsonData);
 
             ClearCardArea();
-            //_objectDictionary = new Dictionary<string, GameObject>();
             NewBehaviourScript.Instance.clearDictionary();
 
             foreach (ChildData childData in loadedData.children)
@@ -174,7 +187,7 @@ public class CardAreaSaver : MonoBehaviour
                 GameObject newChild = CreateChildFromData(childData);
                 if (!Editing)
                 {
-                    newChild.GetComponent<SmartDragHandler>().enabled = false; // Disable drag functionality for loaded objects
+                    newChild.GetComponent<SmartDragHandler>().enabled = false;
                 }
                 SetImage(newChild, childData.backgroundImage);
             }
@@ -206,13 +219,17 @@ public class CardAreaSaver : MonoBehaviour
     public void ClearCardArea()
     {
         _objectDictionary = new Dictionary<string, GameObject>();
-        foreach (Transform child in cardArea) //Del objectid script from object
+        foreach (Transform child in cardArea)
         {
             Destroy(child.gameObject.GetComponent<ObjectID>());
             Destroy(child.gameObject);
         }
     }
 
+    /// <summary>
+    /// Deletes an object by ID
+    /// </summary>
+    /// <param name="id">ID of object to delete</param>
     public void deleteObject(string id)
     {
         if (_objectDictionary.ContainsKey(id))
@@ -242,10 +259,9 @@ public class CardAreaSaver : MonoBehaviour
 
         GameObject newChild = Instantiate(prefab, cardArea);
         Debug.Log($"Creating child at {newChild.transform.localPosition} with rotation {newChild.transform.localRotation}");
-        newChild.transform.SetParent(cardArea, false); // Set parent without changing world position
+        newChild.transform.SetParent(cardArea, false);
 
         newChild.transform.localScale = childData.localScale;
-
         ((RectTransform)newChild.transform).sizeDelta = new Vector2(float.Parse(childData.Width), float.Parse(childData.Height));
 
         if (newChild.GetComponent<Image>() != null)
@@ -257,6 +273,7 @@ public class CardAreaSaver : MonoBehaviour
                 Mathf.Clamp01(float.Parse(childData.transparency) / 100));
         }
         Color newColor;
+        
         // Handle different object types
         switch (childData.objectType)
         {
@@ -278,14 +295,12 @@ public class CardAreaSaver : MonoBehaviour
                     textComponent.color = newColor;
                     textComponent.fontSize = float.Parse(childData.fontSize);
                 }
-
                 break;
 
             case "TextBlockPrefab":
                 var textBlock = newChild.GetComponent<TextMeshProUGUI>();
                 if (textBlock != null && !string.IsNullOrEmpty(childData.Text))
                 {
-                    textBlock.text = childData.Text;
                     textBlock.text = childData.Text;
                     if (childData.isBold)
                     {
@@ -299,7 +314,6 @@ public class CardAreaSaver : MonoBehaviour
                     textBlock.color = newColor;
                     textBlock.fontSize = float.Parse(childData.fontSize);
                 }
-
                 break;
 
             case "InputField":
@@ -333,7 +347,6 @@ public class CardAreaSaver : MonoBehaviour
                     inputField.contentType = TMP_InputField.ContentType.Standard;
                     if (!string.IsNullOrEmpty(childData.inputType))
                     {
-
                         switch (childData.inputType)
                         {
                             case "InputFieldStandard":
@@ -350,6 +363,7 @@ public class CardAreaSaver : MonoBehaviour
                 }
                 break;
         }
+        
         newChild.transform.localPosition = childData.localPosition;
         newChild.transform.localRotation = childData.localRotation;
         Debug.Log($"Setting local position to {newChild.transform.localPosition}");
@@ -363,22 +377,14 @@ public class CardAreaSaver : MonoBehaviour
         objID.SetID(childData.objectID, newChild, childData.objectType);
         newChild.name = childData.objectID;
 
-        /*
-
-        // IMPORTANT TO OVERIDE/DISABLE SOMETHING IN THIS CLASS FOR PURPOSE OF LOADING THIS IN GAME TO DISABLE THE LOADING DRAG AND DROP FUNCTIONALITY
-
-        */
-        // SmartDragHandler dragComponent = newChild.GetComponent<SmartDragHandler>();
-        // if (dragComponent != null)
-        // {
-        //    newChild.AddComponent<SmartDragHandler>(); 
-        // }
-        //newChild.GetComponent<SmartDragHandler>().enabled = dragOn; // Disable drag functionality for loaded objects
-
         ObjectPlacementSystem.SetObjectComponentsEnabled(newChild, true);
         return newChild;
     }
 
+    /// <summary>
+    /// Gets the current save path
+    /// </summary>
+    /// <returns>Current save path</returns>
     public string GetSavePath()
     {
         return _fullSavePath;
@@ -391,19 +397,16 @@ public class CardAreaSaver : MonoBehaviour
     /// <param name="imageName">Filename of the image</param>
     public void SetImage(GameObject obj, string imageName)
     {
-        if (obj != null)
+        if (obj != null && imageName != null)
         {
-            Debug.Log("GameObj not null");
-            if (imageName != null)
-            {
-                Debug.Log("image not null");
-            }
+            Debug.Log("GameObj and image not null");
         }
+        
         if (File.Exists(Path.Combine(PATH_TO_2D_ASSETS, imageName)))
         {
             byte[] imageBytes = File.ReadAllBytes(Path.Combine(PATH_TO_2D_ASSETS, imageName));
             Texture2D texture = new Texture2D(2, 2);
-            texture.LoadImage(imageBytes); // Load the image data into the texture
+            texture.LoadImage(imageBytes);
             Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
             sprite.name = imageName;
             if (obj.GetComponent<Image>() != null)
@@ -412,14 +415,14 @@ public class CardAreaSaver : MonoBehaviour
             }
             else
             {
-                Debug.Log("image component existingn't");
+                Debug.Log("Image component missing");
             }
         }
-
     }
 
-
-
+    /// <summary>
+    /// Destructor for cleanup
+    /// </summary>
     ~CardAreaSaver()
     {
         if (debugLog)
@@ -435,8 +438,11 @@ public class CardAreaSaver : MonoBehaviour
 [System.Serializable]
 public class SaveData
 {
+    /// <summary>Timestamp of save</summary>
     public string saveTime;
+    /// <summary>Number of child objects</summary>
     public int childCount;
+    /// <summary>List of child data</summary>
     public List<ChildData> children;
 }
 
@@ -446,40 +452,71 @@ public class SaveData
 [System.Serializable]
 public class ObjectDictData
 {
+    /// <summary>Object identifier</summary>
     public string objectID;
+    /// <summary>Object name</summary>
     public string objectName;
 }
 
+/// <summary>
+/// Serialized script data
+/// </summary>
 [Serializable]
 public class ScriptData
 {
+    /// <summary>Type of script</summary>
     public string type;
+    /// <summary>Serialized script data</summary>
     public string data;
 }
 
+/// <summary>
+/// Complete data for a child UI element
+/// </summary>
 [System.Serializable]
 public class ChildData
 {
+    /// <summary>Unique identifier for the object</summary>
     public string objectID; 
+    /// <summary>Type of UI object</summary>
     public string objectType;
+    /// <summary>Text content</summary>
     public string Text;
+    /// <summary>Font size</summary>
     public string fontSize;
+    /// <summary>Font color in hex</summary>
     public string fontColor;
+    /// <summary>Whether text is bold</summary>
     public bool isBold;
+    /// <summary>Whether text is italic</summary>
     public bool isItalic;
+    /// <summary>Width of object</summary>
     public string Width;
+    /// <summary>Height of object</summary>
     public string Height;
+    /// <summary>Background image name</summary>
     public string backgroundImage;
+    /// <summary>Transparency percentage</summary>
     public string transparency;
+    /// <summary>Input field type</summary>
     public string inputType;
+    /// <summary>Local position</summary>
     public Vector3 localPosition;
+    /// <summary>Local rotation</summary>
     public Quaternion localRotation;
+    /// <summary>Local scale</summary>
     public Vector3 localScale;
+    /// <summary>Whether object is active</summary>
     public bool isActive;
+    /// <summary>List of attached scripts</summary>
     public List<ScriptData> scripts = new List<ScriptData>();
-    public string currentOperations; // Changed from List<OperationData> to string
+    /// <summary>Current operations (for buttons)</summary>
+    public string currentOperations;
 
-    
+    /// <summary>
+    /// Constructor that creates ChildData from a Transform
+    /// </summary>
+    /// <param name="child">Transform to serialize</param>
     public ChildData(Transform child)
     {
         ObjectID objID = child.GetComponent<ObjectID>();
@@ -565,7 +602,6 @@ public class ChildData
             }
         }
 
-        
         if(child.GetComponent<Image>()!=null){
             backgroundImage = child.GetComponent<Image>().sprite.name;
             transparency = (child.GetComponent<Image>().color.a * 100).ToString("F2");

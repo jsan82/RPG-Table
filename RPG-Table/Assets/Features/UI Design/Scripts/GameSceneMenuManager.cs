@@ -4,89 +4,125 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
 
-// Manages the UI menu in the game scene, including brush, hammer, dice, and layer settings
+/// <summary>
+/// Manages the UI menu in the game scene, including brush, hammer, dice, and layer settings
+/// </summary>
 public class GameSceneMenuManager : MonoBehaviour
 {
-    private SFXManager _sfxManager; // Reference to the sound effects manager
+    /// <summary>Reference to the sound effects manager</summary>
+    private SFXManager _sfxManager;
 
-    // Brush Settings
-    public GameObject brushSettingsPanel; // UI panel for brush settings
-    public TMP_InputField hexColorInput;  // Input field for hex color
-    public Slider brushSizeSlider;        // Slider for brush size
+    /// <summary>Brush Settings</summary>
+    /// <summary>UI panel for brush settings</summary>
+    public GameObject brushSettingsPanel;
+    /// <summary>Input field for hex color</summary>
+    public TMP_InputField hexColorInput;
+    /// <summary>Slider for brush size</summary>
+    public Slider brushSizeSlider;
 
-    private bool isBrushSettingsVisible = false; // Tracks if brush settings are visible
+    /// <summary>Tracks if brush settings are visible</summary>
+    private bool isBrushSettingsVisible = false;
 
-    // Hammer Settings
-    public GameObject hammerSettingsPanel; // UI panel for hammer settings
-    public Slider hammerSizeSlider;        // Slider for hammer size
+    /// <summary>Hammer Settings</summary>
+    /// <summary>UI panel for hammer settings</summary>
+    public GameObject hammerSettingsPanel;
+    /// <summary>Slider for hammer size</summary>
+    public Slider hammerSizeSlider;
 
-    public GameObject hammerTexturePanel;  // Panel for hammer texture selection
-    public GameObject hammerSkyboxPanel;   // Panel for skybox selection
+    /// <summary>Panel for hammer texture selection</summary>
+    public GameObject hammerTexturePanel;
+    /// <summary>Panel for skybox selection</summary>
+    public GameObject hammerSkyboxPanel;
 
-    private bool isHammerSettingsVisible = false; // Tracks if hammer settings are visible
+    /// <summary>Tracks if hammer settings are visible</summary>
+    private bool isHammerSettingsVisible = false;
 
-    // Dice Settings
-    public GameObject diceSettingsPanel; // UI panel for dice settings
+    /// <summary>Dice Settings</summary>
+    /// <summary>UI panel for dice settings</summary>
+    public GameObject diceSettingsPanel;
 
-    private bool isDiceSettingsVisible = false; // Tracks if dice settings are visible
+    /// <summary>Tracks if dice settings are visible</summary>
+    private bool isDiceSettingsVisible = false;
 
-    // Layer Selector
-    public GameObject layerSelectorPanel; // UI panel for layer visibility toggles
+    /// <summary>Layer Selector</summary>
+    /// <summary>UI panel for layer visibility toggles</summary>
+    public GameObject layerSelectorPanel;
 
-    public Toggle toggleGrid;         // Toggle for grid layer
-    public Toggle toggleTokens;       // Toggle for tokens layer
-    public Toggle toggleFogOfWar;     // Toggle for fog of war layer
-    public Toggle toggleEnvironment;  // Toggle for environment layer
-    public Toggle toggleBackground;   // Toggle for background layer
+    /// <summary>Toggle for grid layer</summary>
+    public Toggle toggleGrid;
+    /// <summary>Toggle for tokens layer</summary>
+    public Toggle toggleTokens;
+    /// <summary>Toggle for fog of war layer</summary>
+    public Toggle toggleFogOfWar;
+    /// <summary>Toggle for environment layer</summary>
+    public Toggle toggleEnvironment;
+    /// <summary>Toggle for background layer</summary>
+    public Toggle toggleBackground;
 
-    private bool isLayerSelectorVisible = false; // Tracks if layer selector is visible
+    /// <summary>Tracks if layer selector is visible</summary>
+    private bool isLayerSelectorVisible = false;
 
+    /// <summary>
+    /// Start is called before the first frame update
+    /// </summary>
     void Start()
     {
-        // Find and assign the SFX manager
+        /// <summary>Find and assign the SFX manager</summary>
         _sfxManager = FindObjectOfType<SFXManager>();
 
-        // Automatically attach sound effects to all buttons
+        /// <summary>Automatically attach sound effects to all buttons</summary>
         FindAllButtonsInScene();
     }
 
+    /// <summary>
+    /// Placeholder for chat functionality
+    /// </summary>
     public void ButtonChat()
     {
-        // Placeholder for chat functionality
         Debug.Log("Chat button clicked.");
     }
 
+    /// <summary>
+    /// Return to the main menu scene
+    /// </summary>
     public void ButtonExit()
     {
-        // Return to the main menu scene
         SceneManager.LoadScene("MainMenu");
     }
 
+    /// <summary>
+    /// Placeholder for photo functionality
+    /// </summary>
     public void ButtonPhoto()
     {
-        // Placeholder for photo functionality
         Debug.Log("Photo button clicked.");
     }
 
+    /// <summary>
+    /// Placeholder for journal functionality
+    /// </summary>
     public void ButtonJournal()
     {
-        // Placeholder for journal functionality
         Debug.Log("Journal button clicked.");
     }
 
+    /// <summary>
+    /// Placeholder for settings functionality
+    /// </summary>
     public void ButtonSettings()
     {
-        // Placeholder for settings functionality
         Debug.Log("Settings button clicked.");
     }
 
+    /// <summary>
+    /// Toggle visibility of brush settings panel
+    /// </summary>
     public void ButtonBrush()
     {
-        // Toggle visibility of brush settings panel
         isBrushSettingsVisible = !isBrushSettingsVisible;
         brushSettingsPanel.SetActive(isBrushSettingsVisible);
 
-        // Hide other panels
+        /// <summary>Hide other panels</summary>
         isHammerSettingsVisible = false;
         isDiceSettingsVisible = false;
         isLayerSelectorVisible = false;
@@ -97,31 +133,39 @@ public class GameSceneMenuManager : MonoBehaviour
         Debug.Log("Brush Panel toggled: " + isBrushSettingsVisible);
     }
 
+    /// <summary>
+    /// Placeholder for ruler functionality
+    /// </summary>
     public void ButtonRuler()
     {
-        // Placeholder for ruler functionality
         Debug.Log("Ruler button clicked.");
     }
 
+    /// <summary>
+    /// Show texture selection panel for hammer
+    /// </summary>
     public void TextureButton()
     {
-        // Show texture selection panel for hammer
         hammerTexturePanel.SetActive(true);
     }
 
+    /// <summary>
+    /// Show skybox selection panel
+    /// </summary>
     public void SkyboxButton()
     {
-        // Show skybox selection panel
         hammerSkyboxPanel.SetActive(true);
     }
 
+    /// <summary>
+    /// Toggle visibility of hammer settings panel
+    /// </summary>
     public void ButtonHammer()
     {
-        // Toggle visibility of hammer settings panel
         isHammerSettingsVisible = !isHammerSettingsVisible;
         hammerSettingsPanel.SetActive(isHammerSettingsVisible);
 
-        // Hide other panels
+        /// <summary>Hide other panels</summary>
         isBrushSettingsVisible = false;
         isDiceSettingsVisible = false;
         isLayerSelectorVisible = false;
@@ -132,13 +176,15 @@ public class GameSceneMenuManager : MonoBehaviour
         Debug.Log("Hammer button toggled: " + isHammerSettingsVisible);
     }
 
+    /// <summary>
+    /// Toggle visibility of dice settings panel
+    /// </summary>
     public void ButtonDice()
     {
-        // Toggle visibility of dice settings panel
         isDiceSettingsVisible = !isDiceSettingsVisible;
         diceSettingsPanel.SetActive(isDiceSettingsVisible);
 
-        // Hide other panels
+        /// <summary>Hide other panels</summary>
         isBrushSettingsVisible = false;
         isHammerSettingsVisible = false;
         isLayerSelectorVisible = false;
@@ -149,13 +195,15 @@ public class GameSceneMenuManager : MonoBehaviour
         Debug.Log("Dice button toggled: " + isDiceSettingsVisible);
     }
 
+    /// <summary>
+    /// Toggle visibility of layer selector panel
+    /// </summary>
     public void ButtonList()
     {
-        // Toggle visibility of layer selector panel
         isLayerSelectorVisible = !isLayerSelectorVisible;
         layerSelectorPanel.SetActive(isLayerSelectorVisible);
 
-        // Hide other panels
+        /// <summary>Hide other panels</summary>
         isBrushSettingsVisible = false;
         isHammerSettingsVisible = false;
         isDiceSettingsVisible = false;
@@ -166,39 +214,55 @@ public class GameSceneMenuManager : MonoBehaviour
         Debug.Log("Layer selector toggled: " + isLayerSelectorVisible);
     }
 
+    /// <summary>
+    /// Placeholder for send functionality
+    /// </summary>
     public void ButtonSend()
     {
-        // Placeholder for send functionality
         Debug.Log("Send button clicked.");
     }
 
+    /// <summary>
+    /// Placeholder for load art functionality
+    /// </summary>
     public void ButtonLoadArt()
     {
-        // Placeholder for load art functionality
         Debug.Log("Load Art button clicked.");
     }
 
+    /// <summary>
+    /// Placeholder for add character functionality
+    /// </summary>
     public void ButtonAddCharacter()
     {
-        // Placeholder for add character functionality
         Debug.Log("Add Character button clicked.");
     }
 
+    /// <summary>
+    /// Show the specified panel
+    /// </summary>
+    /// <param name="panel">The panel to show</param>
     public void ShowPanel(GameObject panel)
     {
-        // Show the specified panel
         panel.SetActive(true);
     }
 
+    /// <summary>
+    /// Hide the specified panel
+    /// </summary>
+    /// <param name="panel">The panel to hide</param>
     public void HidePanel(GameObject panel)
     {
-        // Hide the specified panel
         panel.SetActive(false);
     }
 
+    /// <summary>
+    /// Get the current brush color
+    /// </summary>
+    /// <returns>The brush color or white if invalid</returns>
     public Color GetBrushColor()
     {
-        // Try to parse hex color input; fallback to white if invalid
+        /// <summary>Try to parse hex color input; fallback to white if invalid</summary>
         if (ColorUtility.TryParseHtmlString(hexColorInput.text, out Color color))
             return color;
         else
@@ -208,30 +272,36 @@ public class GameSceneMenuManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Get the current brush size
+    /// </summary>
+    /// <returns>The current value of brush size slider</returns>
     public float GetBrushSize()
     {
-        // Get current value of brush size slider
         return brushSizeSlider.value;
     }
 
+    /// <summary>
+    /// Find all Button objects in the scene and attach sound effects
+    /// </summary>
     public void FindAllButtonsInScene()
     {
-        // Find all Button objects in the scene, including inactive ones
+        /// <summary>Find all Button objects in the scene, including inactive ones</summary>
         Button[] allButtons = Resources.FindObjectsOfTypeAll<Button>();
 
         List<GameObject> buttonGameObjects = new List<GameObject>();
 
         foreach (Button button in allButtons)
         {
-            // Only handle scene-resident buttons, not prefabs
+            /// <summary>Only handle scene-resident buttons, not prefabs</summary>
             if (button.hideFlags == HideFlags.None)
             {
-                // Add special sound for the dice throw button
+                /// <summary>Add special sound for the dice throw button</summary>
                 if (button.gameObject.name == "ButtonThrow")
                 {
                     button.onClick.AddListener(() => _sfxManager.Play(SFXType.DICE_ROLL));
                 }
-                // Default sound for all other buttons
+                /// <summary>Default sound for all other buttons</summary>
                 else
                 {
                     button.onClick.AddListener(() => _sfxManager.Play(SFXType.BUTTON_CLICK));

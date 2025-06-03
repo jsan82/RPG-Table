@@ -2,14 +2,28 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
+/// <summary>
+/// Handles advanced drag functionality for UI elements, including multi-select and global drag operations.
+/// Implements IDragHandler, IPointerDownHandler, and IPointerUpHandler to respond to Unity's drag events.
+/// </summary>
 [RequireComponent(typeof(RectTransform))]
 public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
     [Header("Drag Settings")]
-    [SerializeField] private KeyCode multiDragKey = KeyCode.LeftControl;
-    [SerializeField] private float dragThreshold = 5f;
+    [SerializeField] 
+    private KeyCode multiDragKey = KeyCode.LeftControl;
     
+    [SerializeField] 
+    private float dragThreshold = 5f;
+    
+    /// <summary>
+    /// Determines if the object is in edit mode (editor-only functionality).
+    /// </summary>
     public bool Edit = false;
+    
+    /// <summary>
+    /// Determines if the object is in game mode (runtime functionality).
+    /// </summary>
     public bool Game = true;
     
     private RectTransform rectTransform;
@@ -19,11 +33,18 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
     private static bool isMultiDragActive;
     private static List<SmartDragHandler> selectedObjects = new List<SmartDragHandler>();
     private static SmartDragHandler currentDragLeader;
+    
+    /// <summary>
+    /// Indicates whether any SmartDragHandler is currently being dragged.
+    /// </summary>
     public static bool isDragging => currentDragLeader != null;
 
     private static bool isGlobalRightDrag = false;
     private static Vector3 globalDragStartPos;
 
+    /// <summary>
+    /// Initializes required components and sets up initial state.
+    /// </summary>
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -31,6 +52,9 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
         if (!Game) Edit = true;
     }
 
+    /// <summary>
+    /// Handles per-frame updates including global drag operations and scaling controls.
+    /// </summary>
     private void Update()
     {
         if (Input.GetKeyDown(multiDragKey))
@@ -64,6 +88,10 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
         }
     }
 
+    /// <summary>
+    /// Handles pointer down events to initiate drag operations.
+    /// </summary>
+    /// <param name="eventData">Pointer event data containing position and button information.</param>
     public void OnPointerDown(PointerEventData eventData)
     {
         if (eventData.button != PointerEventData.InputButton.Left) return;
@@ -93,6 +121,10 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
         }
     }
 
+    /// <summary>
+    /// Handles drag events to move the object and any selected objects.
+    /// </summary>
+    /// <param name="eventData">Pointer event data containing current position information.</param>
     public void OnDrag(PointerEventData eventData)
     {
         if (eventData.button != PointerEventData.InputButton.Left || currentDragLeader != this) return;
@@ -113,6 +145,10 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
         }
     }
 
+    /// <summary>
+    /// Moves all currently selected objects by the specified delta.
+    /// </summary>
+    /// <param name="delta">The amount to move each selected object.</param>
     private void MoveAllSelectedObjects(Vector3 delta)
     {
         foreach (var draggable in selectedObjects)
@@ -124,6 +160,10 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
         }
     }
 
+    /// <summary>
+    /// Handles pointer up events to complete drag operations.
+    /// </summary>
+    /// <param name="eventData">Pointer event data containing button information.</param>
     public void OnPointerUp(PointerEventData eventData)
     {
         if (eventData.button != PointerEventData.InputButton.Left || currentDragLeader != this) return;
@@ -135,6 +175,9 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
         }
     }
 
+    /// <summary>
+    /// Initiates a global drag operation that affects all SmartDragHandler objects.
+    /// </summary>
     private void StartGlobalDrag()
     {
         isGlobalRightDrag = true;
@@ -143,6 +186,9 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
         selectedObjects.AddRange(FindObjectsOfType<SmartDragHandler>());
     }
 
+    /// <summary>
+    /// Updates the position of all objects during a global drag operation.
+    /// </summary>
     private void UpdateGlobalDrag()
     {
         Vector3 currentMousePos = Input.mousePosition;
@@ -160,12 +206,18 @@ public class SmartDragHandler : MonoBehaviour, IDragHandler, IPointerDownHandler
         globalDragStartPos = currentMousePos;
     }
 
+    /// <summary>
+    /// Stops the global drag operation and clears the selection.
+    /// </summary>
     private void StopGlobalDrag()
     {
         isGlobalRightDrag = false;
         selectedObjects.Clear();
     }
 
+    /// <summary>
+    /// Cleans up references when the object is destroyed.
+    /// </summary>
     private void OnDestroy()
     {
         if (selectedObjects.Contains(this))

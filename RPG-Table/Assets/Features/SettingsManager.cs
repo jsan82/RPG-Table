@@ -7,13 +7,24 @@ using System.Linq;
 using System;
 using UnityEngine.UI;
 using TMPro;
+
+/// <summary>
+/// Manages game settings including loading, saving, and STL file conversion
+/// </summary>
 public class SettingsManager : MonoBehaviour
 {
+    /// <summary>Current game settings</summary>
     public static GameSettings _CurrentSettings;
+    /// <summary>Path to the settings JSON file</summary>
     private static string savePath => Path.Combine(Application.persistentDataPath, "settings.json");
+    /// <summary>STL to OBJ converter instance</summary>
     private StlConverter stlConverter;
+    /// <summary>List of STL filenames to convert</summary>
     private List<string> fileNames = new List<string>();
 
+    /// <summary>
+    /// Called when the script instance is being loaded
+    /// </summary>
     private void Awake()
     {
         if (stlConverter == null)
@@ -22,9 +33,11 @@ public class SettingsManager : MonoBehaviour
         }
         LoadSettings();
         loadSTLAsOBJ();
-
     }
 
+    /// <summary>
+    /// Saves current settings to a JSON file
+    /// </summary>
     public static void SaveSettings()
     {
         try
@@ -43,6 +56,9 @@ public class SettingsManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Loads settings from JSON file or creates default settings if file doesn't exist
+    /// </summary>
     public static void LoadSettings()
     {
         try
@@ -102,6 +118,9 @@ public class SettingsManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Converts STL files to OBJ format and moves original STL files to convertedSTL directory
+    /// </summary>
     private void loadSTLAsOBJ()
     {
         if (!Directory.Exists(Path.Combine(_CurrentSettings.Assets3DPath, "convertedSTL/")))
@@ -116,20 +135,25 @@ public class SettingsManager : MonoBehaviour
             stlConverter.Convert(filePath, Path.Combine(_CurrentSettings.Assets3DPath, Path.GetFileNameWithoutExtension(filePath) + ".obj"));
             File.Move(filePath, Path.Combine(_CurrentSettings.Assets3DPath, "convertedSTL/", Path.GetFileName(filePath)));
         }
-
     }
-
-    
 }
 
+/// <summary>
+/// Serializable class containing all game settings and paths
+/// </summary>
 [System.Serializable]
 public class GameSettings
 {
+    /// <summary>Path for player cards storage</summary>
     public string playerCardsPath = Path.Combine(Application.persistentDataPath, "PlayerCards/");
+    /// <summary>Path for player card prefabs</summary>
     public string playerCardsPrefabPath = Path.Combine(Application.persistentDataPath, "PlayerPrefab/");
+    /// <summary>Path for 2D assets</summary>
     public string Assets2DPath = Path.Combine(Application.persistentDataPath, "2DAssets/");
+    /// <summary>Path for 3D assets</summary>
     public string Assets3DPath = Path.Combine(Application.persistentDataPath, "3DAssets/");
+    /// <summary>Path for game cards</summary>
     public string GameCardsPath = Path.Combine(Application.persistentDataPath, "PlayerCardsGame/");
+    /// <summary>Path for maps</summary>
     public string MapsPath = Path.Combine(Application.persistentDataPath, "Maps/");
-
 }
