@@ -1,0 +1,5 @@
+<map id="SaveLoadMap.loadMap" name="SaveLoadMap.loadMap">
+<area shape="rect" id="Node000001" title="Loads a map from file." alt="" coords="281,5,438,32"/>
+<area shape="rect" id="Node000002" href="$class_asset_loader_and_placer.html#a5e82fefcaa18be18ce3cd0641db4aec1" title="Refreshes the map selection panel." alt="" coords="5,5,233,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="265,21,233,21,233,16,265,16"/>
+</map>

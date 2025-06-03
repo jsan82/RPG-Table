@@ -1,0 +1,15 @@
+<map id="CardAreaSaver.LoadCardArea" name="CardAreaSaver.LoadCardArea">
+<area shape="rect" id="Node000001" title="Loads a card area layout from JSON." alt="" coords="5,97,203,124"/>
+<area shape="rect" id="Node000002" href="$class_card_area_saver.html#a93c0b27fed54756ef63921d03ff4728a" title="Clears all objects from the card area." alt="" coords="251,5,451,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="130,95,185,68,250,41,272,34,274,39,252,47,187,73,133,99"/>
+<area shape="rect" id="Node000003" href="$class_new_behaviour_script.html#ac2025eac056e830bc73896d26aa94b79" title="Clears all stored operations from the dictionary." alt="" coords="265,56,437,99"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="203,95,249,88,250,94,204,100"/>
+<area shape="rect" id="Node000004" href="$class_card_area_saver.html#a760e957d0d69071014611760c8b27923" title="Creates a UI object from serialized data." alt="" coords="259,123,442,165"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="204,121,244,127,243,132,203,127"/>
+<area shape="rect" id="Node000007" href="$class_card_area_saver.html#a51aad76c36e9820832b385e39ae25cc5" title="Sets an image on a UI object from file." alt="" coords="266,189,436,216"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="133,122,187,148,252,175,274,182,272,187,250,180,185,153,130,127"/>
+<area shape="rect" id="Node000005" href="$class_object_i_d.html#a4738777e8750334d0029fae3683bc543" title="Sets the object&#39;s ID and registers it in the global dictionary." alt="" coords="538,101,650,128"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="443,130,523,121,523,126,443,136"/>
+<area shape="rect" id="Node000006" href="$class_object_placement_system.html#ac5a548db44398dd46f07fc74b5423e31" title="Enables/disables all components on an object except ObjectID." alt="" coords="499,152,689,195"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="443,152,484,157,483,163,443,158"/>
+</map>

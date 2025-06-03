@@ -1,0 +1,7 @@
+<map id="ObjectPlacementSystem.SelectObject" name="ObjectPlacementSystem.SelectObject">
+<area shape="rect" id="Node000001" title="Selects an object for placement and creates a preview instance." alt="" coords="5,27,213,69"/>
+<area shape="rect" id="Node000002" href="$class_card_area_saver.html#a51aad76c36e9820832b385e39ae25cc5" title="Sets an image on a UI object from file." alt="" coords="271,5,441,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="213,33,255,28,256,33,213,38"/>
+<area shape="rect" id="Node000003" href="$class_object_placement_system.html#ac5a548db44398dd46f07fc74b5423e31" title="Enables/disables all components on an object except ObjectID." alt="" coords="261,56,451,99"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="213,58,246,62,245,67,213,63"/>
+</map>

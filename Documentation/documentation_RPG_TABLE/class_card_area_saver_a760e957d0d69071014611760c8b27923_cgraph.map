@@ -1,0 +1,7 @@
+<map id="CardAreaSaver.CreateChildFromData" name="CardAreaSaver.CreateChildFromData">
+<area shape="rect" id="Node000001" title="Creates a UI object from serialized data." alt="" coords="5,27,189,69"/>
+<area shape="rect" id="Node000002" href="$class_object_i_d.html#a4738777e8750334d0029fae3683bc543" title="Sets the object&#39;s ID and registers it in the global dictionary." alt="" coords="276,5,388,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,34,260,25,261,30,189,39"/>
+<area shape="rect" id="Node000003" href="$class_object_placement_system.html#ac5a548db44398dd46f07fc74b5423e31" title="Enables/disables all components on an object except ObjectID." alt="" coords="237,56,427,99"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="189,57,221,61,221,66,188,62"/>
+</map>

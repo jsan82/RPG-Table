@@ -5,24 +5,39 @@ using System.Linq;
 using System.Text;
 using TMPro;
 
+/// <summary>
+/// A singleton MonoBehaviour that evaluates dice roll expressions in infix notation.
+/// </summary>
+/// <remarks>
+/// Handles complex dice expressions with operators (+, -, *, /, ^, d) and attribute references (@attr).
+/// Converts infix notation to postfix, evaluates rolls, and provides detailed logging.
+/// Supports features like dice rolling (2d6), math operations, and variable substitution.
+/// </remarks>
 public class DiceExpressionEvaluator : MonoBehaviour
 {
     [Header("Expression Settings")]
     [Tooltip("Example: (@str + 2d6) * @lvl")]
-    
+
     [Header("Debug Options")]
     public bool evaluateOnStart = true;
     public bool showPostfixNotation = true;
     public bool detailedDiceLogging = true;
-    
+    public GameObject inputField;
+    public GameObject MessagePanel;
+    public GameObject messagePrefab;
+
     //operators precedence
-    private readonly Dictionary<char, int> precedence = new Dictionary<char, int> 
+    private readonly Dictionary<char, int> precedence = new Dictionary<char, int>
     {
         {'+', 2}, {'-', 2}, {'*', 3}, {'/', 3}, {'^', 4}, {'d', 5}
     };
 
     private static DiceExpressionEvaluator _instance;
-    
+
+    void Start()
+    {
+
+    }
     public static DiceExpressionEvaluator Instance
     {
         get
@@ -37,14 +52,19 @@ public class DiceExpressionEvaluator : MonoBehaviour
         }
     }
 
+    /// <summary>Nested class representing a single dice roll with detailed results</summary
     public class DiceRoll
     {
+        /// <summary>Number of dice rolled</summary>
         public int DiceCount;
+         /// <summary>Number of sides per die</summary>
         public int DiceSides;
+         /// <summary>List of individual die results</summary>
         public List<int> Rolls;
+         /// <summary>Sum of all dice rolls</summary>
         public int Total => Rolls.Sum();
 
-        
+
         public DiceRoll(int count, int sides)
         {
             DiceCount = count;
@@ -52,7 +72,7 @@ public class DiceExpressionEvaluator : MonoBehaviour
             Rolls = new List<int>();
         }
 
-        
+
         public override string ToString()
         {
             return $"{DiceCount}d{DiceSides}: {string.Join(" + ", Rolls)} = {Total}";
@@ -60,18 +80,41 @@ public class DiceExpressionEvaluator : MonoBehaviour
     }
 
 
-    //Method to evaluate the expression
-    public int EvaluateAndLog(string infixExpression)
+    
+    /// <summary>Evaluates a dice expression string and returns the result</summary>
+    /// <param name="infixExpression">Expression in infix notation (e.g. "2d6+@str")</param>
+    /// <returns>Integer result of the evaluated expression</returns>
+    public int EvaluateAndLog(string infixExpression = "0")
     {
         try
-        {   
+        {
+            if (MessagePanel == null)
+            {
+                MessagePanel = GameObject.Find("MenuAnd2DWorld/MenuRight/MenuRightChatPanel/Chat/View/Messages");
+                if (MessagePanel == null)
+                {
+                    Debug.LogWarning("MessagePanel not found. Please assign it in the inspector.");
+                }
+                else
+                {
+                    Debug.Log("MessagePanel found and assigned.");
+                }
+            }
+            if (messagePrefab == null)
+            {
+                messagePrefab = Resources.Load<GameObject>("Message");
+                if (messagePrefab == null)
+                {
+                    Debug.LogError("MessagePrefab not found in Resources. Please assign it in the inspector.");
+                }
+            }
             string postfix = InfixToPostfix(infixExpression);
             if (showPostfixNotation) Debug.Log($"Postfix: {postfix}");
-            
+
             //list to store dice rolls for detailed logging
             List<DiceRoll> diceRolls = new List<DiceRoll>();
             int result = EvaluatePostfix(postfix, diceRolls);
-            
+
             //Log the detailed dice rolls if enabled
             if (detailedDiceLogging && diceRolls.Count > 0)
             {
@@ -81,41 +124,52 @@ public class DiceExpressionEvaluator : MonoBehaviour
                 {
                     sb.AppendLine(roll.ToString());
                 }
+                if (MessagePanel != null)
+                {
+                    GameObject messageObject = Instantiate(messagePrefab, MessagePanel.transform);
+                    TextMeshProUGUI textComponent = messageObject.GetComponent<TextMeshProUGUI>();
+                    textComponent.text = sb.ToString();
+                }
+                else
+                {
+                    Debug.Log(sb.ToString());
+                }
                 sb.AppendLine($"Final result: {result}");
                 Debug.Log(sb.ToString());
             }
-            
+
             Debug.Log($"Result of '{infixExpression}': {result}");
             return result;
         }
         catch (Exception e)
         {
-            Debug.LogError($"Evaluation error: {e.Message}");
+            Debug.Log($"Evaluation error: {e.Message}");
             return 0;
         }
     }
 
-//Method to 
-    private string InfixToPostfix(string infix)
+    /// <summary>Converts infix notation to postfix notation for evaluation</summary>
+    private string InfixToPostfix(string infix = "0")
     {
-        
+
         var output = new Queue<string>();
         var operators = new Stack<char>();
-        
+
         for (int i = 0; i < infix.Length; i++)
         {
             char c = infix[i];
-            
-            if( char.IsWhiteSpace(c)){
 
-               continue; // Skip whitespace 
+            if (char.IsWhiteSpace(c))
+            {
+
+                continue; // Skip whitespace 
             }
             else if (c == '@')// Handle attribute references 
             {
                 string attribute = "";
                 i++; // Skip @
                 while (i < infix.Length && char.IsLetter(infix[i]))
-                {   
+                {
 
                     attribute += infix[i];
                     i++;
@@ -124,7 +178,7 @@ public class DiceExpressionEvaluator : MonoBehaviour
                 i--; // Adjust index after loop
             }
             else if (char.IsDigit(c))// Handle numbers
-            {              
+            {
                 string number = "";
                 while (i < infix.Length && char.IsDigit(infix[i]))
                 {
@@ -134,7 +188,7 @@ public class DiceExpressionEvaluator : MonoBehaviour
                 output.Enqueue(number);
                 i--;
             }// handle operators
-            else if (c == 'd' && (i == 0 || infix[i-1] == 'd' || IsOperator(infix[i-1]) || infix[i-1] == '(' || infix[i-1] == '@'|| infix[i-1] == ' ' )) 
+            else if (c == 'd' && (i == 0 || infix[i - 1] == 'd' || IsOperator(infix[i - 1]) || infix[i - 1] == '(' || infix[i - 1] == '@' || infix[i - 1] == ' '))
             {
                 operators.Push(c);
             }
@@ -158,7 +212,7 @@ public class DiceExpressionEvaluator : MonoBehaviour
                 {
                     output.Enqueue(operators.Pop().ToString());
                 }
-                
+
                 if (operators.Count == 0) throw new ArgumentException("Mismatched parentheses");
                 operators.Pop();
             }
@@ -169,17 +223,17 @@ public class DiceExpressionEvaluator : MonoBehaviour
             if (operators.Peek() == '(') throw new ArgumentException("Mismatched parentheses");
             output.Enqueue(operators.Pop().ToString());
         }
-        
+
         return string.Join(" ", output);
     }
 
-    //Method to evaluate the postfix expression
+    /// <summary>Evaluates a postfix expression and tracks dice rolls</summary>
     private int EvaluatePostfix(string postfix, List<DiceRoll> diceRolls)
     {
         var stack = new Stack<int>();
         var tokens = postfix.Split(' ', StringSplitOptions.RemoveEmptyEntries);
         System.Random random = new System.Random();
-        
+
         // Loop through each token in the postfix expression
         foreach (string token in tokens)
         {
@@ -198,9 +252,9 @@ public class DiceExpressionEvaluator : MonoBehaviour
                 if (stack.Count < 2) throw new ArgumentException("Invalid dice expression");
                 int sides = stack.Pop();
                 int count = stack.Pop();
-                
+
                 if (count < 1 || sides < 1) throw new ArgumentException("Dice values must be positive");
-                
+
                 DiceRoll diceRoll = new DiceRoll(count, sides);
                 for (int i = 0; i < count; i++)
                 {
@@ -215,7 +269,7 @@ public class DiceExpressionEvaluator : MonoBehaviour
                 if (stack.Count < 2) throw new ArgumentException("Invalid expression");
                 int b = stack.Pop();
                 int a = stack.Pop();
-                
+
                 switch (token[0])
                 {
                     case '+': stack.Push(a + b); break;
@@ -231,12 +285,12 @@ public class DiceExpressionEvaluator : MonoBehaviour
                 throw new ArgumentException($"Invalid token: {token}");
             }
         }
-        
+
         if (stack.Count != 1) throw new ArgumentException("Invalid expression");
         return stack.Pop();
     }
-    
-    //Method to get the attribute value from the objectID
+
+    /// <summary>Retrieves attribute values from referenced GameObjects</summary>
     private int GetAttributeValue(string objectID)
     {
         if (string.IsNullOrEmpty(objectID))
@@ -251,18 +305,31 @@ public class DiceExpressionEvaluator : MonoBehaviour
             Debug.LogError($"Object with ID {objectID} not found");
             return 0;
         }
-        
+
         return obj.GetComponent<TMP_InputField>().text == "" ? 1 : int.Parse(obj.GetComponent<TMP_InputField>().text);
 
-        
+
 
         Debug.LogError($"No CharacterAttributes component found on {objectID}");
         return 0;
     }
 
+    public void throwButton()
+    {
+        if (inputField != null)
+        {
+            string expression = inputField.GetComponent<TMP_InputField>().text;
+            EvaluateAndLog(expression);
+        }
+        else
+        {
+            Debug.LogError("Input field is not assigned.");
+        }
+    }
+
     //Method to check if the character is an operator
     private bool IsOperator(char c) => precedence.ContainsKey(c);
-    
+
     //Method to check if the operator is left associative
     private bool IsLeftAssociative(char op) => op != '^' && op != 'd';
 }

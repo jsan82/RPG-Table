@@ -1,0 +1,7 @@
+<map id="CardAreaSaver.SaveCardArea" name="CardAreaSaver.SaveCardArea">
+<area shape="rect" id="Node000001" title="Static method to save card area to specified file path." alt="" coords="5,13,205,40"/>
+<area shape="rect" id="Node000002" href="$class_card_area_saver.html#a89ce119eb5d520a11e79833f5d2a8bb4" title="Saves the current card area layout to JSON." alt="" coords="253,13,452,40"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="205,24,237,24,237,29,205,29"/>
+<area shape="rect" id="Node000003" href="$class_new_behaviour_script.html#a3f454039e463c4d43f397879198531d4" title="Retrieves operations string for a specific object ID." alt="" coords="500,5,728,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="452,24,484,24,484,29,452,29"/>
+</map>

@@ -1,0 +1,81 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="12,5,144,32"/>
+<area shape="rect" id="Node000001" href="$class_setup_window_mask.html" title="Handles draggable masked window area for UI cards." alt="" coords="219,56,354,83"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="151,34,229,53,228,58,150,39"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="29,56,127,83"/>
+<area shape="poly" id="edge2_Node000002_Node000001" title=" " alt="" coords="143,67,219,67,219,72,143,72"/>
+<area shape="rect" id="Node000003" href="$class_smart_drag_handler.html" title="Handles advanced drag functionality for UI elements, including multi&#45;select and global drag operation..." alt="" coords="222,107,351,133"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="143,82,229,103,228,109,142,87"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,107,151,133"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="166,117,221,117,221,123,166,123"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="14,157,142,184"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="150,151,228,131,229,137,151,156"/>
+<area shape="rect" id="Node000017" href="$interface_i_u_i_behavior.html" title="Interface for UI click handling behavior." alt="" coords="33,208,123,235"/>
+<area shape="rect" id="Node000016" href="$class_edit_parameters.html" title="Singleton MonoBehaviour that handles UI element parameter editing." alt="" coords="231,208,342,235"/>
+<area shape="poly" id="edge6_Node000017_Node000016" title=" " alt="" coords="138,219,230,219,230,224,138,224"/>
+<area shape="rect" id="Node000018" href="$class_new_behaviour_script.html" title="Singleton manager for handling button operations and expressions in the UI." alt="" coords="216,157,356,184"/>
+<area shape="poly" id="edge7_Node000017_Node000018" title=" " alt="" coords="138,204,228,182,229,187,139,209"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="22,867,134,893"/>
+<area shape="poly" id="edge37_Node000006_Node000001" title=" " alt="" coords="79,851,95,684,123,444,158,218,177,138,187,110,197,93,217,78,220,82,201,96,191,112,182,139,163,219,128,445,101,684,85,851"/>
+<area shape="poly" id="edge39_Node000006_Node000003" title=" " alt="" coords="80,851,97,694,125,470,159,260,178,185,187,160,197,144,220,127,223,132,201,147,192,162,183,187,165,261,130,471,102,695,85,852"/>
+<area shape="poly" id="edge17_Node000006_Node000016" title=" " alt="" coords="78,851,88,722,109,541,124,448,144,363,168,293,182,266,197,245,212,233,229,225,231,230,214,238,201,249,186,269,173,295,149,365,129,449,114,542,93,723,84,852"/>
+<area shape="poly" id="edge26_Node000006_Node000018" title=" " alt="" coords="78,851,86,713,105,517,121,416,141,323,166,247,180,217,197,194,214,181,217,185,201,198,185,220,171,249,146,325,126,417,111,517,91,714,83,851"/>
+<area shape="rect" id="Node000007" href="$class_add_player_card.html" title="Manager for player card creation and selection in the game UI." alt="" coords="232,867,341,893"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="149,877,231,877,231,883,149,883"/>
+<area shape="rect" id="Node000008" href="$class_apply_drawn_texture.html" title="Applies a drawn texture from a MapBrushDrawer to a target Renderer&#39;s material." alt="" coords="219,917,354,944"/>
+<area shape="poly" id="edge9_Node000006_Node000008" title=" " alt="" coords="149,895,229,914,228,919,148,900"/>
+<area shape="rect" id="Node000009" href="$class_asset_loader_and_placer.html" title="Central manager for loading and placing 2D/3D assets in the game environment." alt="" coords="209,968,364,995"/>
+<area shape="poly" id="edge10_Node000006_Node000009" title=" " alt="" coords="111,900,152,928,200,954,230,965,228,970,198,958,149,932,108,905"/>
+<area shape="rect" id="Node000010" href="$class_asset_name.html" title="Simple component for tagging game objects with their asset names." alt="" coords="241,1019,332,1045"/>
+<area shape="poly" id="edge11_Node000006_Node000010" title=" " alt="" coords="99,904,142,955,169,982,200,1004,242,1021,240,1026,197,1009,166,986,138,959,95,908"/>
+<area shape="rect" id="Node000011" href="$class_back_to_menu.html" title="Handles navigation back to the main menu scene." alt="" coords="238,1069,335,1096"/>
+<area shape="poly" id="edge12_Node000006_Node000011" title=" " alt="" coords="93,907,110,941,133,981,164,1021,200,1055,218,1065,238,1072,236,1077,216,1070,197,1059,160,1025,129,984,105,943,88,909"/>
+<area shape="rect" id="Node000012" href="$class_button_throw.html" title="A MonoBehaviour class that handles dice throw operations when a button is clicked." alt="" coords="239,1120,334,1147"/>
+<area shape="poly" id="edge13_Node000006_Node000012" title=" " alt="" coords="89,907,103,951,125,1005,158,1059,178,1084,200,1106,219,1117,239,1124,237,1129,216,1122,197,1110,174,1088,153,1062,121,1007,98,953,84,909"/>
+<area shape="rect" id="Node000013" href="$class_card_area_saver.html" title="System for saving and loading card&#45;based UI layouts with full serialization." alt="" coords="231,1171,342,1197"/>
+<area shape="poly" id="edge14_Node000006_Node000013" title=" " alt="" coords="86,908,97,961,118,1028,152,1097,174,1129,200,1157,215,1167,232,1173,230,1178,212,1171,197,1161,170,1132,147,1100,113,1030,92,962,81,909"/>
+<area shape="rect" id="Node000014" href="$class_dice_expression_evaluator.html" title="A singleton MonoBehaviour that evaluates dice roll expressions in infix notation." alt="" coords="202,1221,370,1248"/>
+<area shape="poly" id="edge15_Node000006_Node000014" title=" " alt="" coords="84,909,92,971,112,1051,127,1094,146,1135,171,1174,200,1207,217,1219,214,1223,197,1211,166,1177,142,1138,122,1096,107,1053,87,972,79,910"/>
+<area shape="rect" id="Node000015" href="$class_display_manager.html" title="Manages multi&#45;display configuration for the application." alt="" coords="229,1272,344,1299"/>
+<area shape="poly" id="edge16_Node000006_Node000015" title=" " alt="" coords="82,909,88,979,105,1073,120,1123,140,1172,167,1218,200,1258,214,1268,229,1275,227,1280,211,1273,197,1262,163,1221,136,1175,115,1125,100,1074,82,980,77,909"/>
+<area shape="rect" id="Node000019" href="$class_editable_button_creator.html" title="Creates and manages editable UI buttons with name customization." alt="" coords="212,1323,361,1349"/>
+<area shape="poly" id="edge18_Node000006_Node000019" title=" " alt="" coords="81,909,84,988,89,1039,99,1095,113,1153,135,1209,163,1262,201,1309,216,1320,213,1324,197,1313,159,1265,130,1212,108,1154,93,1096,84,1040,78,988,76,909"/>
+<area shape="rect" id="Node000020" href="$class_free_camera_controller.html" title="Controls free camera movement, rotation, and zoom using mouse and keyboard. Provides first&#45;person sty..." alt="" coords="212,1373,361,1400"/>
+<area shape="poly" id="edge19_Node000006_Node000020" title=" " alt="" coords="85,909,99,1009,124,1145,140,1213,158,1275,178,1325,201,1360,216,1371,212,1375,197,1363,173,1328,153,1277,134,1214,119,1146,94,1010,80,909"/>
+<area shape="rect" id="Node000021" href="$class_game_scene_menu_manager.html" title="Manages the UI menu in the game scene, including brush, hammer, dice, and layer settings." alt="" coords="199,1424,374,1451"/>
+<area shape="poly" id="edge20_Node000006_Node000021" title=" " alt="" coords="85,908,97,1019,120,1169,136,1246,155,1315,176,1372,201,1410,215,1421,212,1426,197,1414,172,1374,150,1317,131,1247,115,1170,92,1019,79,909"/>
+<area shape="rect" id="Node000022" href="$class_layer_system.html" title="Manages the layer system for 2D and 3D game modes." alt="" coords="237,1475,336,1501"/>
+<area shape="poly" id="edge21_Node000006_Node000022" title=" " alt="" coords="84,908,95,1028,117,1194,133,1278,152,1355,174,1418,187,1443,201,1461,217,1473,237,1481,236,1486,215,1478,197,1465,183,1445,170,1420,147,1357,128,1279,112,1195,90,1028,79,909"/>
+<area shape="rect" id="Node000023" href="$class_load_player_card.html" title="Handles loading and saving player card data and associated notes." alt="" coords="229,1525,344,1552"/>
+<area shape="poly" id="edge22_Node000006_Node000023" title=" " alt="" coords="84,908,93,1037,114,1218,129,1311,149,1395,173,1465,186,1491,201,1511,214,1522,230,1529,228,1534,211,1527,197,1515,182,1494,168,1467,144,1397,124,1312,109,1219,88,1038,78,909"/>
+<area shape="rect" id="Node000024" href="$class_main_menu_controller.html" title=" " alt="" coords="218,1576,355,1603"/>
+<area shape="poly" id="edge23_Node000006_Node000024" title=" " alt="" coords="83,909,91,1046,111,1243,126,1343,146,1435,171,1511,185,1540,201,1562,219,1576,216,1580,197,1566,180,1543,166,1513,141,1437,121,1344,105,1243,86,1047,78,909"/>
+<area shape="rect" id="Node000025" href="$class_map_brush_drawer.html" title="Enables drawing, erasing, and saving/loading textures on a UI canvas." alt="" coords="225,1627,348,1653"/>
+<area shape="poly" id="edge24_Node000006_Node000025" title=" " alt="" coords="83,909,89,1056,108,1267,123,1376,143,1476,169,1558,184,1589,201,1613,212,1623,226,1629,223,1634,209,1627,197,1616,179,1592,164,1559,138,1477,118,1377,102,1268,84,1056,77,909"/>
+<area shape="rect" id="Node000026" href="$class_movable_prop.html" title="A component for handling a movable and interactive prop in the scene, supporting dragging,..." alt="" coords="238,1677,335,1704"/>
+<area shape="poly" id="edge25_Node000006_Node000026" title=" " alt="" coords="82,909,88,1064,105,1291,120,1408,140,1515,167,1604,183,1638,201,1663,217,1676,238,1684,236,1689,215,1681,197,1667,178,1640,162,1606,135,1517,114,1409,99,1292,82,1065,77,909"/>
+<area shape="rect" id="Node000027" href="$class_object_i_d.html" title="Unique identifier component for GameObjects with dictionary management." alt="" coords="250,259,323,285"/>
+<area shape="poly" id="edge27_Node000006_Node000027" title=" " alt="" coords="79,851,90,732,112,565,128,481,147,403,170,340,183,315,197,295,221,279,249,271,250,277,223,284,201,299,187,317,174,342,152,405,133,482,117,566,95,732,84,852"/>
+<area shape="rect" id="Node000028" href="$class_object_placement_system.html" title="System for placing and managing UI objects in a card&#45;based interface." alt="" coords="203,309,370,336"/>
+<area shape="poly" id="edge28_Node000006_Node000028" title=" " alt="" coords="79,851,92,741,115,590,131,513,150,443,172,386,197,346,212,334,215,339,201,350,176,388,155,445,136,514,120,591,97,741,85,852"/>
+<area shape="rect" id="Node000029" href="$class_particle_sys.html" title=" " alt="" coords="242,360,330,387"/>
+<area shape="poly" id="edge29_Node000006_Node000029" title=" " alt="" coords="80,851,94,750,119,614,134,546,153,483,173,432,197,397,217,382,241,375,243,380,220,387,201,401,178,435,158,485,140,547,124,615,99,751,85,851"/>
+<area shape="rect" id="Node000030" href="$class_placing2_d.html" title="Handles 2D asset placement in the UI layer system." alt="" coords="246,411,327,437"/>
+<area shape="poly" id="edge30_Node000006_Node000030" title=" " alt="" coords="76,851,78,772,84,720,93,664,108,606,130,548,159,495,197,447,219,432,245,425,246,430,222,437,200,451,163,498,135,551,113,607,99,665,89,721,84,772,81,851"/>
+<area shape="rect" id="Node000031" href="$class_plane_handler.html" title="Handles terrain modification including elevation, flattening, holes, and texture changes...." alt="" coords="237,461,336,488"/>
+<area shape="poly" id="edge31_Node000006_Node000031" title=" " alt="" coords="77,851,82,780,100,686,115,635,136,585,163,539,197,498,215,485,235,478,237,483,217,490,200,502,167,542,140,588,120,637,105,687,88,781,82,851"/>
+<area shape="rect" id="Node000032" href="$class_prop_handler.html" title="Handles the interaction logic for props including spawning, dragging, rotating, scaling,..." alt="" coords="240,512,333,539"/>
+<area shape="poly" id="edge32_Node000006_Node000032" title=" " alt="" coords="79,850,87,788,107,707,122,664,142,622,166,583,197,549,216,536,238,528,240,533,219,540,200,553,171,586,146,625,127,666,112,709,92,789,84,851"/>
+<area shape="rect" id="Node000033" href="$class_s_f_x_manager.html" title="Manages and plays sound effects, including one&#45;shot and looped audio." alt="" coords="238,563,335,589"/>
+<area shape="poly" id="edge33_Node000006_Node000033" title=" " alt="" coords="81,851,92,798,113,730,147,660,170,628,197,599,216,587,236,580,238,585,218,592,200,603,174,631,152,663,118,732,97,799,86,852"/>
+<area shape="rect" id="Node000034" href="$class_save_load_map.html" title="Manages map saving and loading operations for both 2D and 3D modes." alt="" coords="234,613,338,640"/>
+<area shape="poly" id="edge34_Node000006_Node000034" title=" " alt="" coords="84,851,98,807,121,753,153,698,174,672,197,650,214,639,233,632,235,637,216,644,200,654,178,676,158,701,125,755,103,809,89,853"/>
+<area shape="rect" id="Node000035" href="$class_select_load.html" title="UI manager for loading and saving card layouts." alt="" coords="243,664,330,691"/>
+<area shape="poly" id="edge35_Node000006_Node000035" title=" " alt="" coords="88,851,105,817,129,776,160,735,197,701,219,689,242,681,244,686,221,693,200,705,164,739,133,779,110,819,93,853"/>
+<area shape="rect" id="Node000036" href="$class_settings_manager.html" title="Manages game settings including loading, saving, and STL file conversion." alt="" coords="227,715,346,741"/>
+<area shape="poly" id="edge36_Node000006_Node000036" title=" " alt="" coords="95,852,138,801,166,774,197,751,225,738,227,743,200,756,169,778,142,805,99,856"/>
+<area shape="rect" id="Node000037" href="$class_skybox_handler.html" title="Handles dynamic loading and application of a skybox texture at runtime." alt="" coords="231,765,342,792"/>
+<area shape="poly" id="edge38_Node000006_Node000037" title=" " alt="" coords="108,855,149,828,198,802,230,790,232,795,200,806,152,832,111,860"/>
+<area shape="rect" id="Node000038" href="$class_stl_converter.html" title="Converts STL files (ASCII or binary) to Unity Meshes and exports them as OBJ files." alt="" coords="239,816,334,843"/>
+<area shape="poly" id="edge40_Node000006_Node000038" title=" " alt="" coords="148,860,238,838,239,843,149,866"/>
+</map>

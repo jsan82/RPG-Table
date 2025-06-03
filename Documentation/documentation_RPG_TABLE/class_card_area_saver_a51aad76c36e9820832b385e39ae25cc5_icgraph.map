@@ -1,0 +1,7 @@
+<map id="CardAreaSaver.SetImage" name="CardAreaSaver.SetImage">
+<area shape="rect" id="Node000001" title="Sets an image on a UI object from file." alt="" coords="261,35,431,61"/>
+<area shape="rect" id="Node000002" href="$class_card_area_saver.html#a4a4b111b494928756027f1e7bd81a815" title="Loads a card area layout from JSON." alt="" coords="10,5,208,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="245,38,208,34,208,28,246,33"/>
+<area shape="rect" id="Node000003" href="$class_object_placement_system.html#a26590b6819b2805b16acc8e229ce2eab" title="Selects an object for placement and creates a preview instance." alt="" coords="5,56,213,99"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="246,63,214,67,213,62,245,58"/>
+</map>

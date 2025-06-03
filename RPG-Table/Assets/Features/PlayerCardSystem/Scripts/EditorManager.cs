@@ -5,13 +5,28 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
+/// <summary>
+/// Handles navigation back to the main menu scene
+/// </summary>
 
-public class BackToMenu : MonoBehaviour {
-    public void ReturnToMenu() {
+public class BackToMenu : MonoBehaviour
+{
+    /// <summary>
+    /// Loads the "MainMenu" scene when called
+    /// </summary>
+    public void ReturnToMenu()
+    {
         SceneManager.LoadScene("MainMenu");
     }
 }
 
+/// <summary>
+/// Creates and manages editable UI buttons with name customization
+/// </summary>
+/// <remarks>
+/// Provides functionality to create, edit, and delete buttons through a popup interface.
+/// Buttons can be dynamically added to a specified parent transform.
+/// </remarks>
 public class EditableButtonCreator : MonoBehaviour
 {
     public GameObject buttonPrefab; //Button prefab
@@ -21,7 +36,7 @@ public class EditableButtonCreator : MonoBehaviour
 
     private GameObject currentEditedButton; // Currently edited button
 
-    //Method to create a new button
+    /// <summary>Display popup to create a new button</summary>
     public void ShowPopupForNewButton()
     {
         popupPanel.SetActive(true);
@@ -29,7 +44,13 @@ public class EditableButtonCreator : MonoBehaviour
         currentEditedButton = null;
     }
 
-    //Method to create a new button with the name from the input field
+    /// <summary>
+    /// Saves the current button name from input field
+    /// </summary>
+    /// <remarks>
+    /// Creates new button if none is being edited,
+    /// otherwise updates the currently edited button's text
+    /// </remarks>
     public void SaveButtonName()
     {
         if (currentEditedButton == null)
@@ -51,7 +72,10 @@ public class EditableButtonCreator : MonoBehaviour
         popupPanel.SetActive(false);
     }
 
-    //Method to cancel the popup
+    /// <summary>
+    /// Opens popup to edit an existing button's name
+    /// </summary>
+    /// <param name="buttonToEdit">The button GameObject to modify</param>
     public void EditExistingButton(GameObject buttonToEdit)
     {
         currentEditedButton = buttonToEdit;

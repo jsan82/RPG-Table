@@ -321,16 +321,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3845e3319debe24e98be2468d21afca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  distance: 200
-  zoomSpeed: 50
-  minDistance: 5
-  maxDistance: 1000
+  moveSpeed: 50
   rotationSpeed: 10
+  zoomSpeed: 50
+  minZoom: 5
+  maxZoom: 1000
   yMinLimit: 0
   yMaxLimit: 1000
-  panSpeed: 100
-  panLimit: {x: 1000, y: 1000}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

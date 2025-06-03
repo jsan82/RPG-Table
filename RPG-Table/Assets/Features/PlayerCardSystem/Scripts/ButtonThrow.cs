@@ -6,11 +6,18 @@ using TMPro;
 using UnityEngine.EventSystems;
 using System.IO;
 
+/// <summary>
+/// A MonoBehaviour class that handles dice throw operations when a button is clicked.
+/// </summary>
 public class ButtonThrow : MonoBehaviour
 {
     public string expression = "2d6";
 
-    public void makeThrow(){
+    /// <summary>
+    /// Handles the button click event, evaluates the associated dice expression, and logs the result.
+    /// </summary>    
+    public void makeThrow()
+    {
         GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
 
         ObjectID objectID = clickedButton.GetComponent<ObjectID>();

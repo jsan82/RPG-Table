@@ -1,59 +1,133 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Dummiesman;
 
-
+/// <summary>
+/// Handles the interaction logic for props including spawning, dragging, rotating, scaling,
+/// elevation, bloom toggle, and intensity adjustments.
+/// </summary>
 public class PropHandler : MonoBehaviour
 {
+    /// <summary>
+    /// The object (prefab or loaded model) to spawn.
+    /// </summary>
     public GameObject objectToSpawn;
 
     private MovableProp selectedProp;
     private Vector3 dragOffset;
     private Plane dragPlane;
 
-    private float rotatePower;
+    private float rotatePower { get; set; }
     private float rotateTimer;
     private float rotateLimit;
 
-    private float elevatePower;
+    private float elevatePower { get; set; }
     private float elevateTimer;
     private float elevateLimit;
 
-    private float scalePower;
+    private float scalePower { get; set; }
     private float scaleTimer;
     private float scaleLimit;
 
-    // Start is called before the first frame update
+    private float colorPower { get; set; }
+    private float colorTimer;
+    private float colorLimit;
+    
+    /// <summary>Switch for spawning props.</summary>
+    public bool spawnActive;
+    /// <summary>Holds name for object to spawn.</summary>
+    public string spawnObjectName;
+    /// <summary>Contains information about current layer on which objects are spawned.</summary>
+    public GameObject currentLayer;
+    /// <summary>Contains prefab for particle system.</summary>
+    public GameObject particleSystemPrefab;
+
+    /// <summary>
+    /// Initializes default settings for prop manipulation controls.
+    /// </summary>
     void Start()
     {
+
+    
         rotateLimit = 0.1f;
         rotatePower = 5.0f;
+
         elevateLimit = 0.1f;
         elevatePower = 0.1f;
+
         scaleLimit = 0.1f;
         scalePower = 0.1f;
+
+        colorLimit = 0.1f;
+        colorPower = 0.1f;
+        
+        spawnActive = false;
+
+        //LoadOBJFromPath("[P A T H]"); // comment if not testing
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Per-frame update to handle all interactions.
+    /// </summary>
     void Update()
     {
         HandleDrag();
         HandleRotation();
         HandleElevation();
         HandleScale();
-
-        if (Input.GetKeyDown(KeyCode.R))
-            SpawnProp();
+        HandleBloomToggle();
+        HandleBloomIntensity();
+        HandleSpawnProp();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            spawnActive = false;
+        }
+        if (this.GetComponent<LayerSystem>()._GAME_MODE == "3D")
+        {
+            currentLayer = this.GetComponent<LayerSystem>()._CURRENT_LAYER;
+        }
+        if (selectedProp != null && Input.GetKeyDown(KeyCode.Delete)) //Delete
+        {
+            Destroy(selectedProp.GetComponent<AssetName>());
+            Destroy(selectedProp.GetComponent<MovableProp>());
+            Destroy(selectedProp.gameObject);
+            selectedProp = null;
+            Destroy(objectToSpawn);
+        }
+        if (Input.GetKeyDown(KeyCode.F1)) //F1
+        {
+            foreach (GameObject child in this.transform)
+            {
+                child.SetActive(!child.activeSelf);
+            }
+        }
+        // if (Input.GetKeyDown(KeyCode.F2)) //F2
+        // {
+        //     foreach (GameObject child in this.transform)
+        //     {
+        //         foreach (GameObject grandChild)
+        //     }
+        // }
     }
 
-    //pyknij propa via referance
+    /// <summary>
+    /// Sets the object to be spawned.
+    /// </summary>
+    /// <param name="newObject">The new object prefab or model.</param>
     public void SetObjectToSpawn(GameObject newObject)
     {
         objectToSpawn = newObject;
     }
 
-    //pyknij propa via nazwa
+    /// <summary>
+    /// Loads a prefab from Resources by name and sets it as the object to spawn.
+    /// </summary>
+    /// <param name="prefabName">Name of the prefab in the Resources folder.</param>
     public void SetObjectToSpawnByName(string prefabName)
     {
         GameObject prefab = Resources.Load<GameObject>(prefabName);
@@ -63,76 +137,113 @@ public class PropHandler : MonoBehaviour
         }
     }
 
-    public void SpawnProp()
+    /// <summary>
+    /// Instantiates the selected objectToSpawn at the mouse position when R is pressed.
+    /// </summary>
+    public void HandleSpawnProp()
     {
-        Vector3 mousePos = Input.mousePosition;
-        mousePos.z = 5f;
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos); //o tutej spawnuj
+        if (Input.GetMouseButtonDown(0) && spawnActive) //rmb
+        {
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = 5f;
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
 
-        Instantiate(objectToSpawn, worldPos, Quaternion.identity);
+            GameObject spawned = Instantiate(objectToSpawn, worldPos, Quaternion.identity);
+            spawned.SetActive(true);
+            spawned.AddComponent<AssetName>();
+            spawned.GetComponent<AssetName>().assetName = spawnObjectName;
+            spawned.transform.SetParent(currentLayer.transform);
+            // GameObject ps = Instantiate(particleSystemPrefab, worldPos, Quaternion.identity);
+            // ps.transform.SetParent(spawned.transform);
+        }   
     }
 
+    /// <summary>
+    /// Rotates the selected prop using Q and E keys.
+    /// </summary>
     private void HandleRotation()
+{
+    if (selectedProp != null)
     {
-        if (selectedProp != null)
+        // Rotacja w osi Y (góra-dół)
+        bool yPlusHeld = Input.GetKey(KeyCode.Q);
+        bool yMinusHeld = Input.GetKey(KeyCode.E);
+
+        bool yPlusDown = Input.GetKeyDown(KeyCode.Q);
+        bool yMinusDown = Input.GetKeyDown(KeyCode.E);
+
+        // Rotacja w osi X (lewo-prawo)
+        bool xPlusHeld = Input.GetKey(KeyCode.Y);
+        bool xMinusHeld = Input.GetKey(KeyCode.U);
+
+        bool xPlusDown = Input.GetKeyDown(KeyCode.Y);
+        bool xMinusDown = Input.GetKeyDown(KeyCode.U);
+
+        rotateTimer += Time.deltaTime;
+
+        // Rotacja w osi Y
+        if (yPlusDown || (yPlusHeld && rotateTimer >= rotateLimit)) // Q
         {
-            bool leftHeld = Input.GetKey(KeyCode.Q);
-            bool rightHeld = Input.GetKey(KeyCode.E);
-
-            bool leftDown = Input.GetKeyDown(KeyCode.Q);
-            bool rightDown = Input.GetKeyDown(KeyCode.E);
-
-            rotateTimer += Time.deltaTime;
-
-            //ratatuj
-            if (leftDown || (leftHeld && rotateTimer >= rotateLimit)) //E
-            {
-                rotateTimer = 0f;
-                selectedProp.OnRotate(Vector3.up, -rotatePower);
-            }
-            else if (rightDown || (rightHeld && rotateTimer >= rotateLimit)) //Q
-            {
-                rotateTimer = 0f;
-                selectedProp.OnRotate(Vector3.up, rotatePower);
-            }
-
-            if (!leftHeld && !rightHeld)
-            {
-                rotateTimer = rotateLimit;
-            }
+            rotateTimer = 0f;
+            selectedProp.OnRotate(Vector3.up, -rotatePower);
         }
-        else
+        else if (yMinusDown || (yMinusHeld && rotateTimer >= rotateLimit)) // E
+        {
+            rotateTimer = 0f;
+            selectedProp.OnRotate(Vector3.up, rotatePower);
+        }
+        // Rotacja w osi X
+        else if (xPlusDown || (xPlusHeld && rotateTimer >= rotateLimit)) // Y
+        {
+            rotateTimer = 0f;
+            selectedProp.OnRotate(Vector3.right, -rotatePower);
+        }
+        else if (xMinusDown || (xMinusHeld && rotateTimer >= rotateLimit)) // U
+        {
+            rotateTimer = 0f;
+            selectedProp.OnRotate(Vector3.right, rotatePower);
+        }
+
+        if (!yPlusHeld && !yMinusHeld && !xPlusHeld && !xMinusHeld)
         {
             rotateTimer = rotateLimit;
         }
     }
+    else
+    {
+        rotateTimer = rotateLimit;
+    }
+}
+
+    /// <summary>
+    /// Elevates (moves up/down) the selected prop using Z and X keys.
+    /// </summary>
     private void HandleElevation()
     {
         if (selectedProp != null)
         {
-            bool leftHeld = Input.GetKey(KeyCode.Z);
-            bool rightHeld = Input.GetKey(KeyCode.X);
+            bool plusHeld = Input.GetKey(KeyCode.Z);
+            bool minusHeld = Input.GetKey(KeyCode.X);
 
-            bool leftDown = Input.GetKeyDown(KeyCode.Z);
-            bool rightDown = Input.GetKeyDown(KeyCode.X);
+            bool plusDown = Input.GetKeyDown(KeyCode.Z);
+            bool minusDown = Input.GetKeyDown(KeyCode.X);
 
             elevateTimer += Time.deltaTime;
-
-            //elewatuj
-            if (leftDown || (leftHeld && elevateTimer >= elevateLimit)) //X
+            elevatePower = selectedProp.GetScale().y; // Adjust elevation power based on scale
+            if (plusDown || (plusHeld && elevateTimer >= elevateLimit)) //X
             {
                 elevateTimer = 0f;
                 Vector3 newPosition = selectedProp.GetPosition() + new Vector3(0, elevatePower, 0);
                 selectedProp.OnDrag(newPosition);
             }
-            else if (rightDown || (rightHeld && elevateTimer >= elevateLimit)) //Z
+            else if (minusDown || (minusHeld && elevateTimer >= elevateLimit)) //Z
             {
                 elevateTimer = 0f;
                 Vector3 newPosition = selectedProp.GetPosition() + new Vector3(0, -elevatePower, 0);
                 selectedProp.OnDrag(newPosition);
             }
 
-            if (!leftHeld && !rightHeld)
+            if (!plusHeld && !minusHeld)
             {
                 elevateTimer = elevateLimit;
             }
@@ -143,6 +254,9 @@ public class PropHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles selecting and dragging a prop with the left mouse button.
+    /// </summary>
     private void HandleDrag()
     {
         if (Input.GetMouseButtonDown(0)) //lmb
@@ -165,7 +279,6 @@ public class PropHandler : MonoBehaviour
             selectedProp = null;
         }
 
-        //draguj
         if (selectedProp != null && Input.GetMouseButton(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -179,26 +292,28 @@ public class PropHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Scales the selected prop using C and V keys.
+    /// </summary>
     private void HandleScale()
     {
         if (selectedProp != null)
         {
-            bool leftHeld = Input.GetKey(KeyCode.C);
-            bool rightHeld = Input.GetKey(KeyCode.V);
+            bool plusHeld = Input.GetKey(KeyCode.C);
+            bool minusHeld = Input.GetKey(KeyCode.V);
 
-            bool leftDown = Input.GetKeyDown(KeyCode.C);
-            bool rightDown = Input.GetKeyDown(KeyCode.V);
+            bool plusDown = Input.GetKeyDown(KeyCode.C);
+            bool minusDown = Input.GetKeyDown(KeyCode.V);
 
             scaleTimer += Time.deltaTime;
 
-            //scaleuj
-            if (leftDown || (leftHeld && scaleTimer >= scaleLimit)) //C
+            if (plusDown || (plusHeld && scaleTimer >= scaleLimit)) //C
             {
                 scaleTimer = 0f;
                 Vector3 newScale = selectedProp.GetScale() + Vector3.one * scalePower;
                 selectedProp.OnScale(newScale);
             }
-            else if (rightDown || (rightHeld && scaleTimer >= scaleLimit)) //V
+            else if (minusDown || (minusHeld && scaleTimer >= scaleLimit)) //V
             {
                 scaleTimer = 0f;
                 Vector3 newScale = selectedProp.GetScale() - Vector3.one * scalePower;
@@ -211,7 +326,7 @@ public class PropHandler : MonoBehaviour
                 selectedProp.OnScale(newScale);
             }
 
-            if (!leftHeld && !rightHeld)
+            if (!plusHeld && !minusHeld)
             {
                 scaleTimer = scaleLimit;
             }
@@ -220,5 +335,98 @@ public class PropHandler : MonoBehaviour
         {
             scaleTimer = scaleLimit;
         }
+    }
+
+    /// <summary>
+    /// Toggles the bloom effect on the selected prop using the T key.
+    /// </summary>
+    private void HandleBloomToggle()
+    {
+        if (selectedProp != null) 
+        {
+            if (Input.GetKeyDown(KeyCode.T)) //T
+            {
+                selectedProp.GetComponent<Light>().enabled = !selectedProp.GetComponent<Light>().enabled;
+            }
+            
+        }
+    }
+
+    /// <summary>
+    /// Adjusts bloom intensity of the selected prop using F and G keys.
+    /// </summary>
+    private void HandleBloomIntensity()
+    {
+        if (selectedProp != null)
+        {
+            bool plusHeld = Input.GetKey(KeyCode.F);
+            bool minusHeld = Input.GetKey(KeyCode.G);
+
+            bool plusDown = Input.GetKeyDown(KeyCode.F);
+            bool minusDown = Input.GetKeyDown(KeyCode.G);
+            
+            colorTimer += Time.deltaTime;
+
+            if (plusDown || (plusHeld && colorTimer >= colorLimit)) //F
+            {
+                colorTimer = 0f;
+                selectedProp.GetComponent<Light>().intensity += 1;
+
+            }
+            else if (minusDown || (minusHeld && colorTimer >= colorLimit)) //G
+            {
+                colorTimer = 0f;
+                selectedProp.GetComponent<Light>().intensity -= 1;
+            }
+
+            if (!plusHeld && !minusHeld)
+            {
+                colorTimer = colorLimit;
+            }
+        }
+        else
+        {
+            colorTimer = colorLimit;
+        }
+    }
+
+    /// <summary>
+    /// Loads an OBJ model from a file path and sets it as the object to spawn.
+    /// </summary>
+    /// <param name="filePath">Full path to the .obj file.</param>
+    public void LoadOBJFromPath(string filePath)
+    {
+        if (!File.Exists(filePath))
+            return;
+
+        GameObject obj = new OBJLoader().Load(filePath);
+        obj.name = Path.GetFileNameWithoutExtension(filePath);
+
+        obj.transform.position = Vector3.zero;
+        obj.transform.rotation = Quaternion.identity;
+        obj.transform.localScale = Vector3.one;
+
+        Bounds bounds = new Bounds(obj.transform.position, Vector3.zero);
+        var renderers = obj.GetComponentsInChildren<Renderer>();
+        if (renderers.Length > 0)
+        {
+            bounds = renderers[0].bounds;
+            foreach (var rend in renderers)
+            {
+                bounds.Encapsulate(rend.bounds);
+            }
+        }
+
+        BoxCollider boxCollider = obj.AddComponent<BoxCollider>();
+        boxCollider.center = obj.transform.InverseTransformPoint(bounds.center);
+        boxCollider.size = bounds.size;
+
+        obj.AddComponent<MovableProp>();
+        obj.SetActive(false);
+        objectToSpawn = obj;
+        objectToSpawn.AddComponent<Light>();
+        objectToSpawn.GetComponent<Light>().enabled = false;
+        objectToSpawn.GetComponent<Light>().range = 100;
+        if (!spawnActive) Destroy(obj);
     }
 }

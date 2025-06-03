@@ -1,0 +1,994 @@
+{
+    "saveTime": "2025-06-03 19:48:48",
+    "childCount": 22,
+    "children": [
+        {
+            "objectID": "background",
+            "objectType": "Image",
+            "Text": "",
+            "fontSize": "",
+            "fontColor": "",
+            "isBold": false,
+            "isItalic": false,
+            "Width": "1400.00",
+            "Height": "1000.00",
+            "backgroundImage": "darkgray.png",
+            "transparency": "100.00",
+            "inputType": "",
+            "localPosition": {
+                "x": -3.5699849128723146,
+                "y": 4.760009765625,
+                "z": 0.0
+            },
+            "localRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "isActive": true,
+            "scripts": [
+                {
+                    "type": "UnityEngine.UI.Image, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Material\":{\"instanceID\":0},\"m_Color\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_RaycastTarget\":true,\"m_RaycastPadding\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_Maskable\":true,\"m_OnCullStateChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_Sprite\":{\"instanceID\":-13854},\"m_Type\":0,\"m_PreserveAspect\":false,\"m_FillCenter\":true,\"m_FillMethod\":4,\"m_FillAmount\":1.0,\"m_FillClockwise\":true,\"m_FillOrigin\":0,\"m_UseSpriteMesh\":false,\"m_PixelsPerUnitMultiplier\":1.0}"
+                },
+                {
+                    "type": "SmartDragHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"multiDragKey\":306,\"dragThreshold\":5.0,\"Edit\":false,\"Game\":true}"
+                }
+            ],
+            "currentOperations": ""
+        },
+        {
+            "objectID": "Name",
+            "objectType": "InputField",
+            "Text": "Ian",
+            "fontSize": "14",
+            "fontColor": "323232",
+            "isBold": false,
+            "isItalic": false,
+            "Width": "160.00",
+            "Height": "30.00",
+            "backgroundImage": "Greenish.png",
+            "transparency": "100.00",
+            "inputType": "InputFieldStandard",
+            "localPosition": {
+                "x": 0.000022470951080322266,
+                "y": 400.0,
+                "z": 0.0
+            },
+            "localRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "isActive": true,
+            "scripts": [
+                {
+                    "type": "UnityEngine.UI.Image, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Material\":{\"instanceID\":0},\"m_Color\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_RaycastTarget\":true,\"m_RaycastPadding\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_Maskable\":true,\"m_OnCullStateChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_Sprite\":{\"instanceID\":-13896},\"m_Type\":2,\"m_PreserveAspect\":false,\"m_FillCenter\":true,\"m_FillMethod\":2,\"m_FillAmount\":1.0,\"m_FillClockwise\":true,\"m_FillOrigin\":1,\"m_UseSpriteMesh\":false,\"m_PixelsPerUnitMultiplier\":1.0}"
+                },
+                {
+                    "type": "TMPro.TMP_InputField, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Navigation\":{\"m_Mode\":3,\"m_WrapAround\":false,\"m_SelectOnUp\":{\"instanceID\":0},\"m_SelectOnDown\":{\"instanceID\":0},\"m_SelectOnLeft\":{\"instanceID\":0},\"m_SelectOnRight\":{\"instanceID\":0}},\"m_Transition\":1,\"m_Colors\":{\"m_NormalColor\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_HighlightedColor\":{\"r\":0.9607843160629273,\"g\":0.9607843160629273,\"b\":0.9607843160629273,\"a\":1.0},\"m_PressedColor\":{\"r\":0.7843137383460999,\"g\":0.7843137383460999,\"b\":0.7843137383460999,\"a\":1.0},\"m_SelectedColor\":{\"r\":0.9607843160629273,\"g\":0.9607843160629273,\"b\":0.9607843160629273,\"a\":1.0},\"m_DisabledColor\":{\"r\":0.7843137383460999,\"g\":0.7843137383460999,\"b\":0.7843137383460999,\"a\":0.501960813999176},\"m_ColorMultiplier\":1.0,\"m_FadeDuration\":0.10000000149011612},\"m_SpriteState\":{\"m_HighlightedSprite\":{\"instanceID\":0},\"m_PressedSprite\":{\"instanceID\":0},\"m_SelectedSprite\":{\"instanceID\":0},\"m_DisabledSprite\":{\"instanceID\":0}},\"m_AnimationTriggers\":{\"m_NormalTrigger\":\"Normal\",\"m_HighlightedTrigger\":\"Highlighted\",\"m_PressedTrigger\":\"Pressed\",\"m_SelectedTrigger\":\"Selected\",\"m_DisabledTrigger\":\"Disabled\"},\"m_Interactable\":true,\"m_TargetGraphic\":{\"instanceID\":-13862},\"m_TextViewport\":{\"instanceID\":-13870},\"m_TextComponent\":{\"instanceID\":-13890},\"m_Placeholder\":{\"instanceID\":-13880},\"m_VerticalScrollbar\":{\"instanceID\":0},\"m_VerticalScrollbarEventHandler\":{\"instanceID\":0},\"m_LayoutGroup\":{\"instanceID\":0},\"m_ScrollSensitivity\":1.0,\"m_ContentType\":0,\"m_InputType\":0,\"m_AsteriskChar\":42,\"m_KeyboardType\":0,\"m_LineType\":0,\"m_HideMobileInput\":false,\"m_HideSoftKeyboard\":false,\"m_CharacterValidation\":0,\"m_RegexValue\":\"\",\"m_GlobalPointSize\":14.0,\"m_CharacterLimit\":0,\"m_OnEndEdit\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnSubmit\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnSelect\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnDeselect\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnTextSelection\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnEndTextSelection\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnValueChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnTouchScreenKeyboardStatusChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_CaretColor\":{\"r\":0.19607843458652497,\"g\":0.19607843458652497,\"b\":0.19607843458652497,\"a\":1.0},\"m_CustomCaretColor\":false,\"m_SelectionColor\":{\"r\":0.658823549747467,\"g\":0.8078431487083435,\"b\":1.0,\"a\":0.7529411911964417},\"m_Text\":\"Ian\",\"m_CaretBlinkRate\":0.8500000238418579,\"m_CaretWidth\":1,\"m_ReadOnly\":false,\"m_RichText\":true,\"m_GlobalFontAsset\":{\"instanceID\":23194},\"m_OnFocusSelectAll\":true,\"m_ResetOnDeActivation\":true,\"m_RestoreOriginalTextOnEscape\":true,\"m_isRichTextEditingAllowed\":false,\"m_LineLimit\":0,\"m_InputValidator\":{\"instanceID\":0}}"
+                },
+                {
+                    "type": "SmartDragHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"multiDragKey\":306,\"dragThreshold\":5.0,\"Edit\":false,\"Game\":true}"
+                }
+            ],
+            "currentOperations": ""
+        },
+        {
+            "objectID": "Class",
+            "objectType": "InputField",
+            "Text": "asdddsasd",
+            "fontSize": "14",
+            "fontColor": "323232",
+            "isBold": false,
+            "isItalic": false,
+            "Width": "160.00",
+            "Height": "30.00",
+            "backgroundImage": "Greenish.png",
+            "transparency": "100.00",
+            "inputType": "InputFieldStandard",
+            "localPosition": {
+                "x": 0.000022470951080322266,
+                "y": 320.0,
+                "z": 0.0
+            },
+            "localRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "isActive": true,
+            "scripts": [
+                {
+                    "type": "UnityEngine.UI.Image, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Material\":{\"instanceID\":0},\"m_Color\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_RaycastTarget\":true,\"m_RaycastPadding\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_Maskable\":true,\"m_OnCullStateChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_Sprite\":{\"instanceID\":-13938},\"m_Type\":2,\"m_PreserveAspect\":false,\"m_FillCenter\":true,\"m_FillMethod\":2,\"m_FillAmount\":1.0,\"m_FillClockwise\":true,\"m_FillOrigin\":1,\"m_UseSpriteMesh\":false,\"m_PixelsPerUnitMultiplier\":1.0}"
+                },
+                {
+                    "type": "TMPro.TMP_InputField, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Navigation\":{\"m_Mode\":3,\"m_WrapAround\":false,\"m_SelectOnUp\":{\"instanceID\":0},\"m_SelectOnDown\":{\"instanceID\":0},\"m_SelectOnLeft\":{\"instanceID\":0},\"m_SelectOnRight\":{\"instanceID\":0}},\"m_Transition\":1,\"m_Colors\":{\"m_NormalColor\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_HighlightedColor\":{\"r\":0.9607843160629273,\"g\":0.9607843160629273,\"b\":0.9607843160629273,\"a\":1.0},\"m_PressedColor\":{\"r\":0.7843137383460999,\"g\":0.7843137383460999,\"b\":0.7843137383460999,\"a\":1.0},\"m_SelectedColor\":{\"r\":0.9607843160629273,\"g\":0.9607843160629273,\"b\":0.9607843160629273,\"a\":1.0},\"m_DisabledColor\":{\"r\":0.7843137383460999,\"g\":0.7843137383460999,\"b\":0.7843137383460999,\"a\":0.501960813999176},\"m_ColorMultiplier\":1.0,\"m_FadeDuration\":0.10000000149011612},\"m_SpriteState\":{\"m_HighlightedSprite\":{\"instanceID\":0},\"m_PressedSprite\":{\"instanceID\":0},\"m_SelectedSprite\":{\"instanceID\":0},\"m_DisabledSprite\":{\"instanceID\":0}},\"m_AnimationTriggers\":{\"m_NormalTrigger\":\"Normal\",\"m_HighlightedTrigger\":\"Highlighted\",\"m_PressedTrigger\":\"Pressed\",\"m_SelectedTrigger\":\"Selected\",\"m_DisabledTrigger\":\"Disabled\"},\"m_Interactable\":true,\"m_TargetGraphic\":{\"instanceID\":-13904},\"m_TextViewport\":{\"instanceID\":-13912},\"m_TextComponent\":{\"instanceID\":-13932},\"m_Placeholder\":{\"instanceID\":-13922},\"m_VerticalScrollbar\":{\"instanceID\":0},\"m_VerticalScrollbarEventHandler\":{\"instanceID\":0},\"m_LayoutGroup\":{\"instanceID\":0},\"m_ScrollSensitivity\":1.0,\"m_ContentType\":0,\"m_InputType\":0,\"m_AsteriskChar\":42,\"m_KeyboardType\":0,\"m_LineType\":0,\"m_HideMobileInput\":false,\"m_HideSoftKeyboard\":false,\"m_CharacterValidation\":0,\"m_RegexValue\":\"\",\"m_GlobalPointSize\":14.0,\"m_CharacterLimit\":0,\"m_OnEndEdit\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnSubmit\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnSelect\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnDeselect\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnTextSelection\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnEndTextSelection\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnValueChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnTouchScreenKeyboardStatusChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_CaretColor\":{\"r\":0.19607843458652497,\"g\":0.19607843458652497,\"b\":0.19607843458652497,\"a\":1.0},\"m_CustomCaretColor\":false,\"m_SelectionColor\":{\"r\":0.658823549747467,\"g\":0.8078431487083435,\"b\":1.0,\"a\":0.7529411911964417},\"m_Text\":\"asdddsasd\",\"m_CaretBlinkRate\":0.8500000238418579,\"m_CaretWidth\":1,\"m_ReadOnly\":false,\"m_RichText\":true,\"m_GlobalFontAsset\":{\"instanceID\":23194},\"m_OnFocusSelectAll\":true,\"m_ResetOnDeActivation\":true,\"m_RestoreOriginalTextOnEscape\":true,\"m_isRichTextEditingAllowed\":false,\"m_LineLimit\":0,\"m_InputValidator\":{\"instanceID\":0}}"
+                },
+                {
+                    "type": "SmartDragHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"multiDragKey\":306,\"dragThreshold\":5.0,\"Edit\":false,\"Game\":true}"
+                }
+            ],
+            "currentOperations": ""
+        },
+        {
+            "objectID": "NameTag",
+            "objectType": "TextBlockPrefab",
+            "Text": "Name",
+            "fontSize": "20",
+            "fontColor": "FFFFFF",
+            "isBold": false,
+            "isItalic": false,
+            "Width": "200.00",
+            "Height": "50.00",
+            "backgroundImage": "",
+            "transparency": "",
+            "inputType": "",
+            "localPosition": {
+                "x": 0.000022470951080322266,
+                "y": 430.0,
+                "z": 0.0
+            },
+            "localRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "isActive": true,
+            "scripts": [
+                {
+                    "type": "TMPro.TextMeshProUGUI, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Material\":{\"instanceID\":0},\"m_Color\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_RaycastTarget\":true,\"m_RaycastPadding\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_Maskable\":true,\"m_OnCullStateChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_text\":\"Name\",\"m_isRightToLeft\":false,\"m_fontAsset\":{\"instanceID\":23194},\"m_sharedMaterial\":{\"instanceID\":23196},\"m_fontSharedMaterials\":[],\"m_fontMaterial\":{\"instanceID\":0},\"m_fontMaterials\":[],\"m_fontColor32\":{\"r\":255,\"g\":255,\"b\":255,\"a\":255},\"m_fontColor\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_enableVertexGradient\":false,\"m_colorMode\":3,\"m_fontColorGradient\":{\"topLeft\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"topRight\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"bottomLeft\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"bottomRight\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0}},\"m_fontColorGradientPreset\":{\"instanceID\":0},\"m_spriteAsset\":{\"instanceID\":0},\"m_tintAllSprites\":false,\"m_StyleSheet\":{\"instanceID\":0},\"m_TextStyleHashCode\":-1183493901,\"m_overrideHtmlColors\":false,\"m_faceColor\":{\"r\":255,\"g\":255,\"b\":255,\"a\":255},\"m_fontSize\":20.0,\"m_fontSizeBase\":20.0,\"m_fontWeight\":400,\"m_enableAutoSizing\":false,\"m_fontSizeMin\":18.0,\"m_fontSizeMax\":72.0,\"m_fontStyle\":0,\"m_HorizontalAlignment\":2,\"m_VerticalAlignment\":512,\"m_textAlignment\":65535,\"m_characterSpacing\":0.0,\"m_wordSpacing\":0.0,\"m_lineSpacing\":0.0,\"m_lineSpacingMax\":0.0,\"m_paragraphSpacing\":0.0,\"m_charWidthMaxAdj\":0.0,\"m_enableWordWrapping\":true,\"m_wordWrappingRatios\":0.4000000059604645,\"m_overflowMode\":0,\"m_linkedTextComponent\":{\"instanceID\":0},\"parentLinkedComponent\":{\"instanceID\":0},\"m_enableKerning\":true,\"m_enableExtraPadding\":false,\"checkPaddingRequired\":false,\"m_isRichText\":true,\"m_parseCtrlCharacters\":true,\"m_isOrthographic\":true,\"m_isCullingEnabled\":false,\"m_horizontalMapping\":0,\"m_verticalMapping\":0,\"m_uvLineOffset\":0.0,\"m_geometrySortingOrder\":0,\"m_IsTextObjectScaleStatic\":false,\"m_VertexBufferAutoSizeReduction\":false,\"m_useMaxVisibleDescender\":true,\"m_pageToDisplay\":1,\"m_margin\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_isUsingLegacyAnimationComponent\":false,\"m_isVolumetricText\":false,\"m_hasFontAssetChanged\":false,\"m_baseMaterial\":{\"instanceID\":0},\"m_maskOffset\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0}}"
+                },
+                {
+                    "type": "UnityEngine.UI.LayoutElement, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_IgnoreLayout\":false,\"m_MinWidth\":-1.0,\"m_MinHeight\":-1.0,\"m_PreferredWidth\":200.0,\"m_PreferredHeight\":50.0,\"m_FlexibleWidth\":-1.0,\"m_FlexibleHeight\":-1.0,\"m_LayoutPriority\":1}"
+                },
+                {
+                    "type": "SmartDragHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"multiDragKey\":306,\"dragThreshold\":5.0,\"Edit\":false,\"Game\":true}"
+                }
+            ],
+            "currentOperations": ""
+        },
+        {
+            "objectID": "ClassTag",
+            "objectType": "TextBlockPrefab",
+            "Text": "Class",
+            "fontSize": "20",
+            "fontColor": "FFFFFF",
+            "isBold": false,
+            "isItalic": false,
+            "Width": "200.00",
+            "Height": "50.00",
+            "backgroundImage": "",
+            "transparency": "",
+            "inputType": "",
+            "localPosition": {
+                "x": 0.000022470951080322266,
+                "y": 350.0,
+                "z": 0.0
+            },
+            "localRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "isActive": true,
+            "scripts": [
+                {
+                    "type": "TMPro.TextMeshProUGUI, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Material\":{\"instanceID\":0},\"m_Color\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_RaycastTarget\":true,\"m_RaycastPadding\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_Maskable\":true,\"m_OnCullStateChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_text\":\"Class\",\"m_isRightToLeft\":false,\"m_fontAsset\":{\"instanceID\":23194},\"m_sharedMaterial\":{\"instanceID\":23196},\"m_fontSharedMaterials\":[],\"m_fontMaterial\":{\"instanceID\":0},\"m_fontMaterials\":[],\"m_fontColor32\":{\"r\":255,\"g\":255,\"b\":255,\"a\":255},\"m_fontColor\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_enableVertexGradient\":false,\"m_colorMode\":3,\"m_fontColorGradient\":{\"topLeft\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"topRight\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"bottomLeft\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"bottomRight\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0}},\"m_fontColorGradientPreset\":{\"instanceID\":0},\"m_spriteAsset\":{\"instanceID\":0},\"m_tintAllSprites\":false,\"m_StyleSheet\":{\"instanceID\":0},\"m_TextStyleHashCode\":-1183493901,\"m_overrideHtmlColors\":false,\"m_faceColor\":{\"r\":255,\"g\":255,\"b\":255,\"a\":255},\"m_fontSize\":20.0,\"m_fontSizeBase\":20.0,\"m_fontWeight\":400,\"m_enableAutoSizing\":false,\"m_fontSizeMin\":18.0,\"m_fontSizeMax\":72.0,\"m_fontStyle\":0,\"m_HorizontalAlignment\":2,\"m_VerticalAlignment\":512,\"m_textAlignment\":65535,\"m_characterSpacing\":0.0,\"m_wordSpacing\":0.0,\"m_lineSpacing\":0.0,\"m_lineSpacingMax\":0.0,\"m_paragraphSpacing\":0.0,\"m_charWidthMaxAdj\":0.0,\"m_enableWordWrapping\":true,\"m_wordWrappingRatios\":0.4000000059604645,\"m_overflowMode\":0,\"m_linkedTextComponent\":{\"instanceID\":0},\"parentLinkedComponent\":{\"instanceID\":0},\"m_enableKerning\":true,\"m_enableExtraPadding\":false,\"checkPaddingRequired\":false,\"m_isRichText\":true,\"m_parseCtrlCharacters\":true,\"m_isOrthographic\":true,\"m_isCullingEnabled\":false,\"m_horizontalMapping\":0,\"m_verticalMapping\":0,\"m_uvLineOffset\":0.0,\"m_geometrySortingOrder\":0,\"m_IsTextObjectScaleStatic\":false,\"m_VertexBufferAutoSizeReduction\":false,\"m_useMaxVisibleDescender\":true,\"m_pageToDisplay\":1,\"m_margin\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_isUsingLegacyAnimationComponent\":false,\"m_isVolumetricText\":false,\"m_hasFontAssetChanged\":false,\"m_baseMaterial\":{\"instanceID\":0},\"m_maskOffset\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0}}"
+                },
+                {
+                    "type": "UnityEngine.UI.LayoutElement, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_IgnoreLayout\":false,\"m_MinWidth\":-1.0,\"m_MinHeight\":-1.0,\"m_PreferredWidth\":200.0,\"m_PreferredHeight\":50.0,\"m_FlexibleWidth\":-1.0,\"m_FlexibleHeight\":-1.0,\"m_LayoutPriority\":1}"
+                },
+                {
+                    "type": "SmartDragHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"multiDragKey\":306,\"dragThreshold\":5.0,\"Edit\":false,\"Game\":true}"
+                }
+            ],
+            "currentOperations": ""
+        },
+        {
+            "objectID": "wS1",
+            "objectType": "Image",
+            "Text": "",
+            "fontSize": "",
+            "fontColor": "",
+            "isBold": false,
+            "isItalic": false,
+            "Width": "500.00",
+            "Height": "5.00",
+            "backgroundImage": "white.png",
+            "transparency": "100.00",
+            "inputType": "",
+            "localPosition": {
+                "x": 449.9999694824219,
+                "y": 300.0,
+                "z": 0.0
+            },
+            "localRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "isActive": true,
+            "scripts": [
+                {
+                    "type": "UnityEngine.UI.Image, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Material\":{\"instanceID\":0},\"m_Color\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_RaycastTarget\":true,\"m_RaycastPadding\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_Maskable\":true,\"m_OnCullStateChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_Sprite\":{\"instanceID\":-13982},\"m_Type\":0,\"m_PreserveAspect\":false,\"m_FillCenter\":true,\"m_FillMethod\":4,\"m_FillAmount\":1.0,\"m_FillClockwise\":true,\"m_FillOrigin\":0,\"m_UseSpriteMesh\":false,\"m_PixelsPerUnitMultiplier\":1.0}"
+                },
+                {
+                    "type": "SmartDragHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"multiDragKey\":306,\"dragThreshold\":5.0,\"Edit\":false,\"Game\":true}"
+                }
+            ],
+            "currentOperations": ""
+        },
+        {
+            "objectID": "wS2",
+            "objectType": "Image",
+            "Text": "",
+            "fontSize": "",
+            "fontColor": "",
+            "isBold": false,
+            "isItalic": false,
+            "Width": "500.00",
+            "Height": "5.00",
+            "backgroundImage": "white.png",
+            "transparency": "100.00",
+            "inputType": "",
+            "localPosition": {
+                "x": -450.0000305175781,
+                "y": 300.0,
+                "z": 0.0
+            },
+            "localRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "isActive": true,
+            "scripts": [
+                {
+                    "type": "UnityEngine.UI.Image, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Material\":{\"instanceID\":0},\"m_Color\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_RaycastTarget\":true,\"m_RaycastPadding\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_Maskable\":true,\"m_OnCullStateChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_Sprite\":{\"instanceID\":-13998},\"m_Type\":0,\"m_PreserveAspect\":false,\"m_FillCenter\":true,\"m_FillMethod\":4,\"m_FillAmount\":1.0,\"m_FillClockwise\":true,\"m_FillOrigin\":0,\"m_UseSpriteMesh\":false,\"m_PixelsPerUnitMultiplier\":1.0}"
+                },
+                {
+                    "type": "SmartDragHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"multiDragKey\":306,\"dragThreshold\":5.0,\"Edit\":false,\"Game\":true}"
+                }
+            ],
+            "currentOperations": ""
+        },
+        {
+            "objectID": "wS4",
+            "objectType": "Image",
+            "Text": "",
+            "fontSize": "",
+            "fontColor": "",
+            "isBold": false,
+            "isItalic": false,
+            "Width": "5.00",
+            "Height": "300.00",
+            "backgroundImage": "white.png",
+            "transparency": "100.00",
+            "inputType": "",
+            "localPosition": {
+                "x": -199.99998474121095,
+                "y": 350.0,
+                "z": 0.0
+            },
+            "localRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "isActive": true,
+            "scripts": [
+                {
+                    "type": "UnityEngine.UI.Image, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Material\":{\"instanceID\":0},\"m_Color\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_RaycastTarget\":true,\"m_RaycastPadding\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_Maskable\":true,\"m_OnCullStateChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_Sprite\":{\"instanceID\":-14014},\"m_Type\":0,\"m_PreserveAspect\":false,\"m_FillCenter\":true,\"m_FillMethod\":4,\"m_FillAmount\":1.0,\"m_FillClockwise\":true,\"m_FillOrigin\":0,\"m_UseSpriteMesh\":false,\"m_PixelsPerUnitMultiplier\":1.0}"
+                },
+                {
+                    "type": "SmartDragHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"multiDragKey\":306,\"dragThreshold\":5.0,\"Edit\":false,\"Game\":true}"
+                }
+            ],
+            "currentOperations": ""
+        },
+        {
+            "objectID": "wS5",
+            "objectType": "Image",
+            "Text": "",
+            "fontSize": "",
+            "fontColor": "",
+            "isBold": false,
+            "isItalic": false,
+            "Width": "5.00",
+            "Height": "300.00",
+            "backgroundImage": "white.png",
+            "transparency": "100.00",
+            "inputType": "",
+            "localPosition": {
+                "x": 200.00001525878907,
+                "y": 350.0,
+                "z": 0.0
+            },
+            "localRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "isActive": true,
+            "scripts": [
+                {
+                    "type": "UnityEngine.UI.Image, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Material\":{\"instanceID\":0},\"m_Color\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_RaycastTarget\":true,\"m_RaycastPadding\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_Maskable\":true,\"m_OnCullStateChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_Sprite\":{\"instanceID\":-14030},\"m_Type\":0,\"m_PreserveAspect\":false,\"m_FillCenter\":true,\"m_FillMethod\":4,\"m_FillAmount\":1.0,\"m_FillClockwise\":true,\"m_FillOrigin\":0,\"m_UseSpriteMesh\":false,\"m_PixelsPerUnitMultiplier\":1.0}"
+                },
+                {
+                    "type": "SmartDragHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"multiDragKey\":306,\"dragThreshold\":5.0,\"Edit\":false,\"Game\":true}"
+                }
+            ],
+            "currentOperations": ""
+        },
+        {
+            "objectID": "wS6",
+            "objectType": "Image",
+            "Text": "",
+            "fontSize": "",
+            "fontColor": "",
+            "isBold": false,
+            "isItalic": false,
+            "Width": "405.00",
+            "Height": "5.00",
+            "backgroundImage": "white.png",
+            "transparency": "100.00",
+            "inputType": "",
+            "localPosition": {
+                "x": 0.000022470951080322266,
+                "y": 200.0,
+                "z": 0.0
+            },
+            "localRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "isActive": true,
+            "scripts": [
+                {
+                    "type": "UnityEngine.UI.Image, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Material\":{\"instanceID\":0},\"m_Color\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_RaycastTarget\":true,\"m_RaycastPadding\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_Maskable\":true,\"m_OnCullStateChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_Sprite\":{\"instanceID\":-14046},\"m_Type\":0,\"m_PreserveAspect\":false,\"m_FillCenter\":true,\"m_FillMethod\":4,\"m_FillAmount\":1.0,\"m_FillClockwise\":true,\"m_FillOrigin\":0,\"m_UseSpriteMesh\":false,\"m_PixelsPerUnitMultiplier\":1.0}"
+                },
+                {
+                    "type": "SmartDragHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"multiDragKey\":306,\"dragThreshold\":5.0,\"Edit\":false,\"Game\":true}"
+                }
+            ],
+            "currentOperations": ""
+        },
+        {
+            "objectID": "StrButton",
+            "objectType": "Button",
+            "Text": "Strenght",
+            "fontSize": "24",
+            "fontColor": "FFFFFF",
+            "isBold": false,
+            "isItalic": false,
+            "Width": "160.00",
+            "Height": "30.00",
+            "backgroundImage": "UISprite",
+            "transparency": "0.00",
+            "inputType": "",
+            "localPosition": {
+                "x": 0.000022470951080322266,
+                "y": 30.0,
+                "z": 0.0
+            },
+            "localRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "isActive": true,
+            "scripts": [
+                {
+                    "type": "UnityEngine.UI.Image, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Material\":{\"instanceID\":0},\"m_Color\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":0.0},\"m_RaycastTarget\":true,\"m_RaycastPadding\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_Maskable\":true,\"m_OnCullStateChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_Sprite\":{\"instanceID\":690},\"m_Type\":1,\"m_PreserveAspect\":false,\"m_FillCenter\":true,\"m_FillMethod\":4,\"m_FillAmount\":1.0,\"m_FillClockwise\":true,\"m_FillOrigin\":0,\"m_UseSpriteMesh\":false,\"m_PixelsPerUnitMultiplier\":1.0}"
+                },
+                {
+                    "type": "UnityEngine.UI.Button, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Navigation\":{\"m_Mode\":3,\"m_WrapAround\":false,\"m_SelectOnUp\":{\"instanceID\":0},\"m_SelectOnDown\":{\"instanceID\":0},\"m_SelectOnLeft\":{\"instanceID\":0},\"m_SelectOnRight\":{\"instanceID\":0}},\"m_Transition\":1,\"m_Colors\":{\"m_NormalColor\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_HighlightedColor\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_PressedColor\":{\"r\":0.7843137383460999,\"g\":0.7843137383460999,\"b\":0.7843137383460999,\"a\":1.0},\"m_SelectedColor\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_DisabledColor\":{\"r\":0.7843137383460999,\"g\":0.7843137383460999,\"b\":0.7843137383460999,\"a\":0.501960813999176},\"m_ColorMultiplier\":1.0,\"m_FadeDuration\":0.10000000149011612},\"m_SpriteState\":{\"m_HighlightedSprite\":{\"instanceID\":0},\"m_PressedSprite\":{\"instanceID\":0},\"m_SelectedSprite\":{\"instanceID\":0},\"m_DisabledSprite\":{\"instanceID\":0}},\"m_AnimationTriggers\":{\"m_NormalTrigger\":\"Normal\",\"m_HighlightedTrigger\":\"Highlighted\",\"m_PressedTrigger\":\"Pressed\",\"m_SelectedTrigger\":\"Selected\",\"m_DisabledTrigger\":\"Disabled\"},\"m_Interactable\":true,\"m_TargetGraphic\":{\"instanceID\":-14054},\"m_OnClick\":{\"m_PersistentCalls\":{\"m_Calls\":[{\"m_Target\":{\"instanceID\":27980},\"m_TargetAssemblyTypeName\":\"ButtonThrow, Assembly-CSharp\",\"m_MethodName\":\"makeThrow\",\"m_Mode\":1,\"m_Arguments\":{\"m_ObjectArgument\":{\"instanceID\":0},\"m_ObjectArgumentAssemblyTypeName\":\"UnityEngine.Object, UnityEngine\",\"m_IntArgument\":0,\"m_FloatArgument\":0.0,\"m_StringArgument\":\"\",\"m_BoolArgument\":false},\"m_CallState\":2}]}}}"
+                },
+                {
+                    "type": "SmartDragHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"multiDragKey\":306,\"dragThreshold\":5.0,\"Edit\":false,\"Game\":true}"
+                }
+            ],
+            "currentOperations": "@strValue d6"
+        },
+        {
+            "objectID": "IntButton",
+            "objectType": "Button",
+            "Text": "Wits",
+            "fontSize": "24",
+            "fontColor": "FFFFFF",
+            "isBold": false,
+            "isItalic": false,
+            "Width": "160.00",
+            "Height": "30.00",
+            "backgroundImage": "UISprite",
+            "transparency": "0.00",
+            "inputType": "",
+            "localPosition": {
+                "x": 160.00001525878907,
+                "y": -35.0,
+                "z": 0.0
+            },
+            "localRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "isActive": true,
+            "scripts": [
+                {
+                    "type": "UnityEngine.UI.Image, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Material\":{\"instanceID\":0},\"m_Color\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":0.0},\"m_RaycastTarget\":true,\"m_RaycastPadding\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_Maskable\":true,\"m_OnCullStateChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_Sprite\":{\"instanceID\":690},\"m_Type\":1,\"m_PreserveAspect\":false,\"m_FillCenter\":true,\"m_FillMethod\":4,\"m_FillAmount\":1.0,\"m_FillClockwise\":true,\"m_FillOrigin\":0,\"m_UseSpriteMesh\":false,\"m_PixelsPerUnitMultiplier\":1.0}"
+                },
+                {
+                    "type": "UnityEngine.UI.Button, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Navigation\":{\"m_Mode\":3,\"m_WrapAround\":false,\"m_SelectOnUp\":{\"instanceID\":0},\"m_SelectOnDown\":{\"instanceID\":0},\"m_SelectOnLeft\":{\"instanceID\":0},\"m_SelectOnRight\":{\"instanceID\":0}},\"m_Transition\":1,\"m_Colors\":{\"m_NormalColor\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_HighlightedColor\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_PressedColor\":{\"r\":0.7843137383460999,\"g\":0.7843137383460999,\"b\":0.7843137383460999,\"a\":1.0},\"m_SelectedColor\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_DisabledColor\":{\"r\":0.7843137383460999,\"g\":0.7843137383460999,\"b\":0.7843137383460999,\"a\":0.501960813999176},\"m_ColorMultiplier\":1.0,\"m_FadeDuration\":0.10000000149011612},\"m_SpriteState\":{\"m_HighlightedSprite\":{\"instanceID\":0},\"m_PressedSprite\":{\"instanceID\":0},\"m_SelectedSprite\":{\"instanceID\":0},\"m_DisabledSprite\":{\"instanceID\":0}},\"m_AnimationTriggers\":{\"m_NormalTrigger\":\"Normal\",\"m_HighlightedTrigger\":\"Highlighted\",\"m_PressedTrigger\":\"Pressed\",\"m_SelectedTrigger\":\"Selected\",\"m_DisabledTrigger\":\"Disabled\"},\"m_Interactable\":true,\"m_TargetGraphic\":{\"instanceID\":-14076},\"m_OnClick\":{\"m_PersistentCalls\":{\"m_Calls\":[{\"m_Target\":{\"instanceID\":27980},\"m_TargetAssemblyTypeName\":\"ButtonThrow, Assembly-CSharp\",\"m_MethodName\":\"makeThrow\",\"m_Mode\":1,\"m_Arguments\":{\"m_ObjectArgument\":{\"instanceID\":0},\"m_ObjectArgumentAssemblyTypeName\":\"UnityEngine.Object, UnityEngine\",\"m_IntArgument\":0,\"m_FloatArgument\":0.0,\"m_StringArgument\":\"\",\"m_BoolArgument\":false},\"m_CallState\":2}]}}}"
+                },
+                {
+                    "type": "SmartDragHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"multiDragKey\":306,\"dragThreshold\":5.0,\"Edit\":false,\"Game\":true}"
+                }
+            ],
+            "currentOperations": "@IntValue d6"
+        },
+        {
+            "objectID": "AgiButton",
+            "objectType": "Button",
+            "Text": "Agility",
+            "fontSize": "24",
+            "fontColor": "FFFFFF",
+            "isBold": false,
+            "isItalic": false,
+            "Width": "160.00",
+            "Height": "30.00",
+            "backgroundImage": "UISprite",
+            "transparency": "0.00",
+            "inputType": "",
+            "localPosition": {
+                "x": -159.99998474121095,
+                "y": -35.0,
+                "z": 0.0
+            },
+            "localRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "isActive": true,
+            "scripts": [
+                {
+                    "type": "UnityEngine.UI.Image, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Material\":{\"instanceID\":0},\"m_Color\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":0.0},\"m_RaycastTarget\":true,\"m_RaycastPadding\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_Maskable\":true,\"m_OnCullStateChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_Sprite\":{\"instanceID\":690},\"m_Type\":1,\"m_PreserveAspect\":false,\"m_FillCenter\":true,\"m_FillMethod\":4,\"m_FillAmount\":1.0,\"m_FillClockwise\":true,\"m_FillOrigin\":0,\"m_UseSpriteMesh\":false,\"m_PixelsPerUnitMultiplier\":1.0}"
+                },
+                {
+                    "type": "UnityEngine.UI.Button, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Navigation\":{\"m_Mode\":3,\"m_WrapAround\":false,\"m_SelectOnUp\":{\"instanceID\":0},\"m_SelectOnDown\":{\"instanceID\":0},\"m_SelectOnLeft\":{\"instanceID\":0},\"m_SelectOnRight\":{\"instanceID\":0}},\"m_Transition\":1,\"m_Colors\":{\"m_NormalColor\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_HighlightedColor\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_PressedColor\":{\"r\":0.7843137383460999,\"g\":0.7843137383460999,\"b\":0.7843137383460999,\"a\":1.0},\"m_SelectedColor\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_DisabledColor\":{\"r\":0.7843137383460999,\"g\":0.7843137383460999,\"b\":0.7843137383460999,\"a\":0.501960813999176},\"m_ColorMultiplier\":1.0,\"m_FadeDuration\":0.10000000149011612},\"m_SpriteState\":{\"m_HighlightedSprite\":{\"instanceID\":0},\"m_PressedSprite\":{\"instanceID\":0},\"m_SelectedSprite\":{\"instanceID\":0},\"m_DisabledSprite\":{\"instanceID\":0}},\"m_AnimationTriggers\":{\"m_NormalTrigger\":\"Normal\",\"m_HighlightedTrigger\":\"Highlighted\",\"m_PressedTrigger\":\"Pressed\",\"m_SelectedTrigger\":\"Selected\",\"m_DisabledTrigger\":\"Disabled\"},\"m_Interactable\":true,\"m_TargetGraphic\":{\"instanceID\":-14098},\"m_OnClick\":{\"m_PersistentCalls\":{\"m_Calls\":[{\"m_Target\":{\"instanceID\":27980},\"m_TargetAssemblyTypeName\":\"ButtonThrow, Assembly-CSharp\",\"m_MethodName\":\"makeThrow\",\"m_Mode\":1,\"m_Arguments\":{\"m_ObjectArgument\":{\"instanceID\":0},\"m_ObjectArgumentAssemblyTypeName\":\"UnityEngine.Object, UnityEngine\",\"m_IntArgument\":0,\"m_FloatArgument\":0.0,\"m_StringArgument\":\"\",\"m_BoolArgument\":false},\"m_CallState\":2}]}}}"
+                },
+                {
+                    "type": "SmartDragHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"multiDragKey\":306,\"dragThreshold\":5.0,\"Edit\":false,\"Game\":true}"
+                }
+            ],
+            "currentOperations": "@AgiValue d6"
+        },
+        {
+            "objectID": "EmpBut",
+            "objectType": "Button",
+            "Text": "Empathy",
+            "fontSize": "24",
+            "fontColor": "FFFFFF",
+            "isBold": false,
+            "isItalic": false,
+            "Width": "160.00",
+            "Height": "30.00",
+            "backgroundImage": "UISprite",
+            "transparency": "0.00",
+            "inputType": "",
+            "localPosition": {
+                "x": 0.0,
+                "y": -100.0,
+                "z": 0.0
+            },
+            "localRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "isActive": true,
+            "scripts": [
+                {
+                    "type": "UnityEngine.UI.Image, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Material\":{\"instanceID\":0},\"m_Color\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":0.0},\"m_RaycastTarget\":true,\"m_RaycastPadding\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_Maskable\":true,\"m_OnCullStateChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_Sprite\":{\"instanceID\":690},\"m_Type\":1,\"m_PreserveAspect\":false,\"m_FillCenter\":true,\"m_FillMethod\":4,\"m_FillAmount\":1.0,\"m_FillClockwise\":true,\"m_FillOrigin\":0,\"m_UseSpriteMesh\":false,\"m_PixelsPerUnitMultiplier\":1.0}"
+                },
+                {
+                    "type": "UnityEngine.UI.Button, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Navigation\":{\"m_Mode\":3,\"m_WrapAround\":false,\"m_SelectOnUp\":{\"instanceID\":0},\"m_SelectOnDown\":{\"instanceID\":0},\"m_SelectOnLeft\":{\"instanceID\":0},\"m_SelectOnRight\":{\"instanceID\":0}},\"m_Transition\":1,\"m_Colors\":{\"m_NormalColor\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_HighlightedColor\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_PressedColor\":{\"r\":0.7843137383460999,\"g\":0.7843137383460999,\"b\":0.7843137383460999,\"a\":1.0},\"m_SelectedColor\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_DisabledColor\":{\"r\":0.7843137383460999,\"g\":0.7843137383460999,\"b\":0.7843137383460999,\"a\":0.501960813999176},\"m_ColorMultiplier\":1.0,\"m_FadeDuration\":0.10000000149011612},\"m_SpriteState\":{\"m_HighlightedSprite\":{\"instanceID\":0},\"m_PressedSprite\":{\"instanceID\":0},\"m_SelectedSprite\":{\"instanceID\":0},\"m_DisabledSprite\":{\"instanceID\":0}},\"m_AnimationTriggers\":{\"m_NormalTrigger\":\"Normal\",\"m_HighlightedTrigger\":\"Highlighted\",\"m_PressedTrigger\":\"Pressed\",\"m_SelectedTrigger\":\"Selected\",\"m_DisabledTrigger\":\"Disabled\"},\"m_Interactable\":true,\"m_TargetGraphic\":{\"instanceID\":-14120},\"m_OnClick\":{\"m_PersistentCalls\":{\"m_Calls\":[{\"m_Target\":{\"instanceID\":27980},\"m_TargetAssemblyTypeName\":\"ButtonThrow, Assembly-CSharp\",\"m_MethodName\":\"makeThrow\",\"m_Mode\":1,\"m_Arguments\":{\"m_ObjectArgument\":{\"instanceID\":0},\"m_ObjectArgumentAssemblyTypeName\":\"UnityEngine.Object, UnityEngine\",\"m_IntArgument\":0,\"m_FloatArgument\":0.0,\"m_StringArgument\":\"\",\"m_BoolArgument\":false},\"m_CallState\":2}]}}}"
+                },
+                {
+                    "type": "SmartDragHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"multiDragKey\":306,\"dragThreshold\":5.0,\"Edit\":false,\"Game\":true}"
+                }
+            ],
+            "currentOperations": "@EmpValue d6"
+        },
+        {
+            "objectID": "BackGround",
+            "objectType": "InputField",
+            "Text": "",
+            "fontSize": "14",
+            "fontColor": "323232",
+            "isBold": false,
+            "isItalic": false,
+            "Width": "450.00",
+            "Height": "140.00",
+            "backgroundImage": "Greenish.png",
+            "transparency": "70.00",
+            "inputType": "InputFieldStandard",
+            "localPosition": {
+                "x": 449.9999694824219,
+                "y": 400.0,
+                "z": 0.0
+            },
+            "localRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "isActive": true,
+            "scripts": [
+                {
+                    "type": "UnityEngine.UI.Image, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Material\":{\"instanceID\":0},\"m_Color\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":0.699999988079071},\"m_RaycastTarget\":true,\"m_RaycastPadding\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_Maskable\":true,\"m_OnCullStateChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_Sprite\":{\"instanceID\":-14176},\"m_Type\":2,\"m_PreserveAspect\":false,\"m_FillCenter\":true,\"m_FillMethod\":2,\"m_FillAmount\":1.0,\"m_FillClockwise\":true,\"m_FillOrigin\":1,\"m_UseSpriteMesh\":false,\"m_PixelsPerUnitMultiplier\":1.0}"
+                },
+                {
+                    "type": "TMPro.TMP_InputField, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Navigation\":{\"m_Mode\":3,\"m_WrapAround\":false,\"m_SelectOnUp\":{\"instanceID\":0},\"m_SelectOnDown\":{\"instanceID\":0},\"m_SelectOnLeft\":{\"instanceID\":0},\"m_SelectOnRight\":{\"instanceID\":0}},\"m_Transition\":1,\"m_Colors\":{\"m_NormalColor\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_HighlightedColor\":{\"r\":0.9607843160629273,\"g\":0.9607843160629273,\"b\":0.9607843160629273,\"a\":1.0},\"m_PressedColor\":{\"r\":0.7843137383460999,\"g\":0.7843137383460999,\"b\":0.7843137383460999,\"a\":1.0},\"m_SelectedColor\":{\"r\":0.9607843160629273,\"g\":0.9607843160629273,\"b\":0.9607843160629273,\"a\":1.0},\"m_DisabledColor\":{\"r\":0.7843137383460999,\"g\":0.7843137383460999,\"b\":0.7843137383460999,\"a\":0.501960813999176},\"m_ColorMultiplier\":1.0,\"m_FadeDuration\":0.10000000149011612},\"m_SpriteState\":{\"m_HighlightedSprite\":{\"instanceID\":0},\"m_PressedSprite\":{\"instanceID\":0},\"m_SelectedSprite\":{\"instanceID\":0},\"m_DisabledSprite\":{\"instanceID\":0}},\"m_AnimationTriggers\":{\"m_NormalTrigger\":\"Normal\",\"m_HighlightedTrigger\":\"Highlighted\",\"m_PressedTrigger\":\"Pressed\",\"m_SelectedTrigger\":\"Selected\",\"m_DisabledTrigger\":\"Disabled\"},\"m_Interactable\":true,\"m_TargetGraphic\":{\"instanceID\":-14142},\"m_TextViewport\":{\"instanceID\":-14150},\"m_TextComponent\":{\"instanceID\":-14170},\"m_Placeholder\":{\"instanceID\":-14160},\"m_VerticalScrollbar\":{\"instanceID\":0},\"m_VerticalScrollbarEventHandler\":{\"instanceID\":0},\"m_LayoutGroup\":{\"instanceID\":0},\"m_ScrollSensitivity\":1.0,\"m_ContentType\":0,\"m_InputType\":0,\"m_AsteriskChar\":42,\"m_KeyboardType\":0,\"m_LineType\":0,\"m_HideMobileInput\":false,\"m_HideSoftKeyboard\":false,\"m_CharacterValidation\":0,\"m_RegexValue\":\"\",\"m_GlobalPointSize\":14.0,\"m_CharacterLimit\":0,\"m_OnEndEdit\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnSubmit\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnSelect\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnDeselect\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnTextSelection\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnEndTextSelection\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnValueChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnTouchScreenKeyboardStatusChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_CaretColor\":{\"r\":0.19607843458652497,\"g\":0.19607843458652497,\"b\":0.19607843458652497,\"a\":1.0},\"m_CustomCaretColor\":false,\"m_SelectionColor\":{\"r\":0.658823549747467,\"g\":0.8078431487083435,\"b\":1.0,\"a\":0.7529411911964417},\"m_Text\":\"\",\"m_CaretBlinkRate\":0.8500000238418579,\"m_CaretWidth\":1,\"m_ReadOnly\":false,\"m_RichText\":true,\"m_GlobalFontAsset\":{\"instanceID\":23194},\"m_OnFocusSelectAll\":true,\"m_ResetOnDeActivation\":true,\"m_RestoreOriginalTextOnEscape\":true,\"m_isRichTextEditingAllowed\":false,\"m_LineLimit\":0,\"m_InputValidator\":{\"instanceID\":0}}"
+                },
+                {
+                    "type": "SmartDragHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"multiDragKey\":306,\"dragThreshold\":5.0,\"Edit\":false,\"Game\":true}"
+                }
+            ],
+            "currentOperations": ""
+        },
+        {
+            "objectID": "LookTag",
+            "objectType": "TextBlockPrefab",
+            "Text": "Look",
+            "fontSize": "20",
+            "fontColor": "FFFFFF",
+            "isBold": false,
+            "isItalic": false,
+            "Width": "200.00",
+            "Height": "50.00",
+            "backgroundImage": "",
+            "transparency": "",
+            "inputType": "",
+            "localPosition": {
+                "x": 251.0600128173828,
+                "y": 482.3800048828125,
+                "z": 0.0
+            },
+            "localRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "isActive": true,
+            "scripts": [
+                {
+                    "type": "TMPro.TextMeshProUGUI, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Material\":{\"instanceID\":0},\"m_Color\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_RaycastTarget\":true,\"m_RaycastPadding\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_Maskable\":true,\"m_OnCullStateChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_text\":\"Look\",\"m_isRightToLeft\":false,\"m_fontAsset\":{\"instanceID\":23194},\"m_sharedMaterial\":{\"instanceID\":23196},\"m_fontSharedMaterials\":[],\"m_fontMaterial\":{\"instanceID\":0},\"m_fontMaterials\":[],\"m_fontColor32\":{\"r\":255,\"g\":255,\"b\":255,\"a\":255},\"m_fontColor\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_enableVertexGradient\":false,\"m_colorMode\":3,\"m_fontColorGradient\":{\"topLeft\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"topRight\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"bottomLeft\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"bottomRight\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0}},\"m_fontColorGradientPreset\":{\"instanceID\":0},\"m_spriteAsset\":{\"instanceID\":0},\"m_tintAllSprites\":false,\"m_StyleSheet\":{\"instanceID\":0},\"m_TextStyleHashCode\":-1183493901,\"m_overrideHtmlColors\":false,\"m_faceColor\":{\"r\":255,\"g\":255,\"b\":255,\"a\":255},\"m_fontSize\":20.0,\"m_fontSizeBase\":20.0,\"m_fontWeight\":400,\"m_enableAutoSizing\":false,\"m_fontSizeMin\":18.0,\"m_fontSizeMax\":72.0,\"m_fontStyle\":0,\"m_HorizontalAlignment\":2,\"m_VerticalAlignment\":512,\"m_textAlignment\":65535,\"m_characterSpacing\":0.0,\"m_wordSpacing\":0.0,\"m_lineSpacing\":0.0,\"m_lineSpacingMax\":0.0,\"m_paragraphSpacing\":0.0,\"m_charWidthMaxAdj\":0.0,\"m_enableWordWrapping\":true,\"m_wordWrappingRatios\":0.4000000059604645,\"m_overflowMode\":0,\"m_linkedTextComponent\":{\"instanceID\":0},\"parentLinkedComponent\":{\"instanceID\":0},\"m_enableKerning\":true,\"m_enableExtraPadding\":false,\"checkPaddingRequired\":false,\"m_isRichText\":true,\"m_parseCtrlCharacters\":true,\"m_isOrthographic\":true,\"m_isCullingEnabled\":false,\"m_horizontalMapping\":0,\"m_verticalMapping\":0,\"m_uvLineOffset\":0.0,\"m_geometrySortingOrder\":0,\"m_IsTextObjectScaleStatic\":false,\"m_VertexBufferAutoSizeReduction\":false,\"m_useMaxVisibleDescender\":true,\"m_pageToDisplay\":1,\"m_margin\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_isUsingLegacyAnimationComponent\":false,\"m_isVolumetricText\":false,\"m_hasFontAssetChanged\":false,\"m_baseMaterial\":{\"instanceID\":0},\"m_maskOffset\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0}}"
+                },
+                {
+                    "type": "UnityEngine.UI.LayoutElement, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_IgnoreLayout\":false,\"m_MinWidth\":-1.0,\"m_MinHeight\":-1.0,\"m_PreferredWidth\":200.0,\"m_PreferredHeight\":50.0,\"m_FlexibleWidth\":-1.0,\"m_FlexibleHeight\":-1.0,\"m_LayoutPriority\":1}"
+                },
+                {
+                    "type": "SmartDragHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"multiDragKey\":306,\"dragThreshold\":5.0,\"Edit\":false,\"Game\":true}"
+                }
+            ],
+            "currentOperations": ""
+        },
+        {
+            "objectID": "IntValue",
+            "objectType": "InputField",
+            "Text": "4",
+            "fontSize": "30",
+            "fontColor": "323232",
+            "isBold": false,
+            "isItalic": false,
+            "Width": "50.00",
+            "Height": "50.00",
+            "backgroundImage": "Greenish.png",
+            "transparency": "100.00",
+            "inputType": "InputFieldIntegerNumber",
+            "localPosition": {
+                "x": 269.9999694824219,
+                "y": -35.0,
+                "z": 0.0
+            },
+            "localRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "isActive": true,
+            "scripts": [
+                {
+                    "type": "UnityEngine.UI.Image, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Material\":{\"instanceID\":0},\"m_Color\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_RaycastTarget\":true,\"m_RaycastPadding\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_Maskable\":true,\"m_OnCullStateChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_Sprite\":{\"instanceID\":-14232},\"m_Type\":2,\"m_PreserveAspect\":false,\"m_FillCenter\":true,\"m_FillMethod\":2,\"m_FillAmount\":1.0,\"m_FillClockwise\":true,\"m_FillOrigin\":1,\"m_UseSpriteMesh\":false,\"m_PixelsPerUnitMultiplier\":1.0}"
+                },
+                {
+                    "type": "TMPro.TMP_InputField, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Navigation\":{\"m_Mode\":3,\"m_WrapAround\":false,\"m_SelectOnUp\":{\"instanceID\":0},\"m_SelectOnDown\":{\"instanceID\":0},\"m_SelectOnLeft\":{\"instanceID\":0},\"m_SelectOnRight\":{\"instanceID\":0}},\"m_Transition\":1,\"m_Colors\":{\"m_NormalColor\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_HighlightedColor\":{\"r\":0.9607843160629273,\"g\":0.9607843160629273,\"b\":0.9607843160629273,\"a\":1.0},\"m_PressedColor\":{\"r\":0.7843137383460999,\"g\":0.7843137383460999,\"b\":0.7843137383460999,\"a\":1.0},\"m_SelectedColor\":{\"r\":0.9607843160629273,\"g\":0.9607843160629273,\"b\":0.9607843160629273,\"a\":1.0},\"m_DisabledColor\":{\"r\":0.7843137383460999,\"g\":0.7843137383460999,\"b\":0.7843137383460999,\"a\":0.501960813999176},\"m_ColorMultiplier\":1.0,\"m_FadeDuration\":0.10000000149011612},\"m_SpriteState\":{\"m_HighlightedSprite\":{\"instanceID\":0},\"m_PressedSprite\":{\"instanceID\":0},\"m_SelectedSprite\":{\"instanceID\":0},\"m_DisabledSprite\":{\"instanceID\":0}},\"m_AnimationTriggers\":{\"m_NormalTrigger\":\"Normal\",\"m_HighlightedTrigger\":\"Highlighted\",\"m_PressedTrigger\":\"Pressed\",\"m_SelectedTrigger\":\"Selected\",\"m_DisabledTrigger\":\"Disabled\"},\"m_Interactable\":true,\"m_TargetGraphic\":{\"instanceID\":-14198},\"m_TextViewport\":{\"instanceID\":-14206},\"m_TextComponent\":{\"instanceID\":-14226},\"m_Placeholder\":{\"instanceID\":-14216},\"m_VerticalScrollbar\":{\"instanceID\":0},\"m_VerticalScrollbarEventHandler\":{\"instanceID\":0},\"m_LayoutGroup\":{\"instanceID\":0},\"m_ScrollSensitivity\":1.0,\"m_ContentType\":2,\"m_InputType\":0,\"m_AsteriskChar\":42,\"m_KeyboardType\":4,\"m_LineType\":0,\"m_HideMobileInput\":false,\"m_HideSoftKeyboard\":false,\"m_CharacterValidation\":2,\"m_RegexValue\":\"\",\"m_GlobalPointSize\":30.0,\"m_CharacterLimit\":0,\"m_OnEndEdit\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnSubmit\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnSelect\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnDeselect\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnTextSelection\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnEndTextSelection\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnValueChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnTouchScreenKeyboardStatusChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_CaretColor\":{\"r\":0.19607843458652497,\"g\":0.19607843458652497,\"b\":0.19607843458652497,\"a\":1.0},\"m_CustomCaretColor\":false,\"m_SelectionColor\":{\"r\":0.658823549747467,\"g\":0.8078431487083435,\"b\":1.0,\"a\":0.7529411911964417},\"m_Text\":\"4\",\"m_CaretBlinkRate\":0.8500000238418579,\"m_CaretWidth\":1,\"m_ReadOnly\":false,\"m_RichText\":true,\"m_GlobalFontAsset\":{\"instanceID\":23194},\"m_OnFocusSelectAll\":true,\"m_ResetOnDeActivation\":true,\"m_RestoreOriginalTextOnEscape\":true,\"m_isRichTextEditingAllowed\":false,\"m_LineLimit\":0,\"m_InputValidator\":{\"instanceID\":0}}"
+                },
+                {
+                    "type": "SmartDragHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"multiDragKey\":306,\"dragThreshold\":5.0,\"Edit\":false,\"Game\":true}"
+                }
+            ],
+            "currentOperations": ""
+        },
+        {
+            "objectID": "EmpValue",
+            "objectType": "InputField",
+            "Text": "3",
+            "fontSize": "30",
+            "fontColor": "323232",
+            "isBold": false,
+            "isItalic": false,
+            "Width": "50.00",
+            "Height": "50.00",
+            "backgroundImage": "Greenish.png",
+            "transparency": "100.00",
+            "inputType": "InputFieldIntegerNumber",
+            "localPosition": {
+                "x": 0.000022470951080322266,
+                "y": -145.0,
+                "z": 0.0
+            },
+            "localRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "isActive": true,
+            "scripts": [
+                {
+                    "type": "UnityEngine.UI.Image, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Material\":{\"instanceID\":0},\"m_Color\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_RaycastTarget\":true,\"m_RaycastPadding\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_Maskable\":true,\"m_OnCullStateChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_Sprite\":{\"instanceID\":-14274},\"m_Type\":2,\"m_PreserveAspect\":false,\"m_FillCenter\":true,\"m_FillMethod\":2,\"m_FillAmount\":1.0,\"m_FillClockwise\":true,\"m_FillOrigin\":1,\"m_UseSpriteMesh\":false,\"m_PixelsPerUnitMultiplier\":1.0}"
+                },
+                {
+                    "type": "TMPro.TMP_InputField, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Navigation\":{\"m_Mode\":3,\"m_WrapAround\":false,\"m_SelectOnUp\":{\"instanceID\":0},\"m_SelectOnDown\":{\"instanceID\":0},\"m_SelectOnLeft\":{\"instanceID\":0},\"m_SelectOnRight\":{\"instanceID\":0}},\"m_Transition\":1,\"m_Colors\":{\"m_NormalColor\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_HighlightedColor\":{\"r\":0.9607843160629273,\"g\":0.9607843160629273,\"b\":0.9607843160629273,\"a\":1.0},\"m_PressedColor\":{\"r\":0.7843137383460999,\"g\":0.7843137383460999,\"b\":0.7843137383460999,\"a\":1.0},\"m_SelectedColor\":{\"r\":0.9607843160629273,\"g\":0.9607843160629273,\"b\":0.9607843160629273,\"a\":1.0},\"m_DisabledColor\":{\"r\":0.7843137383460999,\"g\":0.7843137383460999,\"b\":0.7843137383460999,\"a\":0.501960813999176},\"m_ColorMultiplier\":1.0,\"m_FadeDuration\":0.10000000149011612},\"m_SpriteState\":{\"m_HighlightedSprite\":{\"instanceID\":0},\"m_PressedSprite\":{\"instanceID\":0},\"m_SelectedSprite\":{\"instanceID\":0},\"m_DisabledSprite\":{\"instanceID\":0}},\"m_AnimationTriggers\":{\"m_NormalTrigger\":\"Normal\",\"m_HighlightedTrigger\":\"Highlighted\",\"m_PressedTrigger\":\"Pressed\",\"m_SelectedTrigger\":\"Selected\",\"m_DisabledTrigger\":\"Disabled\"},\"m_Interactable\":true,\"m_TargetGraphic\":{\"instanceID\":-14240},\"m_TextViewport\":{\"instanceID\":-14248},\"m_TextComponent\":{\"instanceID\":-14268},\"m_Placeholder\":{\"instanceID\":-14258},\"m_VerticalScrollbar\":{\"instanceID\":0},\"m_VerticalScrollbarEventHandler\":{\"instanceID\":0},\"m_LayoutGroup\":{\"instanceID\":0},\"m_ScrollSensitivity\":1.0,\"m_ContentType\":2,\"m_InputType\":0,\"m_AsteriskChar\":42,\"m_KeyboardType\":4,\"m_LineType\":0,\"m_HideMobileInput\":false,\"m_HideSoftKeyboard\":false,\"m_CharacterValidation\":2,\"m_RegexValue\":\"\",\"m_GlobalPointSize\":30.0,\"m_CharacterLimit\":0,\"m_OnEndEdit\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnSubmit\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnSelect\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnDeselect\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnTextSelection\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnEndTextSelection\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnValueChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnTouchScreenKeyboardStatusChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_CaretColor\":{\"r\":0.19607843458652497,\"g\":0.19607843458652497,\"b\":0.19607843458652497,\"a\":1.0},\"m_CustomCaretColor\":false,\"m_SelectionColor\":{\"r\":0.658823549747467,\"g\":0.8078431487083435,\"b\":1.0,\"a\":0.7529411911964417},\"m_Text\":\"3\",\"m_CaretBlinkRate\":0.8500000238418579,\"m_CaretWidth\":1,\"m_ReadOnly\":false,\"m_RichText\":true,\"m_GlobalFontAsset\":{\"instanceID\":23194},\"m_OnFocusSelectAll\":true,\"m_ResetOnDeActivation\":true,\"m_RestoreOriginalTextOnEscape\":true,\"m_isRichTextEditingAllowed\":false,\"m_LineLimit\":0,\"m_InputValidator\":{\"instanceID\":0}}"
+                },
+                {
+                    "type": "SmartDragHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"multiDragKey\":306,\"dragThreshold\":5.0,\"Edit\":false,\"Game\":true}"
+                }
+            ],
+            "currentOperations": ""
+        },
+        {
+            "objectID": "AgiValue",
+            "objectType": "InputField",
+            "Text": "3",
+            "fontSize": "30",
+            "fontColor": "323232",
+            "isBold": false,
+            "isItalic": false,
+            "Width": "50.00",
+            "Height": "50.00",
+            "backgroundImage": "Greenish.png",
+            "transparency": "100.00",
+            "inputType": "InputFieldIntegerNumber",
+            "localPosition": {
+                "x": -270.0,
+                "y": -35.0,
+                "z": 0.0
+            },
+            "localRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "isActive": true,
+            "scripts": [
+                {
+                    "type": "UnityEngine.UI.Image, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Material\":{\"instanceID\":0},\"m_Color\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_RaycastTarget\":true,\"m_RaycastPadding\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_Maskable\":true,\"m_OnCullStateChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_Sprite\":{\"instanceID\":-14316},\"m_Type\":2,\"m_PreserveAspect\":false,\"m_FillCenter\":true,\"m_FillMethod\":2,\"m_FillAmount\":1.0,\"m_FillClockwise\":true,\"m_FillOrigin\":1,\"m_UseSpriteMesh\":false,\"m_PixelsPerUnitMultiplier\":1.0}"
+                },
+                {
+                    "type": "TMPro.TMP_InputField, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Navigation\":{\"m_Mode\":3,\"m_WrapAround\":false,\"m_SelectOnUp\":{\"instanceID\":0},\"m_SelectOnDown\":{\"instanceID\":0},\"m_SelectOnLeft\":{\"instanceID\":0},\"m_SelectOnRight\":{\"instanceID\":0}},\"m_Transition\":1,\"m_Colors\":{\"m_NormalColor\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_HighlightedColor\":{\"r\":0.9607843160629273,\"g\":0.9607843160629273,\"b\":0.9607843160629273,\"a\":1.0},\"m_PressedColor\":{\"r\":0.7843137383460999,\"g\":0.7843137383460999,\"b\":0.7843137383460999,\"a\":1.0},\"m_SelectedColor\":{\"r\":0.9607843160629273,\"g\":0.9607843160629273,\"b\":0.9607843160629273,\"a\":1.0},\"m_DisabledColor\":{\"r\":0.7843137383460999,\"g\":0.7843137383460999,\"b\":0.7843137383460999,\"a\":0.501960813999176},\"m_ColorMultiplier\":1.0,\"m_FadeDuration\":0.10000000149011612},\"m_SpriteState\":{\"m_HighlightedSprite\":{\"instanceID\":0},\"m_PressedSprite\":{\"instanceID\":0},\"m_SelectedSprite\":{\"instanceID\":0},\"m_DisabledSprite\":{\"instanceID\":0}},\"m_AnimationTriggers\":{\"m_NormalTrigger\":\"Normal\",\"m_HighlightedTrigger\":\"Highlighted\",\"m_PressedTrigger\":\"Pressed\",\"m_SelectedTrigger\":\"Selected\",\"m_DisabledTrigger\":\"Disabled\"},\"m_Interactable\":true,\"m_TargetGraphic\":{\"instanceID\":-14282},\"m_TextViewport\":{\"instanceID\":-14290},\"m_TextComponent\":{\"instanceID\":-14310},\"m_Placeholder\":{\"instanceID\":-14300},\"m_VerticalScrollbar\":{\"instanceID\":0},\"m_VerticalScrollbarEventHandler\":{\"instanceID\":0},\"m_LayoutGroup\":{\"instanceID\":0},\"m_ScrollSensitivity\":1.0,\"m_ContentType\":2,\"m_InputType\":0,\"m_AsteriskChar\":42,\"m_KeyboardType\":4,\"m_LineType\":0,\"m_HideMobileInput\":false,\"m_HideSoftKeyboard\":false,\"m_CharacterValidation\":2,\"m_RegexValue\":\"\",\"m_GlobalPointSize\":30.0,\"m_CharacterLimit\":0,\"m_OnEndEdit\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnSubmit\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnSelect\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnDeselect\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnTextSelection\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnEndTextSelection\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnValueChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnTouchScreenKeyboardStatusChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_CaretColor\":{\"r\":0.19607843458652497,\"g\":0.19607843458652497,\"b\":0.19607843458652497,\"a\":1.0},\"m_CustomCaretColor\":false,\"m_SelectionColor\":{\"r\":0.658823549747467,\"g\":0.8078431487083435,\"b\":1.0,\"a\":0.7529411911964417},\"m_Text\":\"3\",\"m_CaretBlinkRate\":0.8500000238418579,\"m_CaretWidth\":1,\"m_ReadOnly\":false,\"m_RichText\":true,\"m_GlobalFontAsset\":{\"instanceID\":23194},\"m_OnFocusSelectAll\":true,\"m_ResetOnDeActivation\":true,\"m_RestoreOriginalTextOnEscape\":true,\"m_isRichTextEditingAllowed\":false,\"m_LineLimit\":0,\"m_InputValidator\":{\"instanceID\":0}}"
+                },
+                {
+                    "type": "SmartDragHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"multiDragKey\":306,\"dragThreshold\":5.0,\"Edit\":false,\"Game\":true}"
+                }
+            ],
+            "currentOperations": ""
+        },
+        {
+            "objectID": "strValue",
+            "objectType": "InputField",
+            "Text": "4",
+            "fontSize": "30",
+            "fontColor": "323232",
+            "isBold": false,
+            "isItalic": false,
+            "Width": "50.00",
+            "Height": "50.00",
+            "backgroundImage": "Greenish.png",
+            "transparency": "100.00",
+            "inputType": "InputFieldIntegerNumber",
+            "localPosition": {
+                "x": 0.000022470951080322266,
+                "y": 75.0,
+                "z": 0.0
+            },
+            "localRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "isActive": true,
+            "scripts": [
+                {
+                    "type": "UnityEngine.UI.Image, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Material\":{\"instanceID\":0},\"m_Color\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_RaycastTarget\":true,\"m_RaycastPadding\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_Maskable\":true,\"m_OnCullStateChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_Sprite\":{\"instanceID\":-14358},\"m_Type\":2,\"m_PreserveAspect\":false,\"m_FillCenter\":true,\"m_FillMethod\":2,\"m_FillAmount\":1.0,\"m_FillClockwise\":true,\"m_FillOrigin\":1,\"m_UseSpriteMesh\":false,\"m_PixelsPerUnitMultiplier\":1.0}"
+                },
+                {
+                    "type": "TMPro.TMP_InputField, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Navigation\":{\"m_Mode\":3,\"m_WrapAround\":false,\"m_SelectOnUp\":{\"instanceID\":0},\"m_SelectOnDown\":{\"instanceID\":0},\"m_SelectOnLeft\":{\"instanceID\":0},\"m_SelectOnRight\":{\"instanceID\":0}},\"m_Transition\":1,\"m_Colors\":{\"m_NormalColor\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_HighlightedColor\":{\"r\":0.9607843160629273,\"g\":0.9607843160629273,\"b\":0.9607843160629273,\"a\":1.0},\"m_PressedColor\":{\"r\":0.7843137383460999,\"g\":0.7843137383460999,\"b\":0.7843137383460999,\"a\":1.0},\"m_SelectedColor\":{\"r\":0.9607843160629273,\"g\":0.9607843160629273,\"b\":0.9607843160629273,\"a\":1.0},\"m_DisabledColor\":{\"r\":0.7843137383460999,\"g\":0.7843137383460999,\"b\":0.7843137383460999,\"a\":0.501960813999176},\"m_ColorMultiplier\":1.0,\"m_FadeDuration\":0.10000000149011612},\"m_SpriteState\":{\"m_HighlightedSprite\":{\"instanceID\":0},\"m_PressedSprite\":{\"instanceID\":0},\"m_SelectedSprite\":{\"instanceID\":0},\"m_DisabledSprite\":{\"instanceID\":0}},\"m_AnimationTriggers\":{\"m_NormalTrigger\":\"Normal\",\"m_HighlightedTrigger\":\"Highlighted\",\"m_PressedTrigger\":\"Pressed\",\"m_SelectedTrigger\":\"Selected\",\"m_DisabledTrigger\":\"Disabled\"},\"m_Interactable\":true,\"m_TargetGraphic\":{\"instanceID\":-14324},\"m_TextViewport\":{\"instanceID\":-14332},\"m_TextComponent\":{\"instanceID\":-14352},\"m_Placeholder\":{\"instanceID\":-14342},\"m_VerticalScrollbar\":{\"instanceID\":0},\"m_VerticalScrollbarEventHandler\":{\"instanceID\":0},\"m_LayoutGroup\":{\"instanceID\":0},\"m_ScrollSensitivity\":1.0,\"m_ContentType\":2,\"m_InputType\":0,\"m_AsteriskChar\":42,\"m_KeyboardType\":4,\"m_LineType\":0,\"m_HideMobileInput\":false,\"m_HideSoftKeyboard\":false,\"m_CharacterValidation\":2,\"m_RegexValue\":\"\",\"m_GlobalPointSize\":30.0,\"m_CharacterLimit\":0,\"m_OnEndEdit\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnSubmit\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnSelect\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnDeselect\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnTextSelection\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnEndTextSelection\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnValueChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnTouchScreenKeyboardStatusChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_CaretColor\":{\"r\":0.19607843458652497,\"g\":0.19607843458652497,\"b\":0.19607843458652497,\"a\":1.0},\"m_CustomCaretColor\":false,\"m_SelectionColor\":{\"r\":0.658823549747467,\"g\":0.8078431487083435,\"b\":1.0,\"a\":0.7529411911964417},\"m_Text\":\"4\",\"m_CaretBlinkRate\":0.8500000238418579,\"m_CaretWidth\":1,\"m_ReadOnly\":false,\"m_RichText\":true,\"m_GlobalFontAsset\":{\"instanceID\":23194},\"m_OnFocusSelectAll\":true,\"m_ResetOnDeActivation\":true,\"m_RestoreOriginalTextOnEscape\":true,\"m_isRichTextEditingAllowed\":false,\"m_LineLimit\":0,\"m_InputValidator\":{\"instanceID\":0}}"
+                },
+                {
+                    "type": "SmartDragHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"multiDragKey\":306,\"dragThreshold\":5.0,\"Edit\":false,\"Game\":true}"
+                }
+            ],
+            "currentOperations": ""
+        },
+        {
+            "objectID": "Gear",
+            "objectType": "InputField",
+            "Text": "",
+            "fontSize": "14",
+            "fontColor": "323232",
+            "isBold": false,
+            "isItalic": false,
+            "Width": "300.00",
+            "Height": "300.00",
+            "backgroundImage": "Greenish.png",
+            "transparency": "70.00",
+            "inputType": "InputFieldStandard",
+            "localPosition": {
+                "x": -500.0000305175781,
+                "y": -300.0,
+                "z": 0.0
+            },
+            "localRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "isActive": true,
+            "scripts": [
+                {
+                    "type": "UnityEngine.UI.Image, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Material\":{\"instanceID\":0},\"m_Color\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":0.699999988079071},\"m_RaycastTarget\":true,\"m_RaycastPadding\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_Maskable\":true,\"m_OnCullStateChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_Sprite\":{\"instanceID\":-14400},\"m_Type\":2,\"m_PreserveAspect\":false,\"m_FillCenter\":true,\"m_FillMethod\":2,\"m_FillAmount\":1.0,\"m_FillClockwise\":true,\"m_FillOrigin\":1,\"m_UseSpriteMesh\":false,\"m_PixelsPerUnitMultiplier\":1.0}"
+                },
+                {
+                    "type": "TMPro.TMP_InputField, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Navigation\":{\"m_Mode\":3,\"m_WrapAround\":false,\"m_SelectOnUp\":{\"instanceID\":0},\"m_SelectOnDown\":{\"instanceID\":0},\"m_SelectOnLeft\":{\"instanceID\":0},\"m_SelectOnRight\":{\"instanceID\":0}},\"m_Transition\":1,\"m_Colors\":{\"m_NormalColor\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_HighlightedColor\":{\"r\":0.9607843160629273,\"g\":0.9607843160629273,\"b\":0.9607843160629273,\"a\":1.0},\"m_PressedColor\":{\"r\":0.7843137383460999,\"g\":0.7843137383460999,\"b\":0.7843137383460999,\"a\":1.0},\"m_SelectedColor\":{\"r\":0.9607843160629273,\"g\":0.9607843160629273,\"b\":0.9607843160629273,\"a\":1.0},\"m_DisabledColor\":{\"r\":0.7843137383460999,\"g\":0.7843137383460999,\"b\":0.7843137383460999,\"a\":0.501960813999176},\"m_ColorMultiplier\":1.0,\"m_FadeDuration\":0.10000000149011612},\"m_SpriteState\":{\"m_HighlightedSprite\":{\"instanceID\":0},\"m_PressedSprite\":{\"instanceID\":0},\"m_SelectedSprite\":{\"instanceID\":0},\"m_DisabledSprite\":{\"instanceID\":0}},\"m_AnimationTriggers\":{\"m_NormalTrigger\":\"Normal\",\"m_HighlightedTrigger\":\"Highlighted\",\"m_PressedTrigger\":\"Pressed\",\"m_SelectedTrigger\":\"Selected\",\"m_DisabledTrigger\":\"Disabled\"},\"m_Interactable\":true,\"m_TargetGraphic\":{\"instanceID\":-14366},\"m_TextViewport\":{\"instanceID\":-14374},\"m_TextComponent\":{\"instanceID\":-14394},\"m_Placeholder\":{\"instanceID\":-14384},\"m_VerticalScrollbar\":{\"instanceID\":0},\"m_VerticalScrollbarEventHandler\":{\"instanceID\":0},\"m_LayoutGroup\":{\"instanceID\":0},\"m_ScrollSensitivity\":1.0,\"m_ContentType\":0,\"m_InputType\":0,\"m_AsteriskChar\":42,\"m_KeyboardType\":0,\"m_LineType\":0,\"m_HideMobileInput\":false,\"m_HideSoftKeyboard\":false,\"m_CharacterValidation\":0,\"m_RegexValue\":\"\",\"m_GlobalPointSize\":14.0,\"m_CharacterLimit\":0,\"m_OnEndEdit\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnSubmit\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnSelect\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnDeselect\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnTextSelection\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnEndTextSelection\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnValueChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_OnTouchScreenKeyboardStatusChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_CaretColor\":{\"r\":0.19607843458652497,\"g\":0.19607843458652497,\"b\":0.19607843458652497,\"a\":1.0},\"m_CustomCaretColor\":false,\"m_SelectionColor\":{\"r\":0.658823549747467,\"g\":0.8078431487083435,\"b\":1.0,\"a\":0.7529411911964417},\"m_Text\":\"\",\"m_CaretBlinkRate\":0.8500000238418579,\"m_CaretWidth\":1,\"m_ReadOnly\":false,\"m_RichText\":true,\"m_GlobalFontAsset\":{\"instanceID\":23194},\"m_OnFocusSelectAll\":true,\"m_ResetOnDeActivation\":true,\"m_RestoreOriginalTextOnEscape\":true,\"m_isRichTextEditingAllowed\":false,\"m_LineLimit\":0,\"m_InputValidator\":{\"instanceID\":0}}"
+                },
+                {
+                    "type": "SmartDragHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"multiDragKey\":306,\"dragThreshold\":5.0,\"Edit\":false,\"Game\":true}"
+                }
+            ],
+            "currentOperations": ""
+        },
+        {
+            "objectID": "GearTag",
+            "objectType": "TextBlockPrefab",
+            "Text": "Gear",
+            "fontSize": "20",
+            "fontColor": "FFFFFF",
+            "isBold": false,
+            "isItalic": false,
+            "Width": "200.00",
+            "Height": "50.00",
+            "backgroundImage": "",
+            "transparency": "",
+            "inputType": "",
+            "localPosition": {
+                "x": -620.0,
+                "y": -130.0,
+                "z": 0.0
+            },
+            "localRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "isActive": true,
+            "scripts": [
+                {
+                    "type": "TMPro.TextMeshProUGUI, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_Material\":{\"instanceID\":0},\"m_Color\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_RaycastTarget\":true,\"m_RaycastPadding\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_Maskable\":true,\"m_OnCullStateChanged\":{\"m_PersistentCalls\":{\"m_Calls\":[]}},\"m_text\":\"Gear\",\"m_isRightToLeft\":false,\"m_fontAsset\":{\"instanceID\":23194},\"m_sharedMaterial\":{\"instanceID\":23196},\"m_fontSharedMaterials\":[],\"m_fontMaterial\":{\"instanceID\":0},\"m_fontMaterials\":[],\"m_fontColor32\":{\"r\":255,\"g\":255,\"b\":255,\"a\":255},\"m_fontColor\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"m_enableVertexGradient\":false,\"m_colorMode\":3,\"m_fontColorGradient\":{\"topLeft\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"topRight\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"bottomLeft\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0},\"bottomRight\":{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0}},\"m_fontColorGradientPreset\":{\"instanceID\":0},\"m_spriteAsset\":{\"instanceID\":0},\"m_tintAllSprites\":false,\"m_StyleSheet\":{\"instanceID\":0},\"m_TextStyleHashCode\":-1183493901,\"m_overrideHtmlColors\":false,\"m_faceColor\":{\"r\":255,\"g\":255,\"b\":255,\"a\":255},\"m_fontSize\":20.0,\"m_fontSizeBase\":20.0,\"m_fontWeight\":400,\"m_enableAutoSizing\":false,\"m_fontSizeMin\":18.0,\"m_fontSizeMax\":72.0,\"m_fontStyle\":0,\"m_HorizontalAlignment\":2,\"m_VerticalAlignment\":512,\"m_textAlignment\":65535,\"m_characterSpacing\":0.0,\"m_wordSpacing\":0.0,\"m_lineSpacing\":0.0,\"m_lineSpacingMax\":0.0,\"m_paragraphSpacing\":0.0,\"m_charWidthMaxAdj\":0.0,\"m_enableWordWrapping\":true,\"m_wordWrappingRatios\":0.4000000059604645,\"m_overflowMode\":0,\"m_linkedTextComponent\":{\"instanceID\":0},\"parentLinkedComponent\":{\"instanceID\":0},\"m_enableKerning\":true,\"m_enableExtraPadding\":false,\"checkPaddingRequired\":false,\"m_isRichText\":true,\"m_parseCtrlCharacters\":true,\"m_isOrthographic\":true,\"m_isCullingEnabled\":false,\"m_horizontalMapping\":0,\"m_verticalMapping\":0,\"m_uvLineOffset\":0.0,\"m_geometrySortingOrder\":0,\"m_IsTextObjectScaleStatic\":false,\"m_VertexBufferAutoSizeReduction\":false,\"m_useMaxVisibleDescender\":true,\"m_pageToDisplay\":1,\"m_margin\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0},\"m_isUsingLegacyAnimationComponent\":false,\"m_isVolumetricText\":false,\"m_hasFontAssetChanged\":false,\"m_baseMaterial\":{\"instanceID\":0},\"m_maskOffset\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":0.0}}"
+                },
+                {
+                    "type": "UnityEngine.UI.LayoutElement, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"m_IgnoreLayout\":false,\"m_MinWidth\":-1.0,\"m_MinHeight\":-1.0,\"m_PreferredWidth\":200.0,\"m_PreferredHeight\":50.0,\"m_FlexibleWidth\":-1.0,\"m_FlexibleHeight\":-1.0,\"m_LayoutPriority\":1}"
+                },
+                {
+                    "type": "SmartDragHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "data": "{\"multiDragKey\":306,\"dragThreshold\":5.0,\"Edit\":false,\"Game\":true}"
+                }
+            ],
+            "currentOperations": ""
+        }
+    ]
+}

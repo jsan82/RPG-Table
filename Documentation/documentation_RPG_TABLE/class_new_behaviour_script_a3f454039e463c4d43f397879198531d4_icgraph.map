@@ -1,0 +1,15 @@
+<map id="NewBehaviourScript.GetOperationsForObject" name="NewBehaviourScript.GetOperationsForObject">
+<area shape="rect" id="Node000001" title="Retrieves operations string for a specific object ID." alt="" coords="512,48,740,91"/>
+<area shape="rect" id="Node000002" href="$class_child_data.html#a5da344601196e4c639c1bfc314dfcc16" title="Constructor that creates ChildData from a Transform." alt="" coords="294,5,435,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="497,47,435,35,436,30,498,42"/>
+<area shape="rect" id="Node000003" href="$class_button_throw.html#a3bc595a04c0e2386aa500ee4f9c37132" title="Handles the button click event, evaluates the associated dice expression, and logs the result." alt="" coords="281,56,448,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="496,72,448,72,448,67,496,67"/>
+<area shape="rect" id="Node000004" href="$class_card_area_saver.html#a89ce119eb5d520a11e79833f5d2a8bb4" title="Saves the current card area layout to JSON." alt="" coords="265,107,464,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="498,97,438,109,437,103,497,92"/>
+<area shape="rect" id="Node000005" href="$class_card_area_saver.html#a52ce8c548f8e414556bfa2754237a848" title="Static method to save card area to specified file path." alt="" coords="11,56,211,83"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="279,106,181,86,182,81,280,100"/>
+<area shape="rect" id="Node000006" href="$class_load_player_card.html#a7fd90b49e2f9feb70c3216c14935c7db" title="Saves player card data and associated notes." alt="" coords="5,107,217,133"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="249,123,217,123,217,117,249,117"/>
+<area shape="rect" id="Node000007" href="$class_select_load.html#a91f419bd0bc2816982e1368fddc7aa7c" title="Executes save operation with current filename." alt="" coords="13,157,209,184"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="280,140,182,159,181,154,279,134"/>
+</map>
